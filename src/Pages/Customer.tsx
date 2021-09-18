@@ -6,6 +6,8 @@ import {
   CssBaseline,
   TextField, Typography
 } from "@material-ui/core";
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -182,103 +184,169 @@ const Customer = () => {
         <Grid item xs={12} sm={12} md={4}     lg={4} >
             <div>
               <h2>New Customer Registration</h2>
-              <form className={classes.form} noValidate>
+              <Formik
+            initialValues={{
+              name: '',
+              mainAadhaar: '',
+              mobile:'',
+              familyAadhaar:'',
+              regNo:'',
+              consumerNo:'',
+              subAgent:'',
+              remarks:''
+            }}
+            validationSchema={Yup.object().shape({
+              name: Yup.string().max(25).required('Name is required'),
+              mobile:Yup.string()
+              .required('Mobile  is required')
+              .matches(/^[0-9]+$/, "Must be only digits")
+              .min(10, 'Must be exactly 10 digits')
+              .max(10, 'Must be exactly 10 digits'),   
+              mainAadhaar:Yup.string()
+              .required('Main Aadhaar is required')
+              .matches(/^[0-9]+$/, "Must be only digits")
+              .min(12, 'Must be exactly 12 digits')
+              .max(12, 'Must be exactly 12 digits'),             
+              familyAadhaar:Yup.string()
+              .required('Family Aadhaar is required')
+              .matches(/^[0-9]+$/, "Must be only digits")
+              .min(12, 'Must be exactly 12 digits')
+              .max(12, 'Must be exactly 12 digits'),   
+            })}
+            onSubmit={async (values: any) => {
+              try {
+                      const result = await axios.post(BASE_URL + "user/login", {
+                          "login_type": "email",
+                          "email": values.email.toLowerCase(),
+                          "password": values.password,
+                      }, {
+                          headers: { encryption: false },
+                      });
+                      if (result.data.status==="success") {
+                        console.log("data" ,result.data)
+                        localStorage.setItem("access_token", result.data.data.access_token)
+                        showToast("Loggedin susccesssfully", "success")
+                      }
+              }
+              catch (error) {
+                  //@ts-ignore
+                  showToast(error.response.data.message, "error")
+                  console.log(error)
+              }
+          }}
+          >
+            {({
+              errors,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              touched,
+              values
+            }) => (
+              <form className={classes.form}  onSubmit={handleSubmit} noValidate>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <TextField
-                      autoComplete="name"
-                      name="name"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="name"
-                      label="Full Name"
-                      autoFocus
-                      value={customer.name}
-                      onChange={handleChange}
+                          error={Boolean(touched.name && errors.name)}
+                          helperText={touched.name && errors.name}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          autoComplete="name"
+                          name="name"
+                          variant="outlined"
+                          required
+                          fullWidth
+                          id="name"
+                          label="Full Name"
+                          autoFocus
+                          value={values.name}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="mainAadhaar"
-                      type="text"
-                      label="Main Aadhaar"
-                      name="mainAadhaar"
-                      autoComplete="mainAadhaar"
-                      onChange={handleChange}
-                      value={customer.mainAadhaar}
-                      inputProps={{
-                        maxlength: CHARACTER_LIMIT
-                      }}
-
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="faadhaar"
-                      type="text" label="Family Adhaar"
-                      name="familyAadhaar"
-                      autoComplete="faadhaar"
-                      onChange={handleChange}
-                      value={customer.familyAadhaar}
-                      inputProps={{
-                        maxlength: CHARACTER_LIMIT
-                      }}
+                          error={Boolean(touched.mainAadhaar && errors.mainAadhaar)}
+                          helperText={touched.mainAadhaar && errors.mainAadhaar}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          required
+                          fullWidth
+                          id="mainAadhaar"
+                          type="text"
+                          label="Main Aadhaar"
+                          name="mainAadhaar"
+                          autoComplete="mainAadhaar"
+                          value={values.mainAadhaar}
                     />
                   </Grid>
                   <Grid item xs={12}>
+                        <TextField
+                          error={Boolean(touched.familyAadhaar && errors.familyAadhaar)}
+                          helperText={touched.familyAadhaar && errors.familyAadhaar}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          required
+                          fullWidth
+                          id="faadhaar"
+                          type="number" label="Family Adhaar"
+                          name="familyAadhaar"
+                          autoComplete="faadhaar"
+                          value={values.familyAadhaar}
+                        />
+                  </Grid>
+                  <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="mobile"
-                      label="Mobile"
-                      type="number"
-                      id="mobile"
-                      autoComplete="current-mobile"
-                      onChange={handleChange}
-                      value={customer.mobile}
-                      onInput={(e) => {
-                        //@ts-ignore
-                        e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10)
-                      }}
+                          error={Boolean(touched.mobile && errors.mobile)}
+                          helperText={touched.mobile && errors.mobile}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          required
+                          fullWidth
+                          name="mobile"
+                          label="Mobile"
+                          type="number"
+                          id="mobile"
+                          autoComplete="current-mobile"
+                          value={values.mobile}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      fullWidth
-                      name="regNo"
-                      label="Registration  No"
-                      type="text"
-                      id="Registration"
-                      autoComplete="Registration"
-                      onChange={handleChange}
-                      value={customer.regNo}
+                          error={Boolean(touched.regNo && errors.regNo)}
+                          helperText={touched.regNo && errors.regNo}
+                          variant="outlined"
+                          fullWidth
+                          name="regNo"
+                          label="Registration  No"
+                          type="text"
+                          id="Registration"
+                          autoComplete="Registration"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.regNo}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      fullWidth
-                      name="consumerNo"
-                      label="Consumer No"
-                      id="consumerNo"
-                      type="number"
-                      autoComplete="consumerNo"
-                      onChange={handleChange}
-                      value={customer.consumerNo}
-                      onInput={(e) => {
-                        //@ts-ignore
-                        e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 6)
-                      }}
+                          error={Boolean(touched.consumerNo && errors.consumerNo)}
+                          helperText={touched.consumerNo && errors.consumerNo}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          fullWidth
+                          name="consumerNo"
+                          label="Consumer No"
+                          id="consumerNo"
+                          type="number"
+                          autoComplete="consumerNo"
+                          value={values.consumerNo}
+                          onInput={(e) => {
+                            //@ts-ignore
+                            e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 6)
+                          }}
                     />
                   </Grid>
 
@@ -318,28 +386,34 @@ const Customer = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      fullWidth
-                      name="subAgent"
-                      label="Sub Agent"
-                      type="subAgent"
-                      id="subAgent"
-                      autoComplete="subAgent"
-                      onChange={handleChange}
-                      value={customer.subAgent}
+                          error={Boolean(touched.subAgent && errors.subAgent)}
+                          helperText={touched.subAgent && errors.mobile}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          fullWidth
+                          name="subAgent"
+                          label="Sub Agent"
+                          type="subAgent"
+                          id="subAgent"
+                          autoComplete="subAgent"
+                          value={values.subAgent}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      variant="outlined"
-                      fullWidth
-                      name="remarks"
-                      label="Remarks"
-                      type="remarks"
-                      id="remarks"
-                      autoComplete="remarks"
-                      onChange={handleChange}
-                      value={customer.remarks}
+                          error={Boolean(touched.remarks && errors.remarks)}
+                          helperText={touched.remarks && errors.remarks}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          variant="outlined"
+                          fullWidth
+                          name="remarks"
+                          label="Remarks"
+                          type="remarks"
+                          id="remarks"
+                          autoComplete="remarks"
+                          value={customer.remarks}
                     />
                   </Grid>
                 </Grid>
@@ -353,6 +427,9 @@ const Customer = () => {
                   Register Customer
                 </Button>
               </form>
+               )}
+               </Formik>
+
             </div>
           </Grid>
           <Grid style={{paddingTop:"20px"}}>

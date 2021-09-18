@@ -6,19 +6,39 @@ import {
   Box,
   Button,
   Container,
-  TextField,
+  TextField,makeStyles,
   Typography
 } from '@material-ui/core';
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { deepOrange, deepPurple } from '@mui/material/colors';
 
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import Avatar from '@mui/material/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { ToastContext } from "../Common/ToastProvider";
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
+import '../App.css'
+
+const useStyles = makeStyles((theme) => ({
+  margin: {
+      margin: theme.spacing(1),
+
+  }, main:
+  {
+      width: 270
+  },
+  tab: {
+      width: "100%",
+  },  input: {
+    color: "white"
+  }
+}));
 
 const SignIn = () => {
+
   let history = useHistory();
+  const classes = useStyles();
 
   const { showToast } = React.useContext(ToastContext);
 
@@ -42,9 +62,12 @@ const SignIn = () => {
 
   return (
     <>
-    <div style={{marginTop:"100px", paddingTop:"50px"}}>
+    <div  className="bg-img"> 
 
-    </div>
+
+    <div style={{ paddingTop:"150px"}}>
+
+
       <Helmet>
         <title>Login | GOURIPUR HP</title>
       </Helmet>
@@ -103,33 +126,36 @@ const SignIn = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box style={{textAlign:"center"}}>
+                <Box style={{textAlign:"center", color:"white"}}>
                   <Typography
-                    color="textPrimary"
-                    variant="h4"
+                    variant="h3"
                   >
                   GOURIPUR HP GAS
                   </Typography>
+   
+          <img src={require("../hp.png").default}  style={{borderRadius:"20%"}}
+          width="90px" height="90px" alt="hpgas logo" />
+
                   <Typography
-                    color="textSecondary"
                     gutterBottom
-                    variant="body2"
+                    variant="h6"
                   >
                     Code : 13784600
                   </Typography>
+                  
                 </Box>
-                <Box  style={{marginTop:"4rem"}}
+                <Box  style={{marginTop:"4rem", color:"white"}}
                 
                 >
                   <Typography
                     align="center"
-                    color="textSecondary"
                     variant="body1"
                   >
                     Login with registered Email Id
                   </Typography>
                 </Box>
                 <TextField
+                color="primary"
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
@@ -141,8 +167,12 @@ const SignIn = () => {
                   type="email"
                   value={values.email}
                   variant="outlined"
+                  InputProps={{
+                    className: classes.input
+                  }}
                 />
                 <TextField
+                color="primary"
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
@@ -152,11 +182,12 @@ const SignIn = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type={passwordShown ? "text" : "password"}
-
                   value={values.password}
                   variant="outlined"
                   InputProps={{
-                    endAdornment: icon
+                    endAdornment: icon,
+                    className: classes.input
+
                   }}
                 />
                                             {/* @ts-ignore */}
@@ -179,6 +210,8 @@ const SignIn = () => {
           </Formik>
         </Container>
       </Box>
+      </div>
+      </div>
     </>
   );
 };

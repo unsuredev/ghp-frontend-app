@@ -131,7 +131,7 @@ function ResponsiveDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} color="primary">
         
         <Toolbar>
           <IconButton
@@ -144,9 +144,14 @@ function ResponsiveDrawer() {
             <MenuIcon />
           </IconButton>
      
-          <Typography variant="h6" noWrap>
+      
+           <img src={require("../hpcl_logo.png").default}  
+          width="400px" height="80px" alt="hpgas logo" />
+     <div style={{ marginLeft:"74rem"}}>
+     <Typography variant="h6" noWrap>
           GOURIPUR HP GAS
           </Typography>
+     </div>
         </Toolbar>
         
       </AppBar>
