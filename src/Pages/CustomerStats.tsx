@@ -124,25 +124,6 @@ const CustomerStats = () => {
     }
 
 
-    // const fetchUsersByAgent = async () => {
-
-    //     try {
-    //         setLoading(true)
-    //         //@ts-ignore
-    //         const result = await httpClient("customer/customerbyagent", "POST", {
-    //             "mainAgent": agentName.name
-    //         });
-    //         setUsers(result.data);
-    //         setLoading(false)
-
-
-    //     }
-    //     catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-
 
     const usersByDate = (index: any) => {
         setLoading(true);
@@ -166,32 +147,8 @@ const CustomerStats = () => {
     return (
         <React.Fragment>
             <ResponsiveDrawer />
-            {/* <Container maxWidth="xs" style={{ display: "flex" }}>
-
-                <Grid item xs={12} sm={12} md={8}>
-                    <TextField
-                        variant="outlined"
-
-                        name="name"
-                        label="Consumers list by Agent"
-                        type="text"
-                        id="name"
-                        autoComplete="name"
-                        onChange={handleChange}
-                        value={agentName.name}
-                    />
-                </Grid>
-                <Button variant="contained" color="primary" onClick={fetchUsersByAgent} >
-                    FIND  BY AGENT
-                </Button>
-
-
-            </Container>
-
-            <br></br> */}
 
             <Container maxWidth="md" style={{ paddingLeft: "4rem" }} >
-
 
                 <Grid container >
 
@@ -271,7 +228,7 @@ const CustomerStats = () => {
                             <Grid container >
                                 <Grid item xs={12} sm={12} md={12} style={{ marginLeft: "11rem" }}>
                                     <MaterialTable
-                                        title="Jaman Hp Gas Customers"
+                                        title="Gouripur Hp Gas Customers"
                                         isLoading={loading}
                                         columns={[
                                             { title: "Sl No", field: 'tableData.id' },
@@ -284,10 +241,7 @@ const CustomerStats = () => {
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
                                             { title: "Remarks", field: "remarks" }
-
-
                                         ]}
-
                                         data={userlist}
                                         options={{
                                             exportButton: true,
@@ -305,16 +259,11 @@ const CustomerStats = () => {
                                     />
                                 </Grid>
                             </Grid>
-
-
                         )}
                     </div>
 
                 </Container>}
             <FooterSection />
-
-
-
         </React.Fragment >
     );
 }

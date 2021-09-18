@@ -169,9 +169,9 @@ const Reports = () => {
                     </Container>
                 </div>
             </main>
-            {/* <Container>
+            <Container>
                 <FullConsumerTable />
-            </Container> */}
+            </Container>
             <FooterSection />
 
         </React.Fragment >

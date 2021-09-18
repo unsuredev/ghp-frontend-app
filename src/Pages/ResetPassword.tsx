@@ -59,7 +59,7 @@ const ResetPassword = () => {
     }
 
     React.useEffect(() => {
-        document.title = "JAMAN HP GAS | Change Password "
+        document.title = "Gouripur HP GAS | Change Password "
 
     }, []);
 
@@ -83,7 +83,7 @@ const ResetPassword = () => {
             const result = await axios.post("https://jamanenterprise.herokuapp.com/user/changepassword",
             {
                 "old_password":user.old_password,
-                "password":user.new_password,
+                "new_password":user.new_password,
                 "email":findEmail()
             } ,
              { headers: Headers })

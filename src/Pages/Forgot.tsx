@@ -66,7 +66,7 @@ const Forgot=()=> {
         <div className={classes.paper}>
         {/* <PersonOutlinedIcon/> */}
           <Typography component="h1" variant="h5">
-          JAMAN HP GAS
+          GOURIPUR HP GAS
           </Typography>
           <h4>Code: 13816000</h4>
 

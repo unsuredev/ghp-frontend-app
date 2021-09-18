@@ -146,8 +146,8 @@ function ResponsiveDrawer() {
      
       
            <img src={require("../hpcl_logo.png").default}  
-          width="400px" height="80px" alt="hpgas logo" />
-     <div style={{ marginLeft:"74rem"}}>
+          width="100%" height="80px" alt="hpgas logo" />
+     <div style={{ marginLeft:"50rem"}}>
      <Typography variant="h6" noWrap>
           GOURIPUR HP GAS
           </Typography>

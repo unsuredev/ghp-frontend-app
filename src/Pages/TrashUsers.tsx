@@ -5,6 +5,7 @@ import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ResponsiveDrawer from "./Drawer";
+import { BASE_URL } from "../Common/constant";
 
 export default function TrashConsumerTable() {
 
@@ -22,20 +23,49 @@ export default function TrashConsumerTable() {
         { title: "Sub Agent", field: 'subAgent' },
         { title: "Remarks", field: 'remarks' },
 
-
-
-
-
     ]
-    React.useEffect(() => {
-        setLoading(true)
-        fetch("https://jamanenterprise.herokuapp.com/customer/trashCustomer")
-            .then(resp => resp.json())
-            .then(resp => {
-                setData(resp.data)
+        const getToken = () => {
+            //@ts-ignore
+            return localStorage.getItem("access_token")
+        }
+    
+    
+    
+    
+    const fetchTrashData = async () => {
+        try {
+            setLoading(true)
+            const result = await axios.get(BASE_URL + "customer/trashCustomer", {
+                headers: {
+                    encryption: false,
+                    access_token: getToken()
+                },
+            });
+            if (result.data) {
+                setData(result.data.data)
                 setLoading(false)
-            })
+
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+
+
+
+    React.useEffect(() => {
+        fetchTrashData()
     }, [])
+
+
+
+
+
+
+
+
 
     return (
         <React.Fragment>
@@ -44,7 +74,7 @@ export default function TrashConsumerTable() {
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
-                        title="Jaman Hp Consumer Trash Consumer list"
+                        title="Gouripur Hp Gas Trash Consumer list"
                         data={data}
                         columns={columns}
                         options={{

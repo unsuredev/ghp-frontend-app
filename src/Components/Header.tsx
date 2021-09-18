@@ -60,7 +60,7 @@ const Header=()=> {
                             width="40"
                             height="40"
                         />
-        <Button size="large">JAMAN HP GAS</Button>
+        <Button size="large">GOURIPUR HP GAS</Button>
         <Typography
        variant="subtitle1" gutterBottom
           color="primary"

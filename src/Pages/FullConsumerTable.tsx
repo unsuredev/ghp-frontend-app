@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link, Grid } from '@material-ui/core';
 import CsvDownloader from 'react-csv-downloader';
 import jwt_decode from "jwt-decode";
+import { BASE_URL } from "../Common/constant";
 
 export default function FullConsumerTable() {
 
@@ -43,16 +44,34 @@ export default function FullConsumerTable() {
     ];
 
 
-const fetcCustomerData=()=>{
-    setLimit(limit+500)
-    setLoading(true)
-    fetch(`https://jamanenterprise.herokuapp.com/customer/getAll?page=1&limit=${limit}`)
-        .then(resp => resp.json())
-        .then(resp => {
-            setData(resp.data)
-            setLoading(false)
-        })
-}
+    const getToken = () => {
+        //@ts-ignore
+        return localStorage.getItem("access_token")
+    }
+
+
+
+
+    const fetcCustomerData = async() => {
+        try {
+            const result = await axios.get(BASE_URL + "customer/getall", {
+                headers: {
+                    encryption: false,
+                    access_token: getToken()
+                },
+            });
+            if(result.data){
+                setData(result.data.data)
+
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+
+    }
+
+
 
 
 
@@ -66,8 +85,8 @@ const fetcCustomerData=()=>{
     
         var decoded = jwt_decode(token);
         //@ts-ignore
-        let { email } = decoded;
-        if (email === "jaman2021@gmail.com") {
+        let { user_id } = decoded;
+        if (user_id === "GHP_5dc27b13-d83b-4274-9fd4-05626d7b45a9") {
           return true;
         } else {
           return false;
@@ -76,7 +95,7 @@ const fetcCustomerData=()=>{
     return (
         <React.Fragment>
             <CssBaseline />
-            <Grid xs={6} md={4} lg={4} sm={4}>
+            {/* <Grid xs={6} md={4} lg={4} sm={4}>
             &nbsp; &nbsp; &nbsp; <Button
                             variant="contained"
                             color="primary"
@@ -84,13 +103,13 @@ const fetcCustomerData=()=>{
                         >
                             load More
                     </Button>
-            </Grid>
+            </Grid> */}
        
    
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
-                        title="Jaman Hp Consumer Data"
+                        title="Gouripur Hp Consumer Data"
                         data={data}
                         columns={columns}
                         options={{
@@ -110,7 +129,7 @@ const fetcCustomerData=()=>{
                 {getUser()?
                  <div>
       <CsvDownloader
-        filename="JamanHpGas"
+        filename="GouripurHpGas"
         extension=".csv"
         separator=";"
         wrapColumnChar="'"

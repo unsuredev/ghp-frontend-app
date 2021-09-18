@@ -100,7 +100,8 @@ const SignIn = () => {
                           "email": values.email.toLowerCase(),
                           "password": values.password,
                       }, {
-                          headers: { encryption: false },
+                          headers: { encryption: false 
+                          },
                       });
                       if (result.data.status==="success") {
                         console.log("data" ,result.data)

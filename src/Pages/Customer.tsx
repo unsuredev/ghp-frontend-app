@@ -94,19 +94,27 @@ const Customer = () => {
 
 
   React.useEffect(() => {
-    let token: any = localStorage.getItem("access_token");
 
+
+    getCharacters();
+  }, []);
+
+
+
+  const getUserName = () => {
+    let token: any = localStorage.getItem("access_token");
     var decoded = jwt_decode(token);
     //@ts-ignore
     let { name } = decoded;
     if (name && name != undefined) {
-      if (name) {
-        customer.addedBy = name;
-      }
+      return name
     }
+    
+  }
 
-    getCharacters();
-  }, []);
+
+
+
 
 
   const getToken = () => {
@@ -122,12 +130,10 @@ const Customer = () => {
         access_token: getToken()
       },
     });
-
-    console.log("res==>", result.data)
-    // setAgetList(result.data.result)
+ //@ts-ignore
+    setAgetList(result.data.data.agents)
     //@ts-ignore
-    // setAgetList(body.data.result.map(({ name  }) => ({ label: name, value: name })));
-    console.log("res==>2", agentList)
+    setAgetList(result.data.data.agents.map(({ name  }) => ({ label: name, value: name })));
 }
 
   const [customer, setCustomer] = React.useState({
@@ -143,28 +149,6 @@ const Customer = () => {
     addedBy: "",
   });
 
-  const handleChange = (event: any) => {
-    setCustomer({ ...customer, [event.target.name]: event.target.value });
-    //@ts-ignore
-  };
-
-  const handleRegister = async (e: any) => {
-    try {
-      e.preventDefault();
-      setDisabled(true)
-      const result = await axios.post(BASE_URL + "customer/add", customer)
-      if (result.data.data && result.data != null) {
-        setLastUser(result.data.data.result);
-        showToast("Consumer added susccesssfully", "success");
-        setDisabled(false)
-      }
-    } catch (error) {
-      if (error) {
-        //@ts-ignore
-        showToast(error.response.data.message, "error")
-      }
-    }
-  };
 
 
 
@@ -213,26 +197,36 @@ const Customer = () => {
               .min(12, 'Must be exactly 12 digits')
               .max(12, 'Must be exactly 12 digits'),   
             })}
-            onSubmit={async (values: any) => {
+            onSubmit={async ( values: any) => {
               try {
-                      const result = await axios.post(BASE_URL + "user/login", {
-                          "login_type": "email",
-                          "email": values.email.toLowerCase(),
-                          "password": values.password,
-                      }, {
-                          headers: { encryption: false },
-                      });
-                      if (result.data.status==="success") {
-                        console.log("data" ,result.data)
-                        localStorage.setItem("access_token", result.data.data.access_token)
-                        showToast("Loggedin susccesssfully", "success")
-                      }
-              }
-              catch (error) {
-                  //@ts-ignore
-                  showToast(error.response.data.message, "error")
-                  console.log(error)
-              }
+                  setDisabled(true)
+                  const result = await axios.post(BASE_URL + "customer/add", 
+                  {
+                    "name":values.name,
+                    "mainAadhaar":values.mainAadhaar,
+                    "familyAadhaar":values.familyAadhaar,
+                    "mainAgent":values.mainAgent,
+                    "mobile":values.mobile,
+                    "consumerNo":values.consumerNo,
+                    "regNo":values.regNo,
+                    "subAgent":values.subAgent,
+                    "remarks":values.remarks,
+                    "addedBy":getUserName()
+                
+                }
+                  )
+                  if (result.data.data && result.data != null) {
+                    setLastUser(result.data.data.result);
+                    showToast("Consumer added susccesssfully", "success");
+                    setDisabled(false)
+                  }
+                } catch (error) {
+                  if (error) {
+                    console.log("error", error)
+                    //@ts-ignore
+                    showToast(error.response.data.message, "error")
+                  }
+                }
           }}
           >
             {({
@@ -244,7 +238,7 @@ const Customer = () => {
               touched,
               values
             }) => (
-              <form className={classes.form}  onSubmit={handleSubmit} noValidate>
+              <form onSubmit={handleSubmit}>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <TextField
@@ -273,7 +267,7 @@ const Customer = () => {
                           required
                           fullWidth
                           id="mainAadhaar"
-                          type="text"
+                          type="number"
                           label="Main Aadhaar"
                           name="mainAadhaar"
                           autoComplete="mainAadhaar"
@@ -290,7 +284,8 @@ const Customer = () => {
                           required
                           fullWidth
                           id="faadhaar"
-                          type="number" label="Family Adhaar"
+                          type="number"
+                           label="Family Adhaar"
                           name="familyAadhaar"
                           autoComplete="faadhaar"
                           value={values.familyAadhaar}
@@ -340,7 +335,7 @@ const Customer = () => {
                           name="consumerNo"
                           label="Consumer No"
                           id="consumerNo"
-                          type="number"
+                          type="text"
                           autoComplete="consumerNo"
                           value={values.consumerNo}
                           onInput={(e) => {
@@ -413,7 +408,7 @@ const Customer = () => {
                           type="remarks"
                           id="remarks"
                           autoComplete="remarks"
-                          value={customer.remarks}
+                          value={values.remarks}
                     />
                   </Grid>
                 </Grid>
@@ -422,7 +417,10 @@ const Customer = () => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={handleRegister}
+                  type="submit"
+                  disabled={
+                    isSubmitting 
+                }
                 >
                   Register Customer
                 </Button>

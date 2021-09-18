@@ -223,6 +223,10 @@ const Home = () => {
     //@ts-ignore
   };
 
+  const getToken = () => {
+    //@ts-ignore
+    return localStorage.getItem("access_token")
+}
 
 
   const handleFind = async (event: any) => {
@@ -230,6 +234,7 @@ const Home = () => {
       event.preventDefault();
       if (state.mobile) {
         const result = await httpClient("customer/find", "POST", {
+          findkey:"mobile",
           mobile: state.mobile,
         });
 
@@ -241,6 +246,7 @@ const Home = () => {
       }
       if (state.aadhaar) {
         const result = await httpClient("customer/find", "POST", {
+          findkey:"mainAadhaar",
           mainAadhaar: state.aadhaar,
         });
         if (!result.data && result.data === undefined)
@@ -252,6 +258,7 @@ const Home = () => {
       }
       if (state.consumerNo) {
         const result = await httpClient("customer/find", "POST", {
+          findkey:"consumerNo",
           consumerNo: state.consumerNo,
         });
 
@@ -264,6 +271,7 @@ const Home = () => {
       }
       if (state.regNo) {
         const result = await httpClient("customer/find", "POST", {
+          findkey:"regNo",
           regNo: state.regNo,
         });
 
@@ -283,7 +291,15 @@ const Home = () => {
   const handleupdate = async () => {
     setOpen(false);
     try {
-      const result = await axios.post(BASE_URL + "customer/update", { data: customer })
+      const result = await axios.post(BASE_URL + "customer/update", { data: customer },
+     {
+      headers: { 
+        encryption: false ,
+        access_token:getToken()
+      },
+  })
+
+
       if (result.data.data && result.data != undefined) {
         showToast("Customer updated successfullly", "success");
         console.log("updated", result)
@@ -298,7 +314,12 @@ const Home = () => {
   const handleDelete = async (customer: any) => {
     try {
 
-      const result = await axios.post(BASE_URL + "customer/delete", { customerId: customer._id })
+      const result = await axios.post(BASE_URL + "customer/delete", { customerId: customer._id },{
+        headers: { 
+          encryption: false ,
+          access_token:getToken()
+        }
+      })
       if (result.data && result.data != undefined) {
         showToast("Customer deleted successfullly", "success");
         window.location.reload();
@@ -318,8 +339,9 @@ const Home = () => {
 
     var decoded = jwt_decode(token);
     //@ts-ignore
-    let { email } = decoded;
-    if (email === "jaman2021@gmail.com") {
+    let { user_id } = decoded;
+      if (user_id === "GHP_5dc27b13-d83b-4274-9fd4-05626d7b45a9") {
+
       return true;
     } else {
       return false;
@@ -329,7 +351,7 @@ const Home = () => {
 
 
   React.useEffect(() => {
-    document.title = "Customer | JAMAN HP";
+    document.title = "Customer | Gouripur HP Gas";
     findName()
     getUser()
 
