@@ -11,6 +11,7 @@ import { useHistory } from "react-router"
 import jwt_decode from "jwt-decode";
 import ResponsiveDrawer from "./Drawer";
 
+import { BASE_URL } from "../Common/constant";
 
 
 
@@ -72,21 +73,28 @@ const ResetPassword = () => {
       }
 
 
-    const Headers = {
-        'Content-Type': 'application/json',
-        "encryption": false,
+
+    const getToken = () => {
+        //@ts-ignore
+        return localStorage.getItem("access_token")
     }
-
-
+    
     const handleReset = async () => {
         try {
-            const result = await axios.post("https://jamanenterprise.herokuapp.com/user/changepassword",
+            const result = await axios.post(BASE_URL + "user/changepassword",
             {
                 "old_password":user.old_password,
                 "new_password":user.new_password,
                 "email":findEmail()
             } ,
-             { headers: Headers })
+             {
+                 
+                headers: {
+                    encryption: false,
+                    access_token: getToken()
+                  }
+            
+            })
             if (result.data && result.data != null) {
                 showToast(result.data.message, "success");
                 handleLogout()

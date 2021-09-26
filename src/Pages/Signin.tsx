@@ -100,7 +100,9 @@ const SignIn = () => {
                           "email": values.email.toLowerCase(),
                           "password": values.password,
                       }, {
-                          headers: { encryption: false 
+                          headers: { 
+                            encryption: false ,
+                          'Accept': 'application/json'
                           },
                       });
                       if (result.data.status==="success") {
@@ -111,9 +113,16 @@ const SignIn = () => {
                       }
               }
               catch (error) {
+                //@ts-ignore
+                if(error.response.data.message=="Unable to Login user"){
+                  //@ts-ignore
+                  showToast(error.response.data.errorMessage, "error")
+                }
+                else{
                   //@ts-ignore
                   showToast(error.response.data.message, "error")
                   console.log(error)
+                }
               }
           }}
           >

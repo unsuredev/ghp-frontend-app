@@ -109,7 +109,9 @@ const MemberSignUp = () => {
     }
     
   } catch (error) {
-    showToast("Something went wrong! try later", "error");
+    console.log("error" , error)
+    //@ts-ignore
+    showToast(error.response.data.message, "error")
   }
 }
 
@@ -119,14 +121,20 @@ const MemberSignUp = () => {
   }, [])
 
 
-  const toggleChecked = async (email:any) => {
+  const toggleChecked = async ( email:any) => {
     try {
-      const result = await httpClient("user/block", "POST" ,{"email":email});
-      showToast(result.message, "success");
-      window.location.reload();
+      const result = await axios.post(BASE_URL + "user/block",{"email":email},  { headers: {
+        encryption: false,
+        access_token: getToken()
+      }})
+      if (result.data && result.data != null) {
+        showToast(result.data.message, "success");
+        window.location.reload();
+      
+      }
     } catch (error) {
-      showToast("Something went wrong! try later", "error");
-    }
+      //@ts-ignore
+      showToast(error.response.data.message, "error")    }
   };
 
 
@@ -145,8 +153,8 @@ const MemberSignUp = () => {
       })
        setList(result.data.data.users)
     } catch (error) {
-      showToast("Wrong Password! try again", "error");
-    }
+      //@ts-ignore
+      showToast(error.response.data.message, "error")    }
   };
 
 
