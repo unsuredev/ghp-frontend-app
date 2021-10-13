@@ -240,7 +240,8 @@ const CustomerStats = () => {
                                             { title: 'Consumer No', field: 'ConsumerNO' },
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
-                                            { title: "Remarks", field: "remarks" }
+                                            { title: "Remarks", field: "remarks" },
+                                            {title:'Added By', field:'addedBy'}
                                         ]}
                                         data={userlist}
                                         options={{
