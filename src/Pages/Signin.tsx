@@ -69,7 +69,7 @@ const SignIn = () => {
 
 
       <Helmet>
-        <title>Login | GOURIPUR HP</title>
+        <title>Login | JAMAN HP</title>
       </Helmet>
       <Box
       //@ts-ignore
@@ -140,7 +140,7 @@ const SignIn = () => {
                   <Typography
                     variant="h3"
                   >
-                  GOURIPUR HP GAS
+                  JAMAN HP GAS
                   </Typography>
    
           <img src={require("../hp.png").default}  style={{borderRadius:"20%"}}

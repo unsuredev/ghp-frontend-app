@@ -10,7 +10,7 @@ const  Copyright = ()=> {
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit" href="/">
-        GOURIPUR HP GAS
+        JAMAN HP GAS
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}

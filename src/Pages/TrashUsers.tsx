@@ -74,7 +74,7 @@ export default function TrashConsumerTable() {
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
-                        title="Gouripur Hp Gas Trash Consumer list"
+                        title="Jaman Hp Gas Trash Consumer list"
                         data={data}
                         columns={columns}
                         options={{

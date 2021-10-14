@@ -33,6 +33,10 @@ import moment from "moment";
 import jwt_decode from "jwt-decode";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import ResponsiveDrawer from "./Drawer";
 
@@ -79,6 +83,12 @@ const useStyles = makeStyles((theme) => ({
   imgSize:{
     height:200,
     width:400
+  },
+  formControl: {
+    minWidth: "100%",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   }
 }));
 
@@ -139,6 +149,7 @@ const Home = () => {
   const [today, setDate] = React.useState(new Date());
   const [open, setOpen] = React.useState(false);
   const [nameuser, setNameuser] = React.useState("")
+  const [agentList, setAgetList] = React.useState([]);
 
   const [userObj, setUserObj] = React.useState({})
   const [openAlert, setOpenAlert] = React.useState(false);
@@ -217,6 +228,12 @@ const Home = () => {
     mobile: "",
     addedBy: "",
   });
+
+  const handleChangeAgent = (event: any) => {
+    console.log("agent" ,event.target.value)
+    setCustomer({ ...customer, [event.target.name]: event.target.value });
+    //@ts-ignore
+  }
 
   const handleChangeUser = (event: any) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
@@ -340,7 +357,7 @@ const Home = () => {
     var decoded = jwt_decode(token);
     //@ts-ignore
     let { user_id } = decoded;
-      if (user_id === "GHP_5dc27b13-d83b-4274-9fd4-05626d7b45a9") {
+      if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
 
       return true;
     } else {
@@ -351,9 +368,10 @@ const Home = () => {
 
 
   React.useEffect(() => {
-    document.title = "Customer | Gouripur HP Gas";
+    document.title = "Customer | Jaman HP Gas";
     findName()
     getUser()
+    getCharacters()
 
     const timer = setInterval(() => {
       setDate(new Date());
@@ -362,6 +380,25 @@ const Home = () => {
       clearInterval(timer);
     };
   }, []);
+
+
+
+
+      
+  async function getCharacters() {
+    const result = await axios.get(BASE_URL + "agent/getall", {
+      headers: {
+        encryption: false,
+        access_token: getToken()
+      },
+    });
+ //@ts-ignore
+    setAgetList(result.data.data.agents)
+    //@ts-ignore
+    setAgetList(result.data.data.agents.map(({ name  }) => ({ label: name, value: name })));
+}
+
+
 
   return (
     <React.Fragment>
@@ -671,13 +708,29 @@ const Home = () => {
                                 />
                               
                             </Grid>
+                            <Typography style={{color:"white", backgroundColor:"black"}} variant="h5"  gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+
+                            {getUser() ? (
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-
-                 
-                              <Typography style={{color:"white", backgroundColor:"black"}} variant="h5"  gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
-                            </Grid>
-
-                    
+                              <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-required-label">Update new Agent *</InputLabel>
+                                <Select
+                                  onChange={handleChangeAgent}
+                                  displayEmpty
+                                  className={classes.selectEmpty}
+                                  labelId="demo-simple-select-outlined-label"
+                                  id="demo-simple-select-outlined"
+                                  inputProps={{ 'aria-label': 'Without label' }}
+                                  name="mainAgent"
+                                >
+                                  {agentList.map(item => (
+                                    <MenuItem
+                                      //@ts-ignore
+                                      key={item.label} value={item.value} >{item.label}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </Grid>):null}
         
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 

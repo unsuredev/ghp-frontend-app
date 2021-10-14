@@ -228,7 +228,7 @@ const CustomerStats = () => {
                             <Grid container >
                                 <Grid item xs={12} sm={12} md={12} style={{ marginLeft: "11rem" }}>
                                     <MaterialTable
-                                        title="Gouripur Hp Gas Customers"
+                                        title="Jaman Hp Gas Customers"
                                         isLoading={loading}
                                         columns={[
                                             { title: "Sl No", field: 'tableData.id' },

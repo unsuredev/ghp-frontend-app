@@ -60,7 +60,7 @@ const ResetPassword = () => {
     }
 
     React.useEffect(() => {
-        document.title = "Gouripur HP GAS | Change Password "
+        document.title = "Jaman HP GAS | Change Password "
 
     }, []);
 

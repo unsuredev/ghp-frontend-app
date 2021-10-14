@@ -86,7 +86,7 @@ export default function FullConsumerTable() {
         var decoded = jwt_decode(token);
         //@ts-ignore
         let { user_id } = decoded;
-        if (user_id === "GHP_5dc27b13-d83b-4274-9fd4-05626d7b45a9") {
+        if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
           return true;
         } else {
           return false;
@@ -109,7 +109,7 @@ export default function FullConsumerTable() {
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
-                        title="Gouripur Hp Consumer Data"
+                        title="Jaman Hp Consumer Data"
                         data={data}
                         columns={columns}
                         options={{
@@ -126,17 +126,7 @@ export default function FullConsumerTable() {
 
                     />
                 }
-                {getUser()?
-                 <div>
-      <CsvDownloader
-        filename="GouripurHpGas"
-        extension=".csv"
-        separator=";"
-        wrapColumnChar="'"
-        datas={data}
-        columns={column}
-        text="ONE CLICK DOWNLOAD ALL CUSTOMER  DATA" />
-    </div>:null}
+
             </Container>
         </React.Fragment>
     );

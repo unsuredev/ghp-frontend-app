@@ -78,7 +78,7 @@ function ResponsiveDrawer() {
     var decoded = jwt_decode(token);
     //@ts-ignore
     let { user_id } = decoded;
-    if (user_id === "GHP_5dc27b13-d83b-4274-9fd4-05626d7b45a9") {
+    if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
       return true;
     } else {
       return false;
@@ -149,7 +149,7 @@ function ResponsiveDrawer() {
           width="100%" height="80px" alt="hpgas logo" />
      <div style={{ marginLeft:"50rem"}}>
      <Typography variant="h6" noWrap>
-          GOURIPUR HP GAS
+          JAMAN HP GAS
           </Typography>
      </div>
         </Toolbar>

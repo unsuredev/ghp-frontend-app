@@ -106,7 +106,7 @@ const Reports = () => {
 
 
     React.useEffect(() => {
-        document.title = "Live Stats | GOURIPUR HP GAS  "
+        document.title = "Live Stats | JAMAN HP GAS  "
         fetchCount()
     }, []);
 
@@ -143,9 +143,10 @@ const Reports = () => {
                                         <Typography gutterBottom variant="h5" component="h2">
                                             Total Members
                                         </Typography>
-                                        <Link href="/member" onClick={(e:any)=>e.preventDefault}>
+                                        <Typography>
                                         {memberCount}
-                                        </Link>
+                                        </Typography>
+
                                     </CardContent>
                                     <CardActions>
                                     </CardActions>
@@ -157,9 +158,11 @@ const Reports = () => {
                                         <Typography gutterBottom variant="h5" component="h2">
                                             Total Agents
                                         </Typography>
-                                        <Link href="/agentlist" onClick={(e:any)=>e.preventDefault}>
+                                    
+                                        <Typography>
                                         {agent}
-                                        </Link>
+                                        </Typography>
+
                                     </CardContent>
                                     <CardActions>
                                     </CardActions>

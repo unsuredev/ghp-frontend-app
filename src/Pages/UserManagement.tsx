@@ -165,7 +165,7 @@ const MemberSignUp = () => {
         <Grid container>
           <Grid item xs={12} sm={12} md={12} style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
             <Typography component="h1" variant="h5">
-            GOURIPUR HP GAS
+            JAMAN HP GAS
               </Typography>
             <h4>Code: 13784600</h4>
           </Grid>
