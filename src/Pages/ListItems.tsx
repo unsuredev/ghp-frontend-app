@@ -11,6 +11,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import HistoryIcon from '@material-ui/icons/History';
 import SearchIcon from '@material-ui/icons/Search';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 export const mainListItems = (
   <div>
         <Link href="/customer">
@@ -70,19 +71,14 @@ export const mainListItems = (
     </Link>
 
 
-{/* 
     <Link href="/customerDocs">
-      <ListItem button>
-        <ListItemIcon>
-          <BackupIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Upload Image" />
-      </ListItem>
-    </Link> */}
-
-
-
-
+              <ListItem button>
+                <ListItemIcon>
+                  <CloudUploadIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Image & Docs  Management" />
+              </ListItem>
+            </Link>
 
 
 

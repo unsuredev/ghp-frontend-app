@@ -6,9 +6,12 @@ export  const BASE_URL =
     
     //"http://localhost:3001/v1/"
     
-    // 
 
-    "http://ec2-13-233-163-87.ap-south-1.compute.amazonaws.com:3001/v1/"
+   
+    "http://ec2-13-232-217-245.ap-south-1.compute.amazonaws.com:5001/v1/"
+    
+
+   //"http://ec2-65-0-176-235.ap-south-1.compute.amazonaws.comg:3001/v1/"
 
     
 
