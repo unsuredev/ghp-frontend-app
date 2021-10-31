@@ -26,6 +26,7 @@ export default function FullConsumerTable() {
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Sub Agent", field: 'subAgent' },
         { title: "Remarks", field: 'remarks' },
+        {title:"Installation status", field:'installtatus'}
     ]
 
 
@@ -40,7 +41,8 @@ export default function FullConsumerTable() {
         { displayName: "Consumer No", id: '' },
         { displayName: "Main Agent", id: 'mainAgent' },
         { displayName: "Sub Agent", id: 'subAgent' },
-        { displayName: "Remarks", id: 'remarks' }
+        { displayName: "Remarks", id: 'remarks' },
+        {displayName:"Install status", id:'installtatus'}
     ];
 
 

@@ -241,7 +241,10 @@ const CustomerStats = () => {
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
                                             { title: "Remarks", field: "remarks" },
-                                            {title:'Added By', field:'addedBy'}
+                                            {title:'Added By', field:'addedBy'},
+                                            {title:'Installation Status', field:'installtatus'}
+
+                                            
                                         ]}
                                         data={userlist}
                                         options={{
