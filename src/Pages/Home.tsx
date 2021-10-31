@@ -37,9 +37,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ResponsiveDrawer from "./Drawer";
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -195,6 +195,7 @@ const Home = () => {
     aadhaar: "",
     consumerNo: "",
     mainAgent: "",
+    familyAadhaar:""
   });
 
 
@@ -230,7 +231,6 @@ const Home = () => {
   });
 
   const handleChangeAgent = (event: any) => {
-    console.log("agent" ,event.target.value)
     setCustomer({ ...customer, [event.target.name]: event.target.value });
     //@ts-ignore
   }
@@ -284,11 +284,10 @@ const Home = () => {
         setUsers([result.data]);
         {/* @ts-ignore */ }
         setCustomer(result.data);
-        console.log("custome==>", customer)
       }
-      if (state.regNo) {
+      if (state.familyAadhaar) {
         const result = await httpClient("customer/find", "POST", {
-          findkey:"regNo",
+          findkey:"familyAadhaar",
           regNo: state.regNo,
         });
 
@@ -436,6 +435,20 @@ const Home = () => {
                 <form className={classes.form} noValidate autoComplete="off">
                   <TextField
                     id="outlined-basic"
+                    label="Family Aadhaar No"
+                    name="regNo"
+                    variant="outlined"
+                    fullWidth
+                    type="text"
+                    value={state.regNo}
+                    onChange={handleChange}
+                  />
+                </form>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3}>
+                <form className={classes.form} noValidate autoComplete="off">
+                  <TextField
+                    id="outlined-basic"
                     label="Mobile No"
                     name="mobile"
                     fullWidth
@@ -463,20 +476,7 @@ const Home = () => {
                   />
                 </form>
               </Grid>
-              <Grid item xs={12} sm={12} md={3}>
-                <form className={classes.form} noValidate autoComplete="off">
-                  <TextField
-                    id="outlined-basic"
-                    label="Registration No"
-                    name="regNo"
-                    variant="outlined"
-                    fullWidth
-                    type="text"
-                    value={state.regNo}
-                    onChange={handleChange}
-                  />
-                </form>
-              </Grid>
+
               {/* <Grid item xs={12} sm={12} md={2} >
                                 <form className={classes.form} noValidate autoComplete="off">
                                     <TextField
@@ -533,14 +533,20 @@ const Home = () => {
                 }}
               >
                 <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
-                  <Card className={classes.card} key={i} >
+                  <Card className={classes.card} key={i}  style={{marginTop:"40px"}}>
+                  <div style={{display:"flex"}}>
+                  </div>
                     <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
                       <Typography color="textSecondary" gutterBottom>
-                        Customer's Details
+                        Customer's Details                                
                       </Typography>
                       <CardHeader
                         action={
                           <div style={{ margin: "0px", padding: "0px" }}>
+                            {user.InstalationLetter?
+                            <IconButton aria-label="settings">
+                              <CheckCircleIcon style={{ color: "blue" }} />
+                            </IconButton>:null}
                             <IconButton aria-label="settings" onClick={handleClickOpen}>
                               <EditIcon onClick={handleClickOpen} />
                             </IconButton>
@@ -556,12 +562,9 @@ const Home = () => {
                         //@ts-ignore
                         title={user.name.toUpperCase()}
                       />
-                      <CardHeader style={{ textAlign: "center" }} />
-                      <div style={{ marginTop: "-40px" }}>
+                      <div>
                         {/* @ts-ignore */}
-                        <Typography>Sl No : {user.slNo || "NA"}</Typography>
-                        {/* @ts-ignore */}
-                        <Typography>Name : {user.name.toUpperCase()}</Typography>
+                        <Typography>Name : {user.name.toUpperCase()} </Typography>
                         {/* @ts-ignore */}
                         <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
                         {/* @ts-ignore */}
@@ -587,13 +590,14 @@ const Home = () => {
                         <Typography>Remarks : {user.remarks|| "NA"}</Typography>
                         {/* @ts-ignore */}
 
-                        <Typography>Created On : {user.date || "NA"}</Typography>
+                        <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
 
-                        <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
                         {user.updatedAt != undefined &&
-                          <Typography variant="subtitle2" gutterBottom color="primary">Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
+                          <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                         }
-
+                        <Typography >Added By : {user.addedBy || "NA"}</Typography>
+                        {user.InstalationLetter &&user.InstalationLetter!=undefined?
+                        <Typography color="primary" >Installation : Complete</Typography> : <Typography color="secondary" >Installation : Not Complete</Typography> }
 
                       </div>
                     </CardContent>
@@ -759,6 +763,7 @@ const Home = () => {
                               />
                             </Grid>
                           </Grid>
+                                
                         ))
                         }
                       </DialogContent>

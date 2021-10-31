@@ -167,7 +167,7 @@ const MemberSignUp = () => {
             <Typography component="h1" variant="h5">
             JAMAN HP GAS
               </Typography>
-            <h4>Code: 13784600</h4>
+            <h4>Code: 13816000</h4>
           </Grid>
         </Grid>
       </Container>

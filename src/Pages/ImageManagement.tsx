@@ -27,6 +27,8 @@ import teal from '@material-ui/core/colors/teal'
 import ClearIcon from '@material-ui/icons/Clear';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { BASE_URL } from "../Common/constant";
+import jwt_decode from "jwt-decode";
+import moment from "moment";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -91,9 +93,7 @@ export default function ImageManagement() {
     const [errorO , setErrorO]=  React.useState("")
 
     const [installb, setInstallb]= React.useState(false)
-
     const [satisb, setSatisb]= React.useState(false)
-
     const [otherb, setOtherb]= React.useState(false)
 
 
@@ -298,7 +298,24 @@ export default function ImageManagement() {
             })
     }
     
+    React.useEffect(() => {
+        document.title = "Image upload | Jaman HP Gas";
+        getUser()
+    }, []);
 
+
+
+    const getUser = () => {
+        let token: any = localStorage.getItem("access_token");
+        var decoded = jwt_decode(token);
+        //@ts-ignore
+        let { user_id } = decoded;
+        if (user_id != "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+          return true;
+        } else {
+          return false;
+        }
+      };
 
 
   
@@ -401,7 +418,7 @@ export default function ImageManagement() {
                                                 <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
                                                 <Typography>Remarks : {user.remarks || "NA"}</Typography>
                                                 {/* @ts-ignore */}
-                                                <Typography>Created On : {user.createdAt     || "NA"}</Typography>
+                                                <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                                                 <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
                                             </div>
                                                    {/* @ts-ignore */}
@@ -410,57 +427,59 @@ export default function ImageManagement() {
                                 </Grid>
                                 <Container className={classes.cardGrid} maxWidth="md">
                         <Grid   container spacing={4}  style={{marginRight:"1rem"}}>
-                                        <Grid item xs={12}
-                                            sm={12}
-                                            md={12}>
-                                            <label htmlFor="upload-button1">
-                                                {install.preview ? (
-                                                    <img src={install.preview} alt="install" width="300" height="300" />
-                                                ) : null  }
-                                            </label>
-                                            <input
-                                                type="file"
-                                                id="upload-button1"
-                                                // style={{ display: "none" }}
-                                                onChange={handleChangeInstall}
-                                                accept="image/*"
-                                            />
-                                            <br />
-                                            <span style={{color:"red"}}>{errorI}</span>
-                                            <br />
-                                            <br />
-                                                {installb?
-                                                <div>
-                                            <Button
-                                                size="medium"
-                                                variant="contained"
-                                                color="primary"
-                                                style={{backgroundColor:"#834bff"}}
-                                                
-                                                onClick={(e) => { installUpload(e, user.mainAadhaar) }}
-                                            >
-                                                Submit Installation Photo
-                                            </Button>
-                                            <Button
-                                                size="medium"
-                                                variant="contained"
-                                                color="inherit"
-                                                onClick={installRemoveImage}
-                                            >
-                                                Reset Photo
-                                            </Button>
-                                            </div>:null}
-                                        </Grid >
+                                                    <Grid item xs={12}
+                                                    sm={12}
+                                                    md={12}>
+                                                    <label htmlFor="upload-button1">
+                                                        {install.preview ? (
+                                                            <img src={install.preview} alt="install" width="300" height="300" />
+                                                        ) : null  }
+                                                    </label>
+                                                    <Typography>Installation Letter Photo :</Typography>
+                                                    <input
+                                                        type="file"
+                                                        id="upload-button1"
+                                                        // style={{ display: "none" }}
+                                                        onChange={handleChangeInstall}
+                                                        accept="image/*"
+                                                    />
+                                                    <br />
+                                                    <span style={{color:"red"}}>{errorI}</span>
+                                                    <br />
+                                                    <br />
+                                                        {installb?
+                                                        <div>
+                                                    <Button
+                                                        size="medium"
+                                                        variant="contained"
+                                                        color="primary"
+                                                        style={{backgroundColor:"#834bff"}}
+                                                        
+                                                        onClick={(e) => { installUpload(e, user.mainAadhaar) }}
+                                                    >
+                                                        Submit Installation Photo
+                                                    </Button>
+                                                    <Button
+                                                        size="medium"
+                                                        variant="contained"
+                                                        color="inherit"
+                                                        onClick={installRemoveImage}
+                                                    >
+                                                        Reset Photo
+                                                    </Button>
+                                                    </div>:null}
+                                                </Grid >
                                         <br/>
                                         <Grid item xs={12}
                                             sm={12}
                                             md={12}>
-                                                                                        <br/>
+                                            <br/>
                                             <label htmlFor="upload-button2">
                                                 {satis.preview ? (
                                                     <img src={satis.preview} alt="dummy" width="300" height="300" />
                                                 ) :  null}
                                             </label>
+                                            <Typography>Satisfaction Letter Photo :</Typography>
                                             <input
                                                 type="file"
                                                 id="upload-button2"
@@ -468,7 +487,7 @@ export default function ImageManagement() {
                                                 onChange={handleChangeSatis}
                                                 accept="image/*"
                                             />
-                                               <br />
+                                            <br />
                                             <span style={{color:"red"}}>{errorS}</span>
                                             <br />
                                             <br />
@@ -503,6 +522,8 @@ export default function ImageManagement() {
                                                     <img src={other.preview} alt="dummy" width="300" height="300" />
                                                 ) :  null}
                                             </label>
+                                            <Typography>Other Letter Photo :</Typography>
+
                                             <input
                                                 type="file"
                                                 id="upload-button3"

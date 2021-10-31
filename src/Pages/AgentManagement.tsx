@@ -127,7 +127,7 @@ const AgentList = () => {
         {
           headers: {
              encryption: false ,
-            access_token: getToken()
+             access_token: getToken()
           },
         }
       );

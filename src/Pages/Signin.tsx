@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   tab: {
       width: "100%",
   },  input: {
-    color: "white"
+    color: "black"
   }
 }));
 
@@ -150,7 +150,7 @@ const SignIn = () => {
                     gutterBottom
                     variant="h6"
                   >
-                    Code : 13784600
+                    Code : 13816000
                   </Typography>
                   
                 </Box>
