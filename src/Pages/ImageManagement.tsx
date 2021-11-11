@@ -13,7 +13,7 @@ import {
     Container,
     CssBaseline,
     TextField,
-  } from "@material-ui/core";
+} from "@material-ui/core";
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import FormControl from "@material-ui/core/FormControl";
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         margin: theme.spacing(1),
-      },
+    },
 }));
 
 
@@ -76,8 +76,8 @@ export default function ImageManagement() {
 
     const classes = useStyles();
     const [imageSrc, setImageSrc] = React.useState()
-    const [upload, setUpload]=React.useState(false)
-    const [view, setView]=React.useState(false)
+    const [upload, setUpload] = React.useState(false)
+    const [view, setView] = React.useState(false)
     const [users, setUsers] = React.useState<any[]>([]);
     const [state, setState] = React.useState({
         aadhaar: "",
@@ -86,15 +86,15 @@ export default function ImageManagement() {
         mainAadhaar: ""
     });
     const [install, setInstall] = React.useState({ preview: "", raw: "" });
-    const [satis, setSatis ]= React.useState({ preview: "", raw: "" });
+    const [satis, setSatis] = React.useState({ preview: "", raw: "" });
     const [other, setOther] = React.useState({ preview: "", raw: "" });
-    const [errorI , setErrorI]=  React.useState("")
-    const [errorS , setErrorS]=  React.useState("")
-    const [errorO , setErrorO]=  React.useState("")
+    const [errorI, setErrorI] = React.useState("")
+    const [errorS, setErrorS] = React.useState("")
+    const [errorO, setErrorO] = React.useState("")
 
-    const [installb, setInstallb]= React.useState(false)
-    const [satisb, setSatisb]= React.useState(false)
-    const [otherb, setOtherb]= React.useState(false)
+    const [installb, setInstallb] = React.useState(false)
+    const [satisb, setSatisb] = React.useState(false)
+    const [otherb, setOtherb] = React.useState(false)
 
 
 
@@ -118,7 +118,7 @@ export default function ImageManagement() {
 
 
 
-    
+
     const handleChange = (event: any) => {
         setState({ ...state, [event.target.name]: event.target.value });
     };
@@ -181,7 +181,7 @@ export default function ImageManagement() {
     };
 
 
-    const handleChangeSatis = (e:any) => {
+    const handleChangeSatis = (e: any) => {
         if (e.target.files.length) {
             setSatis({
                 preview: URL.createObjectURL(e.target.files[0]),
@@ -203,7 +203,7 @@ export default function ImageManagement() {
             setErrorS('Select a valid image size')
         }
     };
-    const handleChangeOther = (e:any) => {
+    const handleChangeOther = (e: any) => {
         if (e.target.files.length) {
             setOther({
                 preview: URL.createObjectURL(e.target.files[0]),
@@ -229,13 +229,13 @@ export default function ImageManagement() {
 
 
 
-    const installUpload = async (e: any, mainAadhaar: string) => {  
+    const installUpload = async (e: any, mainAadhaar: string) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("image", install.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "InstalationLetter");
-        fetch(BASE_URL+"customer/uploadimages", {
+        fetch(BASE_URL + "customer/uploadimages", {
             method: "POST",
             body: formData
         })
@@ -257,11 +257,11 @@ export default function ImageManagement() {
         formData.append("image", other.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "otherLetter");
-        await fetch(BASE_URL+"customer/uploadimages",
-        {
-            method: "POST",
-            body: formData
-        })
+        await fetch(BASE_URL + "customer/uploadimages",
+            {
+                method: "POST",
+                body: formData
+            })
             .then(response => response.json())
             .then(data =>
                 showToast(data.message, "success"),
@@ -274,14 +274,14 @@ export default function ImageManagement() {
     }
 
 
-    
+
     const satisUpload = async (e: any, mainAadhaar: string) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append("image", satis.raw);
-            formData.append("mainAadhaar", mainAadhaar)
-            formData.append("photo_key", "satisfactionLetter");
-            await fetch(BASE_URL+"customer/uploadimages",
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("image", satis.raw);
+        formData.append("mainAadhaar", mainAadhaar)
+        formData.append("photo_key", "satisfactionLetter");
+        await fetch(BASE_URL + "customer/uploadimages",
             {
                 method: "POST",
                 body: formData
@@ -289,15 +289,15 @@ export default function ImageManagement() {
             .then(response => response.json())
             .then(data =>
                 showToast(data.message, "success"),
-                        //@ts-ignore
-                        setSatis({ preview: "", raw: "" })
+                //@ts-ignore
+                setSatis({ preview: "", raw: "" })
 
             )
             .catch((error) => {
                 showToast(error.message, "error")
             })
     }
-    
+
     React.useEffect(() => {
         document.title = "Image upload | Jaman HP Gas";
         getUser()
@@ -311,21 +311,36 @@ export default function ImageManagement() {
         //@ts-ignore
         let { user_id } = decoded;
         if (user_id != "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
-          return true;
+            return true;
         } else {
-          return false;
+            return false;
         }
-      };
+    };
+
+    const findUser = () => {
+        let token: any = localStorage.getItem("access_token");
+        var decoded = jwt_decode(token);
+        //@ts-ignore
+        let { user_id } = decoded;
+        if(user_id){
+            console.log("user id", user_id)
+        return user_id
+        }
+        else{
+            return "NOT_ADMIN"
+        }
+    }
 
 
-  
+
+
 
     return (
         <React.Fragment>
             <CssBaseline />
             <ResponsiveDrawer />
             <main>
-                <div className={classes.heroContent}  style={{marginRight:"1rem"}}>
+                <div className={classes.heroContent} style={{ marginRight: "1rem" }}>
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={12} md={12}>
                             <form className={classes.form} noValidate autoComplete="off">
@@ -361,9 +376,9 @@ export default function ImageManagement() {
                     </Container>
                 </div>
             </main>
-            <div style={{marginRight:"1rem"}}>
-        <Container className={classes.cardGrid} maxWidth="md">
-                            <Grid container  >
+            <div style={{ marginRight: "1rem" }}>
+                <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container  >
                         {users.map((user, i) => (
                             <Grid
                                 item
@@ -377,7 +392,7 @@ export default function ImageManagement() {
                                     textAlign: "left",
                                 }}
                             >
-                                <Grid item  style={{ marginTop: "-40PX" }}  >
+                                <Grid item style={{ marginTop: "-40PX" }}  >
                                     <Card className={classes.card} key={i} >
                                         <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
                                             <Typography color="textSecondary" gutterBottom>
@@ -393,8 +408,6 @@ export default function ImageManagement() {
                                             />
                                             <CardHeader style={{ textAlign: "center" }} />
                                             <div style={{ marginTop: "-40px" }}>
-                                                {/* @ts-ignore */}
-                                                <Typography>Sl No : {user.slNo || "NA"}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>Name : {user.name.toUpperCase()}</Typography>
                                                 {/* @ts-ignore */}
@@ -421,153 +434,218 @@ export default function ImageManagement() {
                                                 <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                                                 <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
                                             </div>
-                                                   {/* @ts-ignore */}
+                                            {/* @ts-ignore */}
                                         </CardContent>
                                     </Card>
                                 </Grid>
-                                <Container className={classes.cardGrid} maxWidth="md">
-                        <Grid   container spacing={4}  style={{marginRight:"1rem"}}>
-                                                    <Grid item xs={12}
-                                                    sm={12}
-                                                    md={12}>
-                                                    <label htmlFor="upload-button1">
-                                                        {install.preview ? (
-                                                            <img src={install.preview} alt="install" width="300" height="300" />
-                                                        ) : null  }
-                                                    </label>
-                                                    <Typography>Installation Letter Photo :</Typography>
-                                                    <input
-                                                        type="file"
-                                                        id="upload-button1"
-                                                        // style={{ display: "none" }}
-                                                        onChange={handleChangeInstall}
-                                                        accept="image/*"
-                                                    />
-                                                    <br />
-                                                    <span style={{color:"red"}}>{errorI}</span>
-                                                    <br />
-                                                    <br />
-                                                        {installb?
-                                                        <div>
-                                                    <Button
-                                                        size="medium"
-                                                        variant="contained"
-                                                        color="primary"
-                                                        style={{backgroundColor:"#834bff"}}
-                                                        
-                                                        onClick={(e) => { installUpload(e, user.mainAadhaar) }}
-                                                    >
-                                                        Submit Installation Photo
-                                                    </Button>
-                                                    <Button
-                                                        size="medium"
-                                                        variant="contained"
-                                                        color="inherit"
-                                                        onClick={installRemoveImage}
-                                                    >
-                                                        Reset Photo
-                                                    </Button>
-                                                    </div>:null}
-                                                </Grid >
-                                        <br/>
-                                        <Grid item xs={12}
-                                            sm={12}
-                                            md={12}>
-                                            <br/>
-                                            <label htmlFor="upload-button2">
-                                                {satis.preview ? (
-                                                    <img src={satis.preview} alt="dummy" width="300" height="300" />
-                                                ) :  null}
-                                            </label>
-                                            <Typography>Satisfaction Letter Photo :</Typography>
-                                            <input
-                                                type="file"
-                                                id="upload-button2"
-                                                // style={{ display: "none" }}
-                                                onChange={handleChangeSatis}
-                                                accept="image/*"
-                                            />
-                                            <br />
-                                            <span style={{color:"red"}}>{errorS}</span>
-                                            <br />
-                                            <br />
-                                            {satisb?
-                                                <div>
-                                            <Button
-                                                size="medium"
-                                                variant="contained"
-                                                color="primary"
-                                                style={{backgroundColor:"#f44336"}}
-                                                onClick={(e) => { satisUpload(e, user.mainAadhaar) }}
-                                            >
-                                                Submit Satisfaction  Photo 
-                                            </Button>
-                                            <Button
-                                                size="medium"
-                                                variant="contained"
-                                                color="inherit"
-                                                onClick={satisRemoveImage}
-                                            >
-                                                Reset Photo
-                                            </Button>
-                                            </div>:null}
-                                        </Grid>
-                                        
-                                        <Grid item xs={12}
-                                            sm={12}
-                                            md={12}>
-                                                                                        <br/>
-                                            <label htmlFor="upload-button3">
-                                                {other.preview ? (
-                                                    <img src={other.preview} alt="dummy" width="300" height="300" />
-                                                ) :  null}
-                                            </label>
-                                            <Typography>Other Letter Photo :</Typography>
+                                {user.installtatus && (
+                                    <Container className={classes.cardGrid} maxWidth="md">
+                                        <Grid container spacing={4} style={{ marginRight: "1rem" }}>
 
-                                            <input
-                                                type="file"
-                                                id="upload-button3"
-                                                // style={{ display: "none" }}
-                                                onChange={handleChangeOther}
-                                                accept="image/*"
-                                            />
-                                               <br />
-                                            <span style={{color:"red"}}>{errorO}</span>
+                                            {(() => {
+                                                if (findUser() === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+                                                    return (
+                                                        <div>                                                <Grid item xs={12}
+                                                            md={12}>
+                                                            <label htmlFor="upload-button1">
+                                                                {install.preview ? (
+                                                                    <img src={install.preview} alt="install" width="300" height="300" />
+                                                                ) : null}
+                                                            </label>
+                                                            <Typography>Installation Letter Photo :</Typography>
+                                                            <input
+                                                                type="file"
+                                                                id="upload-button1"
+                                                                // style={{ display: "none" }}
+                                                                onChange={handleChangeInstall}
+                                                                accept="image/*"
+                                                            />
+                                                            <br />
+                                                            <span style={{ color: "red" }}>{errorI}</span>
+                                                            <br />
+                                                            <br />
+                                                            {installb ?
+                                                                <div>
+                                                                    <Button
+                                                                        size="medium"
+                                                                        variant="contained"
+                                                                        color="primary"
+                                                                        style={{ backgroundColor: "#834bff" }}
+
+                                                                        onClick={(e) => { installUpload(e, user.mainAadhaar) }}
+                                                                    >
+                                                                        Submit Installation Photo
+                                                                    </Button>
+                                                                    <Button
+                                                                        size="medium"
+                                                                        variant="contained"
+                                                                        color="inherit"
+                                                                        onClick={installRemoveImage}
+                                                                    >
+                                                                        Reset Photo
+                                                                    </Button>
+                                                                </div> : null}
+                                                        </Grid ></div>
+                                                    )
+                                                }
+
+
+                                                if (user.installtatus != "Complete") {
+                                                    return (
+                                                        <div> 
+                                                             <Grid item xs={12}
+                                                            md={12}>
+                                                            <label htmlFor="upload-button1">
+                                                                {install.preview ? (
+                                                                    <img src={install.preview} alt="install" width="300" height="300" />
+                                                                ) : null}
+                                                            </label>
+                                                            <Typography>Installation Letter Photo :</Typography>
+                                                            <input
+                                                                type="file"
+                                                                id="upload-button1"
+                                                                // style={{ display: "none" }}
+                                                                onChange={handleChangeInstall}
+                                                                accept="image/*"
+                                                            />
+                                                            <br />
+                                                            <span style={{ color: "red" }}>{errorI}</span>
+                                                            <br />
+                                                            <br />
+                                                            {installb ?
+                                                                <div>
+                                                                    <Button
+                                                                        size="medium"
+                                                                        variant="contained"
+                                                                        color="primary"
+                                                                        style={{ backgroundColor: "#834bff" }}
+
+                                                                        onClick={(e) => { installUpload(e, user.mainAadhaar) }}
+                                                                    >
+                                                                        Submit Installation Photo
+                                                                    </Button>
+                                                                    <Button
+                                                                        size="medium"
+                                                                        variant="contained"
+                                                                        color="inherit"
+                                                                        onClick={installRemoveImage}
+                                                                    >
+                                                                        Reset Photo
+                                                                    </Button>
+                                                                </div> : null}
+                                                        </Grid ></div>
+                                                    )
+                                                } 
+                                                
+                                                
+                                                if (user.installtatus === "Complete") {
+                                                    return (
+                                                        <div><Typography color="secondary">Installation photo already submitted !</Typography></div>
+                                                    )
+                                                }
+                                            })()}
+
+
+
+
                                             <br />
-                                            <br />
-                                            {otherb?
-                                                <div>
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor:"#8bc34a"}}
-                                                color="primary"
-                                                onClick={(e) => { othereUpload(e, user.mainAadhaar) }}
-                                            >
-                                                Submit Other Photo
-                                            </Button>
-                                            <Button
-                                                size="medium"
-                                                variant="contained"
-                                                color="inherit"
-                                                onClick={otherRemoveImage}
-                                            >
-                                                Reset Photo
-                                            </Button>
-                                            </div>:null
-                                            }
+                                            <Grid item xs={12}
+                                                sm={12}
+                                                md={12}>
+                                                <br />
+                                                <label htmlFor="upload-button2">
+                                                    {satis.preview ? (
+                                                        <img src={satis.preview} alt="dummy" width="300" height="300" />
+                                                    ) : null}
+                                                </label>
+                                                <Typography>Satisfaction Letter Photo :</Typography>
+                                                <input
+                                                    type="file"
+                                                    id="upload-button2"
+                                                    // style={{ display: "none" }}
+                                                    onChange={handleChangeSatis}
+                                                    accept="image/*"
+                                                />
+                                                <br />
+                                                <span style={{ color: "red" }}>{errorS}</span>
+                                                <br />
+                                                <br />
+                                                {satisb ?
+                                                    <div>
+                                                        <Button
+                                                            size="medium"
+                                                            variant="contained"
+                                                            color="primary"
+                                                            style={{ backgroundColor: "#f44336" }}
+                                                            onClick={(e) => { satisUpload(e, user.mainAadhaar) }}
+                                                        >
+                                                            Submit Satisfaction  Photo
+                                                        </Button>
+                                                        <Button
+                                                            size="medium"
+                                                            variant="contained"
+                                                            color="inherit"
+                                                            onClick={satisRemoveImage}
+                                                        >
+                                                            Reset Photo
+                                                        </Button>
+                                                    </div> : null}
+                                            </Grid>
+
+                                            <Grid item xs={12}
+                                                sm={12}
+                                                md={12}>
+                                                <br />
+                                                <label htmlFor="upload-button3">
+                                                    {other.preview ? (
+                                                        <img src={other.preview} alt="dummy" width="300" height="300" />
+                                                    ) : null}
+                                                </label>
+                                                <Typography>Other Letter Photo :</Typography>
+                                                <input
+                                                    type="file"
+                                                    id="upload-button3"
+                                                    // style={{ display: "none" }}
+                                                    onChange={handleChangeOther}
+                                                    accept="image/*"
+                                                />
+                                                <br />
+                                                <span style={{ color: "red" }}>{errorO}</span>
+                                                <br />
+                                                <br />
+                                                {otherb ?
+                                                    <div>
+                                                        <Button
+                                                            variant="contained"
+                                                            style={{ backgroundColor: "#8bc34a" }}
+                                                            color="primary"
+                                                            onClick={(e) => { othereUpload(e, user.mainAadhaar) }}
+                                                        >
+                                                            Submit Other Photo
+                                                        </Button>
+                                                        <Button
+                                                            size="medium"
+                                                            variant="contained"
+                                                            color="inherit"
+                                                            onClick={otherRemoveImage}
+                                                        >
+                                                            Reset Photo
+                                                        </Button>
+                                                    </div> : null
+                                                }
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                    </Container>
+                                    </Container>)}
                             </Grid>
                         ))}
-                        
+
                     </Grid>
-        </Container>
-        </div>
-        <div>
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-                    <Grid container spacing={4}  style={{marginRight:"1rem"}}>
+                </Container>
+            </div>
+            <div>
+                <Container className={classes.cardGrid} maxWidth="md">
+                    {/* End hero unit */}
+                    <Grid container spacing={4} style={{ marginRight: "1rem" }}>
                         {users.map((user, i) => (
                             <Grid item key={i} xs={12} sm={6} md={4}>
                                 <div>
@@ -576,13 +654,13 @@ export default function ImageManagement() {
                                     </Typography>
                                     <br></br>
                                     {user.InstalationLetter ?
-                                    <div>
-                                    <img
-                                        src={user.InstalationLetter}
-                                        alt="new"
-                                    />
+                                        <div>
+                                            <img
+                                                src={user.InstalationLetter}
+                                                alt="new"
+                                            />
 
-                                    {/* <Button
+                                            {/* <Button
                                         variant="contained"
                                         color="secondary"
                                         className={classes.button}
@@ -591,10 +669,10 @@ export default function ImageManagement() {
                                     
                                         Download
                                     </Button> */}
-                                                                        <a href={user.InstalationLetter} target="_blank">Download</a>
+                                            <a href={user.InstalationLetter} target="_blank">Download</a>
 
 
-                                    </div>:"No Image found"}
+                                        </div> : "No Image found"}
                                 </div>
                                 <br></br>
                                 <div>
@@ -603,12 +681,12 @@ export default function ImageManagement() {
                                     </Typography>
                                     <br></br>
                                     {user.satisfactionLetter ?
-                                    <div>
-                                    <img
-                                        src={user.satisfactionLetter}
-                                        alt="new"
-                                    />
-                                    {/* <Button
+                                        <div>
+                                            <img
+                                                src={user.satisfactionLetter}
+                                                alt="new"
+                                            />
+                                            {/* <Button
                                         variant="contained"
                                         color="secondary"
                                         className={classes.button}
@@ -616,8 +694,8 @@ export default function ImageManagement() {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.satisfactionLetter} target="_blank">Download</a>
-                                    </div>:"No Image found"}
+                                            <a href={user.satisfactionLetter} target="_blank">Download</a>
+                                        </div> : "No Image found"}
                                 </div>
                                 <br></br>
                                 <div>
@@ -626,12 +704,12 @@ export default function ImageManagement() {
                                     </Typography>
                                     <br></br>
                                     {user.otherLetter ?
-                                    <div>
-                                    <img
-                                        src={user.otherLetter}
-                                        alt="new"
-                                    />
-                                    {/* <Button
+                                        <div>
+                                            <img
+                                                src={user.otherLetter}
+                                                alt="new"
+                                            />
+                                            {/* <Button
                                         variant="contained"
                                         color="secondary"
                                         className={classes.button}
@@ -639,14 +717,14 @@ export default function ImageManagement() {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.otherLetter} target="_blank">Download</a>
-                                    </div>:"No Image found"}
+                                            <a href={user.otherLetter} target="_blank">Download</a>
+                                        </div> : "No Image found"}
 
                                 </div>
                             </Grid>
                         ))}
                     </Grid>
-        </Container>
+                </Container>
             </div>
             <FooterSection />
             {/* End footer */}

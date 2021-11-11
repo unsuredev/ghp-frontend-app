@@ -228,6 +228,7 @@ const Home = () => {
     remarks: "",
     mobile: "",
     addedBy: "",
+    installtatus:""
   });
 
   const handleChangeAgent = (event: any) => {
@@ -543,7 +544,7 @@ const Home = () => {
                       <CardHeader
                         action={
                           <div style={{ margin: "0px", padding: "0px" }}>
-                            {user.InstalationLetter?
+                            {user.installtatus==="Complete"?
                             <IconButton aria-label="settings">
                               <CheckCircleIcon style={{ color: "blue" }} />
                             </IconButton>:null}
@@ -596,8 +597,8 @@ const Home = () => {
                           <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                         }
                         <Typography >Added By : {user.addedBy || "NA"}</Typography>
-                        {user.InstalationLetter &&user.InstalationLetter!=undefined?
-                        <Typography color="primary" >Installation : Complete</Typography> : <Typography color="secondary" >Installation : Not Complete</Typography> }
+                        {user.InstalationLetter &&user.InstalationLetter!=undefined &&
+                        <Typography color="primary" >Installation : {user.installtatus}</Typography> }
 
                       </div>
                     </CardContent>
@@ -762,6 +763,20 @@ const Home = () => {
                                 onChange={handleChangeUser}
                               />
                             </Grid>
+                            {getUser() ?
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+
+<TextField
+  id="outlined-basic"
+  label="installation Status"
+  name="installtatus"
+  variant="outlined"
+  fullWidth
+  type="text"
+  value={customer.installtatus}
+  onChange={handleChangeUser}
+/>
+</Grid>:null}
                           </Grid>
                                 
                         ))
