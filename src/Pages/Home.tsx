@@ -37,9 +37,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ResponsiveDrawer from "./Drawer";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -154,6 +157,12 @@ const Home = () => {
   const [userObj, setUserObj] = React.useState({})
   const [openAlert, setOpenAlert] = React.useState(false);
   const CHARACTER_LIMIT = 12;
+  const [value, setValue] = React.useState('Not Complete');
+
+  const handleChangeValue = (event:any) => {
+    console.log("value", event.target.value)
+    setValue(event.target.value);
+  };
 
 
   const handleClickOpen = () => {
@@ -765,18 +774,15 @@ const Home = () => {
                             </Grid>
                             {getUser() ?
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl component="fieldset">
+                                <FormLabel component="legend">Installation Status</FormLabel>
 
-<TextField
-  id="outlined-basic"
-  label="installation Status"
-  name="installtatus"
-  variant="outlined"
-  fullWidth
-  type="text"
-  value={customer.installtatus}
-  onChange={handleChangeUser}
-/>
-</Grid>:null}
+                                <RadioGroup aria-label="gender" name="installtatus"  value={customer.installtatus} onChange={handleChangeUser} style={{flexDirection:"row"}}>
+                                  <FormControlLabel  value="Not Complete" control={<Radio />} label="Not Complete" />
+                                  <FormControlLabel  value="Complete" control={<Radio />} label="Complete" />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>:null}
                           </Grid>
                                 
                         ))
