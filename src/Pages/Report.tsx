@@ -1,21 +1,18 @@
-import React, { useState } from "react";
-
+import React from "react";
 import { Typography, Grid, Button, makeStyles } from '@material-ui/core';
-import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import FooterSection from '../Components/Footer'
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
-import { SettingsPhoneTwoTone } from "@material-ui/icons";
+import OldFullConsumerTable from './OldFullConsumerTable '
 
 
 
@@ -78,12 +75,12 @@ const Reports = () => {
     const [agent, setAgent] = React.useState("")
     const [loading, setLoading] = React.useState(true)
     const [show, setShow] = React.useState(false)
-
-
+    const [oldCustomer , setOldCustomer]=React.useState("")
+    const [old, setOld]=React.useState(false)
+    const [hide, setHide]=React.useState(false)
 
 
     const fetchCount = async () => {
-
         try {
             //@ts-ignore
             const result = await httpClient("customer/count", "POST", { "project": "GET_COUNT" })
@@ -101,6 +98,33 @@ const Reports = () => {
 
 
 
+    const fetchOldDataCount = async () => {
+
+        try {
+            //@ts-ignore
+            const result = await httpClient("old/customer/count", "POST", { "project": "GET_COUNT" })
+            if (result.data) {
+                setOldCustomer(result.data.CustomerCount)
+                setLoading(false)
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+
+const toggleView=()=>{
+    setOld(!old)
+
+}
+
+
+const toggleNewView=()=>{
+    setHide(!hide)
+
+}
+
 
 
 
@@ -108,6 +132,7 @@ const Reports = () => {
     React.useEffect(() => {
         document.title = "Live Stats | JAMAN HP GAS  "
         fetchCount()
+        fetchOldDataCount()
     }, []);
 
 
@@ -125,15 +150,44 @@ const Reports = () => {
                             <Grid container spacing={2} justify="center">
                                 <Card className={classes.main}>
                                     <CardContent>
-                                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                            Total  Customer
+                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}>
+                                        Total Customer 2021 
                                         </Typography>
                                         {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                                             {customerTotal}
                                         </Typography>
+                                        
                                         }
+                                        
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={toggleNewView} 
+                                            >View & Download</Button>
+
                                     </CardContent>
                                 </Card>
+                                <Card className={classes.main}>
+                                    <CardContent>
+                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
+                                            Total Customer Before 2021 
+                                        </Typography>
+                                        {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                            {oldCustomer}
+                                        </Typography>
+                                        }
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={toggleView}
+                                            >View & Download</Button>
+                                    </CardContent>
+                                </Card>
+                                
                             </Grid>
                         </div>
                         <Grid container spacing={4} style={{ marginTop: "50px" }}>
@@ -143,6 +197,7 @@ const Reports = () => {
                                         <Typography gutterBottom variant="h5" component="h2">
                                             Total Members
                                         </Typography>
+                                        
                                         <Typography>
                                         {memberCount}
                                         </Typography>
@@ -162,7 +217,6 @@ const Reports = () => {
                                         <Typography>
                                         {agent}
                                         </Typography>
-
                                     </CardContent>
                                     <CardActions>
                                     </CardActions>
@@ -172,11 +226,15 @@ const Reports = () => {
                     </Container>
                 </div>
             </main>
-            <Container>
-                <FullConsumerTable />
-            </Container>
+            <div>
+                <Container>
+                    {hide && <FullConsumerTable />}
+                </Container>
+                <Container>
+                    {old && <OldFullConsumerTable />}
+                </Container>
+            </div>
             <FooterSection />
-
         </React.Fragment >
     );
 

@@ -22,6 +22,7 @@ import Link from "@material-ui/core/Link";
 import jwt_decode from "jwt-decode";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import SettingsIcon from '@material-ui/icons/Settings';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +97,15 @@ function ResponsiveDrawer() {
         </ListItem>
         {getUser() ? (
           <div>
+            <Link href="/reports">
+              <ListItem button>
+                <ListItemIcon>
+                  <BarChartIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+            </Link>
+            
             <Link href="/member">
               <ListItem button style={{ marginTop: "5rem" }}>
                 <ListItemIcon>
@@ -114,6 +124,9 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
+
+
+            
           </div>
 
         ) : null}

@@ -3,7 +3,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Link from '@material-ui/core/Link';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -12,6 +11,9 @@ import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import HistoryIcon from '@material-ui/icons/History';
 import SearchIcon from '@material-ui/icons/Search';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+
+
 export const mainListItems = (
   <div>
         <Link href="/customer">
@@ -41,14 +43,7 @@ export const mainListItems = (
     </Link>
 
 
-    <Link href="/reports">
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon  color="secondary"/>
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    </Link>
+
 
 
     <Link href="/trashUsers">
@@ -72,15 +67,24 @@ export const mainListItems = (
 
 
     <Link href="/customerDocs">
-              <ListItem button>
-                <ListItemIcon>
-                  <CloudUploadIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Image & Docs  Management" />
-              </ListItem>
-            </Link>
+      <ListItem button>
+        <ListItemIcon>
+          <CloudUploadIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Image & Docs  Management" />
+      </ListItem>
+    </Link>
 
 
+
+    <Link href="/olddatamanagement">
+      <ListItem button>
+        <ListItemIcon>
+          <FolderSpecialIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Data Before 2021" />
+      </ListItem>
+    </Link>
 
 
 

@@ -16,6 +16,7 @@ import AgentList from './Pages/AgentManagement';
 import TrashConsumerTable from "./Pages/TrashUsers";
 import ResetPassword from './Pages/ResetPassword';
 import ImageManagement from './Pages/ImageManagement'
+import OldDataManagement from './Pages/OldDataManagement'
 import { ToastProvider } from "./Common/ToastProvider";
 import './App.css';
 
@@ -52,7 +53,8 @@ const App = () => {
               <Route exact path="/trashUsers" component={TrashConsumerTable} />
               <Route exact path="/changepassword" component={ResetPassword} />
               <Route exact path="/customerDocs" component={ImageManagement} />
-
+              <Route exact path="/customerDocs" component={ImageManagement} />
+              <Route exact path="/olddatamanagement" component={OldDataManagement} />
             </Switch>
           </Router>
         </ToastProvider>
