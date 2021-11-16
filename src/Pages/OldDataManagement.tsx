@@ -228,7 +228,8 @@ const OldDataManagement = () => {
     addedBy: "",
     installtatus:"",
     year:"",
-    oldAgentName:""
+    oldAgentName:"",
+    rgisteredAgencyName:""
   });
 
   const handleChangeAgent = (event: any) => {
@@ -254,9 +255,10 @@ const OldDataManagement = () => {
           mobile: state.mobile,
         });
 
-        if (!result.data && result.data === undefined)
+        if (result.data && result.data.length==0){
           return showToast("No result found", "error");
-        setUsers([result.data]);
+        }
+        setUsers(result.data);
         setCustomer(result.data[0]);
 
       }
@@ -265,7 +267,8 @@ const OldDataManagement = () => {
           findkey:"mainAadhaar",
           mainAadhaar: state.aadhaar,
         });
-        if (!result.data && result.data === undefined)  showToast("No result found", "error");
+
+        if (result.data && result.data.length==0) { showToast("No result found", "error");}
         setUsers(result.data);
         // //@ts-ignore
         setCustomer(result.data[0]);
@@ -278,9 +281,10 @@ const OldDataManagement = () => {
           consumerNo: state.consumerNo,
         });
 
-        if (!result.data && result.data === undefined)
+        if (result.data && result.data.length==0){
           return showToast("No result found", "error");
-        setUsers([result.data]);
+        }
+        setUsers(result.data);
         {/* @ts-ignore */ }
         setCustomer(result.data[0]);
       }
@@ -323,7 +327,6 @@ const OldDataManagement = () => {
       })
       if (result.data && result.data != undefined) {
         showToast("Customer deleted successfullly", "success");
-        window.location.reload();
         setOpenAlert(false);
 
       }
@@ -642,6 +645,20 @@ const OldDataManagement = () => {
                                 />
                               
                             </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Rgistered Agency Name"
+                                  name="rgisteredAgencyName"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.rgisteredAgencyName}
+                                  onChange={handleChangeUser}
+                                />
+                              
+                            </Grid>
+
                             <Typography style={{color:"white", backgroundColor:"black"}} variant="h5"  gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
                             {getUser() ? (
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>

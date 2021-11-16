@@ -155,7 +155,7 @@ export default function ImageManagement() {
 
     const installRemoveImage = (e: any) => {
         e.preventDefault();
-
+        e.target.value = null;
         setInstall({
             preview: "",
             raw: ""
@@ -164,7 +164,7 @@ export default function ImageManagement() {
 
     const satisRemoveImage = (e: any) => {
         e.preventDefault();
-
+        e.target.value = null;
         setSatis({
             preview: "",
             raw: ""
@@ -173,7 +173,7 @@ export default function ImageManagement() {
 
     const otherRemoveImage = (e: any) => {
         e.preventDefault();
-
+        e.target.value = null;
         setOther({
             preview: "",
             raw: ""
@@ -244,6 +244,7 @@ export default function ImageManagement() {
                 showToast(data.message, "success"),
                 //@ts-ignore
                 setInstall({ preview: "", raw: "" })
+                
             )
             .catch((error) => {
                 showToast(error.message, "error")
