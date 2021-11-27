@@ -23,6 +23,7 @@ import jwt_decode from "jwt-decode";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import SettingsIcon from '@material-ui/icons/Settings';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import HistoryIcon from '@material-ui/icons/History';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -131,12 +132,27 @@ function ResponsiveDrawer() {
 
         ) : null}
 
+        <div style={{marginTop:"5rem", paddingLeft:"1rem"}}>
+
+
         <ListItem button onClick={handleLogout}>
           <ListItemIcon>
             <ExitToAppOutlinedIcon color="secondary" />
           </ListItemIcon>
           <ListItemText primary="Log out" />
         </ListItem>
+        <Link href="/changepassword">
+      <ListItem button>
+        <ListItemIcon>
+          <HistoryIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Change Password" />
+      </ListItem>
+    </Link>
+
+        </div>
+
+        
       </List>
     </div>
   );

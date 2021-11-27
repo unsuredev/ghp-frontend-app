@@ -8,11 +8,11 @@ import Link from '@material-ui/core/Link';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
-import HistoryIcon from '@material-ui/icons/History';
 import SearchIcon from '@material-ui/icons/Search';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import Badge from '@material-ui/core/Badge';
 
 export const mainListItems = (
   <div>
@@ -56,14 +56,6 @@ export const mainListItems = (
     </Link>
 
 
-    <Link href="/changepassword">
-      <ListItem button>
-        <ListItemIcon>
-          <HistoryIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Change Password" />
-      </ListItem>
-    </Link>
 
 
     <Link href="/customerDocs">
@@ -85,6 +77,22 @@ export const mainListItems = (
         <ListItemText primary="Find Consumer Before 2021" />
       </ListItem>
     </Link>
+
+
+
+    <Link href="/connection">
+      <ListItem button>
+        <ListItemIcon>
+          <TrendingUpIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Sales & Connection" />
+        <Badge badgeContent={"New"} color="secondary">
+        
+      </Badge>
+      </ListItem>
+    </Link>
+
+    
 
 
 
