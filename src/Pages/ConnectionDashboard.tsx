@@ -33,6 +33,7 @@ import Divider from '@material-ui/core/Divider';
 import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import jwt_decode from "jwt-decode";
 
 
 const useStyles = makeStyles({
@@ -44,7 +45,7 @@ const useStyles = makeStyles({
         minWidth: 550,
     },
     formControl: {
-        minWidth: "20%",
+        minWidth: "50%",
     },
     selectEmpty: {
         marginTop: '',
@@ -167,6 +168,17 @@ const ConnectionDashboard = () => {
     }, []);
 
 
+    const getUser = () => {
+        let token: any = localStorage.getItem("access_token");
+        var decoded = jwt_decode(token);
+        //@ts-ignore
+        let { user_id } = decoded;
+        if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+          return true;
+        } else {
+          return false;
+        }
+      };
 
     const getPricing = async () => {
         try {
@@ -309,7 +321,7 @@ const columns = [
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item style={{ marginTop: "1rem"}}>
+                <Grid  item style={{ marginTop: "1rem"}}>
                     <Button
                         variant="contained"
                         component="label"
@@ -326,7 +338,7 @@ const columns = [
                     >
                         VIEW HISTORY
                     </Button>
-                    <Grid item xs={4} sm={4} md={4} style={{marginTop:"-2rem"}} >
+                    <Grid item xs={12} sm={12} md={4} style={{marginTop:"2rem"}} >
                         <Card  style={{backgroundColor:"#e91e63", color:"white" }}>
                             <CardContent>
                                 <Typography gutterBottom>
@@ -476,9 +488,10 @@ const columns = [
                                     <TableCell align="right"> {agent.remarks}
                                     </TableCell>
                                     <TableCell align="right" style={{ color: "red" }}>
+                                        {getUser()?
                                         <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
                                             <CreateIcon />
-                                        </IconButton>
+                                        </IconButton>:"No option"}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -486,31 +499,9 @@ const columns = [
                     </TableContainer>
                 </Grid>
             </Container>:null}
-            <div style={{ marginTop: "2rem" }}>
-                <Grid item xs={1} sm={1}>
-                    <FormControl variant="outlined" >
-                        <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>
-                        <Select
-                            displayEmpty
-                            className={classes.selectEmpty}
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            inputProps={{ 'aria-label': 'Without label' }}
-                            name="mainAgent"
-                        >
-                            {agentList.map(item => (
-                                <MenuItem
-                                    //@ts-ignore
-                                    key={item.label} value={item.value} >{item.label}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-            </div>
+
             <div>
-                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                    Open form dialog
-                </Button>
+
                 <Dialog open={open} onClose={()=>setOpen(false)} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">                        Update connection details</DialogTitle>
                     <DialogContent>

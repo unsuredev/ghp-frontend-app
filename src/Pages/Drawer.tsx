@@ -132,7 +132,7 @@ function ResponsiveDrawer() {
 
         ) : null}
 
-        <div style={{marginTop:"5rem", paddingLeft:"1rem"}}>
+        <div >
 
 
         <ListItem button onClick={handleLogout}>
