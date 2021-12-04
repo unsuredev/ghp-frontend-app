@@ -13,7 +13,7 @@ import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
 import OldFullConsumerTable from './OldFullConsumerTable '
-
+import ConnectionFullTable from './connectionFullTable'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,7 @@ const Reports = () => {
     const [oldCustomer , setOldCustomer]=React.useState("")
     const [old, setOld]=React.useState(false)
     const [hide, setHide]=React.useState(false)
-
+    const [connection, setConnection]=React.useState(false)
 
     const fetchCount = async () => {
         try {
@@ -118,6 +118,11 @@ const toggleView=()=>{
     setOld(!old)
 
 }
+const connetionView=()=>{
+    setConnection(!connection)
+
+}
+
 
 
 const toggleNewView=()=>{
@@ -145,9 +150,9 @@ const toggleNewView=()=>{
             <main>
                 {/* Hero unit */}
                 <div className={classes.heroContent}>
-                    <Container maxWidth="sm">
-                        <div className={classes.heroButtons}>
-                            <Grid container spacing={2} justify="center">
+                    <Container maxWidth="md">
+                        <div className={classes.heroButtons} style={{display:"flex"}}>
+                            <Grid container spacing={2} >
                                 <Card className={classes.main}>
                                     <CardContent>
                                         <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}>
@@ -187,7 +192,24 @@ const toggleNewView=()=>{
                                             >View & Download</Button>
                                     </CardContent>
                                 </Card>
-                                
+                                <Card className={classes.main}>
+                                    <CardContent>
+                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
+                                            Total Connection Delivery Report
+                                        </Typography>
+                                        {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                            ALL
+                                        </Typography>
+                                        }
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                style={{backgroundColor:"#8bc34a"}}
+                                                onClick={connetionView}
+                                            >View & Download</Button>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                         </div>
                         <Grid container spacing={4} style={{ marginTop: "50px" }}>
@@ -222,7 +244,9 @@ const toggleNewView=()=>{
                                     </CardActions>
                                 </Card>
                             </Grid>
+                            
                         </Grid>
+                        
                     </Container>
                 </div>
             </main>
@@ -233,6 +257,12 @@ const toggleNewView=()=>{
                 <Container>
                     {old && <OldFullConsumerTable />}
                 </Container>
+                <Container>
+                    {connection && <ConnectionFullTable />}
+                </Container>
+
+
+                
             </div>
             <FooterSection />
         </React.Fragment >

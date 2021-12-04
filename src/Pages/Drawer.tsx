@@ -98,14 +98,7 @@ function ResponsiveDrawer() {
         </ListItem>
         {getUser() ? (
           <div>
-            <Link href="/reports">
-              <ListItem button>
-                <ListItemIcon>
-                  <BarChartIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItem>
-            </Link>
+
             
             <Link href="/member">
               <ListItem button style={{ marginTop: "5rem" }}>
@@ -134,7 +127,12 @@ function ResponsiveDrawer() {
 
         <div >
 
-
+        <ListItem button>
+        <ListItemIcon>
+          <HistoryIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Change Password" />
+      </ListItem>
         <ListItem button onClick={handleLogout}>
           <ListItemIcon>
             <ExitToAppOutlinedIcon color="secondary" />
@@ -142,12 +140,7 @@ function ResponsiveDrawer() {
           <ListItemText primary="Log out" />
         </ListItem>
         <Link href="/changepassword">
-      <ListItem button>
-        <ListItemIcon>
-          <HistoryIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Change Password" />
-      </ListItem>
+
     </Link>
 
         </div>

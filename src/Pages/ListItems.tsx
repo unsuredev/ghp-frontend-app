@@ -13,6 +13,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Badge from '@material-ui/core/Badge';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 export const mainListItems = (
   <div>
@@ -85,13 +86,22 @@ export const mainListItems = (
         <ListItemIcon>
           <TrendingUpIcon color="secondary" />
         </ListItemIcon>
-        <ListItemText primary="Sales & Connection" />
-        <Badge badgeContent={"New"} color="secondary">
+        <ListItemText  primary="Sales & Connection" />
+        <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
         
       </Badge>
       </ListItem>
     </Link>
-
+    <Link href="/reports">
+              <ListItem button>
+                <ListItemIcon>
+                  <BarChartIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+                <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
+                  </Badge>
+              </ListItem>
+            </Link>
     
 
 

@@ -29,8 +29,9 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { BASE_URL } from "../Common/constant";
 import jwt_decode from "jwt-decode";
 import moment from "moment";
-
-
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import FiberNewIcon from '@material-ui/icons/FiberNew';
+import TouchAppIcon from '@material-ui/icons/TouchApp';
 const useStyles = makeStyles((theme) => ({
     icon: {
         marginRight: theme.spacing(2),
@@ -95,12 +96,18 @@ export default function ImageManagement() {
     const [installb, setInstallb] = React.useState(false)
     const [satisb, setSatisb] = React.useState(false)
     const [otherb, setOtherb] = React.useState(false)
+    const [value, setValue] = React.useState(0);
 
+    const handleChangevalue = (event: React.ChangeEvent<{}>, newValue: number) => {
+      setValue(newValue);
+      console.log("value", newValue)
+    };
 
 
     const handleFind = async (event: any) => {
         try {
             event.preventDefault();
+            if(value===0){
             if (state.aadhaar) {
                 const result = await httpClient("customer/find", "POST", {
                     mainAadhaar: state.aadhaar,
@@ -110,7 +117,18 @@ export default function ImageManagement() {
                 setUsers([result.data]);
                 //@ts-ignore
                 setCustomer(result.data);
-            }
+            }}
+            if(value===1){
+                if (state.aadhaar) {
+                    const result = await httpClient("old/customer/findone", "POST", {
+                        mainAadhaar: state.aadhaar,
+                    });
+                    if (!result.data && result.data === undefined) {return showToast("No result found", "error")}
+                    setUsers([result.data]);
+                    //@ts-ignore
+                    setCustomer(result.data);
+                }}
+            
         } catch (error) {
             showToast("Something went wrong", "error");
         }
@@ -235,21 +253,40 @@ export default function ImageManagement() {
         formData.append("image", install.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "InstalationLetter");
-        fetch(BASE_URL + "customer/uploadimages", {
-            method: "POST",
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data =>
-                showToast(data.message, "success"),
-                //@ts-ignore
-                setInstall({ preview: "", raw: "" })
-                
-            )
-            .catch((error) => {
-                showToast(error.message, "error")
-            });
-    };
+        if (value === 0) {
+            fetch(BASE_URL + "customer/uploadimages", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setInstall({ preview: "", raw: "" })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                });
+        }
+
+        if (value === 1) {
+            fetch(BASE_URL + "old/customer/uploadimages", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setInstall({ preview: "", raw: "" })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                });
+        }
+    }
+
+
 
 
     const othereUpload = async (e: any, mainAadhaar: string) => {
@@ -344,6 +381,16 @@ export default function ImageManagement() {
                 <div className={classes.heroContent} style={{ marginRight: "1rem" }}>
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={12} md={12}>
+                        <Tabs
+        value={value}
+        onChange={handleChangevalue}
+        indicatorColor="secondary"
+        textColor="secondary"
+        centered
+      >
+        <Tab label="New Customer" icon={<FiberNewIcon color="secondary" className="animate__animated animate__flash animate__infinite 	infinite animate__slower" fontSize="large" />} />
+        <Tab  label="Old Customer" icon={<NewReleasesIcon   />} />
+      </Tabs>
                             <form className={classes.form} noValidate autoComplete="off">
                                 <TextField
                                     id="outlined-basic"
@@ -399,6 +446,7 @@ export default function ImageManagement() {
                                             <Typography color="textSecondary" gutterBottom>
                                                 Customer's Details
                                             </Typography>
+                                            
                                             <CardHeader
                                                 action={
                                                     <div style={{ margin: "0px", padding: "0px" }}>
@@ -407,8 +455,10 @@ export default function ImageManagement() {
                                                 //@ts-ignore
                                                 title={user.name.toUpperCase()}
                                             />
+                                                                                 
                                             <CardHeader style={{ textAlign: "center" }} />
                                             <div style={{ marginTop: "-40px" }}>
+
                                                 {/* @ts-ignore */}
                                                 <Typography>Name : {user.name.toUpperCase()}</Typography>
                                                 {/* @ts-ignore */}

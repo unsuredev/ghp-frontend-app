@@ -34,8 +34,12 @@ import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import jwt_decode from "jwt-decode";
-
-
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 const useStyles = makeStyles({
     head: {
         backgroundColor: 'blue',
@@ -63,7 +67,7 @@ const useStyles = makeStyles({
 const ConnectionDashboard = () => {
     const classes = useStyles();
     const { showToast } = React.useContext(ToastContext);
-    const[show, setShow]=React.useState(false)
+    const [show, setShow] = React.useState(false)
     const [agentList, setAgetList] = React.useState([]);
     const [customer, setCustomer] = React.useState({
         agent: "",
@@ -84,7 +88,9 @@ const ConnectionDashboard = () => {
         "remarks": " ",
     })
 
-    const [pricing, setPricing]=React.useState({})
+
+
+    const [pricing, setPricing] = React.useState({})
     const [openPrice, setOpenPrice] = React.useState(false);
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
@@ -174,11 +180,11 @@ const ConnectionDashboard = () => {
         //@ts-ignore
         let { user_id } = decoded;
         if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
-          return true;
+            return true;
         } else {
-          return false;
+            return false;
         }
-      };
+    };
 
     const getPricing = async () => {
         try {
@@ -190,7 +196,7 @@ const ConnectionDashboard = () => {
                     },
                 });
             if (result && result.data) {
-                console.log("pricing" ,result.data.data[0] )
+                console.log("pricing", result.data.data[0])
                 setPricing(result.data.data[0])
             }
         }
@@ -247,52 +253,52 @@ const ConnectionDashboard = () => {
     }
 
 
-//sales hitory data
-const fetchSalesData = async () => {
-    try {
-        setLoadingTable(true)
-        setLoading(true)
-        const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent":customer.agent },
-            {
-                headers: {
-                    encryption: false,
-                    access_token: getToken()
-                },
-            })
-        if (result.data) {
-            setData(result.data.data)
-            setLoading(false)
+    //sales hitory data
+    const fetchSalesData = async () => {
+        try {
             setLoadingTable(true)
+            setLoading(true)
+            const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent": customer.agent },
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                })
+            if (result.data) {
+                setData(result.data.data)
+                setLoading(false)
+                setLoadingTable(true)
+            }
+        }
+        catch (error) {
+            if (error) {
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
         }
     }
-    catch (error) {
-        if (error) {
-            //@ts-ignore
-            showToast(error.response.data.message, "error")
+
+
+
+    const columns = [
+        { title: 'AGENT', field: 'agent' },
+        { title: "TOTAL CONNECTION ", field: "totalConnection" },
+        { title: "LOAD", field: "load" },
+        { title: "REGULATOR ", field: "regulator" },
+        { title: "PIPE", field: "pipe" },
+        { title: "PAID LIGHT", field: "paidLight" },
+        { title: "TOATL LIGHT ", field: "totalLight" },
+        { title: "BPL OVEN", field: "bplOven" },
+        { title: "NON HP OVEN", field: "nonHpOven" },
+        { title: "HP OVEN", field: "hpOven" },
+        { title: "PAID AMOUNT ", field: "paidAmount" },
+        { title: "REMARKS ", field: "remarks" },
+        {
+            title: "DATE ", field: "updatedAt", type: "date",
+            dateSetting: { locale: "ko-KR" }
         }
-    }
-}
-
-
-
-const columns = [
-    { title: 'AGENT', field: 'agent' },
-    { title: "TOTAL CONNECTION ", field: "totalConnection" },
-    { title: "LOAD", field: "load" },
-    { title: "REGULATOR ", field: "regulator" },
-    { title: "PIPE", field: "pipe" },
-    { title: "PAID LIGHT", field: "paidLight" },
-    { title: "TOATL LIGHT ", field: "totalLight" },
-    { title: "BPL OVEN", field: "bplOven" },
-    { title: "NON HP OVEN", field: "nonHpOven" },
-    { title: "HP OVEN", field: "hpOven" },
-    { title: "PAID AMOUNT ", field: "paidAmount" },
-    { title: "REMARKS ", field: "remarks" },
-    {
-        title: "DATE ", field: "updatedAt", type: "date",
-        dateSetting: { locale: "ko-KR" }
-    }
-]
+    ]
 
 
 
@@ -321,7 +327,8 @@ const columns = [
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid  item style={{ marginTop: "1rem"}}>
+
+                <Grid item style={{ marginTop: "1rem" }}>
                     <Button
                         variant="contained"
                         component="label"
@@ -338,26 +345,67 @@ const columns = [
                     >
                         VIEW HISTORY
                     </Button>
-                    <Grid item xs={12} sm={12} md={4} style={{marginTop:"2rem"}} >
-                        <Card  style={{backgroundColor:"#e91e63", color:"white" }}>
+
+                    <Grid container spacing={3} style={{ marginTop: "2rem" }}>
+                        <Grid item xs={4}>
+                            <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
+                                <CardContent>
+                                    <Typography gutterBottom>
+                                        Today's Pricing Table
+                                    </Typography>
+                                    <Typography variant="h6" component="h2">
+                                        {/* @ts-ignore */}
+                                        HP Oven Price : <b>{pricing.hpOvenPricing} &#x20B9;</b>
+                                    </Typography>
+                                    <Typography variant="h6" component="h2">
+                                        {/* @ts-ignore */}
+                                        Non HP Oven Price : <b>{pricing.nonHpOvenPricing} &#x20B9;</b>
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small" onClick={() => setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color: "white" }} /></Button>
+                                </CardActions>
+                            </Card>                        </Grid>
+                        {/* <Grid item xs={4}>
+                        <Card  style={{backgroundColor:"primary", color:"white", height:"11rem" }}>
                             <CardContent>
                                 <Typography gutterBottom>
-                                    Today's Pricing Table
+                                    Today's sales 
                                 </Typography>
                                 <Typography variant="h6" component="h2">
-                                                                        {/* @ts-ignore */}
-                                    HP Oven Price : <b>{pricing.hpOvenPricing} &#x20B9;</b>
+                                 REGULATOR:   451
                                 </Typography>
                                 <Typography variant="h6" component="h2">
-                                                                        {/* @ts-ignore */}
-                                    Non HP Oven Price : <b>{pricing.nonHpOvenPricing} &#x20B9;</b>
+                                 PIPE 890
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button size="small" onClick={()=>setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color:"white"}}/></Button>
+                            <Button size="small" ></Button>
                             </CardActions>
                         </Card>
-                </Grid>
+                        </Grid> */}
+                        {/* <Grid item xs={4}>
+                        <Card  style={{backgroundColor:"#e91e63", color:"white" , height:"11rem"}}>
+                            <CardContent>
+                                <Typography gutterBottom>
+                                Today's sales 
+                                </Typography>
+                                <Typography variant="h6" component="h2">
+                                                                        REGULATOR:   451
+                                </Typography>
+                                <Typography variant="h6" component="h2">
+                                                                        PIPE 890
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" ></Button>
+                            </CardActions>
+                        </Card>
+                        </Grid> */}
+
+                    </Grid>
+
+
                 </Grid>
                 <div>
                     <Dialog
@@ -377,14 +425,14 @@ const columns = [
                                 id="hpOvenPricing"
                                 label="HP Oven"
                                 type="number"
-                                                                //@ts-ignore
+                                //@ts-ignore
                                 value={pricing.hpOvenPricing}
                                 name="hpOvenPricing"
                                 variant="outlined"
                                 onChange={handleChangePricing}
-                                
+
                             />
-                                <TextField
+                            <TextField
                                 autoFocus
                                 margin="dense"
                                 id="nonHpOvenPricing"
@@ -395,7 +443,7 @@ const columns = [
                                 name="nonHpOvenPricing"
                                 variant="outlined"
                                 onChange={handleChangePricing}
-                                
+
                             />
                         </DialogContent>
                         <DialogActions>
@@ -409,247 +457,336 @@ const columns = [
                     </Dialog>
                 </div>
             </Container>
-            {show?
-            <Container style={{ color: "#FFFFFF", marginTop: "6rem", overflow: "inherit" }}>
-                <Grid style={{ width: "100%", marginLeft: "1rem" }}>
-                    <TableContainer component={Paper} style={{ width: "95rem" }} >
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead style={{ backgroundColor: "#3F51B5", color: "#FFFFFF" }}>
-                                <TableRow >
-                                    <TableCell align="right" style={{ color: "white" }}>AGENT NAME</TableCell>
-                                    <TableCell style={{ color: "white" }}
-                                        align="right">Total Connection</TableCell>
-                                    <TableCell style={{ color: "white" }}
-                                        align="right">Connection Due</TableCell>
-                                    <TableCell style={{ color: "white" }}>LOAD</TableCell>
-                                    <TableCell style={{ color: "white" }}>REGULATOR</TableCell>
-                                    <TableCell style={{ color: "white" }}>PIPE</TableCell>
-                                    <TableCell style={{ color: "white" }}>LIGHT PAID</TableCell>
-                                    <TableCell style={{ color: "white" }}>LIGHT DUE</TableCell>
-                                    <TableCell style={{ color: "white" }}>BPL OVEN</TableCell>
-                                    <TableCell style={{ color: "white" }}>OVEN NON HP</TableCell>
-                                    <TableCell style={{ color: "white" }}>HP OVEN</TableCell>
-                                    <TableCell style={{ color: "white" }}>OVEN DUE</TableCell>
-                                    <TableCell style={{ color: "white" }}>TOTAL AMOUNT </TableCell>
-                                    <TableCell style={{ color: "white" }}>TOTAL AMOUNT PAID</TableCell>
-                                    <TableCell style={{ color: "white" }}>TOTAL AMOUNT DUE</TableCell>
-                                    <TableCell style={{ color: "white" }}>REMARKS</TableCell>
-                                    <TableCell style={{ color: "white" }}>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow >
-                                    <TableCell align="right">
+            {show ?
+                <Container style={{ color: "#FFFFFF", marginTop: "6rem", justifyContent: "center", alignContent: "center", textAlign: "center", marginLeft: "250px" }}>
+                    <Grid style={{ width: "100%" }}>
+                        <TableContainer component={Paper} style={{ width: "97rem", overflowX: "unset" }} >
+                            <Table className={classes.table} aria-label="simple table" >
+                                <TableHead style={{ backgroundColor: "#3F51B5", color: "#FFFFFF" }}>
+                                    <TableRow >
+                                        <TableCell align="left" style={{ color: "white" }}>AGENT NAME</TableCell>
+                                        <TableCell style={{ color: "white" }}
+                                            align="left">TOTAL CONNECTION</TableCell>
+                                        <TableCell style={{ color: "white" }}
+                                            align="left">CONNECTION DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>LOAD</TableCell>
+                                        <TableCell style={{ color: "white" }}>REGULATOR DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>PIPE DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>LIGHT PAID</TableCell>
+                                        <TableCell style={{ color: "white" }}>LIGHT DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>BPL OVEN</TableCell>
+                                        <TableCell style={{ color: "white" }}>OVEN NON HP</TableCell>
+                                        <TableCell style={{ color: "white" }}>HP OVEN</TableCell>
+                                        <TableCell style={{ color: "white" }}>OVEN DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT </TableCell>
+                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT PAID</TableCell>
+                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT DUE</TableCell>
+                                        <TableCell style={{ color: "white" }}>REMARKS</TableCell>
+                                        <TableCell style={{ color: "white" }}>ACTION</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow >
+                                        <TableCell align="left">
+                                            {/* @ts-ignore */}
+                                            {agent.agent}
+                                        </TableCell>
                                         {/* @ts-ignore */}
-                                        {agent.agent}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="totalConnection">{agent.totalConnection}</TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell style={{ backgroundColor: "#bdbdbd" }} align="right" id="dueConnection">{agent.totalConnection - agent.load}</TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="load">{agent.load}</TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="regulator"> {agent.regulator}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="pipe">{agent.pipe}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="paidLight"> {agent.paidLight}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell style={{ backgroundColor: "#bdbdbd" }} align="right" id="totalLight"> {agent.totalLight}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="bplOven"> {agent.bplOven}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="nonHpOven"> {agent.nonHpOven}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="hpOven"> {agent.hpOven}
-                                    </TableCell>
-                                    
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="ovendue" style={{ backgroundColor: "#bdbdbd" }}> {agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}            
-                                    <Divider   orientation="vertical" />                                                               
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="totalAmount" style={{ backgroundColor: "#bdbdbd" }}>{agent.nonHpOven*pricing.nonHpOvenPricing+agent.hpOven*pricing.hpOvenPricing}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="amountPaid"> {agent.paidAmount}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right" id="amountDue" style={{ backgroundColor: "#bdbdbd" }}> {agent.totalAmount - agent.paidAmount}
-                                    </TableCell>
-                                    {/* @ts-ignore */}
-                                    <TableCell align="right"> {agent.remarks}
-                                    </TableCell>
-                                    <TableCell align="right" style={{ color: "red" }}>
-                                        {getUser()?
-                                        <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
-                                            <CreateIcon />
-                                        </IconButton>:"No option"}
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
-            </Container>:null}
+                                        <TableCell align="left" id="totalConnection">{agent.totalConnection}</TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell style={{ backgroundColor: "#bdbdbd" }} align="left" id="dueConnection">{agent.totalConnection - agent.load}</TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="load">{agent.load}</TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="regulator"> {agent.regulator}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="pipe">{agent.pipe}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="paidLight"> {agent.paidLight}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell style={{ backgroundColor: "#bdbdbd" }} align="left" id="totalLight"> {agent.totalLight}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="bplOven"> {agent.bplOven}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="nonHpOven"> {agent.nonHpOven}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="left" id="hpOven"> {agent.hpOven}
+                                        </TableCell>
+
+                                        {/* @ts-ignore */}
+                                        <TableCell align="right" id="ovendue" style={{ backgroundColor: "#bdbdbd" }}> {agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}
+                                            <Divider orientation="vertical" />
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="right" id="totalAmount" style={{ backgroundColor: "#bdbdbd" }}>{agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="right" id="amountPaid"> {agent.paidAmount}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="right" id="amountDue" style={{ backgroundColor: "#bdbdbd" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}
+                                        </TableCell>
+                                        {/* @ts-ignore */}
+                                        <TableCell align="right"> {agent.remarks}
+                                        </TableCell>
+                                        <TableCell align="right" style={{ color: "red" }}>
+                                            {getUser() ?
+                                                <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
+                                                    <CreateIcon />
+                                                </IconButton> : "No option"}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Grid>
+                </Container> : null}
 
             <div>
 
-                <Dialog open={open} onClose={()=>setOpen(false)} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">                        Update connection details</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
+                <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">                        Update Connection :</DialogTitle>
+
+                    <DialogContent >
+
+                        <DialogContentText style={{ backgroundColor: "#E91E63", color: "white" }}>
+                            <div >
+
+                                <Grid container spacing={3}>
+
+
+                                    <Grid item xs={6} style={{ backgroundColor: "#E91E63", color: "white" }}>
+
+                                        <List >
+                                            <ListItem>
+                                                Total Connection: {agent.totalConnection}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Load :{agent.load}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Regulator :{agent.regulator}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Pipe :{agent.pipe}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Light Paid :{agent.paidLight}
+                                            </ListItem>
+                                            <Divider />
+                                        </List>
+                                    </Grid>
+                                    <Grid item xs={6} style={{ backgroundColor: "#E91E63", color: "white" }}>
+                                        <List >
+                                            <Divider />
+                                            <ListItem>
+                                                Light Paid :{agent.paidLight}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Non HP Oven  :{agent.nonHpOven}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                HP Oven  :{agent.hpOven}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Total Amount Paid :{agent.paidAmount}
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                Remarks :{agent.remarks}
+                                            </ListItem>
+                                            <Divider />
+                                        </List>
+                                    </Grid>
+                                </Grid>
+
+                            </div>
                         </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            label="Total Connection"
-                            type="number"
-                            value={agent.totalConnection}
-                            name="totalConnection"
-                            variant="outlined"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Load "
-                            type="number"
-                            value={agent.load}
-                            name="load"
-                            variant="outlined"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="regulator"
-                            value={agent.regulator}
-                            label="Regulator"
-                            type="number"
-                            variant="outlined"
-                            onChange={handleChange}
-                            name="regulator"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="pipe"
-                            label="Pipe "
-                            type="number"
-                            variant="outlined"
-                            value={agent.pipe}
-                            onChange={handleChange}
-                            name="pipe"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="paidLight"
-                            label="Light Paid"
-                            type="number"
-                            value={agent.paidLight}
-                            variant="outlined"
-                            onChange={handleChange}
-                            name="paidLight"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="bplOven"
-                            label="BPL Oven"
-                            type="number"
-                            variant="outlined"
-                            value={agent.bplOven}
-                            onChange={handleChange}
-                            name="bplOven"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="nonHpOven"
-                            label="Non HP Oven"
-                            type="number"
-                            variant="outlined"
-                            value={agent.nonHpOven}
-                            onChange={handleChange}
-                            name="nonHpOven"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="hpOven"
-                            label="HP Oven"
-                            type="number"
-                            variant="outlined"
-                            value={agent.hpOven}
-                            onChange={handleChange}
-                            name="hpOven"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="paidAmount"
-                            label="Total Amount Paid"
-                            type="number"
-                            variant="outlined"
-                            value={agent.paidAmount}
-                            onChange={handleChange}
-                            name="paidAmount"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="remarks"
-                            label="Remarks"
-                            type="text"
-                            variant="outlined"
-                            value={agent.remarks}
-                            onChange={handleChange}
-                            name="remarks"
-                        />
+                        <Typography style={{ textAlign: "left" }}>
+                            Updated here:
+                        </Typography>
+
+                        <div  >
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                label="Total Connection"
+                                type="number"
+                                value={agent.totalConnection}
+                                name="totalConnection"
+                                variant="outlined"
+                                onChange={handleChange}
+                                style={{ color: "white" }}
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Load "
+                                type="number"
+                                value={agent.load}
+                                name="load"
+                                variant="outlined"
+                                onChange={handleChange}
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="regulator"
+                                value={agent.regulator}
+                                label="Regulator"
+                                type="number"
+                                variant="outlined"
+                                onChange={handleChange}
+                                name="regulator"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="pipe"
+                                label="Pipe "
+                                type="number"
+                                variant="outlined"
+                                value={agent.pipe}
+                                onChange={handleChange}
+                                name="pipe"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="paidLight"
+                                label="Light Paid"
+                                type="number"
+                                value={agent.paidLight}
+                                variant="outlined"
+                                onChange={handleChange}
+                                name="paidLight"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="bplOven"
+                                label="BPL Oven"
+                                type="number"
+                                variant="outlined"
+                                value={agent.bplOven}
+                                onChange={handleChange}
+                                name="bplOven"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="nonHpOven"
+                                label="Non HP Oven"
+                                type="number"
+                                variant="outlined"
+                                value={agent.nonHpOven}
+                                onChange={handleChange}
+                                name="nonHpOven"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="hpOven"
+                                label="HP Oven"
+                                type="number"
+                                variant="outlined"
+                                value={agent.hpOven}
+                                onChange={handleChange}
+                                name="hpOven"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="paidAmount"
+                                label="Total Amount Paid"
+                                type="number"
+                                variant="outlined"
+                                value={agent.paidAmount}
+                                onChange={handleChange}
+                                name="paidAmount"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="remarks"
+                                label="Remarks"
+                                type="text"
+                                variant="outlined"
+                                value={agent.remarks}
+                                onChange={handleChange}
+                                name="remarks"
+                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+
+                            />
+
+                        </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={()=>setOpen(false)} color="primary">
+                        <Button onClick={() => setOpen(false)} variant="outlined" color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={handleUpdate} color="primary">
+                        <Button onClick={handleUpdate} variant="contained" color="primary">
                             update
                         </Button>
                     </DialogActions>
                 </Dialog>
             </div>
             <div>
-                {loadingTable?
-            <Container  component="main" >
-                {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>Please...</p> <CircularProgress /> </div> :
-                    <MaterialTable
-                        title="Jaman Hp Sales History"
-                        data={data}
-                        //@ts-ignore
-                        columns={columns}
-                        options={{
-                            exportButton: true,
-                            exportAllData: true,
-                            filtering: true,
-                            sorting: true,
-                            pageSizeOptions: [5, 20, 50, 100, 200, 500],
-                            headerStyle: {
-                                backgroundColor: '#01579b',
-                                color: '#FFF'
-                            }
-                        }}
-                    />
-                }
-            </Container>:null}
+                {loadingTable ?
+                    <Container component="main" >
+                        {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>Please...</p> <CircularProgress /> </div> :
+                            <MaterialTable
+                                title="Jaman Hp Sales History"
+                                data={data}
+                                //@ts-ignore
+                                columns={columns}
+                                options={{
+                                    exportButton: true,
+                                    exportAllData: true,
+                                    filtering: true,
+                                    sorting: true,
+                                    pageSizeOptions: [5, 20, 50, 100, 200, 500],
+                                    headerStyle: {
+                                        backgroundColor: '#01579b',
+                                        color: '#FFF'
+                                    }
+                                }}
+                            />
+                        }
+                    </Container> : null}
             </div>
         </React.Fragment>
     );

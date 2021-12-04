@@ -5,46 +5,31 @@ import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BASE_URL } from "../Common/constant";
 
-export default function OldFullConsumerTable() {
+export default function ConnectionFullTable() {
 
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
     const [limit, setLimit]=React.useState(500)
-    const columns = [
-        { title: 'Sl No', field: 'tableData.id' },
-        { title: "Name", field: "name" },
-        { title: "Main Aadhaar", field: "mainAadhaar" },
-        { title: "Mobile", field: "mobile" },
-        { title: "Reg No", field: 'regNo' },
-        { title: "Consumer No", field: 'consumerNo' },
-        { title: "Main Agent", field: 'mainAgent' },
-        { title: "Old Agent", field: 'oldAgentName' },
-        {title:"Registered Agency Name", field:'rgisteredAgencyName'},
-        { title: "Sub Agent", field: 'subAgent' },
-        { title: "Remarks", field: 'remarks' },
-        {title:"Installation status", field:'installtatus'},
-        {title:"Year", field:'year'}
 
+    const columns = [
+        { title: 'AGENT', field: 'agent' },
+        { title: "TOTAL CONNECTION ", field: "totalConnection" },
+        { title: "LOAD", field: "load" },
+        { title: "REGULATOR ", field: "regulator" },
+        { title: "PIPE", field: "pipe" },
+        { title: "PAID LIGHT", field: "paidLight" },
+        { title: "TOATL LIGHT ", field: "totalLight" },
+        { title: "BPL OVEN", field: "bplOven" },
+        { title: "NON HP OVEN", field: "nonHpOven" },
+        { title: "HP OVEN", field: "hpOven" },
+        { title: "PAID AMOUNT ", field: "paidAmount" },
+        { title: "REMARKS ", field: "remarks" },
+        {
+            title: "DATE ", field: "updatedAt", type: "date",
+            dateSetting: { locale: "ko-KR" }
+        }
     ]
 
-
-    const column = [
-        { displayName: 'Sl No', id: 'tableData.id' },
-        { displayName: "Name", id: "name" },
-        { displayName: "Main Aadhaar", id: "mainAadhaar" },
-        { displayName: "Mobile", id: "mobile" },
-        { displayName: "Reg No", id: '' },
-        { displayName: "Consumer No", id: '' },
-        { displayName: "Main Agent", id: 'mainAgent' },
-        { displayName: "Old Agent", id: 'oldAgentName' },
-        { displayName:"Registered Agency Name", id:'rgisteredAgencyName'},
-        { displayName: "Sub Agent", id: 'subAgent' },
-        { displayName: "Remarks", id: 'remarks' },
-        {displayName:"Install status", id:'installtatus'},
-        {displayName:"Year", id:'year'}
-        
-
-    ];
 
 
     const getToken = () => {
@@ -55,10 +40,10 @@ export default function OldFullConsumerTable() {
 
 
 
-    const fetcCustomerData = async() => {
+    const fetchAllConnection = async() => {
         try {
             setLoading(true)
-            const result = await axios.get(BASE_URL + "old/customer/getall", {
+            const result = await axios.get(BASE_URL + "agent/slaes/all", {
                 headers: {
                     encryption: false,
                     access_token: getToken()
@@ -78,7 +63,7 @@ export default function OldFullConsumerTable() {
 
 
     React.useEffect(() => {
-        fetcCustomerData()
+        fetchAllConnection()
     }, [])
 
 
@@ -89,8 +74,9 @@ export default function OldFullConsumerTable() {
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
-                        title="Jaman Hp Consumer Data before 2021"
+                        title="ALL agents NC Delivery "
                         data={data}
+                        //@ts-ignore
                         columns={columns}
                         options={{
                             exportButton: true,
@@ -99,7 +85,7 @@ export default function OldFullConsumerTable() {
                             sorting: true,
                             pageSizeOptions: [5, 20, 50, 100, 200, 500],
                             headerStyle: {
-                                backgroundColor: '#F42870',
+                                backgroundColor: '#8bc34a',
                                 color: '#FFF'
                             }
                         }}
