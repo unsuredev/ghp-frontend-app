@@ -14,8 +14,9 @@ export default function ConnectionFullTable() {
     const columns = [
         { title: 'AGENT', field: 'agent' },
         { title: "TOTAL CONNECTION ", field: "totalConnection" },
-        { title: "LOAD", field: "load" },
-        { title: "REGULATOR ", field: "regulator" },
+        { title: "LOAD PAID", field: "load" },
+        { title: "REGULATOR PAID", field: "regulator" },
+        { title: "REGULATOR DUE", field: "regulator" },
         { title: "PIPE", field: "pipe" },
         { title: "PAID LIGHT", field: "paidLight" },
         { title: "TOATL LIGHT ", field: "totalLight" },

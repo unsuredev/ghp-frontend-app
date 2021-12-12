@@ -126,6 +126,7 @@ function ResponsiveDrawer() {
         ) : null}
 
         <div >
+        <Link href="/changepassword">
 
         <ListItem button>
         <ListItemIcon>
@@ -133,15 +134,15 @@ function ResponsiveDrawer() {
         </ListItemIcon>
         <ListItemText primary="Change Password" />
       </ListItem>
+      </Link>
+
         <ListItem button onClick={handleLogout}>
           <ListItemIcon>
             <ExitToAppOutlinedIcon color="secondary" />
           </ListItemIcon>
           <ListItemText primary="Log out" />
         </ListItem>
-        <Link href="/changepassword">
 
-    </Link>
 
         </div>
 

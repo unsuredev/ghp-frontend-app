@@ -46,8 +46,7 @@ const CustomerStats = () => {
     const [users, setUsers] = useState<any[]>([]);
     let [userlist, setUserlist] = useState<any>([])
     let [mydevices, setMydevices] = useState<any[]>([]);
-
-    const [firstDate, setFirstDate] = React.useState(new Date('2021-03-12'));
+    const [firstDate, setFirstDate] = React.useState(new Date(moment().startOf('month').format('YYYY-MM-DD')));
     const [lastDate, setLastDate] = React.useState(new Date(moment().endOf('day').format('YYYY-MM-DD')))
 
     const [open, setOpen] = React.useState(false);

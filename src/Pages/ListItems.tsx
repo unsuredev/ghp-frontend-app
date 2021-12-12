@@ -14,36 +14,34 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Badge from '@material-ui/core/Badge';
 import BarChartIcon from '@material-ui/icons/BarChart';
-
+import DashboardIcon from '@material-ui/icons/Dashboard';
 export const mainListItems = (
   <div>
-        <Link href="/customer">
-    <ListItem button>
-      <ListItemIcon>
-        <PersonAddIcon color="secondary" />
-      </ListItemIcon>
-      <ListItemText primary="Consumer Registration" />
-    </ListItem>
+    <Link href="/customer">
+      <ListItem button>
+        <ListItemIcon>
+          <PersonAddIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Consumer Registration" />
+      </ListItem>
     </Link>
     <Link href="/home">
-    <ListItem button>
-      <ListItemIcon>
-        <SearchIcon color="secondary" />
-      </ListItemIcon>
-      <ListItemText primary="Find Consumer" />
-    </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <SearchIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Find Consumer" />
+      </ListItem>
     </Link>
 
     <Link href="/cst">
-    <ListItem button>
-      <ListItemIcon>
-        <GetAppIcon color="secondary" />
-      </ListItemIcon>
-      <ListItemText primary="Download Reports" />
-    </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <GetAppIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Download Reports" />
+      </ListItem>
     </Link>
-
-
 
 
 
@@ -57,8 +55,6 @@ export const mainListItems = (
     </Link>
 
 
-
-
     <Link href="/customerDocs">
       <ListItem button>
         <ListItemIcon>
@@ -67,7 +63,6 @@ export const mainListItems = (
         <ListItemText primary="Image & Docs  Management" />
       </ListItem>
     </Link>
-
 
 
     <Link href="/olddatamanagement">
@@ -80,29 +75,38 @@ export const mainListItems = (
     </Link>
 
 
-
     <Link href="/connection">
       <ListItem button>
         <ListItemIcon>
           <TrendingUpIcon color="secondary" />
         </ListItemIcon>
-        <ListItemText  primary="Sales & Connection" />
+        <ListItemText primary="Sales & Connection" />
         <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
-        
-      </Badge>
+
+        </Badge>
+      </ListItem>
+    </Link>
+    <Link href="/delivery">
+      <ListItem button>
+        <ListItemIcon>
+          <BarChartIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="NC Delivery Dashboard" />
+        <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
+        </Badge>
       </ListItem>
     </Link>
     <Link href="/reports">
-              <ListItem button>
-                <ListItemIcon>
-                  <BarChartIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-                <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
-                  </Badge>
-              </ListItem>
-            </Link>
-    
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Connection Dashboard" />
+
+      </ListItem>
+    </Link>
+
+
 
 
 

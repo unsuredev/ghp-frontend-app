@@ -6,10 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Button, Grid, Container, CssBaseline, } from "@material-ui/core";
@@ -46,7 +43,7 @@ const useStyles = makeStyles({
         color: 'white',
     },
     table: {
-        minWidth: 550,
+        minWidth: 500,
     },
     formControl: {
         minWidth: "50%",
@@ -74,6 +71,21 @@ const ConnectionDashboard = () => {
     });
     const [open, setOpen] = React.useState(false);
     const [agent, setAgent] = React.useState({
+        "agent": "",
+        "totalConnection": 0,
+        "load": 0,
+        "regulator": 0,
+        "pipe": 0,
+        "totalLight": 0,
+        "paidLight": 0,
+        "bplOven": 0,
+        "nonHpOven": 0,
+        "hpOven": 0,
+        "paidAmount": 0,
+        "remarks": " ",
+    })
+
+    const [connection, setConnection] = React.useState({
         "agent": "",
         "totalConnection": 0,
         "load": 0,
@@ -134,14 +146,27 @@ const ConnectionDashboard = () => {
 
 
     const handleChange = (event: any) => {
-        setAgent({ ...agent, [event.target.name]: event.target.value });
+        setConnection({ ...connection, [event.target.name]: event.target.value });
     }
 
 
     const handleUpdate = async () => {
         setOpen(false);
         try {
-            const result = await axios.post(BASE_URL + "agent/connection/update", { data: agent },
+            const result = await axios.post(BASE_URL + "agent/connection/update", {
+                "agent": customer.agent,
+                "totalConnection": connection.totalConnection,
+                "load":connection.load,
+                "regulator": connection.regulator,
+                "pipe": connection.pipe,
+                "totalLight": connection.totalLight,
+                "paidLight": connection.paidLight,
+                "bplOven": connection.bplOven,
+                "nonHpOven": connection.nonHpOven,
+                "hpOven": connection.hpOven,
+                "paidAmount": connection.paidAmount,
+                "remarks": connection.remarks,
+            },
                 {
                     headers: {
                         encryption: false,
@@ -152,6 +177,20 @@ const ConnectionDashboard = () => {
                 //@ts-ignore
                 showToast(result.data.message, "success");
                 setOpen(false);
+                setConnection({
+                    "agent": "",
+                    "totalConnection": 0,
+                    "load": 0,
+                    "regulator": 0,
+                    "pipe": 0,
+                    "totalLight": 0,
+                    "paidLight": 0,
+                    "bplOven": 0,
+                    "nonHpOven": 0,
+                    "hpOven": 0,
+                    "paidAmount": 0,
+                    "remarks": " ",
+                })
             }
         } catch (error) {
             if (error) {
@@ -235,7 +274,9 @@ const ConnectionDashboard = () => {
 
 
     const handleChangeAgent = (event: any) => {
+        console.log("agent", event.target.value)
         setCustomer({ ...customer, [event.target.name]: event.target.value });
+        setConnection({...connection, [event.target.name]: event.target.value })
     }
 
 
@@ -281,18 +322,26 @@ const ConnectionDashboard = () => {
 
 
 
+
     const columns = [
         { title: 'AGENT', field: 'agent' },
-        { title: "TOTAL CONNECTION ", field: "totalConnection" },
-        { title: "LOAD", field: "load" },
-        { title: "REGULATOR ", field: "regulator" },
-        { title: "PIPE", field: "pipe" },
+        { title: "TOTAL CONNECTION ", field: "totalConnection" ,type: 'numeric'},
+        { title: "LOAD PAID", field: "load",type: 'numeric' },
+        { title: "CONNECTION DUE", field: "totalConnection"},
+        { title: "REGULATOR PAID", field: "regulator" },
+        { title: "REGULATOR DUE", field: "regulator" },
+        { title: "PIPE PAID", field: "pipe" },
+        { title: "PIPE DUE", field: "pipe" },
         { title: "PAID LIGHT", field: "paidLight" },
-        { title: "TOATL LIGHT ", field: "totalLight" },
+        { title: "LIGHT PAID ", field: "totalLight" },
+        { title: "LIGHT DUE", field: "totalLight" },
         { title: "BPL OVEN", field: "bplOven" },
         { title: "NON HP OVEN", field: "nonHpOven" },
         { title: "HP OVEN", field: "hpOven" },
+        { title: "OVEN DUE", field: "hpOven" },
+        { title: "ToTAL AMOUNT ", field: "paidAmount" },
         { title: "PAID AMOUNT ", field: "paidAmount" },
+        { title: "DUE AMOUNT ", field: "paidAmount" },
         { title: "REMARKS ", field: "remarks" },
         {
             title: "DATE ", field: "updatedAt", type: "date",
@@ -346,66 +395,6 @@ const ConnectionDashboard = () => {
                         VIEW HISTORY
                     </Button>
 
-                    <Grid container spacing={3} style={{ marginTop: "2rem" }}>
-                        <Grid item xs={4}>
-                            <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
-                                <CardContent>
-                                    <Typography gutterBottom>
-                                        Today's Pricing Table
-                                    </Typography>
-                                    <Typography variant="h6" component="h2">
-                                        {/* @ts-ignore */}
-                                        HP Oven Price : <b>{pricing.hpOvenPricing} &#x20B9;</b>
-                                    </Typography>
-                                    <Typography variant="h6" component="h2">
-                                        {/* @ts-ignore */}
-                                        Non HP Oven Price : <b>{pricing.nonHpOvenPricing} &#x20B9;</b>
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" onClick={() => setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color: "white" }} /></Button>
-                                </CardActions>
-                            </Card>                        </Grid>
-                        {/* <Grid item xs={4}>
-                        <Card  style={{backgroundColor:"primary", color:"white", height:"11rem" }}>
-                            <CardContent>
-                                <Typography gutterBottom>
-                                    Today's sales 
-                                </Typography>
-                                <Typography variant="h6" component="h2">
-                                 REGULATOR:   451
-                                </Typography>
-                                <Typography variant="h6" component="h2">
-                                 PIPE 890
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                            <Button size="small" ></Button>
-                            </CardActions>
-                        </Card>
-                        </Grid> */}
-                        {/* <Grid item xs={4}>
-                        <Card  style={{backgroundColor:"#e91e63", color:"white" , height:"11rem"}}>
-                            <CardContent>
-                                <Typography gutterBottom>
-                                Today's sales 
-                                </Typography>
-                                <Typography variant="h6" component="h2">
-                                                                        REGULATOR:   451
-                                </Typography>
-                                <Typography variant="h6" component="h2">
-                                                                        PIPE 890
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" ></Button>
-                            </CardActions>
-                        </Card>
-                        </Grid> */}
-
-                    </Grid>
-
-
                 </Grid>
                 <div>
                     <Dialog
@@ -457,96 +446,50 @@ const ConnectionDashboard = () => {
                     </Dialog>
                 </div>
             </Container>
-            {show ?
-                <Container style={{ color: "#FFFFFF", marginTop: "6rem", justifyContent: "center", alignContent: "center", textAlign: "center", marginLeft: "250px" }}>
-                    <Grid style={{ width: "100%" }}>
-                        <TableContainer component={Paper} style={{ width: "97rem", overflowX: "unset" }} >
-                            <Table className={classes.table} aria-label="simple table" >
-                                <TableHead style={{ backgroundColor: "#3F51B5", color: "#FFFFFF" }}>
-                                    <TableRow >
-                                        <TableCell align="left" style={{ color: "white" }}>AGENT NAME</TableCell>
-                                        <TableCell style={{ color: "white" }}
-                                            align="left">TOTAL CONNECTION</TableCell>
-                                        <TableCell style={{ color: "white" }}
-                                            align="left">CONNECTION DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>LOAD</TableCell>
-                                        <TableCell style={{ color: "white" }}>REGULATOR DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>PIPE DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>LIGHT PAID</TableCell>
-                                        <TableCell style={{ color: "white" }}>LIGHT DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>BPL OVEN</TableCell>
-                                        <TableCell style={{ color: "white" }}>OVEN NON HP</TableCell>
-                                        <TableCell style={{ color: "white" }}>HP OVEN</TableCell>
-                                        <TableCell style={{ color: "white" }}>OVEN DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT </TableCell>
-                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT PAID</TableCell>
-                                        <TableCell style={{ color: "white" }}>TOTAL AMOUNT DUE</TableCell>
-                                        <TableCell style={{ color: "white" }}>REMARKS</TableCell>
-                                        <TableCell style={{ color: "white" }}>ACTION</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
-                                        <TableCell align="left">
-                                            {/* @ts-ignore */}
-                                            {agent.agent}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="totalConnection">{agent.totalConnection}</TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell style={{ backgroundColor: "#bdbdbd" }} align="left" id="dueConnection">{agent.totalConnection - agent.load}</TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="load">{agent.load}</TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="regulator"> {agent.regulator}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="pipe">{agent.pipe}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="paidLight"> {agent.paidLight}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell style={{ backgroundColor: "#bdbdbd" }} align="left" id="totalLight"> {agent.totalLight}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="bplOven"> {agent.bplOven}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="nonHpOven"> {agent.nonHpOven}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="left" id="hpOven"> {agent.hpOven}
-                                        </TableCell>
 
-                                        {/* @ts-ignore */}
-                                        <TableCell align="right" id="ovendue" style={{ backgroundColor: "#bdbdbd" }}> {agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}
-                                            <Divider orientation="vertical" />
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="right" id="totalAmount" style={{ backgroundColor: "#bdbdbd" }}>{agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="right" id="amountPaid"> {agent.paidAmount}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="right" id="amountDue" style={{ backgroundColor: "#bdbdbd" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}
-                                        </TableCell>
-                                        {/* @ts-ignore */}
-                                        <TableCell align="right"> {agent.remarks}
-                                        </TableCell>
-                                        <TableCell align="right" style={{ color: "red" }}>
-                                            {getUser() ?
-                                                <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
-                                                    <CreateIcon />
-                                                </IconButton> : "No option"}
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+            {show ?
+                <Container>
+                    <Grid container spacing={1}>
+                        <Grid item >
+                            <Card >
+                                <CardContent>
+                                    <Typography variant="button" display="block" gutterBottom>AGENT :<span style={{ color: "blue", fontSize: "20px" }}> {agent.agent}</span></Typography>
+
+                                    <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>CONNECTION DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection - agent.load}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>REGULATOR PAID: <span style={{ color: "blue", fontSize: "20px" }}> {agent.regulator}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load-agent.regulator}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>PIPE PAID:<span style={{ color: "blue", fontSize: "20px" }}> {agent.pipe}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>PIPE DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.load-agent.pipe}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>LIGHT PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.paidLight}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.totalLight}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>BPL OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.bplOven}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>OVEN NON HP:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>OVEN DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}</span></Typography>
+                                    {/* @ts-ignore */}
+
+                                    <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
+                                    {/* @ts-ignore */}
+
+                                    <Typography variant="button" display="block" gutterBottom>PAID AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
+                                                                        {/* @ts-ignore */}
+
+                                    <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
+
+                                    <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>ACTION :           {getUser() ?
+                                        <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
+                                            <CreateIcon />
+                                        </IconButton> : "No option"}</Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
                     </Grid>
                 </Container> : null}
+
+
 
             <div>
 
@@ -557,12 +500,8 @@ const ConnectionDashboard = () => {
 
                         <DialogContentText style={{ backgroundColor: "#E91E63", color: "white" }}>
                             <div >
-
                                 <Grid container spacing={3}>
-
-
                                     <Grid item xs={6} style={{ backgroundColor: "#E91E63", color: "white" }}>
-
                                         <List >
                                             <ListItem>
                                                 Total Connection: {agent.totalConnection}
@@ -616,87 +555,81 @@ const ConnectionDashboard = () => {
                             </div>
                         </DialogContentText>
                         <Typography style={{ textAlign: "left" }}>
-                            Updated here:
+                            Todays Delivery Update:
                         </Typography>
 
                         <div  >
-
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 label="Total Connection"
-                                type="number"
-                                value={agent.totalConnection}
+                                type="Number"
+                                value={connection.totalConnection}
                                 name="totalConnection"
                                 variant="outlined"
                                 onChange={handleChange}
                                 style={{ color: "white" }}
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
+                            
                             />
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                id="name"
+                                id="Load"
                                 label="Load "
-                                type="number"
-                                value={agent.load}
+                                type="Number"
+                                value={connection.load}
                                 name="load"
                                 variant="outlined"
                                 onChange={handleChange}
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
+                            
                             />
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="regulator"
-                                value={agent.regulator}
+                                value={connection.regulator}
                                 label="Regulator"
-                                type="number"
+                                type="Number"
                                 variant="outlined"
                                 onChange={handleChange}
                                 name="regulator"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
+                            
                             />
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="pipe"
                                 label="Pipe "
-                                type="number"
+                                type="Number"
                                 variant="outlined"
-                                value={agent.pipe}
+                                value={connection.pipe}
                                 onChange={handleChange}
                                 name="pipe"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
+                            
                             />
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="paidLight"
                                 label="Light Paid"
-                                type="number"
-                                value={agent.paidLight}
+                                type="Number"
+                                value={connection.paidLight}
                                 variant="outlined"
                                 onChange={handleChange}
                                 name="paidLight"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
+                            
                             />
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="bplOven"
                                 label="BPL Oven"
-                                type="number"
+                                type="Number"
                                 variant="outlined"
-                                value={agent.bplOven}
+                                value={connection.bplOven}
                                 onChange={handleChange}
                                 name="bplOven"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
+                            
 
                             />
                             <TextField
@@ -704,12 +637,11 @@ const ConnectionDashboard = () => {
                                 margin="dense"
                                 id="nonHpOven"
                                 label="Non HP Oven"
-                                type="number"
+                                type="Number"
                                 variant="outlined"
-                                value={agent.nonHpOven}
+                                value={connection.nonHpOven}
                                 onChange={handleChange}
                                 name="nonHpOven"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
 
                             />
                             <TextField
@@ -717,12 +649,11 @@ const ConnectionDashboard = () => {
                                 margin="dense"
                                 id="hpOven"
                                 label="HP Oven"
-                                type="number"
+                                type="Number"
                                 variant="outlined"
-                                value={agent.hpOven}
+                                value={connection.hpOven}
                                 onChange={handleChange}
                                 name="hpOven"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
 
                             />
                             <TextField
@@ -730,13 +661,11 @@ const ConnectionDashboard = () => {
                                 margin="dense"
                                 id="paidAmount"
                                 label="Total Amount Paid"
-                                type="number"
+                                type="Number"
                                 variant="outlined"
-                                value={agent.paidAmount}
+                                value={connection.paidAmount}
                                 onChange={handleChange}
                                 name="paidAmount"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
                             />
                             <TextField
                                 autoFocus
@@ -745,13 +674,10 @@ const ConnectionDashboard = () => {
                                 label="Remarks"
                                 type="text"
                                 variant="outlined"
-                                value={agent.remarks}
+                                value={connection.remarks}
                                 onChange={handleChange}
                                 name="remarks"
-                                InputLabelProps={{ style: { fontSize: 20, color: "white" } }} // font size of input label
-
                             />
-
                         </div>
                     </DialogContent>
                     <DialogActions>
