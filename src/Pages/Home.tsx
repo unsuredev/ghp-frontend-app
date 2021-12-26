@@ -234,6 +234,7 @@ const Home = () => {
     regNo: "",
     mainAgent: "",
     subAgent: "",
+    registeredAgencyName:"",
     remarks: "",
     mobile: "",
     addedBy: "",
@@ -597,6 +598,8 @@ const Home = () => {
                         {/* @ts-ignore */}
 
                         <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
+                        <Typography>Registered Agency Name : <span style={{color:"red"}}> {user.registeredAgencyName || "NA"}</span> </Typography>
+
                         <Typography>Remarks : {user.remarks|| "NA"}</Typography>
                         {/* @ts-ignore */}
 
@@ -759,8 +762,29 @@ const Home = () => {
                                 onChange={handleChangeUser}
                               />
                             </Grid>
+                            <Grid item xs={12} sm={12} md={12} >
+                        <FormControl variant="outlined" >
+                          <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
+                          <Select
+                          style={{width:"35rem"}}
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            value={customer.registeredAgencyName}
+                            onChange={handleChangeUser}
+                            fullWidth
+                            name="registeredAgencyName"
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
+                            <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
+                            <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
+                            <MenuItem value="JAMAN HP GAS CONSUMER NOT DELIVERED 2019">JAMAN HP GAS CONSUMER NOT DELIVERED 2019</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-
                               <TextField
                                 id="outlined-basic"
                                 label="Remarks"

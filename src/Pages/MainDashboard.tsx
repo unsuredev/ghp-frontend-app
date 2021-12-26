@@ -251,21 +251,7 @@ const MainDashboard = () => {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Card  >
-                            <CardContent>
-                                <Typography color="textSecondary" gutterBottom>
-                                    TOTAL AMOUNT DUE
-                                </Typography>
-                                <div style={{ backgroundColor: "#d81b60", color: "white", height: "10rem", width: "10rem", borderRadius: "100%", display: "inline-flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-                                    <h1 style={{ fontSize: "40px" }}>
-                                        {/* @ts-ignore */}
-                                        {connection.totalAmountDue}
-                                    </h1>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+
                 </Grid>
             </div>
             <br></br>

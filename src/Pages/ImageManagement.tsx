@@ -480,6 +480,8 @@ export default function ImageManagement() {
                                                 <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
+                                                <Typography>Registered Agency Name :<span style={{color:"red"}}> {user.registeredAgencyName || "NA"}</span> </Typography>
+
                                                 <Typography>Remarks : {user.remarks || "NA"}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>

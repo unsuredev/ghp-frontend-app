@@ -99,7 +99,7 @@ function ResponsiveDrawer() {
         {getUser() ? (
           <div>
 
-            
+
             <Link href="/member">
               <ListItem button style={{ marginTop: "5rem" }}>
                 <ListItemIcon>
@@ -120,41 +120,41 @@ function ResponsiveDrawer() {
 
 
 
-            
+
           </div>
 
         ) : null}
 
         <div >
-        <Link href="/changepassword">
+          <Link href="/changepassword">
 
-        <ListItem button>
-        <ListItemIcon>
-          <HistoryIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Change Password" />
-      </ListItem>
-      </Link>
+            <ListItem button>
+              <ListItemIcon>
+                <HistoryIcon color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary="Change Password" />
+            </ListItem>
+          </Link>
 
-        <ListItem button onClick={handleLogout}>
-          <ListItemIcon>
-            <ExitToAppOutlinedIcon color="secondary" />
-          </ListItemIcon>
-          <ListItemText primary="Log out" />
-        </ListItem>
+          <ListItem button onClick={handleLogout}>
+            <ListItemIcon>
+              <ExitToAppOutlinedIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="Log out" />
+          </ListItem>
 
 
         </div>
 
-        
+
       </List>
     </div>
   );
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} color="primary">
-        
+      <AppBar position="fixed" className={classes.appBar} color="inherit">
+
         <Toolbar>
           <IconButton
             color="inherit"
@@ -165,17 +165,23 @@ function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-     
-      
-           <img src={require("../hpcl_logo.png").default}  
-          width="100%" height="80px" alt="hpgas logo" />
-     <div style={{ marginLeft:"50rem"}}>
-     <Typography variant="h6" noWrap>
-          JAMAN HP GAS
-          </Typography>
-     </div>
+
+
+          <img src={require("../logo_hpcl.jpg").default}
+            alt="hpgas logo" />
+          <div style={{ marginLeft: "20rem" }}>
+            <Typography  noWrap style={{color:"red", fontSize:"20px", fontFamily:"cursive"}}>
+              JAMAN HP GAS GRAMIN VITARAK(13816000)
+            </Typography>
+          </div>
+
+
+          <div style={{ marginLeft: "32rem" }}>
+            <img src={require("../JiHaan.png").default}
+              alt="hpgas logo" />
+          </div>
         </Toolbar>
-        
+
       </AppBar>
 
       <nav className={classes.drawer}>

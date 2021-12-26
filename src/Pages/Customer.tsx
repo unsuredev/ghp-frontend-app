@@ -144,6 +144,7 @@ const Customer = () => {
     regNo: "",
     mainAgent: "",
     subAgent: "",
+    registeredAgencyName:"",
     remarks: "",
     mobile: "",
     addedBy: "",
@@ -177,6 +178,7 @@ const Customer = () => {
               regNo:'',
               consumerNo:'',
               subAgent:'',
+              registeredAgencyName:'',
               remarks:''
             }}
             validationSchema={Yup.object().shape({
@@ -210,6 +212,7 @@ const Customer = () => {
                     "consumerNo":values.consumerNo,
                     "regNo":values.regNo,
                     "subAgent":values.subAgent,
+                    "registeredAgencyName":values.registeredAgencyName,
                     "remarks":values.remarks,
                     "addedBy":getUserName()
                 
@@ -395,6 +398,32 @@ const Customer = () => {
                           value={values.subAgent}
                     />
                   </Grid>
+                      <Grid item xs={12} sm={12} md={12} >
+                        <FormControl variant="outlined"
+ >
+                          <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
+                          <Select
+                          style={{width:"38rem"}}
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            value={values.registeredAgencyName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            fullWidth
+                            name="registeredAgencyName"
+
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
+                            <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
+                            <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
+                            <MenuItem value="JAMAN HP GAS CONSUMER NOT DELIVERED 2019">JAMAN HP GAS CONSUMER NOT DELIVERED 2019</MenuItem>
+
+                          </Select>
+                        </FormControl>
+                      </Grid>
                   <Grid item xs={12}>
                     <TextField
                           error={Boolean(touched.remarks && errors.remarks)}
@@ -425,8 +454,8 @@ const Customer = () => {
                   Register Customer
                 </Button>
               </form>
-               )}
-               </Formik>
+              )}
+              </Formik>
 
             </div>
           </Grid>
@@ -466,6 +495,10 @@ const Customer = () => {
                   <TableRow>
                     {/* @ts-ignore */}
                     <TableCell align="left">Sub Agent :{lastUser.subAgent}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    {/* @ts-ignore */}
+                    <TableCell align="left">  Registered Agency Name  :{lastUser.registeredAgencyName}</TableCell>
                   </TableRow>
                   <TableRow>
                     {/* @ts-ignore */}
