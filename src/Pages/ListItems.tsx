@@ -15,6 +15,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Badge from '@material-ui/core/Badge';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 export const mainListItems = (
   <div>
     <Link href="/customer">
@@ -81,9 +82,6 @@ export const mainListItems = (
           <TrendingUpIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary="Sales & Connection" />
-        <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
-
-        </Badge>
       </ListItem>
     </Link>
     <Link href="/delivery">
@@ -92,6 +90,14 @@ export const mainListItems = (
           <BarChartIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary="NC Delivery Dashboard" />
+      </ListItem>
+    </Link>
+    <Link href="/refilsale">
+      <ListItem button>
+        <ListItemIcon>
+          <MonetizationOnIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Refil Sale Register" />
         <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
         </Badge>
       </ListItem>

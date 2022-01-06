@@ -236,7 +236,7 @@ const CustomerStats = () => {
                                             { title: 'Family Aadhaar', field: 'familyAadhaar' },
                                             { title: 'Mobile', field: 'mobile' || "null" },
                                             { title: 'Reg No', field: 'regNo' || "NA" },
-                                            { title: 'Consumer No', field: 'ConsumerNO' },
+                                            { title: 'Consumer No', field: 'consumerNo' },
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
                                             { title: "Remarks", field: "remarks" },

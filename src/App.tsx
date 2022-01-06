@@ -20,6 +20,7 @@ import OldDataManagement from './Pages/OldDataManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
+import RefilSale from './Pages/RefilSale';
 import './App.css';
 
 
@@ -59,7 +60,7 @@ const App = () => {
               <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
               <Route exact path="/delivery" component={MainDashboard} />
-
+              <Route exact path="/refilsale" component={RefilSale} />
 
             </Switch>
           </Router>

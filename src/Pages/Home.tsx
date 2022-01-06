@@ -299,7 +299,7 @@ const Home = () => {
       if (state.familyAadhaar) {
         const result = await httpClient("customer/find", "POST", {
           findkey:"familyAadhaar",
-          regNo: state.regNo,
+          familyAadhaar: state.familyAadhaar,
         });
 
         if (!result.data && result.data === undefined)
@@ -447,11 +447,11 @@ const Home = () => {
                   <TextField
                     id="outlined-basic"
                     label="Family Aadhaar No"
-                    name="regNo"
+                    name="familyAadhaar"
                     variant="outlined"
                     fullWidth
-                    type="text"
-                    value={state.regNo}
+                    type="number"
+                    value={state.familyAadhaar}
                     onChange={handleChange}
                   />
                 </form>
@@ -698,7 +698,6 @@ const Home = () => {
                               />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                              {customer.regNo &&
                                 <TextField
                                   id="outlined-basic"
                                   label="Reg No"
@@ -708,8 +707,9 @@ const Home = () => {
                                   type="text"
                                   value={customer.regNo}
                                   onChange={handleChangeUser}
+
                                 />
-                              }
+                              
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 
@@ -774,9 +774,7 @@ const Home = () => {
                             fullWidth
                             name="registeredAgencyName"
                           >
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
+
                             <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
                             <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
                             <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>

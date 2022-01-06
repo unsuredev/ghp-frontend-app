@@ -83,6 +83,7 @@ const ConnectionDashboard = () => {
         "hpOven": 0,
         "paidAmount": 0,
         "remarks": " ",
+        installationComplete:0
     })
 
     const [connection, setConnection] = React.useState({
@@ -395,10 +396,12 @@ const ConnectionDashboard = () => {
                         <Grid item xs={12} md={4} style={{textAlign:"left"}} >
                             <Card >
                                 <CardContent>
-                                    <Typography variant="button" display="block" gutterBottom>AGENT :<span style={{ color: "blue", fontSize: "20px" }}> {agent.agent}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>AGENT :<span style={{ color: "#e91e63", fontSize: "20px" }}> {agent.agent}</span></Typography>
 
                                     <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>Installation Complete: <span style={{ color: "#e91e63", fontSize: "20px" }}>{agent.installationComplete}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>Pending Installation: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load-agent.installationComplete}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>CONNECTION DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection - agent.load}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REGULATOR PAID: <span style={{ color: "blue", fontSize: "20px" }}> {agent.regulator}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load-agent.regulator}</span></Typography>
@@ -411,15 +414,11 @@ const ConnectionDashboard = () => {
                                     <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>OVEN DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}</span></Typography>
                                     {/* @ts-ignore */}
-
                                     <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
                                     {/* @ts-ignore */}
-
                                     <Typography variant="button" display="block" gutterBottom>PAID AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
                                                                         {/* @ts-ignore */}
-
                                     <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
-
                                     <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>ACTION :           {getUser() ?
                                         <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
@@ -429,7 +428,7 @@ const ConnectionDashboard = () => {
                             </Card>
                         </Grid>
                 : null}
-                                   <Grid item xs={12} md={4}>
+                                <Grid item xs={12} md={4}>
                             <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
                                 <CardContent>
                                     <Typography gutterBottom>

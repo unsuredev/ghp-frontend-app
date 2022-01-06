@@ -178,7 +178,7 @@ const Customer = () => {
               regNo:'',
               consumerNo:'',
               subAgent:'',
-              registeredAgencyName:'',
+              registeredAgencyName:'JAMAN HP GAS 2021',
               remarks:''
             }}
             validationSchema={Yup.object().shape({
@@ -338,7 +338,7 @@ const Customer = () => {
                           name="consumerNo"
                           label="Consumer No"
                           id="consumerNo"
-                          type="text"
+                          type="number"
                           autoComplete="consumerNo"
                           value={values.consumerNo}
                           onInput={(e) => {
@@ -413,9 +413,6 @@ const Customer = () => {
                             name="registeredAgencyName"
 
                           >
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
                             <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
                             <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
                             <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
