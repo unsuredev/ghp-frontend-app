@@ -1,6 +1,5 @@
 import React from "react";
 import { BASE_URL } from "../Common/constant";
-
 import {
   Button,
   Grid,
@@ -9,7 +8,6 @@ import {
   TextField, Typography
 } from "@material-ui/core";
 import axios from "axios";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,11 +20,10 @@ import { Container } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import jwt_decode from "jwt-decode";
 import InputLabel from '@material-ui/core/InputLabel';
-const TAX_RATE = 0.07;
 
-// import { ToastContext } from "../Common/ToastProvider";
+import { ToastContext } from "../Common/ToastProvider";
+const TAX_RATE = 0.07;
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -74,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-  formControlSelect: {
-    minWidth: 170,
-  },
+ 
 }));
 function ccyFormat(num: number) {
   return `${num.toFixed(2)}`;
@@ -108,6 +103,8 @@ const rows = [
   createRow("Waste Basket", 2, 17.99),
 ];
 
+
+
 const invoiceSubtotal = subtotal(rows);
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
@@ -115,147 +112,274 @@ const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 export default function RefilSale() {
   const classes = useStyles();
   const [agentList, setAgetList] = React.useState([]);
-
-
   const [customer, setCustomer] = React.useState({
     agent: "",
-    filled: "",
-    empty: "",
-    rate: "",
-    paidAmount: "",
-    remarks: "",
+    filledCyclider: 0,
+    emptyCyclider: 0,
+    rateCyclider: 0,
+    ncSale:0,
+    ncRate:0,
+    amountPaid:0,
+    remarks:""
   })
 
+  const [refil, setRefil]= React.useState([])
 
 
 
+  const { showToast } = React.useContext(ToastContext);
 
 
   React.useEffect(() => {
     getCharacters();
+    getResale()
   }, []);
-
 
 
 
   const getToken = () => {
     //@ts-ignore
     return localStorage.getItem("access_token")
-}
+  }
 
-      
+
   async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall", {
+    const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
         access_token: getToken()
       },
     });
- //@ts-ignore
+    //@ts-ignore
     setAgetList(result.data.data.agents)
     //@ts-ignore
-    setAgetList(result.data.data.agents.map(({ name  }) => ({ label: name, value: name })));
-}
+    setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+  }
 
-const handleChange = (event: any) => {
-  setCustomer({ ...customer, [event.target.name]: event.target.value });
-};
+  const handleChange = (event: any) => {
+    setCustomer({ ...customer, [event.target.name]: event.target.value });
+  };
+
+  
+// REGISTER
+  const RegisterRefalse = async () => {
+    try {
+      const result = await axios.post(BASE_URL + "refilsale/add",   customer ,
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          }, 
+        })
+      if (result.data.data && result.data != undefined) {
+        showToast("Refil sale register successfullly", "success");
+      }
+    } catch (error) {
+      if (error) {
+        //@ts-ignore
+        showToast(error.response.data.message, "error")
+      }
+    }
+  };
+
+
+
+  // GET A AGENT'S REFIL SALE
+  const getRefalse = async () => {
+    try {
+      const result = await axios.post(BASE_URL + "refilsale/get",   {"agent":customer.agent} ,
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          }, 
+        })
+      if (result.data.data && result.data != undefined) {
+        console.log("result" , result.data)
+        setCustomer(result.data)
+        showToast("Fetched refilsales successfullly", "success");
+      }
+    } catch (error) {
+      if (error) {
+        //@ts-ignore
+        showToast(error.response.data.message, "error")
+      }
+    }
+  };
+
+    
+  // GEY ALL
+  const getResale = async () => {
+    try {
+
+      const result = await axios.get(BASE_URL + "refilsale/getAll",
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          },
+        }
+      );
+      if (result.data && result.data.data) {
+        setRefil(result.data.data.data)
+      }
+    } catch (error) {
+      //@ts-ignore
+      showToast(error.response.data.message, "error")
+    }
+  };
+
+
+
+
+
+
 
 
   return (
     <React.Fragment>
       <ResponsiveDrawer />
+
       <Container>
-        <form noValidate autoComplete="off">
+        <Grid container  >
+          <Grid item xs={12} sm={12} md={12} style={{textAlign:"center"}}>
+            <FormControl variant="outlined" >
+              <Select
+                onChange={handleChange}
+                displayEmpty
+                className={classes.selectEmpty}
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                inputProps={{ 'aria-label': 'Without label' }}
+                name="agent"
+                variant="outlined"
+              >
+                {agentList.map(item => (
+                  <MenuItem
+                    //@ts-ignore
+                    key={item.label} value={item.value} >{item.label}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <div style={{ marginTop: "1rem", textAlign:"center" }}>
+            <Button variant="contained" size="medium" color="primary" onClick={getRefalse}>
+             FETCH REFILSALE
+            </Button>
+          </div>
+          </Grid>
+        </Grid>
+
+        <form noValidate autoComplete="off" style={{marginTop:"2rem"}}>
           <Grid container spacing={1}>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="standard-basic"
+                size="small"
+                label="Load Cylinder"
+                variant="outlined"
+                name="filledCyclider"
+                value={customer.filledCyclider}
+                onChange={handleChange}
+                type="number"
 
-        <Grid item xs={2} sm={12} md={2} >
-                    <FormControl variant="outlined" className={classes.formControlSelect} style={{height:"37px", marginTop:"-14px"}}>
-                      <Select
-                        onChange={handleChange}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        name="mainAgent"
-                        variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="filled-basic"
+                size="small"
+                label="Empty Cylinder"
+                variant="outlined"
+                name="emptyCyclider"
+                value={customer.emptyCyclider}
+                onChange={handleChange}
+                type="number"
 
+              />
+            </Grid>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Rate"
+                variant="outlined"
+                name="rateCyclider"
+                value={customer.rateCyclider}
+                onChange={handleChange}
+                type="number"
 
-                      >
-                        {agentList.map(item => (
-                          <MenuItem
-                            //@ts-ignore
-                            key={item.label} value={item.value} >{item.label}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+              />
+            </Grid>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="filled-basic"
+                size="small"
+                label="NC Sale"
+                variant="outlined"
+                value={customer.ncSale}
+                name="ncSale"
+                onChange={handleChange}
+                type="number"
 
-                  <Grid item xs={2} sm={12} md={2} >
+              />
+            </Grid>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="NC Rate"
+                variant="outlined"
+                value={customer.ncRate}
+                name="ncRate"
+                onChange={handleChange}
+                type="number"
 
-          <TextField
-            id="standard-basic"
-            size="small"
-            label="Filled"
-            variant="outlined"
-          />
+              />
+            </Grid>
+            <Grid item xs={2} sm={12} md={2} >
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Amount Paid"
+                variant="outlined"
+                value={customer.amountPaid}
+                name="amountPaid"
+                onChange={handleChange}
+                type="number"
+
+              />
+            </Grid>
+            <br />
+            <br />
+
           </Grid>
-                  <Grid item xs={2} sm={12} md={2} >
+          <Grid container>
+          <Grid item xs={12} sm={12} md={12} >
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Remarks"
+                variant="outlined"
+                value={customer.remarks}
+                name="remarks"
+                onChange={handleChange}
+                type="text"
 
-          <TextField
-            id="filled-basic"
-            size="small"
-            label="Empty"
-            variant="outlined"
-          />
+              />
+            </Grid>
+
           </Grid>
-          <Grid item xs={2} sm={12} md={2} >
+          <div style={{ marginTop: "1rem", textAlign:"center" }}>
+            <Button variant="contained" size="medium" color="secondary" onClick={RegisterRefalse}>
+              SAVE & UPDATE
+            </Button>
+          </div>
 
-<TextField
-  id="filled-basic"
-  size="small"
-  label="NC Sale"
-  variant="outlined"
-/>
-</Grid>
-          <Grid item xs={2} sm={12} md={2} >
-
-          <TextField
-            id="outlined-basic"
-            size="small"
-            label="Rate"
-            variant="outlined"
-          />
-          </Grid>
-          <Grid item xs={2} sm={12} md={2} >
-
-          <TextField
-            id="outlined-basic"
-            size="small"
-            label="Paid"
-            variant="outlined"
-          />
-          </Grid>
-          <br />
-          {/* <Grid item xs={2} sm={12} md={2} >
-
-          <TextField
-            id="outlined-basic"
-            size="small"
-            label="Remarks"
-            variant="outlined"
-          />
-          </Grid> */}
-          <Button variant="contained" color="primary">
-            SAVE
-          </Button>
-          </Grid>
 
         </form>
       </Container>
 
-      <Container>
+      <Container style={{ marginTop: "2rem" }}>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="spanning table">
             <TableHead>
@@ -284,21 +408,43 @@ const handleChange = (event: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.desc}>
-                  <TableCell>{row.desc}</TableCell>
-                  <TableCell>{row.qty}</TableCell>
-                  <TableCell>{row.unit}</TableCell>
-                  <TableCell>{ccyFormat(row.price)}</TableCell>
-                  <TableCell>{row.qty}</TableCell>
-                  <TableCell>{row.qty}</TableCell>
+              {refil.map((sale, i) => (
+                <TableRow key={i}>
+                        {/* @ts-ignore */}
+                        <TableCell>{sale.agent}</TableCell>
+                        {/* @ts-ignore */}
 
-                  <TableCell>{row.unit}</TableCell>
-                  <TableCell>{ccyFormat(row.price)}</TableCell>
-                  <TableCell>{ccyFormat(row.price)}</TableCell>
+                  <TableCell>{sale.cyclinderLoad}</TableCell>
+                                          {/* @ts-ignore */}
+                  <TableCell>{sale.cyclinderEmpty}</TableCell>
+                                          {/* @ts-ignore */}
 
-                  <TableCell>{row.qty}</TableCell>
-                  <TableCell align="right">{row.unit}</TableCell>
+                  <TableCell>{sale.cyclinderEmpty}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.cyclinderEmpty}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.cyclinderEmpty}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.refilRate}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.refilRate}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.amountPaid}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.remakrs}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell>{sale.remakrs}</TableCell>
+                                          {/* @ts-ignore */}
+
+                  <TableCell align="right">{sale.remakrs}</TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
@@ -311,21 +457,27 @@ const handleChange = (event: any) => {
       <br></br>
       <Container>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="spanning table">
+          <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell> DAY </TableCell>
-                <TableCell align="left"> YESTERDAY BALANCE</TableCell>
+                <TableCell>Day</TableCell>
+                <TableCell align="right">Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-                <TableRow >
-                  <TableCell align="left">TODAY AMOUNT</TableCell>
-                </TableRow>
-            </TableBody>
-            <TableRow>
-                <TableCell>Total BALANCE </TableCell>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Yesterday
+                </TableCell>
+                <TableCell align="right">153696</TableCell>
               </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Today
+                </TableCell>
+                <TableCell align="right">196325</TableCell>
+              </TableRow>
+            </TableBody>
           </Table>
         </TableContainer>
       </Container>

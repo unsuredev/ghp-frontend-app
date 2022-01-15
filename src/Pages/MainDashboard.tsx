@@ -38,7 +38,6 @@ const MainDashboard = () => {
 
     React.useEffect(() => {
         getNcDetails();
-        getNcdelivery();
     }, []);
 
     const getToken = () => {
@@ -56,9 +55,7 @@ const MainDashboard = () => {
                     },
                 });
             if (result && result.data) {
-                console.log("data", result.data.data)
-                setConnection(result.data.data.NcDetails[0])
-                console.log("con", connection)
+                setConnection(result.data.data.NcDetails)
 
             }
         }
@@ -69,50 +66,50 @@ const MainDashboard = () => {
     }
 
 
-    const getNcdelivery = async() => {
-        try {
-            setLoadingTable(true)
-            setLoading(true)
+    // const getNcdelivery = async() => {
+    //     try {
+    //         setLoadingTable(true)
+    //         setLoading(true)
 
-            const result = await axios.get(BASE_URL + "ncdelivery/all",
-                {
-                    headers: {
-                        encryption: false,
-                        access_token: getToken()
-                    },
-                });
-            if (result && result.data) {
-                setData(result.data.data.NcDetails)
-                console.log("data", result.data.data)
-                setLoading(false)
-                setLoadingTable(true)
+    //         const result = await axios.get(BASE_URL + "ncdelivery/all",
+    //             {
+    //                 headers: {
+    //                     encryption: false,
+    //                     access_token: getToken()
+    //                 },
+    //             });
+    //         if (result && result.data) {
+    //             setData(result.data.data.NcDetails)
+    //             console.log("data", result.data.data)
+    //             setLoading(false)
+    //             setLoadingTable(true)
 
-            }
-        }
-        catch (error) {
-            if (error) {
-            }
-        }
-    }
+    //         }
+    //     }
+    //     catch (error) {
+    //         if (error) {
+    //         }
+    //     }
+    // }
 
-    const columns = [
-        {
-            title: "DATE ", field: "createdAt", type: "date",
-            dateSetting: { locale: "ko-KR" }
+    // const columns = [
+    //     {
+    //         title: "DATE ", field: "createdAt", type: "date",
+    //         dateSetting: { locale: "ko-KR" }
             
-        },
-        { title: 'AGENT', field: 'agent' },
-        { title: "PAID AMOUNT ", field: "totalAmount" ,type: 'numeric'},
-        { title: "PAID BPL OVEN ", field: "totalBplOven",type: 'numeric' },
-        { title: "PAID HP OVEN", field: "totalHpOven"},
-        { title: "PAID NON HP  OVEN", field: "totalNonHpOven" },
-        { title: "PAID REGULATOR ", field: "totalRegulator" },
-        { title: "PAID PIPE ", field: "totalPipe" },
-        { title: "PAID LIGHT", field: "paidLight" },
-        { title: "PAID LOAD  ", field: "totalLod" },
-        { title: "PAID LIGHT ", field: "totalLight" },
+    //     },
+    //     { title: 'AGENT', field: 'agent' },
+    //     { title: "PAID AMOUNT ", field: "totalAmount" ,type: 'numeric'},
+    //     { title: "PAID BPL OVEN ", field: "totalBplOven",type: 'numeric' },
+    //     { title: "PAID HP OVEN", field: "totalHpOven"},
+    //     { title: "PAID NON HP  OVEN", field: "totalNonHpOven" },
+    //     { title: "PAID REGULATOR ", field: "totalRegulator" },
+    //     { title: "PAID PIPE ", field: "totalPipe" },
+    //     { title: "PAID LIGHT", field: "paidLight" },
+    //     { title: "PAID LOAD  ", field: "totalLod" },
+    //     { title: "PAID LIGHT ", field: "totalLight" },
      
-    ]
+    // ]
 
 
 
@@ -240,9 +237,24 @@ const MainDashboard = () => {
                         <Card  >
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    TOTAL AMOUNT PAID
+                                    TOTAL INSTALLATION COMPLETE 
                                 </Typography>
                                 <div style={{ backgroundColor: "#9c27b0", color: "white", height: "10rem", width: "10rem", borderRadius: "70%", display: "inline-flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                    <h1 style={{ fontSize: "40px" }}>
+                                        {/* @ts-ignore */}
+                                        {connection.installationComplete}
+                                    </h1>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                        <Card  >
+                            <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                    TOTAL AMOUNT PAID
+                                </Typography>
+                                <div style={{ backgroundColor: "black", color: "white", height: "10rem", width: "10rem", borderRadius: "70%", display: "inline-flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
                                     <h1 style={{ fontSize: "40px" }}>
                                         {/* @ts-ignore */}
                                         {connection.totalAmount}
@@ -255,7 +267,7 @@ const MainDashboard = () => {
                 </Grid>
             </div>
             <br></br>
-            <div>
+            {/* <div>
                 {loadingTable ?
                     <Container component="main" >
                         {loading ? <div style={{ paddingTop: "60px",marginTop:"60px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>Please...</p> <CircularProgress /> </div> :
@@ -278,7 +290,7 @@ const MainDashboard = () => {
                             />
                         }
                     </Container> : null}
-            </div>
+            </div> */}
         </React.Fragment>
     );
 }

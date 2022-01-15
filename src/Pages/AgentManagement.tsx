@@ -21,6 +21,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ResponsiveDrawer from "./Drawer";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
@@ -60,7 +62,7 @@ const AgentList = () => {
       margin: theme.spacing(3, 0, 2),
     },
     table: {
-      minWidth: 650,
+      minWidth: 700,
     }
   }))
 
@@ -140,6 +142,25 @@ const AgentList = () => {
       }
   };
 
+  const toggleChecked = async ( mobile:any) => {
+    try {
+      const result = await axios.post(BASE_URL + "agent/block",{"mobile":mobile},  { headers: {
+        encryption: false,
+        access_token: getToken()
+      }})
+      if (result.data && result.data != null) {
+        showToast(result.data.message, "success");
+        window.location.reload();
+      
+      }
+    } catch (error) {
+      //@ts-ignore
+      showToast(error.response.data.message, "error")    }
+  };
+
+
+
+ 
 
 
 
@@ -168,6 +189,8 @@ const AgentList = () => {
          <TableCell>Agent Name</TableCell>
          <TableCell align="right">Mobile Number</TableCell>
          <TableCell align="right">Address</TableCell>
+         <TableCell align="right">Active</TableCell>
+
        </TableRow>
      </TableHead>
      <TableBody>
@@ -183,6 +206,14 @@ const AgentList = () => {
            <TableCell align="right">{agent.mobile}</TableCell>
            {/* @ts-ignore */}
            <TableCell align="right">{agent.address}</TableCell>
+           <TableCell > 
+                        <FormControlLabel
+                         //@ts-ignore
+                          control={<Switch checked={agent.active} onChange={()=>toggleChecked(agent.mobile)} />}
+                          label=""
+                        />
+                      
+                      </TableCell>
          </TableRow>
        ))}
      </TableBody>

@@ -25,7 +25,7 @@ export default function FullConsumerTable() {
         { title: "Consumer No", field: 'consumerNo' },
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Sub Agent", field: 'subAgent' },
-        { title:'Registerd Agency Name', field:'rgisteredAgencyName'},
+        { title:'Registerd Agency Name', field:'registeredAgencyName'},
         { title: "Remarks", field: 'remarks' },
         {title:"Installation status", field:'installtatus'}
     ]

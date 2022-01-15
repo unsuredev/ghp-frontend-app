@@ -16,6 +16,7 @@ import Badge from '@material-ui/core/Badge';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 export const mainListItems = (
   <div>
     <Link href="/customer">
@@ -35,7 +36,7 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <Link href="/cst">
+    <Link href="/dailycustomer">
       <ListItem button>
         <ListItemIcon>
           <GetAppIcon color="secondary" />
@@ -97,9 +98,9 @@ export const mainListItems = (
         <ListItemIcon>
           <MonetizationOnIcon color="secondary" />
         </ListItemIcon>
-        <ListItemText primary="Refil Sale Register" />
-        <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
-        </Badge>
+        <ListItemText primary="Refil Sale" />
+        {/* <Badge className="animate__animated animate__flash animate__infinite animate__infinite 	infinite animate__slower	" badgeContent={"New"} color="secondary">
+        </Badge> */}
       </ListItem>
     </Link>
     <Link href="/reports">
@@ -108,6 +109,15 @@ export const mainListItems = (
           <DashboardIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary="Connection Dashboard" />
+
+      </ListItem>
+    </Link>
+    <Link href="/dash">
+      <ListItem button>
+        <ListItemIcon>
+          <AccessibilityNewIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="User Activity" />
 
       </ListItem>
     </Link>

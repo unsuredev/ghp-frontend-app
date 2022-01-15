@@ -150,6 +150,17 @@ const ConnectionDashboard = () => {
         setConnection({ ...connection, [event.target.name]: event.target.value });
     }
 
+    const getUserName = () => {
+        let token: any = localStorage.getItem("access_token");
+        var decoded = jwt_decode(token);
+        //@ts-ignore
+        let { name } = decoded;
+        if (name && name != undefined) {
+          return name
+        }
+        
+      }
+
 
     const handleUpdate = async () => {
         setOpen(false);
@@ -167,6 +178,7 @@ const ConnectionDashboard = () => {
                 "hpOven": connection.hpOven,
                 "paidAmount": connection.paidAmount,
                 "remarks": connection.remarks,
+                "updatedBy":getUserName()
             },
                 {
                     headers: {
@@ -219,6 +231,13 @@ const ConnectionDashboard = () => {
         var decoded = jwt_decode(token);
         //@ts-ignore
         let { user_id } = decoded;
+        
+        if (user_id === "HHP_3383ff1b-76a5-4f15-9cf1-252c1f16a0f2") {
+            return true;
+        }
+        if (user_id === "HHP_48d4853c-2c4b-4d62-85c8-c2ecc40b323c") {
+            return true;
+        }
         if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
             return true;
         } else {
@@ -275,14 +294,13 @@ const ConnectionDashboard = () => {
 
 
     const handleChangeAgent = (event: any) => {
-        console.log("agent", event.target.value)
         setCustomer({ ...customer, [event.target.name]: event.target.value });
         setConnection({...connection, [event.target.name]: event.target.value })
     }
 
 
     async function getCharacters() {
-        const result = await axios.get(BASE_URL + "agent/getall", {
+        const result = await axios.get(BASE_URL + "agent/getall/active", {
             headers: {
                 encryption: false,
                 access_token: getToken()
@@ -328,14 +346,22 @@ const ConnectionDashboard = () => {
         { title: 'AGENT', field: 'agent' },
         { title: "TOTAL CONNECTION ", field: "totalConnection" ,type: 'numeric'},
         { title: "LOAD PAID", field: "load",type: 'numeric' },
+        { title: "Connection Due", field: "load", type: 'numeric' },
         { title: "REGULATOR PAID", field: "regulator" },
+        { title: "REGULATOR DUE", field: "regulator" },
         { title: "PIPE PAID", field: "pipe" },
+        { title: "PIPE DUE", field: "pipe" },
         { title: "LIGHT PAID", field: "paidLight" },
+        { title: "LIGHT DUE", field: "paidLight" },
         { title: "BPL OVEN", field: "bplOven" },
         { title: "NON HP OVEN", field: "nonHpOven" },
         { title: "HP OVEN", field: "hpOven" },
+        { title: "OVEN DUE", field: "bplOven" },
         { title: "PAID AMOUNT ", field: "paidAmount" },
+        { title: "DUE AMOUNT ", field: "paidAmount" },
         { title: "REMARKS ", field: "remarks" },
+        { title: "INSTALLATION COMPLETE ", field: "remarks" },
+        { title: "INSTALLATION PENDING ", field: "remarks" },
         {
             title: "DATE ", field: "updatedAt", type: "date",
             dateSetting: { locale: "ko-KR" }
@@ -507,7 +533,7 @@ const ConnectionDashboard = () => {
             <div>
 
                 <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">                        Update Connection :</DialogTitle>
+                    <DialogTitle id="form-dialog-title" style={{backgroundColor:"#303F9F",  color: '#FFF'}}> Update Connection : <span style={{ color: '#FFF'}}> {agent.agent}</span> </DialogTitle>
 
                     <DialogContent >
 
@@ -567,12 +593,12 @@ const ConnectionDashboard = () => {
 
                             </div>
                         </DialogContentText>
-                        <Typography style={{ textAlign: "left" }}>
+                        <Typography style={{ textAlign: "left" , margin:"5px" }}>
                             Todays Delivery Update:
                         </Typography>
 
-                        <div  >
-                            <TextField
+                        <div style={{marginLeft:"3rem"}} >
+                            {/* <TextField
                                 autoFocus
                                 margin="dense"
                                 label="Total Connection"
@@ -583,7 +609,7 @@ const ConnectionDashboard = () => {
                                 onChange={handleChange}
                                 style={{ color: "white" }}
                             
-                            />
+                            /> */}
                             <TextField
                                 autoFocus
                                 margin="dense"
@@ -594,7 +620,7 @@ const ConnectionDashboard = () => {
                                 name="load"
                                 variant="outlined"
                                 onChange={handleChange}
-                            
+                                size="medium"
                             />
                             <TextField
                                 autoFocus
@@ -680,7 +706,14 @@ const ConnectionDashboard = () => {
                                 onChange={handleChange}
                                 name="paidAmount"
                             />
+
+                            <Grid container>
+
+                            <Grid item xs={12}>
+                                
+          
                             <TextField
+                            style={{width:"460px"}}
                                 autoFocus
                                 margin="dense"
                                 id="remarks"
@@ -691,6 +724,11 @@ const ConnectionDashboard = () => {
                                 onChange={handleChange}
                                 name="remarks"
                             />
+                            </Grid>
+                            </Grid>
+
+
+
                         </div>
                     </DialogContent>
                     <DialogActions>

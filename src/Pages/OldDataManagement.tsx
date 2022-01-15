@@ -229,7 +229,7 @@ const OldDataManagement = () => {
     installtatus:"",
     year:"",
     oldAgentName:"",
-    rgisteredAgencyName:""
+    registeredAgencyName:""
   });
 
   const handleChangeAgent = (event: any) => {
@@ -373,7 +373,7 @@ const OldDataManagement = () => {
 
       
   async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall", {
+    const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
         access_token: getToken()
@@ -515,6 +515,7 @@ const OldDataManagement = () => {
                         title={user.name.toUpperCase() || "NA"}
                       />
                       <div>
+                            
                         {/* @ts-ignore */}
                         <Typography>Name : {user.name.toUpperCase() || "NA"} </Typography>
                         {/* @ts-ignore */}
@@ -529,7 +530,7 @@ const OldDataManagement = () => {
                           Consumer No :{user.consumerNo || "NA"}{" "}
                         </Typography>
                         {/* @ts-ignore */}
-                        <Typography color="primary">Rgistered Agency Name : {user.rgisteredAgencyName || "NA"}</Typography>
+                        <Typography color="primary">Rgistered Agency Name : {user.registeredAgencyName || "NA"}</Typography>
                         <Typography color="secondary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
                         {/* @ts-ignore */}
                         <Typography>Old Agent Name : {user.oldAgentName || "NA"}</Typography>
@@ -538,6 +539,7 @@ const OldDataManagement = () => {
                         <Typography>Remarks : {user.remarks || "NA"}</Typography>
                         {/* @ts-ignore */}
                         <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
+
                         {user.updatedAt != undefined &&
                           <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                         }
@@ -649,11 +651,11 @@ const OldDataManagement = () => {
                                 <TextField
                                   id="outlined-basic"
                                   label="Rgistered Agency Name"
-                                  name="rgisteredAgencyName"
+                                  name="registeredAgencyName"
                                   variant="outlined"
                                   fullWidth
                                   type="text"
-                                  value={customer.rgisteredAgencyName}
+                                  value={customer.registeredAgencyName}
                                   onChange={handleChangeUser}
                                 />
                               

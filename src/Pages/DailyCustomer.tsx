@@ -239,9 +239,11 @@ const CustomerStats = () => {
                                             { title: 'Consumer No', field: 'consumerNo' },
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
+                                            { title:'Registerd Agency Name', field:'registeredAgencyName'},
                                             { title: "Remarks", field: "remarks" },
                                             {title:'Added By', field:'addedBy'},
-                                            {title:'Installation Status', field:'installtatus'}
+                                            {title:'Installation Status', field:'installtatus'},
+
 
                                             
                                         ]}

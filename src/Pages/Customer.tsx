@@ -124,7 +124,7 @@ const Customer = () => {
 
       
   async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall", {
+    const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
         access_token: getToken()

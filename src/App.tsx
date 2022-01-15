@@ -10,17 +10,19 @@ import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
 import Customer from './Pages/Customer';
 import ResponsiveDrawer from './Pages/Drawer';
-import CustomerStats from './Pages/CustomerStats';
+import CustomerStats from './Pages/DailyCustomer';
 import Reports from './Pages/Report';
 import AgentList from './Pages/AgentManagement';
 import TrashConsumerTable from "./Pages/TrashUsers";
-import ResetPassword from './Pages/ResetPassword';
+import Profile from './Pages/Profile';
 import ImageManagement from './Pages/ImageManagement'
 import OldDataManagement from './Pages/OldDataManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
 import RefilSale from './Pages/RefilSale';
+import HappyBirthDay from './Pages/HappyBirthDay'
+import UserDashBoard from './Pages/UserDashBoard'
 import './App.css';
 
 
@@ -50,18 +52,21 @@ const App = () => {
               <Route exact path="/signin" component={SignIn} />
               <Route exact path="/reset" component={Forgot} />
               <Route exact path="/res" component={ResponsiveDrawer} />
-              <Route exact path="/cst" component={CustomerStats} />
+              <Route exact path="/dailycustomer" component={CustomerStats} />
               <Route exact path="/reports" component={Reports} />
               <Route exact path="/agentlist" component={AgentList} />
               <Route exact path="/trashUsers" component={TrashConsumerTable} />
-              <Route exact path="/changepassword" component={ResetPassword} />
+              <Route exact path="/profile" component={Profile} />
               <Route exact path="/customerDocs" component={ImageManagement} />
               <Route exact path="/customerDocs" component={ImageManagement} />
               <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
               <Route exact path="/delivery" component={MainDashboard} />
               <Route exact path="/refilsale" component={RefilSale} />
+              <Route exact path="/wish" component={HappyBirthDay} />
+              <Route exact path="/dash" component={UserDashBoard} />
 
+              
             </Switch>
           </Router>
         </ToastProvider>

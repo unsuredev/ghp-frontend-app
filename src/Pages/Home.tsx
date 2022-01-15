@@ -302,6 +302,8 @@ const Home = () => {
           familyAadhaar: state.familyAadhaar,
         });
 
+
+
         if (!result.data && result.data === undefined)
           return showToast("No result found", "error");
         setUsers([result.data]);
@@ -329,7 +331,7 @@ const Home = () => {
 
       if (result.data.data && result.data != undefined) {
         showToast("Customer updated successfullly", "success");
-        console.log("updated", result)
+        
       }
     } catch (error) {
       if (error) {
@@ -396,7 +398,7 @@ const Home = () => {
 
       
   async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall", {
+    const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
         access_token: getToken()
@@ -416,7 +418,7 @@ const Home = () => {
       <ResponsiveDrawer />
       <div >
         <div className={classes.heroContent}>
-          <Container maxWidth="md" component="main" style={{ marginTop: "-40px", paddingTop: "-10px" }}>
+          <Container maxWidth="md" component="main" style={{ marginTop: "-20px", paddingTop: "-10px" }}>
             {userGreetings()}
             <Grid
               container
@@ -598,7 +600,7 @@ const Home = () => {
                         {/* @ts-ignore */}
 
                         <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                        <Typography>Registered Agency Name : <span style={{color:"red"}}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                        <Typography>Registered Agency Name : <span style={{color:"red"}}> {user.registeredAgecnyName || "NA"}</span> </Typography>
 
                         <Typography>Remarks : {user.remarks|| "NA"}</Typography>
                         {/* @ts-ignore */}
@@ -778,7 +780,6 @@ const Home = () => {
                             <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
                             <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
                             <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
-                            <MenuItem value="JAMAN HP GAS CONSUMER NOT DELIVERED 2019">JAMAN HP GAS CONSUMER NOT DELIVERED 2019</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>

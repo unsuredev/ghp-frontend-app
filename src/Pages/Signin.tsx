@@ -10,7 +10,13 @@ import {
   Typography
 } from '@material-ui/core';
 import { deepOrange, deepPurple } from '@mui/material/colors';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import { TransitionProps } from '@material-ui/core/transitions';
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -19,6 +25,7 @@ import { ToastContext } from "../Common/ToastProvider";
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
 import '../App.css'
+import HappyBirthDay from './HappyBirthDay';
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -35,7 +42,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const SignIn = () => {
+  const [open, setOpen] = React.useState(true);
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   let history = useHistory();
   const classes = useStyles();
@@ -62,6 +82,24 @@ const SignIn = () => {
 
   return (
     <>
+          {/* <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+     <HappyBirthDay/>
+        <DialogActions>
+        <p>শুভ জন্মদিন জামান | Hope you have a wonderful birthday!</p>
+
+          <Button onClick={handleClose} color="primary">
+            Okay
+          </Button>
+        </DialogActions>
+      </Dialog> */}
+
     <div  className="bg-img"> 
 
 
