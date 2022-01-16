@@ -600,7 +600,7 @@ const Home = () => {
                         {/* @ts-ignore */}
 
                         <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                        <Typography>Registered Agency Name : <span style={{color:"red"}}> {user.registeredAgecnyName || "NA"}</span> </Typography>
+                        <Typography>Registered Agency Name : <span style={{color:"red"}}> {user.registeredAgencyName || "NA"}</span> </Typography>
 
                         <Typography>Remarks : {user.remarks|| "NA"}</Typography>
                         {/* @ts-ignore */}

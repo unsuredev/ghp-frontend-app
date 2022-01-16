@@ -4,7 +4,7 @@ import {
   Grid,
   makeStyles,
   CssBaseline,
-  TextField, Typography
+  TextField
 } from "@material-ui/core";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -79,12 +79,10 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
-  table: {
-    minWidth: 650,
-  },
+
 }));
 
-const Customer = () => {
+const CustomerRegistration = () => {
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
   const [lastUser, setLastUser] = React.useState({});
@@ -94,8 +92,6 @@ const Customer = () => {
 
 
   React.useEffect(() => {
-
-
     getCharacters();
   }, []);
 
@@ -111,10 +107,6 @@ const Customer = () => {
     }
     
   }
-
-
-
-
 
 
   const getToken = () => {
@@ -152,21 +144,15 @@ const Customer = () => {
 
 
 
-
-  
-
-
   return (
     <React.Fragment>
       <CssBaseline />
       <ResponsiveDrawer />
-
-
       <div className={classes.root}>
       <Grid container spacing={1}>
-      <Grid item xs={12} sm={12} md={3}     lg={3}>
+      <Grid item xs={12} sm={12} md={3}     >
         </Grid>
-        <Grid item xs={12} sm={12} md={4}     lg={4} >
+        <Grid item xs={12} sm={12} md={4}      >
             <div>
               <h2>New Customer Registration</h2>
               <Formik
@@ -241,9 +227,9 @@ const Customer = () => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={1}>
-                  <Grid item xs={12}>
+              <form onSubmit={handleSubmit} >
+                <Grid container spacing={1} >
+                  <Grid item xs={12} >
                     <TextField
                           error={Boolean(touched.name && errors.name)}
                           helperText={touched.name && errors.name}
@@ -288,7 +274,7 @@ const Customer = () => {
                           fullWidth
                           id="faadhaar"
                           type="number"
-                           label="Family Adhaar"
+                          label="Family Adhaar"
                           name="familyAadhaar"
                           autoComplete="faadhaar"
                           value={values.familyAadhaar}
@@ -347,21 +333,6 @@ const Customer = () => {
                           }}
                     />
                   </Grid>
-
-                  {/* <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="mainAgent"
-                      label="Main Agent"
-                      type="mainAgent"
-                      id="mainAgent"
-                      autoComplete="mainAgent"
-                      onChange={handleChange}
-                      value={customer.mainAgent}
-                    />
-                  </Grid> */}
                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                     <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel id="demo-simple-select-required-label">Main Agent *</InputLabel>
@@ -399,8 +370,7 @@ const Customer = () => {
                     />
                   </Grid>
                       <Grid item xs={12} sm={12} md={12} >
-                        <FormControl variant="outlined"
- >
+                        <FormControl variant="outlined">
                           <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
                           <Select
                           style={{width:"38rem"}}
@@ -453,13 +423,12 @@ const Customer = () => {
               </form>
               )}
               </Formik>
-
             </div>
           </Grid>
-          <Grid style={{paddingTop:"20px"}}>
-            <h2>Last Registration Details</h2>
+          <Grid item xs={12} sm={12} md={4}  >
+            <h2 style={{textAlign:"center"}}>Last Registration Details</h2>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
+              <Table  aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     {/* @ts-ignore */}
@@ -475,11 +444,11 @@ const Customer = () => {
                   </TableRow>
                   <TableRow>
                     {/* @ts-ignore */}
-                    <TableCell align="left">          Mobile No: {lastUser.mobile}</TableCell>
+                    <TableCell align="left">Mobile No: {lastUser.mobile}</TableCell>
                   </TableRow>
                   <TableRow>
                     {/* @ts-ignore */}
-                    <TableCell align="left">   Registration No :{lastUser.regNo}</TableCell>
+                    <TableCell align="left">Registration No :{lastUser.regNo}</TableCell>
                   </TableRow>
                   <TableRow>
                     {/* @ts-ignore */}
@@ -506,11 +475,11 @@ const Customer = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Grid>
+            </Grid>
         </Grid>
     </div>
     </React.Fragment>
   );
 };
 
-export default Customer;
+export default CustomerRegistration;

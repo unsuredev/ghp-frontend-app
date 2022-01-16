@@ -396,7 +396,7 @@ const HandleOnline = async (status:boolean) => {
               <Divider />
                                                               {/* @ts-ignore */}
 
-              <MenuItem >Last login: &nbsp;+<span style={{ color: "blue" }}> {moment(user.last_login_timestamp).format('LLL')} </span>  </MenuItem>
+              <MenuItem >Last login: &nbsp;<span style={{ color: "blue" }}> {moment(user.last_login_timestamp).format('LLL')} </span>  </MenuItem>
               <Divider />
               <MenuItem onClick={() =>HandleOnline(user.is_online)} >{user.is_online ? <div style={{display:"contents"}}> <p>Set yourself away </p> &nbsp; &nbsp; <RadioButtonUncheckedIcon style={{color:"#40E227"}} /> </div>:<div style={{display:"contents"}}>  <p> Set yourself active </p> &nbsp; &nbsp; <RadioButtonCheckedIcon style={{color:"#40E227"}} /></div>}  </MenuItem>
               <Divider />

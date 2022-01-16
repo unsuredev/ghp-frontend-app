@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(1),
 
-    }, main:
-    {
-        width: 270
     },
     icon: {
         marginRight: theme.spacing(2),
@@ -152,8 +149,10 @@ const toggleNewView=()=>{
                 <div className={classes.heroContent}>
                     <Container maxWidth="md">
                         <div className={classes.heroButtons} style={{display:"flex"}}>
-                            <Grid container spacing={2} >
-                                <Card className={classes.main}>
+                            <Grid container spacing={1} >
+                            <Grid item xs={12} sm={12} md={4}>
+
+                                <Card >
                                     <CardContent>
                                         <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}>
                                         Total Customer 2021 
@@ -174,7 +173,10 @@ const toggleNewView=()=>{
 
                                     </CardContent>
                                 </Card>
-                                <Card className={classes.main}>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+
+                                <Card >
                                     <CardContent>
                                         <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
                                             Total Customer Before 2021 
@@ -192,7 +194,9 @@ const toggleNewView=()=>{
                                             >View & Download</Button>
                                     </CardContent>
                                 </Card>
-                                <Card className={classes.main}>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                <Card >
                                     <CardContent>
                                         <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
                                             Total Connection Delivery Report
@@ -210,10 +214,11 @@ const toggleNewView=()=>{
                                             >View & Download</Button>
                                     </CardContent>
                                 </Card>
+                                </Grid>
                             </Grid>
                         </div>
                         <Grid container spacing={4} style={{ marginTop: "50px" }}>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
                                 <Card className={classes.card}>
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">

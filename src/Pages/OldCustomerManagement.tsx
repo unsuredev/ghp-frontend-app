@@ -43,6 +43,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -393,8 +394,8 @@ const OldDataManagement = () => {
       <ResponsiveDrawer />
       <div >
         <div className={classes.heroContent}>
-          <Container maxWidth="md" component="main" >
-          <h2 style={{ margin: "auto",textAlign:"center" , color:'#3F51B5' }}>You are interacting with 2021 earlier data!</h2>
+          <Container maxWidth="md" component="main"  style={{ marginTop: "4rem"}}>
+          <h2 style={{ margin: "auto",textAlign:"center" , color:'#3F51B5' }}>You are interacting with 2021 earlier customer!</h2>
           <br/>
 
             <Grid

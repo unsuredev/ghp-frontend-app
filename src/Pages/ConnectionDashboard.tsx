@@ -83,7 +83,7 @@ const ConnectionDashboard = () => {
         "hpOven": 0,
         "paidAmount": 0,
         "remarks": " ",
-        installationComplete:0
+        installationComplete: 0
     })
 
     const [connection, setConnection] = React.useState({
@@ -156,10 +156,10 @@ const ConnectionDashboard = () => {
         //@ts-ignore
         let { name } = decoded;
         if (name && name != undefined) {
-          return name
+            return name
         }
-        
-      }
+
+    }
 
 
     const handleUpdate = async () => {
@@ -168,7 +168,7 @@ const ConnectionDashboard = () => {
             const result = await axios.post(BASE_URL + "agent/connection/update", {
                 "agent": customer.agent,
                 "totalConnection": connection.totalConnection,
-                "load":connection.load,
+                "load": connection.load,
                 "regulator": connection.regulator,
                 "pipe": connection.pipe,
                 "totalLight": connection.totalLight,
@@ -178,7 +178,7 @@ const ConnectionDashboard = () => {
                 "hpOven": connection.hpOven,
                 "paidAmount": connection.paidAmount,
                 "remarks": connection.remarks,
-                "updatedBy":getUserName()
+                "updatedBy": getUserName()
             },
                 {
                     headers: {
@@ -231,7 +231,7 @@ const ConnectionDashboard = () => {
         var decoded = jwt_decode(token);
         //@ts-ignore
         let { user_id } = decoded;
-        
+
         if (user_id === "HHP_3383ff1b-76a5-4f15-9cf1-252c1f16a0f2") {
             return true;
         }
@@ -295,7 +295,7 @@ const ConnectionDashboard = () => {
 
     const handleChangeAgent = (event: any) => {
         setCustomer({ ...customer, [event.target.name]: event.target.value });
-        setConnection({...connection, [event.target.name]: event.target.value })
+        setConnection({ ...connection, [event.target.name]: event.target.value })
     }
 
 
@@ -344,8 +344,8 @@ const ConnectionDashboard = () => {
 
     const columns = [
         { title: 'AGENT', field: 'agent' },
-        { title: "TOTAL CONNECTION ", field: "totalConnection" ,type: 'numeric'},
-        { title: "LOAD PAID", field: "load",type: 'numeric' },
+        { title: "TOTAL CONNECTION ", field: "totalConnection", type: 'numeric' },
+        { title: "LOAD PAID", field: "load", type: 'numeric' },
         { title: "Connection Due", field: "load", type: 'numeric' },
         { title: "REGULATOR PAID", field: "regulator" },
         { title: "REGULATOR DUE", field: "regulator" },
@@ -415,26 +415,27 @@ const ConnectionDashboard = () => {
                     </Button>
 
                 </Grid>
-                <Grid container spacing={3} style={{ marginTop: "2rem" }}>
-     
+                {show ?
+                    <Grid container spacing={3} style={{ marginTop: "2rem" }}>
 
-            {show ?
-                        <Grid item xs={12} md={4} style={{textAlign:"left"}} >
+
+
+                        <Grid item xs={12} md={4} style={{ textAlign: "left" }} >
                             <Card >
                                 <CardContent>
-                                    <Typography variant="button" display="block" gutterBottom>AGENT :<span style={{ color: "#e91e63", fontSize: "20px" }}> {agent.agent}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom><span style={{ color: "#e91e63", fontSize: "20px" ,textAlign:"center" }}> {agent.agent}</span></Typography>
 
                                     <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>Installation Complete: <span style={{ color: "#e91e63", fontSize: "20px" }}>{agent.installationComplete}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>Pending Installation: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load-agent.installationComplete}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>Pending Installation: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.installationComplete}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>CONNECTION DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection - agent.load}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REGULATOR PAID: <span style={{ color: "blue", fontSize: "20px" }}> {agent.regulator}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load-agent.regulator}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.regulator}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>PIPE PAID:<span style={{ color: "blue", fontSize: "20px" }}> {agent.pipe}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>PIPE DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.load-agent.pipe}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>PIPE DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.load - agent.pipe}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>LIGHT PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.paidLight}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.hpOven+agent.nonHpOven-agent.paidLight}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.hpOven + agent.nonHpOven - agent.paidLight}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>BPL OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.bplOven}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>OVEN NON HP:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
@@ -443,7 +444,7 @@ const ConnectionDashboard = () => {
                                     <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
                                     {/* @ts-ignore */}
                                     <Typography variant="button" display="block" gutterBottom>PAID AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
-                                                                        {/* @ts-ignore */}
+                                    {/* @ts-ignore */}
                                     <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>ACTION :           {getUser() ?
@@ -453,8 +454,10 @@ const ConnectionDashboard = () => {
                                 </CardContent>
                             </Card>
                         </Grid>
-                : null}
-                                <Grid item xs={12} md={4}>
+
+
+
+                        <Grid item xs={12} md={4}>
                             <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
                                 <CardContent>
                                     <Typography gutterBottom>
@@ -472,9 +475,12 @@ const ConnectionDashboard = () => {
                                 <CardActions>
                                     <Button size="small" onClick={() => setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color: "white" }} /></Button>
                                 </CardActions>
-                            </Card>                        </Grid>
-                            
+                            </Card> 
+                            </Grid>
+
                     </Grid>
+
+                    : null}
 
                 <div>
                     <Dialog
@@ -533,7 +539,7 @@ const ConnectionDashboard = () => {
             <div>
 
                 <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title" style={{backgroundColor:"#303F9F",  color: '#FFF'}}> Update Connection : <span style={{ color: '#FFF'}}> {agent.agent}</span> </DialogTitle>
+                    <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#303F9F", color: '#FFF' }}> Update Connection : <span style={{ color: '#FFF' }}> {agent.agent}</span> </DialogTitle>
 
                     <DialogContent >
 
@@ -593,11 +599,11 @@ const ConnectionDashboard = () => {
 
                             </div>
                         </DialogContentText>
-                        <Typography style={{ textAlign: "left" , margin:"5px" }}>
+                        <Typography style={{ textAlign: "left", margin: "5px" }}>
                             Todays Delivery Update:
                         </Typography>
 
-                        <div style={{marginLeft:"3rem"}} >
+                        <div style={{ marginLeft: "3rem" }} >
                             {/* <TextField
                                 autoFocus
                                 margin="dense"
@@ -632,7 +638,7 @@ const ConnectionDashboard = () => {
                                 variant="outlined"
                                 onChange={handleChange}
                                 name="regulator"
-                            
+
                             />
                             <TextField
                                 autoFocus
@@ -644,7 +650,7 @@ const ConnectionDashboard = () => {
                                 value={connection.pipe}
                                 onChange={handleChange}
                                 name="pipe"
-                            
+
                             />
                             <TextField
                                 autoFocus
@@ -656,7 +662,7 @@ const ConnectionDashboard = () => {
                                 variant="outlined"
                                 onChange={handleChange}
                                 name="paidLight"
-                            
+
                             />
                             <TextField
                                 autoFocus
@@ -668,7 +674,7 @@ const ConnectionDashboard = () => {
                                 value={connection.bplOven}
                                 onChange={handleChange}
                                 name="bplOven"
-                            
+
 
                             />
                             <TextField
@@ -709,22 +715,22 @@ const ConnectionDashboard = () => {
 
                             <Grid container>
 
-                            <Grid item xs={12}>
-                                
-          
-                            <TextField
-                            style={{width:"460px"}}
-                                autoFocus
-                                margin="dense"
-                                id="remarks"
-                                label="Remarks"
-                                type="text"
-                                variant="outlined"
-                                value={connection.remarks}
-                                onChange={handleChange}
-                                name="remarks"
-                            />
-                            </Grid>
+                                <Grid item xs={12}>
+
+
+                                    <TextField
+                                        style={{ width: "460px" }}
+                                        autoFocus
+                                        margin="dense"
+                                        id="remarks"
+                                        label="Remarks"
+                                        type="text"
+                                        variant="outlined"
+                                        value={connection.remarks}
+                                        onChange={handleChange}
+                                        name="remarks"
+                                    />
+                                </Grid>
                             </Grid>
 
 

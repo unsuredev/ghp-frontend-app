@@ -8,7 +8,7 @@ import MemberSignUp from './Pages/UserManagement'
 import SignIn from './Pages/Signin';
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
-import Customer from './Pages/Customer';
+import Customer from './Pages/CustomerRegistration';
 import ResponsiveDrawer from './Pages/Drawer';
 import CustomerStats from './Pages/DailyCustomer';
 import Reports from './Pages/Report';
@@ -16,7 +16,7 @@ import AgentList from './Pages/AgentManagement';
 import TrashConsumerTable from "./Pages/TrashUsers";
 import Profile from './Pages/Profile';
 import ImageManagement from './Pages/ImageManagement'
-import OldDataManagement from './Pages/OldDataManagement'
+import OldDataManagement from './Pages/OldCustomerManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
