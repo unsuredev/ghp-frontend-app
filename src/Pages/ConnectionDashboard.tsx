@@ -37,6 +37,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import CardMedia from '@material-ui/core/CardMedia';
 const useStyles = makeStyles({
     head: {
         backgroundColor: 'blue',
@@ -57,6 +58,9 @@ const useStyles = makeStyles({
     paper: {
         textAlign: 'center',
     },
+    cardMedia: {
+        paddingTop: '46.25%', // 16:9
+      },
 });
 
 
@@ -66,6 +70,19 @@ const ConnectionDashboard = () => {
     const { showToast } = React.useContext(ToastContext);
     const [show, setShow] = React.useState(false)
     const [agentList, setAgetList] = React.useState([]);
+    const [sms, setSms]= React.useState({
+        "agent":"",
+        "load": 0,
+        "regulator": 0,
+        "pipe": 0,
+        "light": 0,
+        "bplOven": 0,
+        "nonHpOven": 0,
+        "hpOven": 0,
+        "installationPending":0,
+        "paidAmount": 0,
+        "dueAmount":0
+    })
     const [customer, setCustomer] = React.useState({
         agent: "",
     });
@@ -150,6 +167,11 @@ const ConnectionDashboard = () => {
         setConnection({ ...connection, [event.target.name]: event.target.value });
     }
 
+    const handleChangeSMS = (event: any) => {
+        setSms({ ...sms, [event.target.name]: event.target.value });
+    }
+
+
     const getUserName = () => {
         let token: any = localStorage.getItem("access_token");
         var decoded = jwt_decode(token);
@@ -160,6 +182,19 @@ const ConnectionDashboard = () => {
         }
 
     }
+
+
+    const getRole = () => {
+        let token: any = localStorage.getItem("access_token");
+
+        var decoded = jwt_decode(token);
+        //@ts-ignore
+        let { role } = decoded;
+        return role;
+    }
+
+
+
 
 
     const handleUpdate = async () => {
@@ -230,15 +265,9 @@ const ConnectionDashboard = () => {
         let token: any = localStorage.getItem("access_token");
         var decoded = jwt_decode(token);
         //@ts-ignore
-        let { user_id } = decoded;
+        let { role } = decoded;
 
-        if (user_id === "HHP_3383ff1b-76a5-4f15-9cf1-252c1f16a0f2") {
-            return true;
-        }
-        if (user_id === "HHP_48d4853c-2c4b-4d62-85c8-c2ecc40b323c") {
-            return true;
-        }
-        if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+        if (role === "employee") {
             return true;
         } else {
             return false;
@@ -268,10 +297,11 @@ const ConnectionDashboard = () => {
     }
 
 
-    const handleFind = async () => {
+
+    const FindOwnConnection = async () => {
         try {
             const result = await axios.post(BASE_URL + "agent/connection/get", {
-                "agent": customer.agent
+                "agent": getUserName()
             },
                 {
                     headers: {
@@ -293,9 +323,40 @@ const ConnectionDashboard = () => {
     }
 
 
+
+    const handleFind = async () => {
+        try {
+            if(getRole()==="user"){
+                FindOwnConnection()
+            }
+        else{
+            const result = await axios.post(BASE_URL + "agent/connection/get", {
+                "agent": customer.agent
+            },
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                });
+            if (result && result.data) {
+                setAgent(result.data.data)
+                setShow(true)
+            }
+        }}
+        catch (error) {
+            if (error) {
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
+        }
+    }
+
+
     const handleChangeAgent = (event: any) => {
         setCustomer({ ...customer, [event.target.name]: event.target.value });
         setConnection({ ...connection, [event.target.name]: event.target.value })
+        setSms({ ...sms, [event.target.name]: event.target.value })
     }
 
 
@@ -318,6 +379,9 @@ const ConnectionDashboard = () => {
         try {
             setLoadingTable(true)
             setLoading(true)
+            if(getRole()==="user"){
+                fetchOwnSalesData()
+            }else{
             const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent": customer.agent },
                 {
                     headers: {
@@ -330,7 +394,7 @@ const ConnectionDashboard = () => {
                 setLoading(false)
                 setLoadingTable(true)
             }
-        }
+        }}
         catch (error) {
             if (error) {
                 //@ts-ignore
@@ -338,6 +402,59 @@ const ConnectionDashboard = () => {
             }
         }
     }
+
+
+        //find own nc delivery data
+        const fetchOwnSalesData = async () => {
+            try {
+                setLoadingTable(true)
+                setLoading(true)
+                const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent":getUserName()
+                 },
+                    {
+                        headers: {
+                            encryption: false,
+                            access_token: getToken()
+                        },
+                    })
+                if (result.data) {
+                    setData(result.data.data)
+                    setLoading(false)
+                    setLoadingTable(true)
+                }
+            }
+            catch (error) {
+                if (error) {
+                    //@ts-ignore
+                    showToast(error.response.data.message, "error")
+                }
+            }
+        }
+
+        //send SMS to agent
+        const sendSms = async () => {
+            try {
+                const result = await axios.post(BASE_URL + "agent/sendsms", { 
+                    sms
+                },
+                    {
+                        headers: {
+                            encryption: false,
+                            access_token: getToken()
+                        },
+                    })
+                if (result.data) {
+                    showToast(result.data.message, "success");
+                }
+            }
+            catch (error) {
+                if (error) {
+                    //@ts-ignore
+                    showToast(error.response.data.message, "error")
+                }
+            }
+        }
+    
 
 
 
@@ -378,6 +495,7 @@ const ConnectionDashboard = () => {
                 <Grid item xs={12} sm={12} md={12}  >
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>
+                        {getRole()!="user"?
                         <Select
                             displayEmpty
                             className={classes.selectEmpty}
@@ -392,7 +510,8 @@ const ConnectionDashboard = () => {
                                     //@ts-ignore
                                     key={item.label} value={item.value} >{item.label}</MenuItem>
                             ))}
-                        </Select>
+                        </Select>:
+                                    <Typography variant="button" display="block" gutterBottom> <span style={{ color: "blue", fontSize: "20px" }}>{getUserName()}</span></Typography>}
                     </FormControl>
                 </Grid>
 
@@ -420,11 +539,18 @@ const ConnectionDashboard = () => {
 
 
 
-                        <Grid item xs={12} md={4} style={{ textAlign: "left" }} >
+                        <Grid item xs={12} md={4}  >
                             <Card >
+                            <CardMedia
+                    className={classes.cardMedia}
+                    image="https://source.unsplash.com/random"
+                    title="Image title"
+                  />
                                 <CardContent>
                                     <Typography variant="button" display="block" gutterBottom><span style={{ color: "#e91e63", fontSize: "20px" ,textAlign:"center" }}> {agent.agent}</span></Typography>
+                                    <div style={{textAlign:"left"}}>
 
+                                    
                                     <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>Installation Complete: <span style={{ color: "#e91e63", fontSize: "20px" }}>{agent.installationComplete}</span></Typography>
@@ -447,15 +573,141 @@ const ConnectionDashboard = () => {
                                     {/* @ts-ignore */}
                                     <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>ACTION :           {getUser() ?
+                                    <Typography variant="button" display="block" gutterBottom>ACTION :           {getRole()==="admin"||getRole()==="superadmin" ?
                                         <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
                                             <CreateIcon />
                                         </IconButton> : "No option"}</Typography>
+                                        </div>
                                 </CardContent>
                             </Card>
                         </Grid>
 
 
+                        {getRole()==="admin" || getRole()==="superadmin" ?
+                        <Grid item xs={12} md={4}>
+                            
+                            <Card >
+                                
+                                <CardContent>
+                                    <Typography gutterBottom>
+                                        Send SMS Update to <span style={{ color: "#e91e63" , paddingTop:"3rem" }}>{agent.agent}</span>
+                                    </Typography>
+                                    <Grid container spacing={1} style={{marginTop:"2rem"}}>
+                                    <Grid item xs={6}   >
+                                        <div style={{margin:"2px"}}>
+                                       
+                                            <TextField label="Load"
+                                                id="standard-size-small"
+                                                size="small"
+                                                value={sms.load}
+                                                onChange={handleChangeSMS}
+                                                name="load"
+                                                type="Number"
+
+                                            />
+                                         <TextField label="Regulator"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.regulator}
+                                                onChange={handleChangeSMS}
+                                                name="regulator"
+                                                type="Number"
+
+                                            />
+                                            <TextField
+                                                label="HP Oven"
+                                                id="standard-size-small"
+                                                size="small"
+                                                value={sms.hpOven}
+                                                onChange={handleChangeSMS}
+                                                name="hpOven"
+                                                type="Number"
+
+                                            />
+                                            <TextField label="BPL Oven"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.bplOven}
+                                                onChange={handleChangeSMS}
+                                                name="bplOven"
+                                                type="Number"
+
+                                            />
+                                       
+                                            <TextField label="Amount Paid"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.paidAmount}
+                                                onChange={handleChangeSMS}
+                                                name="paidAmount"
+                                                type="Number"
+
+                                            />
+                                                 
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={6} >
+                                            <TextField label="Pipe"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.pipe}
+                                                onChange={handleChangeSMS}
+                                                name="pipe"
+                                                type="Number"
+
+                                            />
+                                            <TextField label="Non HP Oven"
+                                                id="standard-size-small"
+                                                size="small"
+                                                value={sms.nonHpOven}
+                                                onChange={handleChangeSMS}
+                                                name="nonHpOven"
+                                                type="Number"
+
+                                            />
+                                            <TextField label="Light"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.light}
+                                                onChange={handleChangeSMS}
+                                                name="light"
+                                                type="Number"
+
+                                            />
+                                                <TextField label="Installation Pending"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.installationPending}
+                                                onChange={handleChangeSMS}
+                                                name="installationPending"
+                                                type="Number"
+
+                                            />
+                                            <TextField label="Total Amount Due"
+                                                id="standard-size-normal"
+                                                size="small"
+                                                value={sms.dueAmount}
+                                                onChange={handleChangeSMS}
+                                                name="dueAmount"
+                                                type="Number"
+
+                                            />
+                                    </Grid>
+                                    </Grid>
+                                </CardContent>
+                                <Button
+                                        variant="contained"
+                                        component="label"
+                                        color="primary"
+                                        size="large"
+                                        onClick={sendSms}
+                                    >
+                                        SEND SMS
+                                    </Button>
+                            </Card>
+                        </Grid>:null
+                        }
+                                                {getRole()==="superadmin" &&(
 
                         <Grid item xs={12} md={4}>
                             <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
@@ -477,11 +729,9 @@ const ConnectionDashboard = () => {
                                 </CardActions>
                             </Card> 
                             </Grid>
-
+                                                )}
                     </Grid>
-
                     : null}
-
                 <div>
                     <Dialog
                         open={openPrice}
@@ -533,11 +783,7 @@ const ConnectionDashboard = () => {
                 </div>
             </Container>
 
-
-
-
             <div>
-
                 <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#303F9F", color: '#FFF' }}> Update Connection : <span style={{ color: '#FFF' }}> {agent.agent}</span> </DialogTitle>
 

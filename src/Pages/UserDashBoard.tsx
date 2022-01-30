@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
     },
+    large: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+      },
 }));
 
 
@@ -113,14 +117,6 @@ const UserDashBoard = () => {
     });
 
 
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
-    });
-
-    const handleSwitch = (event: any) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
 
     const handleChange = (event: any) => {
         setUser({ ...user, [event.target.name]: event.target.value });
@@ -226,7 +222,6 @@ const UserDashBoard = () => {
                                         <TableCell >Email </TableCell>
                                         <TableCell >Online </TableCell>
                                         <TableCell >Staus </TableCell>
-                                        <TableCell >Attendance  </TableCell>
                                         <TableCell >Last login Time  </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -237,18 +232,19 @@ const UserDashBoard = () => {
                                             <TableCell align="left">{i + 1}</TableCell>
                                             <TableCell>
                                                 {/* @ts-ignore */}
-                                                <Avatar alt={user.name} src={user.profile_url} />
+                                                <Avatar alt={user.name} src={user.profile_url} className={classes.large} />
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {/* @ts-ignore */}
                                                 {user.name}
                                             </TableCell>
                                             {/* @ts-ignore */}
-                                            <TableCell align="left">{user.email}</TableCell>
+                                            <TableCell align="left">{user.email?user.email:user.mobile}</TableCell>
                                             {/* @ts-ignore */}
-                                            <TableCell align="left">{user.is_online ? "YES" : "NO"}</TableCell>
-                                            {/* @ts-ignore */}
-                                            <TableCell align="left">{user.status}</TableCell>
+                                            <TableCell align="left">{user.is_online ?
+                                                <p style={{ color: "green" }}>Yes</p>
+                                                : <p style={{ color: "red" }}>No</p>
+                                            }</TableCell>
                                             {/* @ts-ignore */}
                                             <TableCell align="left">{user.status}</TableCell>
                                             {/* @ts-ignore */}

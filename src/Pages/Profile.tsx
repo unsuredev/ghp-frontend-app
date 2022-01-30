@@ -98,7 +98,8 @@ const Profile = () => {
         dob: "",
         old_password: "",
         new_password: "",
-        email: ""
+        email: "",
+        mobile:""
     });
 
     const [data, setData] = useState({
@@ -173,7 +174,8 @@ const Profile = () => {
                 {
                     "email": user.email,
                     "dob": user.dob,
-                    "city": user.city
+                    "city": user.city,
+                    "mobile":user.mobile
                 },
                 {
                     headers: {
@@ -277,10 +279,32 @@ const Profile = () => {
     };
 
 
-    const handleLogout = () => {
-        localStorage.clear();
-        history.push("/");
+
+    const handleLogout = async () => {
+        try {
+            const result = await axios.post(BASE_URL + "user/logout",
+                {},
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    }
+                })
+            if (result.data && result.data != null) {
+                showToast(result.data.message, "success");
+                localStorage.clear();
+                history.push("/");
+            }
+            else {
+                showToast(result.data.message, "error");
+            }
+        } catch (error) {
+            console.log(error)
+            showToast("Something went wrong!", "error");
+        }
     };
+
+
 
     return (
         <React.Fragment>
@@ -331,6 +355,19 @@ const Profile = () => {
                                 autoComplete="email"
                                 size="small"
                                 value={user.email}
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="mobile"
+                                label="Mobile Number"
+                                name="mobile"
+                                autoComplete="mobile"
+                                size="small"
+                                value={user.mobile}
                                 onChange={handleChange}
                             />
                         </Grid>

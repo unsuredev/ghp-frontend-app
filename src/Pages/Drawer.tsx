@@ -13,8 +13,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { mainListItems, secondaryListItems } from "./ListItems";
-import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
@@ -22,9 +20,7 @@ import Link from "@material-ui/core/Link";
 import jwt_decode from "jwt-decode";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import SettingsIcon from '@material-ui/icons/Settings';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import HistoryIcon from '@material-ui/icons/History';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import Switch from '@material-ui/core/Switch';
@@ -32,7 +28,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
@@ -41,16 +36,27 @@ import Menu from '@material-ui/core/Menu';
 import TextField from '@material-ui/core/TextField';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import SearchIcon from '@material-ui/icons/Search';
 import moment from "moment";
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
 import { ToastContext } from "../Common/ToastProvider";
+import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FaceIcon from '@material-ui/icons/Face';
 
 import '../style/Header.css'
 const drawerWidth = 260;
@@ -146,14 +152,33 @@ function ResponsiveDrawer() {
   const classes = useStyles();
   const theme = useTheme();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    history.push("/");
+  const handleLogout = async () => {
+    try {
+      const result = await axios.post(BASE_URL + "user/logout",
+        {},
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          }
+        })
+      if (result.data && result.data != null) {
+        showToast(result.data.message, "success");
+        localStorage.clear();
+        history.push("/");
+      }
+      else {
+        showToast(result.data.message, "error");
+      }
+    } catch (error) {
+      console.log(error)
+      showToast("Something went wrong!", "error");
+    }
   };
 
   const handleChange = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
-    
+
   };
 
 
@@ -165,6 +190,16 @@ function ResponsiveDrawer() {
     //@ts-ignore
     let { user_id } = decoded;
     return user_id;
+
+  };
+
+
+  const getRole = () => {
+    let token: any = localStorage.getItem("access_token");
+    var decoded = jwt_decode(token);
+    //@ts-ignore
+    let { role } = decoded;
+    return role;
 
   };
 
@@ -209,82 +244,224 @@ function ResponsiveDrawer() {
 
   const HandleStatus = async () => {
     try {
-        const result = await axios.post(BASE_URL + "user/update",
-            {
-                "status":user.status
-            },
-            {
-                headers: {
-                    encryption: false,
-                    access_token: getToken()
-                }
-            })
-            handleClose()
-
-        if (result.data && result.data != null) {
-            showToast("Status updated successfully!", "success");
-       
-          }
-        else {
-            showToast(result.data.message, "error");
-        }
-    } catch (error) {
-        console.log(error)
-        showToast("Status couldn't update", "error");
-    }
-};
-
-
-
-const HandleOnline = async (status:boolean) => {
-  try {
       const result = await axios.post(BASE_URL + "user/update",
-          {
-              "is_online":!status
-
-          },
-          {
-              headers: {
-                  encryption: false,
-                  access_token: getToken()
-              }
-          })
+        {
+          "status": user.status
+        },
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          }
+        })
+      handleClose()
       if (result.data && result.data != null) {
-          showToast("Status updated successfully!", "success");
-          fetchUser()
+        showToast("Status updated successfully!", "success");
       }
       else {
-          showToast(result.data.message, "error");
+        showToast(result.data.message, "error");
       }
-  } catch (error) {
+    } catch (error) {
       console.log(error)
       showToast("Status couldn't update", "error");
-  }
-};
+    }
+  };
+
+
+
+  const HandleOnline = async (status: boolean) => {
+    try {
+      const result = await axios.post(BASE_URL + "user/update",
+        {
+          "is_online": !status
+        },
+        {
+          headers: {
+            encryption: false,
+            access_token: getToken()
+          }
+        })
+      if (result.data && result.data != null) {
+        showToast("Status updated successfully!", "success");
+        fetchUser()
+      }
+      else {
+        showToast(result.data.message, "error");
+      }
+    } catch (error) {
+      console.log(error)
+      showToast("Status couldn't update", "error");
+    }
+  };
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
+
+
   const drawer = (
     <div>
       <List>
-        <ListItem button>
-          <ListItemText primary={mainListItems} />
-        </ListItem>
-        {getUser() === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef" ? (
+        {getRole() != "user" && (
+          <div style={{ marginTop: "2rem" }}>
+            <Link href="/customer">
+              <ListItem button>
+                <ListItemIcon>
+                  <PersonAddIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Consumer Registration" />
+              </ListItem>
+            </Link>
+            <Link href="/home">
+              <ListItem button>
+                <ListItemIcon>
+                  <SearchIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Find Consumer" />
+              </ListItem>
+            </Link>
+            <Link href="/olddatamanagement">
+              <ListItem button>
+                <ListItemIcon>
+                  <FolderSpecialIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Find Consumer Before 2021" />
+              </ListItem>
+            </Link>
+            <Link href="/delivery">
+              <ListItem button>
+                <ListItemIcon>
+                  <BarChartIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="NC Delivery Dashboard" />
+              </ListItem>
+            </Link>
+            <Link href="/customerDocs">
+              <ListItem button>
+                <ListItemIcon>
+                  <CloudUploadIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Image & Docs  Management" />
+              </ListItem>
+            </Link>
+            <Link href="/refilsale">
+              <ListItem button>
+                <ListItemIcon>
+                  <MonetizationOnIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Refil Sale" />
+              </ListItem>
+            </Link>
+            <Link href="/reports">
+              <ListItem button>
+                <ListItemIcon>
+                  <DashboardIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Connection Dashboard" />
+              </ListItem>
+            </Link>
+      
+            <Link href="/dailycustomer">
+              <ListItem button>
+                <ListItemIcon>
+                  <GetAppIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Download Reports" />
+              </ListItem>
+            </Link>
+            <Link href="/trashUsers">
+              <ListItem button>
+                <ListItemIcon>
+                  <RestoreFromTrashIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Trash Consumers" />
+              </ListItem>
+            </Link>
+            <Link href="/dash">
+              <ListItem button>
+                <ListItemIcon>
+                  <AccessibilityNewIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="User Activity" />
+              </ListItem>
+            </Link>
+            <Link href="/profile">
+              <ListItem button>
+                <ListItemIcon>
+                  <FaceIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Profile" />
+              </ListItem>
+            </Link>
+            <Link href="/">
+              <ListItem button>
+                <ListItemIcon onClick={() => { localStorage.clear() }}>
+                  <ExitToAppIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Log out" />
+              </ListItem>
+            </Link>
+          </div>
+        )}
+
+        {getRole() === "user" && (
+          <div style={{ marginTop: "2rem" }}>
+            <Link href="/home">
+              <ListItem button>
+                <ListItemIcon>
+                  <SearchIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Find Consumer" />
+              </ListItem>
+            </Link>
+            <Link href="/agentdashboard">
+            <ListItem button>
+              <ListItemIcon>
+                <BarChartIcon color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary=" Dashboard" />
+            </ListItem>
+          </Link>
+            <Link href="/connection">
+              <ListItem button>
+                <ListItemIcon>
+                  <TrendingUpIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Sales & Connection" />
+              </ListItem>
+            </Link>
+
+            <Link href="/profile">
+              <ListItem button>
+                <ListItemIcon>
+                  <FaceIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Profile" />
+              </ListItem>
+            </Link>
+            <Link href="/">
+              <ListItem button>
+                <ListItemIcon onClick={() => { localStorage.clear() }}>
+                  <ExitToAppIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Log out" />
+              </ListItem>
+            </Link>
+          </div>
+        )}
+
+
+        {getRole() === "superadmin" ? (
           <div>
-
-
             <Link href="/member">
-              <ListItem button style={{ marginTop: "7rem" }}>
+              <ListItem button style={{ marginTop: "2rem" }}>
                 <ListItemIcon>
                   <SupervisorAccountOutlinedIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="User Management" />
               </ListItem>
             </Link>
-
             <Link href="/agentlist">
               <ListItem button>
                 <ListItemIcon>
@@ -296,17 +473,19 @@ const HandleOnline = async (status:boolean) => {
           </div>
         ) : null}
 
+
       </List>
     </div>
   );
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} color="inherit">
-        <section className="early">
-
-        </section>
         <Toolbar>
+
+
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -316,8 +495,6 @@ const HandleOnline = async (status:boolean) => {
           >
             <MenuIcon />
           </IconButton>
-
-
           <img src={require("../logo_hpcl.jpg").default}
             alt="hpgas logo" />
           <div style={{ marginLeft: "20rem" }}>
@@ -330,7 +507,7 @@ const HandleOnline = async (status:boolean) => {
 
   </article> */}
           </div>
-          <div style={{ marginLeft: "29rem" }}>
+          <div style={{ marginLeft: "28rem" }}>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -373,8 +550,8 @@ const HandleOnline = async (status:boolean) => {
                 <Card >
                   <CardActionArea>
                     <CardMedia
-                  image="/static/blue.jpg"
-                                title="Contemplative Reptile"
+                      image="/static/blue.jpg"
+                      title="Contemplative Reptile"
                     />
                   </CardActionArea>
                 </Card>
@@ -388,17 +565,17 @@ const HandleOnline = async (status:boolean) => {
                   variant="dot"
                 >
 
-                  <Avatar alt={user.name}    src={user.profile_url} />
+                  <Avatar alt={user.name} src={user.profile_url} />
                 </StyledBadge>
               </div>
               <Divider />
               <MenuItem onClick={() => history.push("/profile")}>Profile:&nbsp; <span style={{ color: "blue" }}>{user.name}</span></MenuItem>
               <Divider />
-                                                              {/* @ts-ignore */}
+              {/* @ts-ignore */}
 
               <MenuItem >Last login: &nbsp;<span style={{ color: "blue" }}> {moment(user.last_login_timestamp).format('LLL')} </span>  </MenuItem>
               <Divider />
-              <MenuItem onClick={() =>HandleOnline(user.is_online)} >{user.is_online ? <div style={{display:"contents"}}> <p>Set yourself away </p> &nbsp; &nbsp; <RadioButtonUncheckedIcon style={{color:"#40E227"}} /> </div>:<div style={{display:"contents"}}>  <p> Set yourself active </p> &nbsp; &nbsp; <RadioButtonCheckedIcon style={{color:"#40E227"}} /></div>}  </MenuItem>
+              <MenuItem onClick={() => HandleOnline(user.is_online)} >{user.is_online ? <div style={{ display: "contents" }}> <p>Set yourself away </p> &nbsp; &nbsp; <RadioButtonUncheckedIcon style={{ color: "#40E227" }} /> </div> : <div style={{ display: "contents" }}>  <p> Set yourself active </p> &nbsp; &nbsp; <RadioButtonCheckedIcon style={{ color: "#40E227" }} /></div>}  </MenuItem>
               <Divider />
               <MenuItem >  <TextField
                 label="Update your status"
@@ -410,9 +587,9 @@ const HandleOnline = async (status:boolean) => {
                 onChange={handleChange}
 
               />
-                  <IconButton color="primary"  component="span" onClick={HandleStatus}>
+                <IconButton color="primary" component="span" onClick={HandleStatus}>
                   <DoneOutlineIcon color="primary" />
-                        </IconButton>
+                </IconButton>
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleLogout}>Log out &nbsp; &nbsp; <ExitToAppIcon color="primary" /></MenuItem>

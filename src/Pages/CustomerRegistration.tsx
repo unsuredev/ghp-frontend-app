@@ -386,7 +386,6 @@ const CustomerRegistration = () => {
                             <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
                             <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
                             <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
-                            <MenuItem value="JAMAN HP GAS CONSUMER NOT DELIVERED 2019">JAMAN HP GAS CONSUMER NOT DELIVERED 2019</MenuItem>
 
                           </Select>
                         </FormControl>

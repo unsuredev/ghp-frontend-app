@@ -344,8 +344,8 @@ const OldDataManagement = () => {
 
     var decoded = jwt_decode(token);
     //@ts-ignore
-    let { user_id } = decoded;
-      if (user_id === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+    let { role } = decoded;
+      if (role === "superadmin") {
 
       return true;
     } else {
@@ -434,7 +434,7 @@ const OldDataManagement = () => {
                     value={state.mobile}
                     onChange={handleChange}
                     inputProps={{
-                      maxlength: 10
+                      maxLength: 10
                     }}
                   />
                 </form>

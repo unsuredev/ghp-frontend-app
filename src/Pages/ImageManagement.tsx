@@ -14,7 +14,6 @@ import {
     CssBaseline,
     TextField,
 } from "@material-ui/core";
-import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import FormControl from "@material-ui/core/FormControl";
 import ResponsiveDrawer from "./Drawer";
@@ -22,9 +21,7 @@ import FooterSection from "../Components/Footer";
 import axios from "axios";
 import { httpClient } from "../Common/Service";
 import { ToastContext } from "../Common/ToastProvider";
-import BackupIcon from '@material-ui/icons/Backup';
 import teal from '@material-ui/core/colors/teal'
-import ClearIcon from '@material-ui/icons/Clear';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { BASE_URL } from "../Common/constant";
 import jwt_decode from "jwt-decode";
@@ -37,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     heroContent: {
-        backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(8, 0, 6),
     },
     heroButtons: {
@@ -99,8 +95,7 @@ export default function ImageManagement() {
     const [value, setValue] = React.useState(0);
 
     const handleChangevalue = (event: React.ChangeEvent<{}>, newValue: number) => {
-      setValue(newValue);
-      console.log("value", newValue)
+        setValue(newValue);
     };
 
 
@@ -295,6 +290,7 @@ export default function ImageManagement() {
         formData.append("image", other.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "otherLetter");
+        if(value===0){
         await fetch(BASE_URL + "customer/uploadimages",
             {
                 method: "POST",
@@ -309,6 +305,23 @@ export default function ImageManagement() {
             .catch((error) => {
                 showToast(error.message, "error")
             })
+        }
+            if(value===1){
+                await fetch(BASE_URL + "old/customer/uploadimages",
+                {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setOther({ preview: "", raw: "" })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                })
+            }
     }
 
 
@@ -319,6 +332,7 @@ export default function ImageManagement() {
         formData.append("image", satis.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "satisfactionLetter");
+        if(value===0){
         await fetch(BASE_URL + "customer/uploadimages",
             {
                 method: "POST",
@@ -334,35 +348,41 @@ export default function ImageManagement() {
             .catch((error) => {
                 showToast(error.message, "error")
             })
+        }
+        if(value===1){
+            await fetch(BASE_URL + "old/customer/uploadimages",
+            {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data =>
+                showToast(data.message, "success"),
+                //@ts-ignore
+                setSatis({ preview: "", raw: "" })
+
+            )
+            .catch((error) => {
+                showToast(error.message, "error")
+            })
+        }
     }
 
     React.useEffect(() => {
         document.title = "Image upload | Jaman HP Gas";
-        getUser()
     }, []);
 
 
 
-    const getUser = () => {
-        let token: any = localStorage.getItem("access_token");
-        var decoded = jwt_decode(token);
-        //@ts-ignore
-        let { user_id } = decoded;
-        if (user_id != "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
-            return true;
-        } else {
-            return false;
-        }
-    };
 
-    const findUser = () => {
+
+    const findRole = () => {
         let token: any = localStorage.getItem("access_token");
         var decoded = jwt_decode(token);
         //@ts-ignore
-        let { user_id } = decoded;
-        if(user_id){
-            console.log("user id", user_id)
-        return user_id
+        let { role } = decoded;
+        if(role){
+        return role
         }
         else{
             return "NOT_ADMIN"
@@ -370,6 +390,16 @@ export default function ImageManagement() {
     }
 
 
+      const getUserName = () => {
+    let token: any = localStorage.getItem("access_token");
+    var decoded = jwt_decode(token);
+    //@ts-ignore
+    let { name } = decoded;
+    if (name && name != undefined) {
+        return name
+    }
+
+}
 
 
 
@@ -381,16 +411,16 @@ export default function ImageManagement() {
                 <div className={classes.heroContent} style={{ marginRight: "1rem" }}>
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={12} md={12}>
-                        <Tabs
-        value={value}
-        onChange={handleChangevalue}
-        indicatorColor="secondary"
-        textColor="secondary"
-        centered
-      >
-        <Tab label="New Customer" icon={<FiberNewIcon color="secondary" className="animate__animated animate__flash animate__infinite 	infinite animate__slower" fontSize="large" />} />
-        <Tab  label="Old Customer" icon={<NewReleasesIcon   />} />
-      </Tabs>
+                            <Tabs
+                                value={value}
+                                onChange={handleChangevalue}
+                                indicatorColor="secondary"
+                                textColor="secondary"
+                                centered
+                            >
+                                <Tab label="New Customer" icon={<FiberNewIcon color="secondary" fontSize="large" />} />
+                                <Tab label="Old Customer" icon={<NewReleasesIcon />} />
+                            </Tabs>
                             <form className={classes.form} noValidate autoComplete="off">
                                 <TextField
                                     id="outlined-basic"
@@ -441,62 +471,66 @@ export default function ImageManagement() {
                                 }}
                             >
                                 <Grid item style={{ marginTop: "-40PX" }}  >
-                                    <Card className={classes.card} key={i} >
-                                        <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
-                                            <Typography color="textSecondary" gutterBottom>
-                                                Customer's Details
-                                            </Typography>
-                                            
-                                            <CardHeader
-                                                action={
-                                                    <div style={{ margin: "0px", padding: "0px" }}>
-                                                    </div>
-                                                }
-                                                //@ts-ignore
-                                                title={user.name.toUpperCase()}
-                                            />
-                                                                                 
-                                            <CardHeader style={{ textAlign: "center" }} />
-                                            <div style={{ marginTop: "-40px" }}>
+                                                <Card className={classes.card} key={i} >
+                                                    <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
+                                                        <Typography color="textSecondary" gutterBottom>
+                                                            Customer's Details
+                                                        </Typography>
 
-                                                {/* @ts-ignore */}
-                                                <Typography>Name : {user.name.toUpperCase()}</Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>
-                                                    Family Aadhaar : {user.familyAadhaar}
-                                                </Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>Mobile No : {user.mobile}</Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>
-                                                    Registration No : {user.regNo || "NA"}
-                                                </Typography>
-                                                <Typography>
-                                                    Consumer No :{user.consumerNo || "NA"}{" "}
-                                                </Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                                                <Typography>Registered Agency Name :<span style={{color:"red"}}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                                                        <CardHeader
+                                                            action={
+                                                                <div style={{ margin: "0px", padding: "0px" }}>
+                                                                </div>
+                                                            }
+                                                            //@ts-ignore
+                                                            title={user.name.toUpperCase()}
+                                                        />
 
-                                                <Typography>Remarks : {user.remarks || "NA"}</Typography>
-                                                {/* @ts-ignore */}
-                                                <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
-                                                <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
-                                            </div>
-                                            {/* @ts-ignore */}
-                                        </CardContent>
-                                    </Card>
+                                                        <CardHeader style={{ textAlign: "center" }} />
+                                                        <div style={{ marginTop: "-40px" }}>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Name : {user.name.toUpperCase()}</Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>
+                                                                Family Aadhaar : {user.familyAadhaar}
+                                                            </Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Mobile No : {user.mobile}</Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>
+                                                                Registration No : {user.regNo || "NA"}
+                                                            </Typography>
+                                                            <Typography>
+                                                                Consumer No :{user.consumerNo || "NA"}
+                                                            </Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
+                                                            <Typography>Registered Agency Name :<span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                                                            <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                                                            {/* @ts-ignore */}
+                                                            <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
+                                                            <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
+                                                        </div>
+                                                        {/* @ts-ignore */}
+                                                    </CardContent>
+                                                </Card>
+                                                <br></br>
+                                    {user.consumerNo ? null :
+                                        <Typography gutterBottom variant="h5" component="h2" color="secondary">
+                                            This Customer don't have any consumer Number
+                                        </Typography>
+                                    }
+
                                 </Grid>
                                 {user.installtatus && (
                                     <Container className={classes.cardGrid} maxWidth="md">
                                         <Grid container spacing={4} style={{ marginRight: "1rem" }}>
-
                                             {(() => {
-                                                if (findUser() === "HHP_91c528fa-31f8-46ff-8c0f-d786cc7487ef") {
+                                                if (findRole() === "superadmin") {
                                                     return (
                                                         <div>                                                <Grid item xs={12}
                                                             md={12}>
@@ -546,7 +580,7 @@ export default function ImageManagement() {
                                                 if (user.installtatus != "Complete") {
                                                     return (
                                                         <div> 
-                                                             <Grid item xs={12}
+                                                            <Grid item xs={12}
                                                             md={12}>
                                                             <label htmlFor="upload-button1">
                                                                 {install.preview ? (
@@ -572,7 +606,6 @@ export default function ImageManagement() {
                                                                         variant="contained"
                                                                         color="primary"
                                                                         style={{ backgroundColor: "#834bff" }}
-
                                                                         onClick={(e) => { installUpload(e, user.mainAadhaar) }}
                                                                     >
                                                                         Submit Installation Photo

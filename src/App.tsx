@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import indigo from '@material-ui/core/colors/indigo';
+import AuthenticatedRoute from './Components/auth';
 
 import pink from '@material-ui/core/colors/pink'
 import MemberSignUp from './Pages/UserManagement'
@@ -23,6 +24,8 @@ import MainDashboard from "./Pages/MainDashboard";
 import RefilSale from './Pages/RefilSale';
 import HappyBirthDay from './Pages/HappyBirthDay'
 import UserDashBoard from './Pages/UserDashBoard'
+import SignInSide from './Pages/Login';
+import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
 
 
@@ -48,25 +51,28 @@ const App = () => {
               <Route exact path="/member" component={MemberSignUp} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/customer" component={Customer} />
-              <Route exact path="/" component={SignIn} />
-              <Route exact path="/signin" component={SignIn} />
+              <Route exact path="/" component={SignInSide} />
+              <Route exact path="/signin" component={SignInSide} />
               <Route exact path="/reset" component={Forgot} />
               <Route exact path="/res" component={ResponsiveDrawer} />
-              <Route exact path="/dailycustomer" component={CustomerStats} />
-              <Route exact path="/reports" component={Reports} />
-              <Route exact path="/agentlist" component={AgentList} />
-              <Route exact path="/trashUsers" component={TrashConsumerTable} />
+              <AuthenticatedRoute
+              path="/dailycustomer"
+              exact
+              component={CustomerStats}
+            />
+              <AuthenticatedRoute exact path="/reports" component={Reports} />
+              <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
+              <AuthenticatedRoute exact path="/trashUsers" component={TrashConsumerTable} />
               <Route exact path="/profile" component={Profile} />
-              <Route exact path="/customerDocs" component={ImageManagement} />
-              <Route exact path="/customerDocs" component={ImageManagement} />
-              <Route exact path="/olddatamanagement" component={OldDataManagement} />
+              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
+              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
+              <AuthenticatedRoute exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
-              <Route exact path="/delivery" component={MainDashboard} />
-              <Route exact path="/refilsale" component={RefilSale} />
+              <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
+              <AuthenticatedRoute exact path="/refilsale" component={RefilSale} />
               <Route exact path="/wish" component={HappyBirthDay} />
-              <Route exact path="/dash" component={UserDashBoard} />
-
-              
+              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
+              <Route exact path="/agentdashboard" component={AgentDashBoard} />
             </Switch>
           </Router>
         </ToastProvider>
