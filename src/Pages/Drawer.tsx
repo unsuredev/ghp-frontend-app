@@ -345,6 +345,14 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Image & Docs  Management" />
               </ListItem>
             </Link>
+            <Link href="/connection">
+              <ListItem button>
+                <ListItemIcon>
+                  <TrendingUpIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Sales & Connection" />
+              </ListItem>
+            </Link>
             <Link href="/refilsale">
               <ListItem button>
                 <ListItemIcon>
