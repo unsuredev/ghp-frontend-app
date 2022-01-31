@@ -402,6 +402,14 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Profile" />
               </ListItem>
             </Link>
+            <Link href="/member">
+              <ListItem button style={{ marginTop: "2rem" }}>
+                <ListItemIcon>
+                  <SupervisorAccountOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="User Management" />
+              </ListItem>
+            </Link>
             <Link href="/">
               <ListItem button>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
@@ -456,6 +464,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Log out" />
               </ListItem>
             </Link>
+          
           </div>
         )}
 

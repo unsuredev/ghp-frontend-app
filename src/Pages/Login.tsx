@@ -60,6 +60,8 @@ export default function SignInSide() {
     const classes = useStyles();
     let history = useHistory();
 
+  
+    
     const [value, setValue] = React.useState('email');
     const { showToast } = React.useContext(ToastContext);
     const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +78,8 @@ export default function SignInSide() {
     } else if (passwordShown == false) {
         icon = <VisibilityOffIcon onClick={togglePasswordVisiblity} />;
     }
+
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />

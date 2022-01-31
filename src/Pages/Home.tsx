@@ -490,7 +490,7 @@ const getRole = () => {
                     value={state.mobile}
                     onChange={handleChange}
                     inputProps={{
-                      maxlength: 10
+                      maxLength: 10
                     }}
                   />
                 </form>

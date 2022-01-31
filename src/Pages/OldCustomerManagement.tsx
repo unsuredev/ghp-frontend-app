@@ -417,7 +417,7 @@ const OldDataManagement = () => {
                     onChange={handleChange}
                     type="tel"
                     inputProps={{
-                      maxlength: CHARACTER_LIMIT
+                      maxLength: CHARACTER_LIMIT
                     }}
                   />
                 </form>

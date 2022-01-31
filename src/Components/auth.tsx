@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isNotAdmin } from '../Common/helper'
 
-console.log("isNotAdmin",isNotAdmin())
 
 const AuthenticatedRoute: React.FC<any> = ({component: Component,...rest}) => (
 
