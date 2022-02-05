@@ -463,22 +463,15 @@ const ConnectionDashboard = () => {
         { title: 'AGENT', field: 'agent' },
         { title: "TOTAL CONNECTION ", field: "totalConnection", type: 'numeric' },
         { title: "LOAD PAID", field: "load", type: 'numeric' },
-        { title: "Connection Due", field: "load", type: 'numeric' },
         { title: "REGULATOR PAID", field: "regulator" },
-        { title: "REGULATOR DUE", field: "regulator" },
         { title: "PIPE PAID", field: "pipe" },
-        { title: "PIPE DUE", field: "pipe" },
         { title: "LIGHT PAID", field: "paidLight" },
-        { title: "LIGHT DUE", field: "paidLight" },
         { title: "BPL OVEN", field: "bplOven" },
         { title: "NON HP OVEN", field: "nonHpOven" },
         { title: "HP OVEN", field: "hpOven" },
         { title: "OVEN DUE", field: "bplOven" },
         { title: "PAID AMOUNT ", field: "paidAmount" },
-        { title: "DUE AMOUNT ", field: "paidAmount" },
         { title: "REMARKS ", field: "remarks" },
-        { title: "INSTALLATION COMPLETE ", field: "remarks" },
-        { title: "INSTALLATION PENDING ", field: "remarks" },
         {
             title: "DATE ", field: "updatedAt", type: "date",
             dateSetting: { locale: "ko-KR" }
@@ -563,13 +556,13 @@ const ConnectionDashboard = () => {
                                     <Typography variant="button" display="block" gutterBottom>LIGHT PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.paidLight}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.hpOven + agent.nonHpOven - agent.paidLight}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>BPL OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.bplOven}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>OVEN NON HP:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>NON HP OVEN:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>OVEN DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}</span></Typography>
                                     {/* @ts-ignore */}
                                     <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
                                     {/* @ts-ignore */}
-                                    <Typography variant="button" display="block" gutterBottom>PAID AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
+                                    <Typography variant="button" display="block" gutterBottom>AMOUNT PAID : <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
                                     {/* @ts-ignore */}
                                     <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
                                     <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>

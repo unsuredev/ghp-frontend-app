@@ -375,7 +375,7 @@ function ResponsiveDrawer() {
                 <ListItemIcon>
                   <GetAppIcon color="secondary" />
                 </ListItemIcon>
-                <ListItemText primary="Download Reports" />
+                <ListItemText primary="Date Wise Reports" />
               </ListItem>
             </Link>
             <Link href="/trashUsers">

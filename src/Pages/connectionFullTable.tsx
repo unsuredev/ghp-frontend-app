@@ -16,15 +16,18 @@ export default function ConnectionFullTable() {
         { title: "TOTAL CONNECTION ", field: "totalConnection" },
         { title: "LOAD PAID", field: "load" },
         { title: "REGULATOR PAID", field: "regulator" },
-        { title: "REGULATOR DUE", field: "regulator" },
-        { title: "PIPE", field: "pipe" },
-        { title: "PAID LIGHT", field: "paidLight" },
-        { title: "TOATL LIGHT ", field: "totalLight" },
+        { title: "PIPE PAID", field: "pipe" },
+        { title: "LIGHT PAID", field: "paidLight" },
         { title: "BPL OVEN", field: "bplOven" },
         { title: "NON HP OVEN", field: "nonHpOven" },
         { title: "HP OVEN", field: "hpOven" },
         { title: "PAID AMOUNT ", field: "paidAmount" },
+        { title: "AMOUNT DUE ", field: "amountDue" },
+        { title: "INSTALLATION COMPLETE ", field: "installationComplete" },
+        { title: "INSTALLATION PENDING ", field: "installationPending" },
+        { title: "TOTAL REGISTRATION ", field: "totalRegistration" },
         { title: "REMARKS ", field: "remarks" },
+
         {
             title: "DATE ", field: "updatedAt", type: "date",
             dateSetting: { locale: "ko-KR" }

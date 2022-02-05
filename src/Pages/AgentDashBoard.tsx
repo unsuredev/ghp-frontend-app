@@ -8,13 +8,15 @@ import Container from '@material-ui/core/Container';
 import FooterSection from '../Components/Footer'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
 import OldFullConsumerTable from './OldFullConsumerTable '
 import ConnectionFullTable from './connectionFullTable'
-
+import axios from "axios";
+import MaterialTable from 'material-table';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { BASE_URL } from "../Common/constant";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,10 +72,30 @@ const AgentDashBoard = () => {
     const [customerTotal, setCustomerTotal] = React.useState({
         "newCustomer": 0,
         "oldCustomer": 0,
-        "totalConnection": 0
+        "totalConnection": 0,
+        "installationComplete": 0,
+        "totalLoad": 0
     })
     const [loading, setLoading] = React.useState(false)
+    const [data, setData] = React.useState([]);
+    const[viewConsumer , setViewConcumer] = React.useState(false)
+    const[viewPending , setViewPending] = React.useState(false)
+    const [customer, setCustomer] = React.useState([]);
 
+
+    const columns = [
+        { title: 'Sl No', field: 'tableData.id' },
+        { title: "Name", field: "name" },
+        { title: "Main Aadhaar", field: "mainAadhaar" },
+        {title:"Family Aadhaar", field:"familyAadhaar"},
+        { title: "Mobile", field: "mobile" },
+        { title: "Consumer No", field: 'consumerNo' },
+        {title:"Registered Agency Name", field:'registeredAgencyName'},
+        { title: "Sub Agent", field: 'subAgent' },
+        {title:"Installation status", field:'installtatus'},
+        { title: "Remarks", field: 'remarks' },
+
+    ]
 
 
 
@@ -83,6 +105,61 @@ const AgentDashBoard = () => {
         fetchDashBoard()
     }, []);
 
+    const getToken = () => {
+        //@ts-ignore
+        return localStorage.getItem("access_token")
+    }
+
+    const fetchPendingConsmer = async () => {
+        try {
+            setLoading(true)
+            const result = await axios.post(BASE_URL + "agent/pendingcustomer", {},
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                });
+            if (result.data) {
+                setData(result.data.data.data)
+                setLoading(false)
+                setViewConcumer(false)
+                setViewPending(true)
+                
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+
+    const fetchNewConsmer = async () => {
+        try {
+            setLoading(true)
+            const result = await axios.post(BASE_URL + "agent/allconsumer", {},
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                });
+            if (result.data) {
+                setCustomer(result.data.data.data)
+                setLoading(false)
+                setViewConcumer(true)
+                setViewPending(false)
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+
+
+
+
 
     const fetchDashBoard = async () => {
         try {
@@ -91,7 +168,6 @@ const AgentDashBoard = () => {
             if (result.data) {
                 setCustomerTotal(result.data)
                 setLoading(false)
-
             }
         }
         catch (error) {
@@ -110,64 +186,152 @@ const AgentDashBoard = () => {
 
             <CssBaseline />
             <ResponsiveDrawer />
-                {/* Hero unit */}
-                <div className={classes.heroContent}>
-                    <Container maxWidth="md">
+            {/* Hero unit */}
+            <div className={classes.heroContent}>
+                <Container maxWidth="md">
                     {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>Loading...</p> <CircularProgress /> </div> :
-                <Grid container spacing={4} style={{ marginTop: "50px" }}>
-                    <Grid item xs={12} sm={12} md={4}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent} >
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Total New Consumer
-                                </Typography>
+                        <div>
+                            <Grid container spacing={4} style={{ marginTop: "50px" }}>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent} >
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Total New Registration
+                                            </Typography>
+                                            <Typography color="primary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.newCustomer}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Total New Consumer
+                                            </Typography>
+                                            <Typography color="primary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.totalConnection}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                        <Button variant="contained" size="small" color="secondary" className={classes.margin} onClick={fetchNewConsmer}>
+                                                View
+                                            </Button>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Total Old Consumer (Before2021)
+                                            </Typography>
+                                            <Typography color="primary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.oldCustomer}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={4} style={{ marginTop: "50px" }}>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Total Load
+                                            </Typography>
+                                            <Typography color="primary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.totalLoad}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent} >
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Installation Complete
+                                            </Typography>
+                                            <Typography color="primary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.installationComplete}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Installation Pending
+                                            </Typography>
+                                            <Typography color="secondary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.totalLoad - customerTotal.installationComplete}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                        <Button variant="contained" size="small" color="secondary" className={classes.margin} onClick={fetchPendingConsmer}>
+                                                View
+                                            </Button>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                        </div>}
+                </Container>
+            </div>
 
-                                <Typography color="primary" variant="h2" component="h2" style={{fontWeight:"bold" , textAlign:"center"}}>
-                                    {customerTotal.newCustomer}
-                                </Typography>
+{viewConsumer?
+            <Container component="main" >
+                 {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
+                    <MaterialTable
+                        title="NEW CONSUMER JAMAN HP GAS Consumer LIST"
+                        data={customer}
+                        columns={columns}
+                        options={{
+                            exportButton: true,
+                            exportAllData: true,
+                            filtering: true,
+                            sorting: true,
+                            pageSizeOptions: [5, 20, 50, 100, 200, 500],
+                            headerStyle: {
+                                backgroundColor: '#F42870',
+                                color: '#FFF'
+                            }
+                        }}
+                    />
 
-                            </CardContent>
-                            <CardActions>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={4}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Total Old Consumer
-                                </Typography>
+            </Container>:null}
+            {viewPending?
+            <Container component="main" >
+                 {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
+                    <MaterialTable
+                        title="PENDING JAMAN HP GAS Consumer LIST"
+                        data={data}
+                        columns={columns}
+                        options={{
+                            exportButton: true,
+                            exportAllData: true,
+                            filtering: true,
+                            sorting: true,
+                            pageSizeOptions: [5, 20, 50, 100, 200, 500],
+                            headerStyle: {
+                                backgroundColor: '#F42870',
+                                color: '#FFF'
+                            }
+                        }}
+                    />
 
-                                <Typography color="secondary" variant="h2" component="h2" style={{fontWeight:"bold", textAlign:"center"}}>
-                                    {customerTotal.oldCustomer}
-                                </Typography>
+            </Container>:null}
 
-                            </CardContent>
-                            <CardActions>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={4}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Total Connection
-                                </Typography>
-
-                                <Typography color="primary" variant="h2" component="h2" style={{fontWeight:"bold", textAlign:"center"}}>
-                                    {customerTotal.totalConnection}
-                                </Typography>
-
-                            </CardContent>
-                            <CardActions>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
-                </Grid>}
-            </Container>
-        </div>
-    
 
         </React.Fragment >
     );
