@@ -27,7 +27,7 @@ import UserDashBoard from './Pages/UserDashBoard'
 import SignInSide from './Pages/Login';
 import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
-
+import FingerPrint from "./Pages/FingerPrint";
 
 const theme = createMuiTheme(
 
@@ -73,6 +73,8 @@ const App = () => {
               <Route exact path="/wish" component={HappyBirthDay} />
               <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
               <Route exact path="/agentdashboard" component={AgentDashBoard} />
+              <Route exact path="/fngerprint" component={FingerPrint} />
+
             </Switch>
           </Router>
         </ToastProvider>

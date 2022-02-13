@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 const  Copyright = ()=> {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        JAMAN HP GAS
+        {' © '}
+        JAMAN HP GAS &nbsp;
         {new Date().getFullYear()}
         {'.'}
         <p style={{fontFamily:"Pacifico"}}>  Designed and developed by    

@@ -21,6 +21,8 @@ import jwt_decode from "jwt-decode";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import SettingsIcon from '@material-ui/icons/Settings';
 import HistoryIcon from '@material-ui/icons/History';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import Switch from '@material-ui/core/Switch';
@@ -57,8 +59,10 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FaceIcon from '@material-ui/icons/Face';
-
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import '../style/Header.css'
+
+
 const drawerWidth = 260;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -304,7 +308,7 @@ function ResponsiveDrawer() {
     <div>
       <List>
         {getRole() != "user" && (
-          <div style={{ marginTop: "2rem" }}>
+          <div style={{ marginTop: "5rem" }}>
             <Link href="/customer">
               <ListItem button>
                 <ListItemIcon>
@@ -402,6 +406,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Profile" />
               </ListItem>
             </Link>
+
             <Link href="/member">
               <ListItem button style={{ marginTop: "2rem" }}>
                 <ListItemIcon>
@@ -422,7 +427,7 @@ function ResponsiveDrawer() {
         )}
 
         {getRole() === "user" && (
-          <div style={{ marginTop: "2rem" }}>
+          <div style={{ marginTop: "5rem" }}>
             <Link href="/home">
               <ListItem button>
                 <ListItemIcon>
@@ -455,7 +460,16 @@ function ResponsiveDrawer() {
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
               </ListItem>
+            </Link>          
+              <Link href="/fngerprint">
+              <ListItem button>
+                <ListItemIcon>
+                <NoteAddIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Pending FingerPrints" />
+              </ListItem>
             </Link>
+
             <Link href="/">
               <ListItem button>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
@@ -503,6 +517,8 @@ function ResponsiveDrawer() {
         <Toolbar>
 
 
+
+
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -512,17 +528,23 @@ function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
+          
+          <div>
           <img src={require("../logo_hpcl.jpg").default}
             alt="hpgas logo" />
-          <div style={{ marginLeft: "20rem" }}>
+  <p className="line-1 anim-typewriter">আপনার Pending Installation ফটো জমা দিন !</p>
+
+          <article>
+  
+</article>
+          </div>
+     
+
+          <div style={{ marginLeft: "20rem" }} >
             <Typography noWrap style={{ color: "red", fontSize: "20px", fontFamily: "cursive" }}>
               JAMAN HP GAS GRAMIN VITARAK(13816000)
             </Typography>
-            {/* <article>
-    <p className="example-left"> &nbsp; &nbsp;  &nbsp; Wishing you the happiest birthday <span style={{color:"#C51162", fontStyle:"cursive"}}>Jaman !</span></p> <br></br>
-    <p className="example-left"> &nbsp; May the Allah be with you and bless you forever.</p> 
 
-  </article> */}
           </div>
           <div style={{ marginLeft: "28rem" }}>
             <IconButton

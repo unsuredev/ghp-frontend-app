@@ -116,7 +116,7 @@ const MainDashboard = () => {
     return (
         <React.Fragment>
             <ResponsiveDrawer />
-            <div className={classes.root} style={{ textAlign: "center" }}>
+            <div className={classes.root} style={{ textAlign: "center" , marginTop:"5rem"}}>
                 <Grid container spacing={2} >
                     <Grid item xs={2}>
                     </Grid>

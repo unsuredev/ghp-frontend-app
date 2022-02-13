@@ -438,7 +438,7 @@ const getRole = () => {
       <ResponsiveDrawer />
       <div >
         <div className={classes.heroContent}>
-          <Container maxWidth="md" component="main" style={{ marginTop: "-20px", paddingTop: "-10px" }}>
+          <Container maxWidth="md" component="main" style={{ marginTop: "20px", paddingTop: "10px" }}>
             {userGreetings()}
             <Grid
               container

@@ -80,7 +80,9 @@ const AgentDashBoard = () => {
     const [data, setData] = React.useState([]);
     const[viewConsumer , setViewConcumer] = React.useState(false)
     const[viewPending , setViewPending] = React.useState(false)
+    const[viewAllCustomer , setViewAllCustomer] = React.useState(false)
     const [customer, setCustomer] = React.useState([]);
+    const [allcustomer, setAllCustomer] = React.useState([]);
 
 
     const columns = [
@@ -94,7 +96,6 @@ const AgentDashBoard = () => {
         { title: "Sub Agent", field: 'subAgent' },
         {title:"Installation status", field:'installtatus'},
         { title: "Remarks", field: 'remarks' },
-
     ]
 
 
@@ -124,6 +125,7 @@ const AgentDashBoard = () => {
                 setData(result.data.data.data)
                 setLoading(false)
                 setViewConcumer(false)
+                setViewAllCustomer(false)
                 setViewPending(true)
                 
             }
@@ -137,7 +139,7 @@ const AgentDashBoard = () => {
     const fetchNewConsmer = async () => {
         try {
             setLoading(true)
-            const result = await axios.post(BASE_URL + "agent/allconsumer", {},
+            const result = await axios.post(BASE_URL + "agent/onlyconsumer", {},
                 {
                     headers: {
                         encryption: false,
@@ -149,6 +151,7 @@ const AgentDashBoard = () => {
                 setLoading(false)
                 setViewConcumer(true)
                 setViewPending(false)
+                setViewAllCustomer(false)
             }
         }
         catch (error) {
@@ -157,6 +160,8 @@ const AgentDashBoard = () => {
     }
 
 
+
+    
 
 
 
@@ -168,6 +173,24 @@ const AgentDashBoard = () => {
             if (result.data) {
                 setCustomerTotal(result.data)
                 setLoading(false)
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+
+   const  fetchAllCustomer =async () => {
+        try {
+            const result = await httpClient("agent/allconsumer", "POST", {})
+            if (result.data) {
+                setAllCustomer(result.data.data)
+                setViewAllCustomer(true)
+                setViewPending(false)
+                setViewConcumer(false)
+
+
             }
         }
         catch (error) {
@@ -203,7 +226,11 @@ const AgentDashBoard = () => {
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
+                                  
                                         </CardActions>
+                                        <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={fetchAllCustomer}>
+                                                View
+                                            </Button>
                                     </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
@@ -289,11 +316,11 @@ const AgentDashBoard = () => {
                 </Container>
             </div>
 
-{viewConsumer?
+            {viewConsumer?
             <Container component="main" >
                  {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
                     <MaterialTable
-                        title="NEW CONSUMER JAMAN HP GAS Consumer LIST"
+                        title="All registration List JAMAN HP GAS"
                         data={customer}
                         columns={columns}
                         options={{
@@ -314,7 +341,7 @@ const AgentDashBoard = () => {
             <Container component="main" >
                  {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
                     <MaterialTable
-                        title="PENDING JAMAN HP GAS Consumer LIST"
+                        title="PENDING Consumer list JAMAN HP GAS"
                         data={data}
                         columns={columns}
                         options={{
@@ -332,6 +359,27 @@ const AgentDashBoard = () => {
 
             </Container>:null}
 
+            {viewAllCustomer?
+            <Container component="main" >
+                 {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
+                    <MaterialTable
+                        title="All Consumer List JAMAN HP GAS"
+                        data={allcustomer}
+                        columns={columns}
+                        options={{
+                            exportButton: true,
+                            exportAllData: true,
+                            filtering: true,
+                            sorting: true,
+                            pageSizeOptions: [5, 20, 50, 100, 200, 500],
+                            headerStyle: {
+                                backgroundColor: '#F42870',
+                                color: '#FFF'
+                            }
+                        }}
+                    />
+
+            </Container>:null}
 
         </React.Fragment >
     );
