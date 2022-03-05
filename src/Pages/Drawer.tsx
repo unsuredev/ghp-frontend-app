@@ -18,15 +18,8 @@ import { Link as RouterLink, useHistory } from "react-router-dom";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
 import Link from "@material-ui/core/Link";
 import jwt_decode from "jwt-decode";
-import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import SettingsIcon from '@material-ui/icons/Settings';
-import HistoryIcon from '@material-ui/icons/History';
-import NewReleasesIcon from '@material-ui/icons/NewReleases';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -60,6 +53,7 @@ import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FaceIcon from '@material-ui/icons/Face';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import '../style/Header.css'
 
 
@@ -357,12 +351,12 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Sales & Connection" />
               </ListItem>
             </Link>
-            <Link href="/refilsale">
+            <Link href="/refilsales">
               <ListItem button>
                 <ListItemIcon>
-                  <MonetizationOnIcon color="secondary" />
+                  <StorefrontIcon color="secondary" />
                 </ListItemIcon>
-                <ListItemText primary="Refil Sale" />
+                <ListItemText primary="Refil Sales" />
               </ListItem>
             </Link>
             <Link href="/reports">
@@ -532,11 +526,7 @@ function ResponsiveDrawer() {
           <div>
           <img src={require("../logo_hpcl.jpg").default}
             alt="hpgas logo" />
-  <p className="line-1 anim-typewriter">আপনার Pending Installation ফটো জমা দিন !</p>
 
-          <article>
-  
-</article>
           </div>
      
 

@@ -1,12 +1,9 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
 import indigo from '@material-ui/core/colors/indigo';
 import AuthenticatedRoute from './Components/auth';
-
 import pink from '@material-ui/core/colors/pink'
 import MemberSignUp from './Pages/UserManagement'
-import SignIn from './Pages/Signin';
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
 import Customer from './Pages/CustomerRegistration';
@@ -21,13 +18,14 @@ import OldDataManagement from './Pages/OldCustomerManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
-import RefilSale from './Pages/RefilSale';
 import HappyBirthDay from './Pages/HappyBirthDay'
 import UserDashBoard from './Pages/UserDashBoard'
 import SignInSide from './Pages/Login';
 import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
 import FingerPrint from "./Pages/FingerPrint";
+import Refilsales from './Pages/Refilsales';
+import Transactions from  './Pages/Transactions'
 
 const theme = createMuiTheme(
 
@@ -43,7 +41,6 @@ const theme = createMuiTheme(
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-
       <div className="App">
         <ToastProvider>
           <Router>
@@ -69,12 +66,12 @@ const App = () => {
               <AuthenticatedRoute exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
               <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
-              <AuthenticatedRoute exact path="/refilsale" component={RefilSale} />
               <Route exact path="/wish" component={HappyBirthDay} />
               <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
               <Route exact path="/agentdashboard" component={AgentDashBoard} />
               <Route exact path="/fngerprint" component={FingerPrint} />
-
+              <Route exact path="/refilsales" component={Refilsales} />
+              <Route exact path="/transaction" component={Transactions} />
             </Switch>
           </Router>
         </ToastProvider>
