@@ -216,7 +216,7 @@ const AgentDashBoard = () => {
                         <div>
                             <Grid container spacing={4} style={{ marginTop: "50px" }}>
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#fff9c4"}}>
                                         <CardContent className={classes.cardContent} >
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Total New Registration
@@ -228,13 +228,13 @@ const AgentDashBoard = () => {
                                         <CardActions>
                                   
                                         </CardActions>
-                                        <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={fetchAllCustomer}>
+                                        <Button variant="contained" size="small" color="secondary" className={classes.margin} onClick={fetchAllCustomer}>
                                                 View
                                             </Button>
                                     </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#bbdefb"}}>
                                         <CardContent className={classes.cardContent}>
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Total New Consumer
@@ -251,7 +251,7 @@ const AgentDashBoard = () => {
                                     </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#b2dfdb"}}>
                                         <CardContent className={classes.cardContent}>
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Total Old Consumer (Before2021)
@@ -267,7 +267,7 @@ const AgentDashBoard = () => {
                             </Grid>
                             <Grid container spacing={4} style={{ marginTop: "50px" }}>
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#a5d6a7"}}>
                                         <CardContent className={classes.cardContent}>
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Total Load
@@ -281,7 +281,7 @@ const AgentDashBoard = () => {
                                     </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#ffccbc"}}>
                                         <CardContent className={classes.cardContent} >
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Installation Complete
@@ -292,10 +292,10 @@ const AgentDashBoard = () => {
                                         </CardContent>
                                         <CardActions>
                                         </CardActions>
-                                    </Card>
-                                </Grid>
+                                    </Card> 
+                                </Grid>                                         
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} style={{backgroundColor:"#f0f4c3 "}}>
                                         <CardContent className={classes.cardContent}>
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Installation Pending

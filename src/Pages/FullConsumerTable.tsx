@@ -21,30 +21,22 @@ export default function FullConsumerTable() {
         { title: "Main Aadhaar", field: "mainAadhaar" },
         { title: "Family Aadhaar", field: "familyAadhaar" },
         { title: "Mobile", field: "mobile" },
+        { title: "Contact Number", field: "contactNumber" },
         { title: "Reg No", field: 'regNo' },
         { title: "Consumer No", field: 'consumerNo' },
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Sub Agent", field: 'subAgent' },
         { title:'Registerd Agency Name', field:'registeredAgencyName'},
         { title: "Remarks", field: 'remarks' },
-        {title:"Installation status", field:'installtatus'}
+        {title:"Single Women", field:'isSingleWomen'},
+        {title:"File No ", field:'fileNo'},
+        {title:"Registration status", field:'registrationStatus'}
+
+        
+
+        
     ]
 
-
-    const column = [
-        { displayName: 'Sl No', id: 'tableData.id' },
-        { displayName: "Old SlNo", id: "slNo" },
-        { displayName: "Name", id: "name" },
-        { displayName: "Main Aadhaar", id: "mainAadhaar" },
-        { displayName: "Family Aadhaar", id: "familyAadhaar" },
-        { displayName: "Mobile", id: "mobile" },
-        { displayName: "Reg No", id: '' },
-        { displayName: "Consumer No", id: '' },
-        { displayName: "Main Agent", id: 'mainAgent' },
-        { displayName: "Sub Agent", id: 'subAgent' },
-        { displayName: "Remarks", id: 'remarks' },
-        {displayName:"Install status", id:'installtatus'}
-    ];
 
 
     const getToken = () => {
@@ -88,7 +80,6 @@ export default function FullConsumerTable() {
     return (
         <React.Fragment>
             <CssBaseline />
-   
             <Container component="main" >
                 {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
                     <MaterialTable
@@ -108,7 +99,6 @@ export default function FullConsumerTable() {
                         }}
                     />
                 }
-
             </Container>
         </React.Fragment>
     );

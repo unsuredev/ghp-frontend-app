@@ -401,14 +401,6 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
-            <Link href="/member">
-              <ListItem button style={{ marginTop: "2rem" }}>
-                <ListItemIcon>
-                  <SupervisorAccountOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="User Management" />
-              </ListItem>
-            </Link>
             <Link href="/">
               <ListItem button>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
@@ -530,9 +522,9 @@ function ResponsiveDrawer() {
           </div>
      
 
-          <div style={{ marginLeft: "20rem" }} >
+          <div style={{ marginLeft: "25rem" }} >
             <Typography noWrap style={{ color: "red", fontSize: "20px", fontFamily: "cursive" }}>
-              JAMAN HP GAS GRAMIN VITARAK(13816000)
+              JAMAN ENTERPRISE
             </Typography>
 
           </div>

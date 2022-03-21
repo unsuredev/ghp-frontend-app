@@ -6,8 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import FooterSection from '../Components/Footer'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
@@ -72,10 +70,10 @@ const Reports = () => {
     const [agent, setAgent] = React.useState("")
     const [loading, setLoading] = React.useState(true)
     const [show, setShow] = React.useState(false)
-    const [oldCustomer , setOldCustomer]=React.useState("")
-    const [old, setOld]=React.useState(false)
-    const [hide, setHide]=React.useState(false)
-    const [connection, setConnection]=React.useState(false)
+    const [oldCustomer, setOldCustomer] = React.useState("")
+    const [old, setOld] = React.useState(false)
+    const [hide, setHide] = React.useState(false)
+    const [connection, setConnection] = React.useState(false)
 
     const fetchCount = async () => {
         try {
@@ -96,7 +94,6 @@ const Reports = () => {
 
 
     const fetchOldDataCount = async () => {
-
         try {
             //@ts-ignore
             const result = await httpClient("old/customer/count", "POST", { "project": "GET_COUNT" })
@@ -111,21 +108,18 @@ const Reports = () => {
     }
 
 
-const toggleView=()=>{
-    setOld(!old)
+    const toggleView = () => {
+        setOld(!old)
 
-}
-const connetionView=()=>{
-    setConnection(!connection)
+    }
+    const connetionView = () => {
+        setConnection(!connection)
+    }
 
-}
+    const toggleNewView = () => {
+        setHide(!hide)
 
-
-
-const toggleNewView=()=>{
-    setHide(!hide)
-
-}
+    }
 
 
 
@@ -148,43 +142,38 @@ const toggleNewView=()=>{
                 {/* Hero unit */}
                 <div className={classes.heroContent}>
                     <Container maxWidth="md">
-                        <div className={classes.heroButtons} style={{display:"flex"}}>
+                        <div className={classes.heroButtons} style={{ display: "flex" }}>
                             <Grid container spacing={1} >
-                            <Grid item xs={12} sm={12} md={4}>
-
-                                <Card >
-                                    <CardContent>
-                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}>
-                                        Total Customer 2021 
-                                        </Typography>
-                                        {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                                            {customerTotal}
-                                        </Typography>
-                                        
-                                        }
-                                        
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card style={{ backgroundColor: "#C8FACD" }}>
+                                        <CardContent>
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom style={{ textAlign: "center" }}>
+                                                Total Customer 2021
+                                            </Typography>
+                                            {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                                {customerTotal}
+                                            </Typography>
+                                            }
                                             <Button
                                                 type="submit"
                                                 fullWidth
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={toggleNewView} 
+                                                onClick={toggleNewView}
                                             >View & Download</Button>
-
-                                    </CardContent>
-                                </Card>
+                                        </CardContent>
+                                    </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
-
-                                <Card >
-                                    <CardContent>
-                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
-                                            Total Customer Before 2021 
-                                        </Typography>
-                                        {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                                            {oldCustomer}
-                                        </Typography>
-                                        }
+                                    <Card style={{ backgroundColor: "#FFF7CD" }} >
+                                        <CardContent>
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom style={{ textAlign: "center" }}>
+                                                Total Customer Before 2021
+                                            </Typography>
+                                            {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                                {oldCustomer}
+                                            </Typography>
+                                            }
                                             <Button
                                                 type="submit"
                                                 fullWidth
@@ -192,41 +181,42 @@ const toggleNewView=()=>{
                                                 color="secondary"
                                                 onClick={toggleView}
                                             >View & Download</Button>
-                                    </CardContent>
-                                </Card>
+                                        </CardContent>
+                                    </Card>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4}>
-                                <Card >
-                                    <CardContent>
-                                        <Typography className={classes.title} color="textSecondary" gutterBottom style={{textAlign:"center"}}> 
-                                            Total Connection Delivery Report
-                                        </Typography>
-                                        {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                                            ALL
-                                        </Typography>
-                                        }
+
+                                    <Card style={{ backgroundColor: "#FFE7D9" }}>
+                                        <CardContent>
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom style={{ textAlign: "center" }}>
+                                                Total Connection Delivery Report
+                                            </Typography>
+                                            {loading ? <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /> </div> : <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                                ALL
+                                            </Typography>
+                                            }
                                             <Button
                                                 type="submit"
                                                 fullWidth
                                                 variant="contained"
-                                                style={{backgroundColor:"#8bc34a"}}
+                                                style={{ backgroundColor: "#8bc34a" }}
                                                 onClick={connetionView}
                                             >View & Download</Button>
-                                    </CardContent>
-                                </Card>
+                                        </CardContent>
+                                    </Card>
                                 </Grid>
                             </Grid>
                         </div>
                         <Grid container spacing={4} style={{ marginTop: "50px" }}>
                             <Grid item xs={12} sm={12} md={4}>
-                                <Card className={classes.card}>
+                                <Card style={{ backgroundColor: "#D0F2FF", textAlign:"center" }}>
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">
                                             Total Members
                                         </Typography>
-                                        
-                                        <Typography>
-                                        {memberCount}
+
+                                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                            {memberCount}
                                         </Typography>
 
                                     </CardContent>
@@ -235,23 +225,23 @@ const toggleNewView=()=>{
                                 </Card>
                             </Grid>
                             <Grid item xs={12} sm={12} md={6}>
-                                <Card className={classes.card}>
+                                <Card style={{ backgroundColor: "#80cbc4", textAlign:"center" }}>
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">
                                             Total Agents
                                         </Typography>
-                                    
-                                        <Typography>
-                                        {agent}
+
+                                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                            {agent}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
                                     </CardActions>
                                 </Card>
                             </Grid>
-                            
+
                         </Grid>
-                        
+
                     </Container>
                 </div>
             </main>
@@ -265,9 +255,6 @@ const toggleNewView=()=>{
                 <Container>
                     {connection && <ConnectionFullTable />}
                 </Container>
-
-
-                
             </div>
             <FooterSection />
         </React.Fragment >

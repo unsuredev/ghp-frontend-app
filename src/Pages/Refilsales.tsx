@@ -33,7 +33,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import { BASE_URL } from "../Common/constant";
 import { ToastContext } from "../Common/ToastProvider";
-
+import RefilSalesTable from '../Components/RefilSalesTable'
 import ResponsiveDrawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
@@ -298,37 +298,6 @@ const RefilSales = () => {
     }
 
 
-    const columns = [
-        { title: "Name", field: "agent" },
-        { title: "Load Paid 14KG", field: "loadPaid14" },
-        { title: "Empty Cyclider Recived 14KG", field: "emptyCycliderRecived14" },
-        { title: "Empty Due 14", field: "emptyDue14" },
-        { title: "Rate 14KG ", field: "rate14" },
-
-        { title: "Load Paid 19KG", field: "loadPaid19" },
-        { title: "Empty Cyclider Recived 19KG", field: "emptyCycliderRecived19" },
-        { title: "Empty Due 19", field: "emptyDue19" },
-        { title: "Rate 19 KG", field: "rate19" },
-
-        { title: "Load Paid 5KG", field: "loadPaid5" },
-        { title: "Empty Cyclider Recived 5KG", field: "emptyCycliderRecived5" },
-        { title: "Empty Due 5KG", field: "emptyDue14" },
-        { title: "Rate 19 KG", field: "rate5" },
-
-        { title: "Load Paid FTL", field: "loadPaid5ftl" },
-        { title: "Empty Cyclider Recived FTL", field: "emptyCycliderRecived5ftl" },
-        { title: "Empty Due 5KG", field: "emptyDue14" },
-        { title: "Rate FTL", field: "rate5ftl" },
-
-        { title: "Special Category", field: "spCategory" },
-        { title: "Special Quantity ", field: "spRate" },
-        { title: "Total Amount ", field: "totalAmount" },
-        { title: "Total Amount Paid ", field: "totalAmountPaid" },
-        { title: "Total Amount Due ", field: "totalAmountDue" },
-        { title: "Remarks ", field: "remarks" },
-
-
-    ]
 
     const emptyDue14Calculate = () => {
         return agentdata.loadPaid14 - agentdata.emptyCycliderRecived14
@@ -395,11 +364,12 @@ const RefilSales = () => {
                 </Container>
                 <Container maxWidth="lg" >
                     <Grid container spacing={1} >
-                        <Grid item xs={12} md={3} lg={3} >
+                        <Grid item xs={12} sm={12} md={3} lg={3} >
                             <Card>
                                 <CardContent>
                                     <Typography >14 KG REFIL SALE </Typography>
                                     <br />
+                                    <Grid item xs={12}>
                                     <TextField
                                         id="outlined-basic"
                                         size="small"
@@ -415,6 +385,8 @@ const RefilSales = () => {
                                             }
                                         }}
                                     />
+                                                      </Grid>
+
 
                                     <TextField
                                         id="outlined-basic"
@@ -607,7 +579,7 @@ const RefilSales = () => {
                                 </CardActions>
                             </Card>
                         </Grid>
-                        <Grid item xs={12} md={3} lg={2} >
+                        <Grid item xs={12} sm={12} md={3} lg={2} >
                             <Card>
                                 <CardContent>
                                     <Typography >NC/EXTRA REFIL SALE </Typography>
@@ -709,22 +681,7 @@ const RefilSales = () => {
                 </Container>
                 <Container component="main" >
                     {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
-                        <MaterialTable
-                            title="Jaman Hp Refil sales data"
-                            data={data}
-                            columns={columns}
-                            options={{
-                                exportButton: true,
-                                exportAllData: true,
-                                filtering: true,
-                                sorting: true,
-                                pageSizeOptions: [5, 20, 50, 100, 200, 500],
-                                headerStyle: {
-                                    backgroundColor: '#01579b',
-                                    color: '#FFF'
-                                }
-                            }}
-                        />
+                      <RefilSalesTable dataAray={data} />
                     }
 
                 </Container>

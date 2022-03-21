@@ -479,7 +479,7 @@ const OldDataManagement = () => {
         <Container className={classes.cardGrid} maxWidth="md">
           <Grid className="maincontainer" style={{ textAlign: "center" }}>
             {users.length === 0 && (
-              <h2 style={{ margin: "auto",marginTop:"100px" }}>Your customer data will display here!</h2>
+              <h2 style={{ margin: "auto",marginTop:"100px" }}>Your Consumer data will display here!</h2>
             )}
           </Grid>
           <Grid container spacing={4} className="maincontainer">
