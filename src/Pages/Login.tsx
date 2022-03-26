@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/1600x900/?food)',
+        backgroundImage: 'url(https://source.unsplash.com/1600x900/?nature)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -145,9 +145,9 @@ export default function SignInSide() {
                             <div className={classes.paper}>
                                 <Typography component="h1" variant="h4"
                                 >
-                                    JAMAN HP GAS
+                                    JAMAN ENTERPRISE
                                 </Typography>
-                                <p>Code: 13816000 </p>
+                                <p>Code: 190322037887 </p>
                                 <img src={require("../hp_logo.jpeg").default}  width="170px" height="150px"
                                     alt="hpgas logo" />
                                 <br></br>

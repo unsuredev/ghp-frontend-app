@@ -62,7 +62,7 @@ export default function Transactions() {
             {/* Hero unit */}
             <Container maxWidth="sm" component="main" className={classes.heroContent}>
                 <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-                    Transaction Summary
+                    Transaction Summary upcoming....
                 </Typography>
 
             </Container>

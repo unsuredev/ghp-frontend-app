@@ -22,15 +22,20 @@ export default function FullConsumerTable() {
         { title: "Family Aadhaar", field: "familyAadhaar" },
         { title: "Mobile", field: "mobile" },
         { title: "Contact Number", field: "contactNumber" },
-        { title: "Reg No", field: 'regNo' },
+        { title: "File No", field: 'regNo' },
         { title: "Consumer No", field: 'consumerNo' },
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Sub Agent", field: 'subAgent' },
         { title:'Registerd Agency Name', field:'registeredAgencyName'},
         { title: "Remarks", field: 'remarks' },
+        {title:"Install Status", field:'installtatus'},
         {title:"Single Women", field:'isSingleWomen'},
         {title:"File No ", field:'fileNo'},
-        {title:"Registration status", field:'registrationStatus'}
+        {title:"Status", field:'registrationStatus'},
+        {title:"Added By", field:'addedBY'},
+        {title:"Updated By", field:'updatedBy'},
+
+        
 
         
 

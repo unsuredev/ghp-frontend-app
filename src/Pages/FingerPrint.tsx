@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FingerPrint() {
     const classes = useStyles();
     const [allcustomer, setAllCustomer] = React.useState([]);
-    const[viewPending , setViewPending] = React.useState(false)
+    const [viewPending, setViewPending] = React.useState(false)
 
 
     React.useEffect(() => {
@@ -73,12 +73,12 @@ export default function FingerPrint() {
     const fetchAllPendingFingerprint = async () => {
         try {
             const result = await axios.post(BASE_URL + "agent/pendingfingerprint", {},
-            {
-                headers: {
-                    encryption: false,
-                    access_token: getToken()
-                },
-            });
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                });
             if (result.data) {
                 setAllCustomer(result.data.data)
             }
@@ -94,22 +94,22 @@ export default function FingerPrint() {
         { title: 'Sl No', field: 'tableData.id' },
         { title: "Name", field: "name" },
         { title: "Main Aadhaar", field: "mainAadhaar" },
-        {title:"Family Aadhaar", field:"familyAadhaar"},
+        { title: "Family Aadhaar", field: "familyAadhaar" },
         { title: "Mobile", field: "mobile" },
-        {title:"Registered Agency Name", field:'registeredAgencyName'},
+        { title: "Contact Number", field: "contactNumber" },
+        { title: "Registered Agency Name", field: 'registeredAgencyName' },
         { title: "Sub Agent", field: 'subAgent' },
         { title: "Remarks", field: 'remarks' },
     ]
 
     return (
         <React.Fragment>
-              <CssBaseline />
-      <ResponsiveDrawer />
+            <CssBaseline />
+            <ResponsiveDrawer />
             <main>
-            <Container component="main"  style={{marginTop:"3rem", paddingTop:"2rem"}}>
-                 {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
+                <Container component="main" style={{ marginTop: "3rem", paddingTop: "2rem" }}>
                     <MaterialTable
-                        title="All Pending finger print  List JAMAN HP GAS"
+                        title="Your ALL  PENDING FINGER PRINT  LIST JAMAN HP GAS"
                         data={allcustomer}
                         columns={columns}
                         options={{
@@ -117,18 +117,17 @@ export default function FingerPrint() {
                             exportAllData: true,
                             filtering: true,
                             sorting: true,
-                            pageSizeOptions: [ 20, 50, 100, 200, 500],
+                            pageSizeOptions: [20, 50, 100, 200, 500],
                             headerStyle: {
                                 backgroundColor: '#F42870',
                                 color: '#FFF'
                             }
                         }}
                     />
-
-            </Container>
+                </Container>
             </main>
             <br></br>
-<Copyright/>
+            <Copyright />
         </React.Fragment>
     );
 }

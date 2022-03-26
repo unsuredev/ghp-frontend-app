@@ -482,7 +482,6 @@ const RefilSales = () => {
                                 <CardContent>
 
                                     <Typography >5KG DOMESTIC REFIL SALE </Typography>
-                                    <br />
                                     <TextField
                                         id="outlined-basic"
                                         size="small"
@@ -583,7 +582,6 @@ const RefilSales = () => {
                             <Card>
                                 <CardContent>
                                     <Typography >NC/EXTRA REFIL SALE </Typography>
-                                    <br />
                                     <FormControl variant="filled" className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-filled-label">Cylinder Type</InputLabel>
                                         <Select

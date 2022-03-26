@@ -530,7 +530,7 @@ export default function ImageManagement() {
                                     <Container className={classes.cardGrid} maxWidth="md">
                                         <Grid container spacing={4} style={{ marginRight: "1rem" }}>
                                             {(() => {
-                                                if (findRole() === "superadmin") {
+                                                if (findRole() ==="superadmin") {
                                                     return (
                                                         <div>                                                <Grid item xs={12}
                                                             md={12}>
@@ -539,7 +539,7 @@ export default function ImageManagement() {
                                                                     <img src={install.preview} alt="install" width="300" height="300" />
                                                                 ) : null}
                                                             </label>
-                                                            <Typography>Installation Letter Photo :</Typography>
+                                                            <Typography>Installation Letter Photo  :</Typography>
                                                             <input
                                                                 type="file"
                                                                 id="upload-button1"
@@ -577,7 +577,7 @@ export default function ImageManagement() {
                                                 }
 
 
-                                                if (user.installtatus != "Complete") {
+                                                if (user.installtatus != "Complete" &&findRole()==="admin")  {
                                                     return (
                                                         <div> 
                                                             <Grid item xs={12}
@@ -587,7 +587,7 @@ export default function ImageManagement() {
                                                                     <img src={install.preview} alt="install" width="300" height="300" />
                                                                 ) : null}
                                                             </label>
-                                                            <Typography>Installation Letter Photo :</Typography>
+                                                            <Typography>Installation Letter Photo:</Typography>
                                                             <input
                                                                 type="file"
                                                                 id="upload-button1"

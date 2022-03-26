@@ -54,6 +54,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FaceIcon from '@material-ui/icons/Face';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import StorefrontIcon from '@material-ui/icons/Storefront';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import '../style/Header.css'
 
 
@@ -401,6 +402,14 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
+            <Link href="/transaction">
+              <ListItem button>
+                <ListItemIcon >
+                  <AccountBalanceIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Transaction" />
+              </ListItem>
+            </Link>
             <Link href="/">
               <ListItem button>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
@@ -409,6 +418,8 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Log out" />
               </ListItem>
             </Link>
+
+            
           </div>
         )}
 
@@ -499,12 +510,8 @@ function ResponsiveDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} color="inherit">
+      <AppBar position="fixed" className={classes.appBar} style={{backgroundColor:"#009688"}}>
         <Toolbar>
-
-
-
-
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -514,21 +521,12 @@ function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          
-          <div>
-          <img src={require("../logo_hpcl.jpg").default}
-            alt="hpgas logo" />
-
-          </div>
-     
-
-          <div style={{ marginLeft: "25rem" }} >
-            <Typography noWrap style={{ color: "red", fontSize: "20px", fontFamily: "cursive" }}>
+            <Typography noWrap style={{ color: "white", fontSize: "20px", fontFamily: "cursive" }}>
               JAMAN ENTERPRISE
             </Typography>
 
-          </div>
-          <div style={{ marginLeft: "28rem" }}>
+        
+          <div >
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -536,7 +534,7 @@ function ResponsiveDrawer() {
               onClick={handleMenu}
               color="primary"
             >
-              <div style={{ marginLeft: "2rem", padding: "1rem" }}>
+              <div style={{ marginLeft: "3rem",paddingTop:"1rem" }}>
                 <StyledBadge
                   //@ts-ignore
                   overlap="circular"
@@ -566,7 +564,7 @@ function ResponsiveDrawer() {
               onClose={handleClose}
               style={{ textAlign: "center" }}
             >
-              <div style={{ marginLeft: "2rem", padding: "1rem" }}>
+              <div >
 
                 <Card >
                   <CardActionArea>
@@ -618,6 +616,7 @@ function ResponsiveDrawer() {
           </div>
         </Toolbar>
       </AppBar>
+
       <nav className={classes.drawer}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">

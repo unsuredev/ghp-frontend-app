@@ -241,7 +241,7 @@ const Home = () => {
     mobile: "",
     aadhaar: "",
     consumerNo: "",
-    mainAgent: "",
+    fileNumber: "",
     familyAadhaar: ""
 
   });
@@ -375,9 +375,18 @@ const Home = () => {
           findkey: "familyAadhaar",
           familyAadhaar: state.familyAadhaar,
         });
+        if (!result.data && result.data === undefined)
+          return showToast("No result found", "error");
+        setUsers([result.data]);
+        setCustomer(result.data);
+        //@ts-ignore
 
-
-
+      }
+      if (state.fileNumber) {
+        const result = await httpClient("customer/find", "POST", {
+          findkey: "regNo",
+          regNo: state.fileNumber,
+        });
         if (!result.data && result.data === undefined)
           return showToast("No result found", "error");
         setUsers([result.data]);
@@ -406,10 +415,11 @@ const Home = () => {
         mobile: customer.mobile,
         addedBy: customer.addedBy,
         installtatus: customer.installtatus,
-        fileNo: customer.fileNo,
+        regNo: customer.regNo,
         isSingleWomen: checked,
         registrationStatus: customer.registrationStatus,
-        contactNumber: customer.contactNumber
+        contactNumber: customer.contactNumber,
+        updatedBy:getUserName()
       },
         {
           headers: {
@@ -513,11 +523,11 @@ const Home = () => {
             className="maincontainer"
             style={{ justifyContent: "center", textAlign: "center", marginTop: "-10px" }}
           >
-            <Grid item xs={12} sm={12} md={3}>
+            <Grid item xs={12} sm={12} md={2}>
               <form className={classes.form} noValidate autoComplete="off">
                 <TextField
                   id="outlined-basic"
-                  label="Main Aadhaar No"
+                  label="Main Aadhaar"
                   variant="outlined"
                   fullWidth
                   name="aadhaar"
@@ -532,11 +542,11 @@ const Home = () => {
                 />
               </form>
             </Grid>
-            <Grid item xs={12} sm={12} md={3}>
+            <Grid item xs={12} sm={12} md={2}>
               <form className={classes.form} noValidate autoComplete="off">
                 <TextField
                   id="outlined-basic"
-                  label="Family Aadhaar No"
+                  label="Family Aadhaar"
                   name="familyAadhaar"
                   variant="outlined"
                   fullWidth
@@ -546,11 +556,11 @@ const Home = () => {
                 />
               </form>
             </Grid>
-            <Grid item xs={12} sm={12} md={3}>
+            <Grid item xs={12} sm={12} md={2}>
               <form className={classes.form} noValidate autoComplete="off">
                 <TextField
                   id="outlined-basic"
-                  label="Registered Contact No"
+                  label="Mobile No"
                   name="mobile"
                   fullWidth
                   variant="outlined"
@@ -563,7 +573,7 @@ const Home = () => {
                 />
               </form>
             </Grid>
-            <Grid item xs={12} sm={12} md={3}>
+            <Grid item xs={12} sm={12} md={2}>
               <form className={classes.form} noValidate autoComplete="off">
                 <TextField
                   id="outlined-basic"
@@ -578,20 +588,20 @@ const Home = () => {
               </form>
             </Grid>
 
-            {/* <Grid item xs={12} sm={12} md={2} >
+            <Grid item xs={12} sm={12} md={2} >
                                 <form className={classes.form} noValidate autoComplete="off">
                                     <TextField
                                         id="outlined-basic"
-                                        label="Main Agent"
-                                        name="reg"
+                                        label="File No "
+                                        name="fileNumber"
                                         variant="outlined"
                                         fullWidth
                                         type="text"
-                                        value={state.mainAgent}
+                                        value={state.fileNumber}
                                         onChange={handleChange}
                                     />
                                 </form>
-                            </Grid> */}
+                            </Grid>
             <div
               style={{
                 textAlign: "center",
@@ -685,7 +695,7 @@ const Home = () => {
                           <Typography>Registered Agency Name : <span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                           <Typography>Remarks : {user.remarks || "NA"}</Typography>
                           {/* @ts-ignore */}
-                          <Typography>Registration Status : {user.registrationStatus || "NA"}</Typography>
+                          <Typography>Status : {user.registrationStatus || "NA"}</Typography>
                           {/* @ts-ignore */}
                           <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
                           {/* @ts-ignore */}
@@ -813,7 +823,7 @@ const Home = () => {
                   return (
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
-                        <Card className={classes.card} key={i} style={{ backgroundColor: "#D0F2FF" }}  >
+                        <Card className={classes.card} key={i} style={{ backgroundColor: "#B7D28E" }}  >
                           <CardHeader
                             action={
                               <div style={{ margin: "0px", padding: "0px" }}>
@@ -850,23 +860,27 @@ const Home = () => {
                             {/* @ts-ignore */}
 
                             <Typography >
-                              Registration No : {user.regNo || "NA"}
+                              File No : {user.regNo || "NA"}
                             </Typography>                              {/* @ts-ignore */}
+
                             <Typography >
-                              File No : <span style={{ color: "red" }}> {user.fileNo || "NA"}</span>
-                            </Typography>
-                            <Typography >
-                              Consumer No :{user.consumerNo || "NA"}{" "}
+                              Consumer No :<span style={{ color: "red" }}>{user.consumerNo || "NA"}</span>
                             </Typography>
                             {/* @ts-ignore */}
-                            <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
+                            <Typography>Main Agent : <span style={{ color: "red" }}>{user.mainAgent.toUpperCase()}</span></Typography>
+                                                        {/* @ts-ignore */}
+
+                            <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
+
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                            <Typography>Registration Status : {user.registrationStatus || "NA"}</Typography>
+                            <Typography> Status : {user.registrationStatus || "NA"}</Typography>
                             <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}
                             </Typography>
                             {user.InstalationLetter && user.InstalationLetter != undefined &&
                               <Typography >Installation : <span style={{ color: "red" }}> {user.installtatus}</span> </Typography>}
+
+<Typography>Remarks : {user.remarks || "NA"}</Typography>
 
                           </CardContent>
                           <CardActions disableSpacing>
@@ -885,9 +899,7 @@ const Home = () => {
                           </CardActions>
                           <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                              <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
-
-                              <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                        
                               {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                               {user.updatedAt != undefined &&
@@ -895,6 +907,8 @@ const Home = () => {
                               }
                               <Typography >Added By : {user.addedBy || "NA"}</Typography>
                               {/* @ts-ignore */}
+                              <Typography>Updated By : {user.updatedBy || "NA"}</Typography>
+
 
                               <img src={user.InstalationLetter} alt={user.name} height="270px" width="410px" />
 
@@ -1000,7 +1014,7 @@ const Home = () => {
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <TextField
                                       id="outlined-basic"
-                                      label="Reg No"
+                                      label="File No"
                                       name="regNo"
                                       variant="outlined"
                                       fullWidth
@@ -1009,18 +1023,7 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                    <TextField
-                                      id="outlined-basic"
-                                      label="File No"
-                                      name="fileNo"
-                                      variant="outlined"
-                                      fullWidth
-                                      type="number"
-                                      value={customer.fileNo}
-                                      onChange={handleChangeUser}
-                                    />
-                                  </Grid>
+
                                   {getUser() ?
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <TextField
@@ -1133,6 +1136,12 @@ const Home = () => {
                                         value="Clear"
                                         control={<Radio color="secondary" />}
                                         label="Clear"
+                                        labelPlacement="top"
+                                      />
+                                         <FormControlLabel
+                                        value="Free Delivery"
+                                        control={<Radio color="secondary" />}
+                                        label="Free Delivery"
                                         labelPlacement="top"
                                       />
                                     </RadioGroup>
