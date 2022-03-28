@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import indigo from '@material-ui/core/colors/indigo';
+import teal from '@material-ui/core/colors/teal';
 import AuthenticatedRoute from './Components/auth';
-import pink from '@material-ui/core/colors/pink'
+import lime from '@material-ui/core/colors/lime'
 import MemberSignUp from './Pages/UserManagement'
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
@@ -31,8 +31,8 @@ const theme = createMuiTheme(
 
   {
     palette: {
-      primary: indigo,
-      secondary: pink,
+      primary: teal,
+      secondary:lime ,
     },
   });
 

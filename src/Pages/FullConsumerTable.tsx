@@ -30,7 +30,6 @@ export default function FullConsumerTable() {
         { title: "Remarks", field: 'remarks' },
         {title:"Install Status", field:'installtatus'},
         {title:"Single Women", field:'isSingleWomen'},
-        {title:"File No ", field:'fileNo'},
         {title:"Status", field:'registrationStatus'},
         {title:"Added By", field:'addedBY'},
         {title:"Updated By", field:'updatedBy'},

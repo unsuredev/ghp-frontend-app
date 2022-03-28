@@ -190,7 +190,7 @@ const CustomerStats = () => {
                     </MuiPickersUtilsProvider>
                 </Grid>
             </Container>
-            < Container maxWidth="md" style={{ marginTop: "50px", marginRight: "5rem" }}>
+            < Container maxWidth="md" style={{ marginTop: "50px"}}>
                 <Grid container >
                     <br></br>
                     <Table size="small">
@@ -220,12 +220,12 @@ const CustomerStats = () => {
             </Container>
             {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take few mins...</p> <CircularProgress /> </div> :
                 <Container style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
-                    <div style={{ marginTop: "50px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}>
+                    <div style={{ marginTop: "5rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}>
 
                         {userlist.length > 0 && (
 
                             <Grid container >
-                                <Grid item xs={12} sm={12} md={12} style={{ marginLeft: "11rem" }}>
+                                <Grid item xs={12} sm={12} md={12} >
                                     <MaterialTable
                                         title="Jaman Hp Gas Customers"
                                         isLoading={loading}

@@ -301,11 +301,12 @@ function ResponsiveDrawer() {
 
   const drawer = (
     <div>
-      <List>
+      <List           style={{backgroundColor:"#009688", color:"white"}}
+>
         {getRole() != "user" && (
           <div style={{ marginTop: "5rem" }}>
             <Link href="/customer">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <PersonAddIcon color="secondary" />
                 </ListItemIcon>
@@ -313,7 +314,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/home">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <SearchIcon color="secondary" />
                 </ListItemIcon>
@@ -321,7 +322,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/olddatamanagement">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <FolderSpecialIcon color="secondary" />
                 </ListItemIcon>
@@ -329,7 +330,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/delivery">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}> 
                 <ListItemIcon>
                   <BarChartIcon color="secondary" />
                 </ListItemIcon>
@@ -337,7 +338,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/customerDocs">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <CloudUploadIcon color="secondary" />
                 </ListItemIcon>
@@ -345,7 +346,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/connection">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <TrendingUpIcon color="secondary" />
                 </ListItemIcon>
@@ -353,15 +354,15 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/refilsales">
-              <ListItem button>
-                <ListItemIcon>
+              <ListItem button  style={{ color:"white"}}>
+                <ListItemIcon  style={{ color:"white"}}>
                   <StorefrontIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Refil Sales" />
               </ListItem>
             </Link>
             <Link href="/reports">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <DashboardIcon color="secondary" />
                 </ListItemIcon>
@@ -370,7 +371,7 @@ function ResponsiveDrawer() {
             </Link>
       
             <Link href="/dailycustomer">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <GetAppIcon color="secondary" />
                 </ListItemIcon>
@@ -378,7 +379,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/trashUsers">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}> 
                 <ListItemIcon>
                   <RestoreFromTrashIcon color="secondary" />
                 </ListItemIcon>
@@ -386,7 +387,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/dash">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <AccessibilityNewIcon color="secondary" />
                 </ListItemIcon>
@@ -394,7 +395,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/profile">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <FaceIcon color="secondary" />
                 </ListItemIcon>
@@ -403,7 +404,7 @@ function ResponsiveDrawer() {
             </Link>
 
             <Link href="/transaction">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon >
                   <AccountBalanceIcon color="secondary" />
                 </ListItemIcon>
@@ -411,7 +412,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
                   <ExitToAppIcon color="secondary" />
                 </ListItemIcon>
@@ -426,7 +427,7 @@ function ResponsiveDrawer() {
         {getRole() === "user" && (
           <div style={{ marginTop: "5rem" }}>
             <Link href="/home">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <SearchIcon color="secondary" />
                 </ListItemIcon>
@@ -434,7 +435,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/agentdashboard">
-            <ListItem button>
+            <ListItem button  style={{ color:"white"}}>
               <ListItemIcon>
                 <BarChartIcon color="secondary" />
               </ListItemIcon>
@@ -442,7 +443,7 @@ function ResponsiveDrawer() {
             </ListItem>
           </Link>
             <Link href="/connection">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <TrendingUpIcon color="secondary" />
                 </ListItemIcon>
@@ -451,7 +452,7 @@ function ResponsiveDrawer() {
             </Link>
 
             <Link href="/profile">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <FaceIcon color="secondary" />
                 </ListItemIcon>
@@ -459,7 +460,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>          
               <Link href="/fngerprint">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                 <NoteAddIcon color="secondary" />
                 </ListItemIcon>
@@ -468,7 +469,7 @@ function ResponsiveDrawer() {
             </Link>
 
             <Link href="/">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
                   <ExitToAppIcon color="secondary" />
                 </ListItemIcon>
@@ -491,7 +492,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/agentlist">
-              <ListItem button>
+              <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <SettingsIcon color="secondary" />
                 </ListItemIcon>
@@ -511,7 +512,7 @@ function ResponsiveDrawer() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} style={{backgroundColor:"#009688"}}>
-        <Toolbar>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -617,7 +618,7 @@ function ResponsiveDrawer() {
         </Toolbar>
       </AppBar>
 
-      <nav className={classes.drawer}>
+      <nav className={classes.drawer}  >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
@@ -654,7 +655,7 @@ function ResponsiveDrawer() {
           </Drawer>
         </Hidden>
       </nav>
-      <div className={classes.content}>
+      <div className={classes.content} >
         <div className={classes.toolbar} />
       </div>
     </div>

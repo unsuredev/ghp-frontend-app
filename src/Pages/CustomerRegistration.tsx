@@ -196,7 +196,6 @@ const CustomerRegistration = () => {
                     "mainAgent":values.mainAgent,
                     "mobile":values.mobile,
                     "consumerNo":values.consumerNo,
-                    "regNo":values.regNo,
                     "subAgent":values.subAgent,
                     "registeredAgencyName":values.registeredAgencyName,
                     "remarks":values.remarks,
@@ -297,22 +296,7 @@ const CustomerRegistration = () => {
                           value={values.mobile}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                          error={Boolean(touched.regNo && errors.regNo)}
-                          helperText={touched.regNo && errors.regNo}
-                          variant="outlined"
-                          fullWidth
-                          name="regNo"
-                          label="Registration  No"
-                          type="text"
-                          id="Registration"
-                          autoComplete="Registration"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.regNo}
-                    />
-                  </Grid>
+
                   <Grid item xs={12}>
                     <TextField
                           error={Boolean(touched.consumerNo && errors.consumerNo)}

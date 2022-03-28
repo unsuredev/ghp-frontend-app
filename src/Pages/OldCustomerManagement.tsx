@@ -395,7 +395,7 @@ const OldDataManagement = () => {
       <div >
         <div className={classes.heroContent}>
           <Container maxWidth="md" component="main"  style={{ marginTop: "4rem"}}>
-          <h2 style={{ margin: "auto",textAlign:"center" , color:'#3F51B5' }}>You are interacting with 2021 earlier customer!</h2>
+          <h2 style={{ margin: "auto",textAlign:"center"  }}>You are interacting with 2021 earlier customer!</h2>
           <br/>
 
             <Grid

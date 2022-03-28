@@ -612,8 +612,8 @@ const Home = () => {
               <Button
                 variant="contained"
                 size="large"
-                color="primary"
                 onClick={handleFind}
+                style={{backgroundColor:"#009688", color:"white"}}
               >
                 FIND CUSTOMER
               </Button>
@@ -654,7 +654,7 @@ const Home = () => {
                                 <div style={{ margin: "0px", padding: "0px" }}>
                                   {user.installtatus === "Complete" ?
                                     <IconButton aria-label="settings">
-                                      <CheckCircleIcon style={{ color: "red" }} />
+                                      <CheckCircleIcon style={{ color: "#ffea00" }} />
                                     </IconButton> : null}
                                   <IconButton aria-label="settings" onClick={handleClickOpenByAgent}>
                                     <EditIcon onClick={handleCloseByAgent} />
@@ -823,13 +823,13 @@ const Home = () => {
                   return (
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
-                        <Card className={classes.card} key={i} style={{ backgroundColor: "#B7D28E" }}  >
+                        <Card className={classes.card} key={i} style={{ backgroundColor: "#009688",color:"white" }}  >
                           <CardHeader
                             action={
                               <div style={{ margin: "0px", padding: "0px" }}>
                                 {user.installtatus === "Complete" ?
                                   <IconButton aria-label="settings">
-                                    <CheckCircleIcon style={{ color: "red" }} />
+                                    <CheckCircleIcon style={{ color:  "#ffea00" }} />
                                   </IconButton> : null}
                                 <IconButton aria-label="settings" onClick={handleClickOpen}>
                                   <EditIcon onClick={handleClickOpen} />
@@ -848,7 +848,7 @@ const Home = () => {
                           />
                           <CardContent className={classes.cardContent}>
                             {/* @ts-ignore */}
-                            <Typography >Main Aadhaar : <span style={{ color: "red" }}>{user.mainAadhaar}</span> </Typography>
+                            <Typography >Main Aadhaar : <span style={{ color: "#ffea00" }}>{user.mainAadhaar}</span> </Typography>
                             {/* @ts-ignore */}
                             <Typography >
                               Family Aadhaar : {user.familyAadhaar}
@@ -864,21 +864,21 @@ const Home = () => {
                             </Typography>                              {/* @ts-ignore */}
 
                             <Typography >
-                              Consumer No :<span style={{ color: "red" }}>{user.consumerNo || "NA"}</span>
+                              Consumer No :<span style={{ color: "#ffea00" }}>{user.consumerNo || "NA"}</span>
                             </Typography>
                             {/* @ts-ignore */}
-                            <Typography>Main Agent : <span style={{ color: "red" }}>{user.mainAgent.toUpperCase()}</span></Typography>
+                            <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
                                                         {/* @ts-ignore */}
 
                             <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
 
                             {/* @ts-ignore */}
-                            <Typography >Registered Agency Name : <span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                            <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                             <Typography> Status : {user.registrationStatus || "NA"}</Typography>
                             <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}
                             </Typography>
                             {user.InstalationLetter && user.InstalationLetter != undefined &&
-                              <Typography >Installation : <span style={{ color: "red" }}> {user.installtatus}</span> </Typography>}
+                              <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>}
 
 <Typography>Remarks : {user.remarks || "NA"}</Typography>
 
@@ -1133,9 +1133,9 @@ const Home = () => {
                                         labelPlacement="top"
                                       />
                                       <FormControlLabel
-                                        value="Clear"
+                                        value="Pending Documents"
                                         control={<Radio color="secondary" />}
-                                        label="Clear"
+                                        label="Pending Documents"
                                         labelPlacement="top"
                                       />
                                          <FormControlLabel
