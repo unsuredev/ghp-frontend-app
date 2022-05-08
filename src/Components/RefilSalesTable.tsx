@@ -1,31 +1,8 @@
 import React from 'react'
 import MaterialTable from 'material-table';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Toolbar from '@material-ui/core/Toolbar';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-import axios from "axios";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
+
 
 function RefilSalesTable(props:any) {
-
-
-    console.log("dataAray",props.dataAray)
 
     const columns = [
         { title: "Name", field: "agent" },
@@ -38,7 +15,6 @@ function RefilSalesTable(props:any) {
         { title: "Empty  Recived 19KG", field: "emptyCycliderRecived19" },
         { title: "Empty Due 19", field: "emptyDue19" },
         { title: "Rate 19 KG", field: "rate19" },
-
         { title: "Load Paid 5KG DOM", field: "loadPaid5" },
         { title: "Empty  Recived 5KG DOM", field: "emptyRecived5" },
         { title: "Empty Due 5KG", field: "emptyDue14" },
@@ -59,7 +35,7 @@ function RefilSalesTable(props:any) {
     return (
         <div>
             <MaterialTable
-                title="Jaman Hp Refil sales data"
+                title="JAMAN HP REFIL SALES"
                 data={props.dataAray}
                 columns={columns}
                 options={{
@@ -69,7 +45,7 @@ function RefilSalesTable(props:any) {
                     sorting: true,
                     pageSizeOptions: [5, 20, 50, 100, 200, 500],
                     headerStyle: {
-                        backgroundColor: '#01579b',
+                        backgroundColor: '#009688',
                         color: '#FFF'
                     }
                 }}

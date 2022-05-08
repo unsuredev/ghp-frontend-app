@@ -14,21 +14,18 @@ import {
     CssBaseline,
     TextField,
 } from "@material-ui/core";
-import CardMedia from '@material-ui/core/CardMedia';
-import FormControl from "@material-ui/core/FormControl";
 import ResponsiveDrawer from "./Drawer";
 import FooterSection from "../Components/Footer";
-import axios from "axios";
 import { httpClient } from "../Common/Service";
 import { ToastContext } from "../Common/ToastProvider";
-import teal from '@material-ui/core/colors/teal'
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { BASE_URL } from "../Common/constant";
 import jwt_decode from "jwt-decode";
 import moment from "moment";
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import FiberNewIcon from '@material-ui/icons/FiberNew';
-import TouchAppIcon from '@material-ui/icons/TouchApp';
+import IconButton from "@material-ui/core/IconButton";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 const useStyles = makeStyles((theme) => ({
     icon: {
         marginRight: theme.spacing(2),
@@ -414,11 +411,11 @@ export default function ImageManagement() {
                             <Tabs
                                 value={value}
                                 onChange={handleChangevalue}
-                                indicatorColor="secondary"
-                                textColor="secondary"
+                                indicatorColor="primary"
+                                textColor="primary"
                                 centered
                             >
-                                <Tab label="New Customer" icon={<FiberNewIcon color="secondary" fontSize="large" />} />
+                                <Tab label="New Customer" icon={<FiberNewIcon color="primary" fontSize="large" />} />
                                 <Tab label="Old Customer" icon={<NewReleasesIcon />} />
                             </Tabs>
                             <form className={classes.form} noValidate autoComplete="off">
@@ -476,15 +473,20 @@ export default function ImageManagement() {
                                                         <Typography color="textSecondary" gutterBottom>
                                                             Customer's Details
                                                         </Typography>
-
                                                         <CardHeader
-                                                            action={
-                                                                <div style={{ margin: "0px", padding: "0px" }}>
-                                                                </div>
-                                                            }
-                                                            //@ts-ignore
-                                                            title={user.name.toUpperCase()}
-                                                        />
+                              action={
+                                <div style={{ margin: "0px", padding: "0px" }}>
+                                  {user.installtatus === "Complete" ?
+                                    <IconButton aria-label="settings">
+                                      <CheckCircleIcon style={{ color: "blue" }} />
+                                    </IconButton> : null}
+                              
+                                </div>
+                              }
+                          //@ts-ignore agent card
+                          title={user.name.toUpperCase()}
+                          
+                        />
 
                                                         <CardHeader style={{ textAlign: "center" }} />
                                                         <div style={{ marginTop: "-40px" }}>
@@ -520,7 +522,7 @@ export default function ImageManagement() {
                                                 </Card>
                                                 <br></br>
                                     {user.consumerNo ? null :
-                                        <Typography gutterBottom variant="h5" component="h2" color="secondary">
+                                        <Typography gutterBottom variant="h5" component="h2" color="primary">
                                             This Customer don't have any consumer Number
                                         </Typography>
                                     }
@@ -626,7 +628,7 @@ export default function ImageManagement() {
                                                 
                                                 if (user.installtatus === "Complete") {
                                                     return (
-                                                        <div><Typography color="secondary">Installation photo already submitted !</Typography></div>
+                                                        <div><Typography color="primary">Installation photo already submitted !</Typography></div>
                                                     )
                                                 }
                                             })()}

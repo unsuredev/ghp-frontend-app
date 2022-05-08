@@ -143,7 +143,7 @@ export default function SignInSide() {
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                         <form onSubmit={handleSubmit}>
                             <div className={classes.paper}>
-                                <Typography component="h1" variant="h4"
+                                <Typography component="h2" variant="h5"
                                 >
                                     JAMAN ENTERPRISE
                                 </Typography>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from '@material-ui/core/Table';
-import { Button, Link, TextField, Container, TableRow, TableContainer, TableHead, TableBody, TableCell, Grid, makeStyles, } from '@material-ui/core';
-
+import { Button, Link, TextField, Container, TableRow, TableContainer, TableHead, TableBody, TableCell, Grid, makeStyles,Typography } from '@material-ui/core';
 import { httpClient } from "../Common/Service";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DateFnsUtils from '@date-io/date-fns';
@@ -52,6 +51,8 @@ const CustomerStats = () => {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(true);
     const [value, setValue] = React.useState(1);
+    const [newReg, setNewReg]=React.useState(false)
+    const [old, setOld]=React.useState(false)
 
     const [agentName, setAgentName] = React.useState({
         name: "",
@@ -94,22 +95,39 @@ const CustomerStats = () => {
     const startDateChange = (date: any) => {
         const format = "YYYY-MM-DD"
         let startday: any = moment(date).format(format)
-        console.log("startdate", startday)
         setFirstDate(startday);
     };
     const endDateChange = (date2: any) => {
         const format = "YYYY-MM-DD"
         let endday: any = moment(date2).format(format);
         setLastDate(endday);
-        console.log("end", endday)
 
     };
-    const fetchUsers = async () => {
 
+    const fetchUsers = async () => {
         try {
+            setNewReg(true)
             setLoading(true)
             //@ts-ignore
             const result = await httpClient("customer/getCustomerStats", "POST", {
+                "start_date": firstDate, "end_date": lastDate,
+            });
+            if (result!=null){
+            setUsers(result.data);
+            setLoading(false)
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    const fetchLastUpdateConsumer = async () => {
+        try {
+            setNewReg(false)
+            setLoading(true)
+            //@ts-ignore
+            const result = await httpClient("customer/lastupdatedRecords", "POST", {
                 "start_date": firstDate, "end_date": lastDate,
             });
             if (result!=null){
@@ -126,7 +144,6 @@ const CustomerStats = () => {
 
     const usersByDate = (index: any) => {
         setLoading(true);
-
         for (let i = 0; i < users.length; i++) {
             if (i == index) {
                 userlist = users[i].customers;
@@ -137,7 +154,6 @@ const CustomerStats = () => {
         console.log("users data", userlist)
         setLoading(false);
         return userlist
-
     }
 
 
@@ -146,12 +162,8 @@ const CustomerStats = () => {
     return (
         <React.Fragment>
             <ResponsiveDrawer />
-
             <Container maxWidth="md" style={{ paddingLeft: "4rem" }} >
-
                 <Grid container >
-
-
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justify="space-around">
                             <KeyboardDatePicker
@@ -169,7 +181,6 @@ const CustomerStats = () => {
                                     'aria-label': 'change date',
                                 }}
                             />
-
                             <KeyboardDatePicker
                                 minDate={firstDate}
                                 margin="normal"
@@ -183,14 +194,26 @@ const CustomerStats = () => {
                                     'aria-label': 'change date',
                                 }}
                             />
-                            <Button variant="contained" color="primary" onClick={fetchUsers} >
+                            {/* <Button variant="contained" color="primary" onClick={fetchLastUpdateConsumer} >
                                 FIND by DATE
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </MuiPickersUtilsProvider>
+                    
                 </Grid>
             </Container>
+            <Grid container style={{ marginTop: "2rem", justifyContent:"center"}}>
+                <Button variant="contained" color="primary" onClick={fetchUsers} >
+                            NEW REGISTRATION RECORD
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={fetchLastUpdateConsumer} >
+                            LAST UPDATED RECORD
+                            </Button>
+                </Grid>
             < Container maxWidth="md" style={{ marginTop: "50px"}}>
+                {newReg? <Typography color='primary'>New Registration Consumer : </Typography>: <Typography color='textSecondary'>Last Updated Consumer :</Typography>}
+
+            
                 <Grid container >
                     <br></br>
                     <Table size="small">
@@ -216,14 +239,11 @@ const CustomerStats = () => {
                         </TableBody>
                     </Table>
                 </Grid>
-
             </Container>
             {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take few mins...</p> <CircularProgress /> </div> :
                 <Container style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
                     <div style={{ marginTop: "5rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}>
-
                         {userlist.length > 0 && (
-
                             <Grid container >
                                 <Grid item xs={12} sm={12} md={12} >
                                     <MaterialTable
@@ -243,8 +263,6 @@ const CustomerStats = () => {
                                             { title: "Remarks", field: "remarks" },
                                             {title:'Added By', field:'addedBy'},
                                             {title:'Installation Status', field:'installtatus'},
-
-
                                             
                                         ]}
                                         data={userlist}
@@ -255,18 +273,15 @@ const CustomerStats = () => {
                                             sorting: true,
                                             pageSizeOptions: [5, 20, 50, 100, 200, 500],
                                             headerStyle: {
-                                                backgroundColor: '#01579b',
-                                                color: '#FFF'
+                                                backgroundColor: newReg?'#009688':'yellow',
+                                                color: 'black'
                                             }
-
-
                                         }}
                                     />
                                 </Grid>
                             </Grid>
                         )}
                     </div>
-
                 </Container>}
             <FooterSection />
         </React.Fragment >

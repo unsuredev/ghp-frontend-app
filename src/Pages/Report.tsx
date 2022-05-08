@@ -11,7 +11,7 @@ import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
 import OldFullConsumerTable from './OldFullConsumerTable '
-import ConnectionFullTable from './connectionFullTable'
+import ConnectionFullTable from './ConnectionFullTable'
 
 
 const useStyles = makeStyles((theme) => ({

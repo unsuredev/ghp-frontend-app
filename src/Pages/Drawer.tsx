@@ -300,8 +300,8 @@ function ResponsiveDrawer() {
 
 
   const drawer = (
-    <div>
-      <List           style={{backgroundColor:"#009688", color:"white"}}
+    <div  style={{backgroundColor:"#009688", color:"white"}}>
+      <List         
 >
         {getRole() != "user" && (
           <div style={{ marginTop: "5rem" }}>
@@ -423,9 +423,8 @@ function ResponsiveDrawer() {
             
           </div>
         )}
-
         {getRole() === "user" && (
-          <div style={{ marginTop: "5rem" }}>
+          <div style={{ marginTop: "5rem",backgroundColor:"#009688", color:"white" }}>
             <Link href="/home">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
@@ -482,9 +481,9 @@ function ResponsiveDrawer() {
 
 
         {getRole() === "superadmin" ? (
-          <div>
+          <div style={{backgroundColor:"#009688", color:"white"}}>
             <Link href="/member">
-              <ListItem button style={{ marginTop: "2rem" }}>
+              <ListItem button style={{ marginTop: "2rem" ,color:"white"}}>
                 <ListItemIcon>
                   <SupervisorAccountOutlinedIcon color="secondary" />
                 </ListItemIcon>
@@ -618,7 +617,7 @@ function ResponsiveDrawer() {
         </Toolbar>
       </AppBar>
 
-      <nav className={classes.drawer}  >
+      <nav className={classes.drawer}   >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
@@ -650,7 +649,7 @@ function ResponsiveDrawer() {
               paper: classes.drawerPaper,
             }}
           >
-            <div className={classes.toolbar} />
+            <div className={classes.toolbar}  style={{backgroundColor:"#009688", color:"white"}}/>
             {drawer}
           </Drawer>
         </Hidden>

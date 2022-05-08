@@ -42,11 +42,8 @@ const useStyles = makeStyles((theme) => ({
     },
     heroContent: {
         backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
     },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
+
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
@@ -276,7 +273,31 @@ const RefilSales = () => {
 
 
 
+        // GET  AGENT'S REFIL SALE HISTORY
+        const handleSalesHistory = async () => {
+            try {
+                setLoading(true)
+                const result = await axios.post(BASE_URL + "refilsale/gethhistory", { "agent": agentdata.agent },
+                    {
+                        headers: {
+                            encryption: false,
+                            access_token: getToken()
+                        },
+                    })
+                    if (result.data) {
+                         setData(result.data.result.data)
+                        setLoading(false)
+                    }
+            } catch (error) {
+                if (error) {
+                    //@ts-ignore
+                    console.log("error", error)
+                }
+            }
+        };
 
+
+        // fetch RefilSales History for all agent
     const fetchRefilSalesHistory = async () => {
         try {
             setLoading(true)
@@ -321,10 +342,11 @@ const RefilSales = () => {
                 {/* Hero unit */}
                 <div className={classes.heroContent}>
                     <Container maxWidth="md">
+
+                        <div >
                         <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
                             Refil Sales Managements
                         </Typography>
-                        <div className={classes.heroButtons}>
                             <Grid container spacing={2} style={{ textAlign: "center" }} >
                                 <Grid item xs={12} md={4}>
                                 </Grid>
@@ -349,7 +371,10 @@ const RefilSales = () => {
                             </Grid>
                             <div style={{ marginTop: "1rem", textAlign: "center" }}>
                                 <Button variant="contained" size="medium" color="primary" onClick={handleFind} >
-                                    CHOOSE AGENT
+                                    FETCH AGENT DEATILS
+                                </Button>
+                                <Button variant="contained" size="medium" color="secondary" onClick={handleSalesHistory} >
+                                    FETCH AGENT HISTORY
                                 </Button>
                             </div>
                         </div>
@@ -357,8 +382,8 @@ const RefilSales = () => {
                 </div>
                 <Container className={classes.cardGrid} >
                     {/* @ts-ignore */}
-                    <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-                        Name: <span style={{ color: "blue" }}>  {agentDetails}</span>
+                    <Typography component="h6" variant="h6" align="center" color="primary" gutterBottom>
+                        Name:  {agentDetails}
                     </Typography>
 
                 </Container>
@@ -419,7 +444,7 @@ const RefilSales = () => {
 
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         Amount:{totalAmount14()}
                                     </Button>
                                 </CardActions>
@@ -471,7 +496,7 @@ const RefilSales = () => {
                                     />
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         Amount:{totalAmount19()}
                                     </Button>
                                 </CardActions>
@@ -521,7 +546,7 @@ const RefilSales = () => {
                                     />
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         Amount:{agentdata.loadPaid5ftl * agentdata.rate5ftl}
                                     </Button>
                                 </CardActions>
@@ -572,7 +597,7 @@ const RefilSales = () => {
                                     />
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         Amount:{totalAmount5()}
                                     </Button>
                                 </CardActions>
@@ -625,7 +650,7 @@ const RefilSales = () => {
 
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         Amount:{agentdata.spQantity * agentdata.spRate}
                                     </Button>
                                 </CardActions>
@@ -663,9 +688,9 @@ const RefilSales = () => {
                                     />
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant="outlined" color="secondary">
+                                    <Button fullWidth variant="contained" color="secondary">
                                         {/* @ts-ignore */}
-                                        Amount:{todaysTotalAmountDue()}
+                                        Total Due:{todaysTotalAmountDue()}
                                     </Button>
                                 </CardActions>
                             </Card>

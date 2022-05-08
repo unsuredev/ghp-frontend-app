@@ -1,38 +1,37 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Card from '@material-ui/core/Card';
-import StarIcon from '@material-ui/icons/StarBorder';
-import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React from "react";
+import Container from "@material-ui/core/Container";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {
     Button,
     Grid,
     makeStyles,
     CssBaseline,
-    TextField, Typography
+    TextField,
+    Typography,Card
 } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ResponsiveDrawer from "./Drawer";
-
+import { BASE_URL } from "../Common/constant";
+import axios from "axios";
+import moment from "moment";
+import MaterialTable from 'material-table';
 
 const useStyles = makeStyles((theme) => ({
-    '@global': {
+    "@global": {
         ul: {
             margin: 0,
             padding: 0,
-            listStyle: 'none',
+            listStyle: "none",
         },
     },
 
@@ -47,140 +46,403 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-
-
-
 export default function Transactions() {
     const classes = useStyles();
+    const [state, setState] = React.useState({})
+    const [open, setOpen] = React.useState(false);
+    const [transaction, setTransaction] = React.useState({
+        loanaccount: 0,
+        svaccount: 0,
+        l9payment: 0,
+        staffsalary: 0,
+        drivertips: 0,
+        driverfooding: 0,
+        extraexpenses: 0,
+        remarks: ""
+    });
+    const [firstDate, setFirstDate] = React.useState(new Date(moment().startOf('month').format('YYYY-MM-DD')));
+    const [lastDate, setLastDate] = React.useState(new Date(moment().endOf('day').format('YYYY-MM-DD')))
+    const [active, setActive] = React.useState(true);
+    const [show, setShow] = React.useState(false);
+    const [data, setData]=React.useState([])
+    const [loading, setLoading] = React.useState(false)
+
+    const handleChange = (event: any) => {
+        setTransaction({ ...transaction, [event.target.name]: event.target.value });
+    };
+
+    const totalExpense = () => {
+        //@ts-ignore
+        const result = parseInt(transaction.loanaccount) + parseInt(transaction.svaccount) + parseInt(transaction.l9payment) + parseInt(transaction.staffsalary) + parseInt(transaction.drivertips) + parseInt(transaction.driverfooding) + parseInt(transaction.extraexpenses)
+        return result
+    }
+
+const finalClosing = () => {
+            //@ts-ignore
+  const result =state.todaySellAmount - totalExpense() + state.yesterdaybalance;
+  return result;
+};
+
+const todayCash=()=>{
+    //@ts-ignore
+    const result = parseInt(state.todayAmountPaid)
+    return result
+}
+
+    const getToken = () => {
+        //@ts-ignore
+        return localStorage.getItem("access_token")
+    }
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
+      const handleOk = () => {
+        setOpen(false);
+        setActive(false)
+      };
+
+      const fethcTransactionHistory = async() => {
+        try {
+            setLoading(true)
+            const result = await axios.get(BASE_URL + "transaction/history", {
+                headers: {
+                    encryption: false,
+                    access_token: getToken()
+                },
+            });
+            if(result.data){
+                setData(result.data.data.transaction)
+                setLoading(false)
+
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+    const getTodayTransaction = async () => {
+        try {
+            const result = await axios.post(BASE_URL + "transaction/get",{
+                "start_date": firstDate, "end_date": lastDate,
+            
+            },  { headers: {
+                encryption: false,
+                access_token: getToken()
+                }})
+            if (result.data) {
+                console.log("res", result.data.data.transaction)
+                setState(result.data.data.transaction)
+                console.log("state", state)
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+
+    const updateTodayTransaction = async () => {
+        try {
+            const result = await axios.post(BASE_URL + "transaction/update",{
+                loanaccount: transaction.loanaccount,
+                svaccount: transaction.svaccount,
+                l9payment: transaction.l9payment,
+                staffsalary: transaction.staffsalary,
+                drivertips: transaction.drivertips,
+                driverfooding: transaction.driverfooding,
+                extraexpenses: transaction.extraexpenses,
+                remarks: transaction.remarks,
+                todayexpense:totalExpense(),
+                todayClosing:finalClosing(),
+                todayCashPaid:todayCash()
+            
+            },  { headers: {
+                encryption: false,
+                access_token: getToken()
+                }})
+            if (result.data) {
+                console.log("result.data", result.data)
+            }
+        }
+        catch (error) {
+            console.log("error", error)
+        }
+    }
+
+    const columns = [
+        { title: "Loan Account SlNo", field: "loanaccount" },
+        { title: "SV Account", field: "svaccount" },
+        { title: "L9 Payment", field: "l9payment" },
+        { title: "Staff Salary", field: "staffsalary" },
+        { title: "Driver Tips", field: "drivertips" },
+        { title: "Driver Fooding", field: "driverfooding" },
+        { title: "Extra Expenses", field: 'extraexpenses' },
+        { title: "Today Total Expense", field: 'todayexpense' },
+        { title: "Today Closing", field: 'todayClosing' },
+        { title: "Today Cash Paid", field: 'todayCashPaid' },
+        { title: "Remarks", field: 'remarks' },
+
+        
+    ]
+
+
+
+    React.useEffect(() => {
+        getTodayTransaction()
+    }, []);
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <ResponsiveDrawer />
+      <React.Fragment>
+        <CssBaseline />
+        <ResponsiveDrawer />
 
-            {/* Hero unit */}
-            <Container maxWidth="sm" component="main" className={classes.heroContent}>
-                <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-                    Transaction Summary upcoming....
-                </Typography>
+        {/* Hero unit */}
+        <Container
+          maxWidth="sm"
+          component="main"
+          className={classes.heroContent}
+        >
+          <Typography
+            component="h5"
+            variant="h5"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Transaction Summary
+          </Typography>
+        </Container>
+        <Container maxWidth="lg">
+          <Grid container>
+            <Grid item xs={12} sm={12} md={3}></Grid>
 
-            </Container>
-            <Container maxWidth="lg" >
-                <Grid container>
-                                      <Grid item xs={12} sm={12} md={3}>
-                                          </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+              <Typography>Todays All Expenses </Typography>
 
-                    <Grid item xs={12} sm={12} md={3}>
-                        <Typography >Todays All Expenses </Typography>
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Loan Account Transfer"
+                name="loanaccount"
+                type="number"
+                value={transaction.loanaccount}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="SV Account Transfer"
+                name="svaccount"
+                type="number"
+                value={transaction.svaccount}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="L9 Paymesnts"
+                name="l9payment"
+                type="number"
+                value={transaction.l9payment}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Staff Salary"
+                name="staffsalary"
+                type="number"
+                value={transaction.staffsalary}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Driver Tips"
+                name="drivertips"
+                type="number"
+                value={transaction.drivertips}
+                onChange={handleChange}
+              />
 
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="Loan Account Transfer"
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="SV Account Transfer"
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="L9 Paymesnts"
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="Driver Tips"
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Driver Fooding:"
+                name="driverfooding"
+                type="number"
+                value={transaction.driverfooding}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Extra Expenses "
+                name="extraexpenses"
+                type="number"
+                value={transaction.extraexpenses}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-basic"
+                size="small"
+                label="Remarks  "
+                name="remarks"
+                type="text"
+                value={transaction.remarks}
+                onChange={handleChange}
+              />
+              <br></br>
+              <br></br>
+              <br></br>
+              <Typography>
+                {" "}
+                Today's Total Expenses:&#x20B9; <b>{totalExpense()}</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Yesterday Closing Balance:
+                      </TableCell>
+                      <TableCell align="right">
+                                           {/* @ts-ignore */}
 
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="Driver Fooding:"
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="Extra Expenses "
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                            <TextField
-                            id="outlined-basic"
-                            size="small"
-                            label="Remarks  "
-                            name="emptyCycliderRecived19"
-                            type="number"
-                        />
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <Typography > Today's Total Expenses:&#x20B9;  <b>25893</b>  </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3}>
-                    <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
-                        <TableBody>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                    Yesterday Closing Balance:
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; 2569</TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                Today's Balance:
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; 25893</TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                All Total Balance:
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; <b> 852502</b> </TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                Today's Expense :
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; 25893</TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                    Total Due :
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; 256950</TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell component="th" scope="row">
-                                    Today's Closing Balance in cash :
-                                </TableCell>
-                                <TableCell align="right"> &#x20B9; 256950</TableCell>
-                                </TableRow>
-                                <TableRow >
-                                <TableCell component="th" scope="row">
-                                    <b> Final Closing Balance:</b> 
-                                </TableCell>
-                                <TableCell align="right">  <span style={{color:"red"}}> &#x20B9;256950</span> </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                    </Grid>
+                        &#x20B9;{state.yesterdaybalance}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Today's Sell Balance:
+                      </TableCell>
+                      <TableCell align="right">
+                                              {/* @ts-ignore */}
+
+                        &#x20B9; <b>{state.todaySellAmount}</b>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Today Cash Paid:
+                      </TableCell>
+                      <TableCell align="right">
+                                             {/* @ts-ignore */}
+
+                        &#x20B9; {state.todayAmountPaid}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Today's Due :
+                      </TableCell>
+                      <TableCell align="right">
+                                            {/* @ts-ignore */}
+
+                        &#x20B9;{state.todayDue}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Today's Expense :
+                      </TableCell>
+                      <TableCell align="right">
+                        {" "}
+                        &#x20B9;{totalExpense()}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        <b> Final Closing Balance:</b>
+                      </TableCell>
+                      <TableCell align="right">
+                        {/* @ts-ignore */}
+                        <span style={{ color: "red" }}>&#x20B9;{finalClosing()}</span>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <div>
+
+
+<Button variant="outlined" color="primary" onClick={handleClickOpen}>
+Refil-sale updated?
+      </Button>
+
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Please confirm you have updated refil sale!"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Did you update today's refil sale ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      No
+                    </Button>
+                    <Button onClick={handleOk} color="primary" autoFocus>
+                      Yes!
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+              <Grid item xs={12} sm={12} md={12} style={{ marginTop: "2rem" }}>
+                <Button variant="contained" size="medium" color="secondary" onClick={updateTodayTransaction} disabled={active}>
+                  save & update
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+                <Card style={{height:"15rem", width:"15rem" , justifyContent:"center" , textAlign:"center", paddingTop:"5rem"}}>
+                                            {/* @ts-ignore */}
+                <Typography >Grand Total Due: <b>{state.grandTotalDue}</b> </Typography>
+                </Card>
+                <Button variant="contained" size="medium" color="primary" onClick={fethcTransactionHistory} >
+                  Fetch HISTORY
+                </Button>
                 </Grid>
-            </Container>
-        </React.Fragment >
+          </Grid>
+        </Container>
+
+
+        <Container>
+        {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
+
+<MaterialTable
+title="Jaman Hp Transaction History"
+data={data}
+columns={columns}
+options={{
+    exportButton: true,
+    exportAllData: true,
+    filtering: true,
+    sorting: true,
+    pageSizeOptions: [5, 20, 50, 100, 200, 500],
+    headerStyle: {
+        backgroundColor: '#009688',
+        color: '#FFF'
+    }
+}}
+/>
+
+    }
+        </Container>
+
+      </React.Fragment>
     );
 }

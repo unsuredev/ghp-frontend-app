@@ -32,13 +32,12 @@ export default function FullConsumerTable() {
         {title:"Single Women", field:'isSingleWomen'},
         {title:"Status", field:'registrationStatus'},
         {title:"Added By", field:'addedBY'},
-        {title:"Updated By", field:'updatedBy'},
+        {title:"Updated By", field:'updatedBy'},        
+        {
+            title: "DATE ", field: "updatedAt", type: "date",
+            dateSetting: { locale: "ko-KR" }
+        },
 
-        
-
-        
-
-        
     ]
 
 
@@ -47,9 +46,6 @@ export default function FullConsumerTable() {
         //@ts-ignore
         return localStorage.getItem("access_token")
     }
-
-
-
 
     const fetcCustomerData = async() => {
         try {
@@ -68,11 +64,7 @@ export default function FullConsumerTable() {
         catch (error) {
             console.log("error", error)
         }
-
     }
-
-
-
 
 
     React.useEffect(() => {
@@ -89,6 +81,8 @@ export default function FullConsumerTable() {
                     <MaterialTable
                         title="Jaman Hp Consumer Data"
                         data={data}
+                                    //@ts-ignore
+
                         columns={columns}
                         options={{
                             exportButton: true,

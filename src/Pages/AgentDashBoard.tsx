@@ -12,7 +12,7 @@ import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
 import OldFullConsumerTable from './OldFullConsumerTable '
-import ConnectionFullTable from './connectionFullTable'
+import ConnectionFullTable from './ConnectionFullTable'
 import axios from "axios";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';

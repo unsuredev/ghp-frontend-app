@@ -45,14 +45,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import clsx from 'clsx';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -686,7 +681,8 @@ const Home = () => {
                             Registration No : {user.regNo || "NA"}
                           </Typography>
                           <Typography>
-                            Consumer No :{user.consumerNo || "NA"}{" "}
+                          Consumer No : <span style={{color:"#c6ff00"}}>{user.consumerNo || "NA"}</span> 
+
                           </Typography>
                           {/* @ts-ignore */}
                           <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
@@ -864,7 +860,7 @@ const Home = () => {
                             </Typography>                              {/* @ts-ignore */}
 
                             <Typography >
-                              Consumer No :<span style={{ color: "#ffea00" }}>{user.consumerNo || "NA"}</span>
+                            Consumer No : <span style={{color:"#c6ff00"}}>{user.consumerNo || "NA"}</span> 
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
@@ -955,18 +951,11 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                    <TextField
-                                      id="outlined-basic"
-                                      label="Main Aadhaar"
-                                      name="mainAadhaar"
-                                      variant="outlined"
-                                      fullWidth
-                                      type="text"
-                                      value={customer.mainAadhaar}
-                                      onChange={handleChangeUser}
-                                    />
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" , backgroundColor:"black", color:"white"}}>
+
+                                  <Typography   variant="h5" gutterBottom style={{textAlign:"center"}}>Main Aadhaar : {customer.mainAadhaar || "NA"}</Typography>
                                   </Grid>
+
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <TextField
                                       id="outlined-basic"
@@ -1037,7 +1026,10 @@ const Home = () => {
                                         onChange={handleChangeUser}
                                       />
                                     </Grid> : null}
-                                  <Typography style={{ color: "white", backgroundColor: "black" }} variant="h5" gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+                                    <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+
+                                  <Typography style={{ color: "white", backgroundColor: "black", textAlign:"center" }} variant="h5" gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+                                  </Grid> 
                                   {getUser() ? (
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <FormControl variant="outlined" className={classes.formControl}>

@@ -84,7 +84,7 @@ export default function TrashConsumerTable() {
                             sorting: true,
                             pageSizeOptions: [5, 20, 50, 100, 200, 500],
                             headerStyle: {
-                                backgroundColor: '#039be5',
+                                backgroundColor: '#009688',
                                 color: '#FFF'
                             }
                         }}
