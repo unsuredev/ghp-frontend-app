@@ -25,6 +25,7 @@ import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import moment from "moment";
 import MaterialTable from 'material-table';
+import { ToastContext } from "../Common/ToastProvider";
 
 const useStyles = makeStyles((theme) => ({
     "@global": {
@@ -48,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Transactions() {
     const classes = useStyles();
+    const { showToast } = React.useContext(ToastContext);
+
     const [state, setState] = React.useState({})
     const [open, setOpen] = React.useState(false);
     const [transaction, setTransaction] = React.useState({
@@ -60,8 +63,8 @@ export default function Transactions() {
         extraexpenses: 0,
         remarks: ""
     });
-    const [firstDate, setFirstDate] = React.useState(new Date(moment().startOf('month').format('YYYY-MM-DD')));
-    const [lastDate, setLastDate] = React.useState(new Date(moment().endOf('day').format('YYYY-MM-DD')))
+    const [firstDate, setFirstDate] = React.useState(new Date(moment().startOf('day').format('YYYY-MM-DD')));
+    const [lastDate, setLastDate] = React.useState(new Date(moment().format('YYYY-MM-DD')))
     const [active, setActive] = React.useState(true);
     const [show, setShow] = React.useState(false);
     const [data, setData]=React.useState([])
@@ -135,9 +138,8 @@ const todayCash=()=>{
                 access_token: getToken()
                 }})
             if (result.data) {
-                console.log("res", result.data.data.transaction)
+                showToast(result.data.message, "success")
                 setState(result.data.data.transaction)
-                console.log("state", state)
             }
         }
         catch (error) {
@@ -165,17 +167,23 @@ const todayCash=()=>{
                 encryption: false,
                 access_token: getToken()
                 }})
-            if (result.data) {
-                console.log("result.data", result.data)
+                //@ts-ignore
+                if (result.data) {
+                  showToast(result.data.message, "success")
+  
+              }
+          } catch (error) {
+            if (error) {
+                //@ts-ignore
+                console.log("error", error)
+                //@ts-ignore
+                showToast(error.response.data.errorMessage, "error")
             }
-        }
-        catch (error) {
-            console.log("error", error)
         }
     }
 
     const columns = [
-        { title: "Loan Account SlNo", field: "loanaccount" },
+        { title: "Load Account SlNo", field: "loanaccount" },
         { title: "SV Account", field: "svaccount" },
         { title: "L9 Payment", field: "l9payment" },
         { title: "Staff Salary", field: "staffsalary" },
@@ -227,7 +235,7 @@ const todayCash=()=>{
               <TextField
                 id="outlined-basic"
                 size="small"
-                label="Loan Account Transfer"
+                label="Load Account Transfer"
                 name="loanaccount"
                 type="number"
                 value={transaction.loanaccount}

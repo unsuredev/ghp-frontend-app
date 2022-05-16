@@ -255,13 +255,14 @@ const CustomerStats = () => {
                                             { title: 'Main Aadhaar', field: 'mainAadhaar' },
                                             { title: 'Family Aadhaar', field: 'familyAadhaar' },
                                             { title: 'Mobile', field: 'mobile' || "null" },
-                                            { title: 'Reg No', field: 'regNo' || "NA" },
+                                            { title: 'File No', field: 'regNo' || "NA" },
                                             { title: 'Consumer No', field: 'consumerNo' },
                                             { title: 'Main Agent', field: 'mainAgent' },
                                             { title: 'Sub Agent', field: 'subAgent' || "NA" },
                                             { title:'Registerd Agency Name', field:'registeredAgencyName'},
                                             { title: "Remarks", field: "remarks" },
                                             {title:'Added By', field:'addedBy'},
+                                            {title:'Updated By', field:'updatedBy'},
                                             {title:'Installation Status', field:'installtatus'},
                                             
                                         ]}
