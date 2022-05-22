@@ -361,6 +361,14 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Refil Sales" />
               </ListItem>
             </Link>
+            <Link href="/transaction">
+              <ListItem button  style={{ color:"white"}}>
+                <ListItemIcon >
+                  <AccountBalanceIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Transaction" />
+              </ListItem>
+            </Link>
             <Link href="/reports">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
@@ -403,14 +411,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
-            <Link href="/transaction">
-              <ListItem button  style={{ color:"white"}}>
-                <ListItemIcon >
-                  <AccountBalanceIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Transaction" />
-              </ListItem>
-            </Link>
+      
             <Link href="/">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>

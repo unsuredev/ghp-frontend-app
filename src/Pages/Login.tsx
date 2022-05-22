@@ -152,15 +152,19 @@ export default function SignInSide() {
                                     alt="hpgas logo" />
                                 <br></br>
                                 <br></br>
-                                <FormControl component="fieldset" >
+                                <div style={{color:"red"}}>
+                                <FormControl   component="fieldset" style={{ display: "inline" }}>
                                     <FormLabel component="legend">Choose Account Type</FormLabel>
                                     <RadioGroup aria-label="gender" name="gender1" style={{ display: "inline" }} value={value}
-                                    onChange={handleChangeRadio}
-                                    >
+                                        onChange={handleChangeRadio}
+                                        >
                                         <FormControlLabel value="email" control={<Radio />} label="Employee" />
                                         <FormControlLabel value="mobile" control={<Radio />} label="Agent" />
                                     </RadioGroup>
                                 </FormControl>
+
+                                </div>
+                        
                                 {value != "mobile" && (
                                     <TextField
                                         error={Boolean(touched.email && errors.email)}

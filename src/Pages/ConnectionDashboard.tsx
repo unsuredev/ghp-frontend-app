@@ -703,7 +703,7 @@ const ConnectionDashboard = () => {
                                                 {getRole()==="superadmin" &&(
 
                         <Grid item xs={12} md={4}>
-                            <Card style={{ backgroundColor: "#e91e63", color: "white", height: "11rem" }}>
+                            <Card style={{ backgroundColor: "#009688", color: "white", height: "11rem" }}>
                                 <CardContent>
                                     <Typography gutterBottom>
                                         Today's Pricing Table
@@ -778,14 +778,14 @@ const ConnectionDashboard = () => {
 
             <div>
                 <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#303F9F", color: '#FFF' }}> Update Connection : <span style={{ color: '#FFF' }}> {agent.agent}</span> </DialogTitle>
+                    <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#009688", color: '#FFF' }}> Update Connection : <span style={{ color: 'yellow' }}> {agent.agent}</span> </DialogTitle>
 
                     <DialogContent >
 
-                        <DialogContentText style={{ backgroundColor: "#E91E63", color: "white" }}>
+                        <DialogContentText style={{ backgroundColor: "#009688", color: "white" }}>
                             <div >
                                 <Grid container spacing={3}>
-                                    <Grid item xs={6} style={{ backgroundColor: "#E91E63", color: "white" }}>
+                                    <Grid item xs={6} style={{ backgroundColor: "#009688", color: "white" }}>
                                         <List >
                                             <ListItem>
                                                 Total Connection: {agent.totalConnection}
@@ -809,7 +809,7 @@ const ConnectionDashboard = () => {
                                             <Divider />
                                         </List>
                                     </Grid>
-                                    <Grid item xs={6} style={{ backgroundColor: "#E91E63", color: "white" }}>
+                                    <Grid item xs={6} style={{ backgroundColor: "#009688", color: "white" }}>
                                         <List >
                                             <Divider />
                                             <ListItem>
@@ -977,7 +977,7 @@ const ConnectionDashboard = () => {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setOpen(false)} variant="outlined" color="secondary">
+                        <Button onClick={() => setOpen(false)} variant="contained" color="secondary">
                             Cancel
                         </Button>
                         <Button onClick={handleUpdate} variant="contained" color="primary">

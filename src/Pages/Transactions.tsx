@@ -26,6 +26,7 @@ import axios from "axios";
 import moment from "moment";
 import MaterialTable from 'material-table';
 import { ToastContext } from "../Common/ToastProvider";
+import jwt_decode from "jwt-decode";
 
 const useStyles = makeStyles((theme) => ({
     "@global": {
@@ -82,7 +83,7 @@ export default function Transactions() {
 
 const finalClosing = () => {
             //@ts-ignore
-  const result =state.todaySellAmount - totalExpense() + state.yesterdaybalance;
+  const result =state.todaySellAmount+ state.yesterdaybalance- state.todayAmountPaid- totalExpense()
   return result;
 };
 
@@ -194,14 +195,26 @@ const todayCash=()=>{
         { title: "Today Closing", field: 'todayClosing' },
         { title: "Today Cash Paid", field: 'todayCashPaid' },
         { title: "Remarks", field: 'remarks' },
+        {
+          title: "DATE ", field: "updatedAt", type: "date",
+          dateSetting: { locale: "ko-KR" }
+      }
 
         
     ]
 
-
+    const getRole = () => {
+      let token: any = localStorage.getItem("access_token");
+  
+      var decoded = jwt_decode(token);
+      //@ts-ignore
+      let { role } = decoded;
+      return role;
+    }
 
     React.useEffect(() => {
         getTodayTransaction()
+        getRole()
     }, []);
 
     return (
@@ -227,14 +240,14 @@ const todayCash=()=>{
         </Container>
         <Container maxWidth="lg">
           <Grid container>
-            <Grid item xs={12} sm={12} md={3}></Grid>
 
+          <Grid item xs={12} sm={12} md={2}>
+</Grid>
             <Grid item xs={12} sm={12} md={3}>
               <Typography>Todays All Expenses </Typography>
 
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Load Account Transfer"
                 name="loanaccount"
                 type="number"
@@ -243,7 +256,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="SV Account Transfer"
                 name="svaccount"
                 type="number"
@@ -252,7 +264,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="L9 Paymesnts"
                 name="l9payment"
                 type="number"
@@ -261,7 +272,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Staff Salary"
                 name="staffsalary"
                 type="number"
@@ -270,7 +280,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Driver Tips"
                 name="drivertips"
                 type="number"
@@ -280,7 +289,6 @@ const todayCash=()=>{
 
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Driver Fooding:"
                 name="driverfooding"
                 type="number"
@@ -289,7 +297,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Extra Expenses "
                 name="extraexpenses"
                 type="number"
@@ -298,7 +305,6 @@ const todayCash=()=>{
               />
               <TextField
                 id="outlined-basic"
-                size="small"
                 label="Remarks  "
                 name="remarks"
                 type="text"
@@ -317,13 +323,12 @@ const todayCash=()=>{
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableBody>
-                    <TableRow>
+                    <TableRow style={{backgroundColor:"#bdbdbd"}}>
                       <TableCell component="th" scope="row">
                         Yesterday Closing Balance:
                       </TableCell>
                       <TableCell align="right">
                                            {/* @ts-ignore */}
-
                         &#x20B9;{state.yesterdaybalance}
                       </TableCell>
                     </TableRow>
@@ -333,7 +338,6 @@ const todayCash=()=>{
                       </TableCell>
                       <TableCell align="right">
                                               {/* @ts-ignore */}
-
                         &#x20B9; <b>{state.todaySellAmount}</b>
                       </TableCell>
                     </TableRow>
@@ -347,11 +351,11 @@ const todayCash=()=>{
                         &#x20B9; {state.todayAmountPaid}
                       </TableCell>
                     </TableRow>
-                    <TableRow>
+                    <TableRow style={{backgroundColor:"#bdbdbd"}}>
                       <TableCell component="th" scope="row">
                         Today's Due :
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" >
                                             {/* @ts-ignore */}
 
                         &#x20B9;{state.todayDue}
@@ -366,7 +370,7 @@ const todayCash=()=>{
                         &#x20B9;{totalExpense()}
                       </TableCell>
                     </TableRow>
-                    <TableRow>
+                    <TableRow style={{fontSize:"10px"}}>
                       <TableCell component="th" scope="row">
                         <b> Final Closing Balance:</b>
                       </TableCell>
@@ -380,10 +384,12 @@ const todayCash=()=>{
               </TableContainer>
               <div>
 
-
+{getRole()==="admin" || getRole()==="superadmin" ?
 <Button variant="outlined" color="primary" onClick={handleClickOpen}>
 Refil-sale updated?
-      </Button>
+      </Button>:null}
+
+
 
                 <Dialog
                   open={open}
@@ -415,12 +421,31 @@ Refil-sale updated?
                 </Button>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={3}>
-                <Card style={{height:"15rem", width:"15rem" , justifyContent:"center" , textAlign:"center", paddingTop:"5rem"}}>
+            <Grid item xs={12} sm={12} md={3} style={{marginRight:"2rem"}}>
+                <Card style={{height:"20rem", width:"16rem" , justifyContent:"center" , textAlign:"center", paddingTop:"1rem", backgroundColor:"#009688", color:"white"}}>
+                  <br></br>
                                             {/* @ts-ignore */}
                 <Typography >Grand Total Due: <b>{state.grandTotalDue}</b> </Typography>
+                <br></br>
+
+                <Typography variant="button" display="block" gutterBottom > <b> Todays Payment:</b></Typography>
+
+                                                            {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >L9 Payment: {state.l9payment} </Typography>
+                                                              {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >Load Account: {state.loanaccount} </Typography>
+                                                               {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >SV  Account: {state.loanaccount} </Typography>
+                                                                {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >Staff salary: {state.staffsalary} </Typography>
+                                                                                {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >Driver Tips: {state.drivertips} </Typography>
+                                                                                                {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >Driver Fooding: {state.driverfooding} </Typography>
+                                                                                {/* @ts-ignore */}
+                <Typography variant="button" display="block" gutterBottom >Extra Expenses: {state.extraexpenses} </Typography>
                 </Card>
-                <Button variant="contained" size="medium" color="primary" onClick={fethcTransactionHistory} >
+                <Button variant="outlined" size="medium" color="primary" onClick={fethcTransactionHistory} >
                   Fetch HISTORY
                 </Button>
                 </Grid>
@@ -434,6 +459,8 @@ Refil-sale updated?
 <MaterialTable
 title="Jaman Hp Transaction History"
 data={data}
+                        //@ts-ignore
+
 columns={columns}
 options={{
     exportButton: true,
