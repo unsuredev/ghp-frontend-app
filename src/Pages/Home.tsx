@@ -48,6 +48,7 @@ import clsx from 'clsx';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -281,9 +282,15 @@ const Home = () => {
 
   const [checked, setChecked] = React.useState(false);
 
+  const [free, setFree]= React.useState(false)
+
+  const handleChangeFree = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFree(!free);
+  };
+
+
   const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(!checked);
-    console.log("checked", checked)
   };
 
 
@@ -302,6 +309,7 @@ const Home = () => {
     installtatus: "",
     fileNo: 0,
     isSingleWomen: false,
+    isFreeDelivery:false,
     registrationStatus: "",
     contactNumber: ""
   });
@@ -414,7 +422,8 @@ const Home = () => {
         isSingleWomen: checked,
         registrationStatus: customer.registrationStatus,
         contactNumber: customer.contactNumber,
-        updatedBy:getUserName()
+        isFreeDelivery:free,
+        updatedBy: getUserName()
       },
         {
           headers: {
@@ -584,19 +593,19 @@ const Home = () => {
             </Grid>
 
             <Grid item xs={12} sm={12} md={2} >
-                                <form className={classes.form} noValidate autoComplete="off">
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="File No "
-                                        name="fileNumber"
-                                        variant="outlined"
-                                        fullWidth
-                                        type="text"
-                                        value={state.fileNumber}
-                                        onChange={handleChange}
-                                    />
-                                </form>
-                            </Grid>
+              <form className={classes.form} noValidate autoComplete="off">
+                <TextField
+                  id="outlined-basic"
+                  label="File No "
+                  name="fileNumber"
+                  variant="outlined"
+                  fullWidth
+                  type="text"
+                  value={state.fileNumber}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
             <div
               style={{
                 textAlign: "center",
@@ -608,7 +617,7 @@ const Home = () => {
                 variant="contained"
                 size="large"
                 onClick={handleFind}
-                style={{backgroundColor:"#009688", color:"white"}}
+                style={{ backgroundColor: "#009688", color: "white" }}
               >
                 FIND CUSTOMER
               </Button>
@@ -622,7 +631,7 @@ const Home = () => {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid className="maincontainer" style={{ textAlign: "center" }}>
           {users.length === 0 && (
-            <h2 style={{ margin: "auto", marginTop: "100px" }}>Your Consumer data will display here!</h2>
+            <h2 style={{ margin: "auto", marginTop: "100px" }}>Your consumer data will display here!</h2>
           )}
         </Grid>
         <Grid container spacing={4} className="maincontainer">
@@ -645,20 +654,20 @@ const Home = () => {
                     <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
                       <Card className={classes.card} key={i} style={{ marginTop: "40px" }}>
                         <CardHeader
-                              action={
-                                <div style={{ margin: "0px", padding: "0px" }}>
-                                  {user.installtatus === "Complete" ?
-                                    <IconButton aria-label="settings">
-                                      <CheckCircleIcon style={{ color: "#ffea00" }} />
-                                    </IconButton> : null}
-                                  <IconButton aria-label="settings" onClick={handleClickOpenByAgent}>
-                                    <EditIcon onClick={handleCloseByAgent} />
-                                  </IconButton>
-                                </div>
-                              }
+                          action={
+                            <div style={{ margin: "0px", padding: "0px" }}>
+                              {user.installtatus === "Complete" ?
+                                <IconButton aria-label="settings">
+                                  <CheckCircleIcon style={{ color: "#ffea00" }} />
+                                </IconButton> : null}
+                              <IconButton aria-label="settings" onClick={handleClickOpenByAgent}>
+                                <EditIcon onClick={handleCloseByAgent} />
+                              </IconButton>
+                            </div>
+                          }
                           //@ts-ignore agent card
                           title={user.name.toUpperCase()}
-                          
+
                         />
                         <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
                           <Typography color="textSecondary" gutterBottom>
@@ -674,14 +683,14 @@ const Home = () => {
                           </Typography>
                           {/* @ts-ignore */}
                           <Typography>Mobile No : {user.mobile}</Typography>
-                            {/* @ts-ignore */}
-                            <Typography>Contact No : {user.contactNumber}</Typography>
+                          {/* @ts-ignore */}
+                          <Typography>Contact No : {user.contactNumber}</Typography>
                           {/* @ts-ignore */}
                           <Typography>
                             Registration No : {user.regNo || "NA"}
                           </Typography>
                           <Typography>
-                          Consumer No : <span style={{color:"#c6ff00"}}>{user.consumerNo || "NA"}</span> 
+                            Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
 
                           </Typography>
                           {/* @ts-ignore */}
@@ -819,13 +828,13 @@ const Home = () => {
                   return (
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
-                        <Card className={classes.card} key={i} style={{ backgroundColor: "#009688",color:"white" }}  >
+                        <Card className={classes.card} key={i} style={{ backgroundColor: "#009688", color: "white" }}  >
                           <CardHeader
                             action={
                               <div style={{ margin: "0px", padding: "0px" }}>
                                 {user.installtatus === "Complete" ?
                                   <IconButton aria-label="settings">
-                                    <CheckCircleIcon style={{ color:  "#ffea00" }} />
+                                    <CheckCircleIcon style={{ color: "#ffea00" }} />
                                   </IconButton> : null}
                                 <IconButton aria-label="settings" onClick={handleClickOpen}>
                                   <EditIcon onClick={handleClickOpen} />
@@ -860,11 +869,11 @@ const Home = () => {
                             </Typography>                              {/* @ts-ignore */}
 
                             <Typography >
-                            Consumer No : <span style={{color:"#c6ff00"}}>{user.consumerNo || "NA"}</span> 
+                              Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
-                                                        {/* @ts-ignore */}
+                            {/* @ts-ignore */}
 
                             <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
 
@@ -876,7 +885,7 @@ const Home = () => {
                             {user.InstalationLetter && user.InstalationLetter != undefined &&
                               <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>}
 
-<Typography>Remarks : {user.remarks || "NA"}</Typography>
+                            <Typography color="secondary">Remarks : {user.remarks || "NA"}</Typography>
 
                           </CardContent>
                           <CardActions disableSpacing>
@@ -895,7 +904,7 @@ const Home = () => {
                           </CardActions>
                           <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                        
+
                               {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                               {user.updatedAt != undefined &&
@@ -951,11 +960,23 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" , backgroundColor:"black", color:"white"}}>
 
-                                  <Typography   variant="h5" gutterBottom style={{textAlign:"center"}}>Main Aadhaar : {customer.mainAadhaar || "NA"}</Typography>
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                  <Tooltip title="Main Aadhar not allowed to update !">
+                                  <TextField
+                                      id="outlined-basic"
+                                      label="Main Aadhaar"
+                                      name="mainAadhaar"
+                                      fullWidth
+                                      type="text"
+                                      value={customer.mainAadhaar}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                      variant="filled"
+                                    />
+                                    </Tooltip>
                                   </Grid>
-
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <TextField
                                       id="outlined-basic"
@@ -1026,10 +1047,23 @@ const Home = () => {
                                         onChange={handleChangeUser}
                                       />
                                     </Grid> : null}
-                                    <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 
-                                  <Typography style={{ color: "white", backgroundColor: "black", textAlign:"center" }} variant="h5" gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
-                                  </Grid> 
+                                  <Tooltip title="Main Agent not allowed to update !">
+                                  <TextField
+                                      id="outlined-basic"
+                                      label="Main Agent"
+                                      name="mainAgent"
+                                      fullWidth
+                                      type="text"
+                                      value={customer.mainAgent}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                      variant="filled"
+                                    />
+                                    </Tooltip>
+                                  </Grid>
                                   {getUser() ? (
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <FormControl variant="outlined" className={classes.formControl}>
@@ -1084,8 +1118,8 @@ const Home = () => {
                                       </Select>
                                     </FormControl>
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                    <TextField
+                                  <Grid item xs={12} sm={12} md={12} >
+                                    <TextField style={{color:"primary"}}
                                       id="outlined-basic"
                                       label="Remarks"
                                       name="remarks"
@@ -1100,47 +1134,41 @@ const Home = () => {
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <FormControl component="fieldset">
                                         <FormLabel component="legend">Installation Status</FormLabel>
-
                                         <RadioGroup aria-label="gender" name="installtatus" value={customer.installtatus} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
                                           <FormControlLabel value="Not Complete" control={<Radio />} label="Not Complete" />
                                           <FormControlLabel value="Complete" control={<Radio />} label="Complete" />
                                         </RadioGroup>
                                       </FormControl>
                                     </Grid> : null}
-                                  <Typography variant="subtitle1" gutterBottom>Registration Status :</Typography>
-
-                                  <FormControl component="fieldset">
-                                    <RadioGroup row aria-label="position" name="registrationStatus" defaultValue="top" value={customer.registrationStatus} onChange={handleChangeUser}>
-
-                                      <FormControlLabel
-                                        value="PendingFiner"
-                                        control={<Radio color="secondary" />}
-                                        label="PendingFinerPrint"
-                                        labelPlacement="top"
-                                      />
-                                      <FormControlLabel
-                                        value="Return/Reject"
-                                        control={<Radio color="secondary" />}
-                                        label="Return/Reject"
-                                        labelPlacement="top"
-                                      />
-                                      <FormControlLabel
-                                        value="Pending Documents"
-                                        control={<Radio color="secondary" />}
-                                        label="Pending Documents"
-                                        labelPlacement="top"
-                                      />
-                                         <FormControlLabel
-                                        value="Free Delivery"
-                                        control={<Radio color="secondary" />}
-                                        label="Free Delivery"
-                                        labelPlacement="top"
-                                      />
-                                    </RadioGroup>
-                                  </FormControl>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                    <FormControl variant="outlined" >
+                                      <InputLabel id="demo-simple-select-label">Registration Status</InputLabel>
+                                      <Select
+                                       style={{ width: "35rem" }}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        name="registrationStatus"
+                                        value={customer.registrationStatus} onChange={handleChangeUser}
+                                        
+                                      >
+                                        <MenuItem value="">None</MenuItem>
+                                        <MenuItem value="Pending Fingerprint">Pending Fingerprint</MenuItem>
+                                        <MenuItem value="Fingerprint Completed">Fingerprint Completed</MenuItem>
+                                        <MenuItem value="Pending Documents">Pending Documents</MenuItem>
+                                        <MenuItem value="Reject/Cancel">Reject/Cancel</MenuItem>
+                                        <MenuItem value="Reject Doc Physical Return">Reject Doc Physical Return</MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
                                   <Typography>Single Women : &nbsp;
                                     <FormControlLabel
                                       control={<Checkbox checked={checked} onChange={handleChangeCheck} name="isSingleWomen" />}
+                                      label=""
+                                    />
+                                  </Typography>
+                                  <Typography>Free Delivery : &nbsp;
+                                    <FormControlLabel
+                                      control={<Checkbox checked={free} onChange={handleChangeFree} name="isFreeDelivery" />}
                                       label=""
                                     />
                                   </Typography>

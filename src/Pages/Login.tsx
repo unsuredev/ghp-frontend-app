@@ -145,9 +145,9 @@ export default function SignInSide() {
                             <div className={classes.paper}>
                                 <Typography component="h2" variant="h5"
                                 >
-                                    JAMAN ENTERPRISE
+                                    JAMAN HP GAS
                                 </Typography>
-                                <p>Code: 190322037887 </p>
+                                <p>Dealer Code: 1381600 </p>
                                 <img src={require("../hp_logo.jpeg").default}  width="170px" height="150px"
                                     alt="hpgas logo" />
                                 <br></br>
@@ -155,11 +155,11 @@ export default function SignInSide() {
                                 <div style={{color:"red"}}>
                                 <FormControl   component="fieldset" style={{ display: "inline" }}>
                                     <FormLabel component="legend">Choose Account Type</FormLabel>
-                                    <RadioGroup aria-label="gender" name="gender1" style={{ display: "inline" }} value={value}
+                                    <RadioGroup aria-label="gender" name="gender1" style={{ display: "inline"}} value={value}
                                         onChange={handleChangeRadio}
                                         >
-                                        <FormControlLabel value="email" control={<Radio />} label="Employee" />
-                                        <FormControlLabel value="mobile" control={<Radio />} label="Agent" />
+                                        <FormControlLabel value="email" control={<Radio style={{color:"#00796B"}} />} label="Employee" />
+                                        <FormControlLabel value="mobile" control={<Radio style={{color:"#00796B"}} />} label="Agent" />
                                     </RadioGroup>
                                 </FormControl>
 

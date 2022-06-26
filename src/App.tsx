@@ -64,7 +64,7 @@ const App = () => {
               <Route exact path="/profile" component={Profile} />
               <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
               <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
-              <AuthenticatedRoute exact path="/olddatamanagement" component={OldDataManagement} />
+              <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
               <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
               <Route exact path="/wish" component={HappyBirthDay} />

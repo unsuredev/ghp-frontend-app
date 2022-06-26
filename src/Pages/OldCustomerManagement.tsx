@@ -3,9 +3,6 @@ import {
   Button,
   Typography,
   CardHeader,
-  Paper,
-  Tabs,
-  Tab,
   CardContent,
   Card,
   Grid,
@@ -148,13 +145,11 @@ const OldDataManagement = () => {
   const classes = useStyles();
   let history = useHistory();
   const { showToast } = React.useContext(ToastContext);
-
   const [users, setUsers] = React.useState<any[]>([]);
   const [today, setDate] = React.useState(new Date());
   const [open, setOpen] = React.useState(false);
   const [nameuser, setNameuser] = React.useState("")
   const [agentList, setAgetList] = React.useState([]);
-
   const [userObj, setUserObj] = React.useState({})
   const [openAlert, setOpenAlert] = React.useState(false);
   const CHARACTER_LIMIT = 13;
@@ -168,25 +163,17 @@ const OldDataManagement = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
-
-
-
-
-
   const handleClickOpenAlert = () => {
     setOpenAlert(true);
-
   };
 
   const handleCloseAlert = () => {
     setOpenAlert(false);
   };
-
 
   const [state, setState] = React.useState({
     regNo: "",
@@ -196,7 +183,6 @@ const OldDataManagement = () => {
     mainAgent: "",
     familyAadhaar:""
   });
-
 
   const findName = () => {
     let token: any = localStorage.getItem("access_token");
@@ -209,12 +195,10 @@ const OldDataManagement = () => {
     }
   }
 
-
   const handleChange = (event: any) => {
     setState({ ...state, [event.target.name]: event.target.value });
     //@ts-ignore
   };
-
 
   const [customer, setCustomer] = React.useState({
     name: "",
@@ -245,7 +229,6 @@ const OldDataManagement = () => {
     //@ts-ignore
     return localStorage.getItem("access_token")
 }
-
 
   const handleFind = async (event: any) => {
     try {
@@ -294,7 +277,6 @@ const OldDataManagement = () => {
       showToast("Something went wrong", "error");
     }
   };
-
 
   const handleupdate = async () => {
     setOpen(false);
@@ -346,12 +328,29 @@ const OldDataManagement = () => {
     //@ts-ignore
     let { role } = decoded;
       if (role === "superadmin") {
-
       return true;
     } else {
       return false;
     }
   };
+
+  const getUserName = () => {
+    let token: any = localStorage.getItem("access_token");
+    var decoded = jwt_decode(token);
+    //@ts-ignore
+    let { name } = decoded;
+    if (name && name != undefined) {
+      return name
+    }
+  }
+
+  const getRole = () => {
+    let token: any = localStorage.getItem("access_token");
+    var decoded = jwt_decode(token);
+    //@ts-ignore
+    let { role } = decoded;
+    return role;
+  }
 
 
 
@@ -360,7 +359,6 @@ const OldDataManagement = () => {
     findName()
     getUser()
     getCharacters()
-
     const timer = setInterval(() => {
       setDate(new Date());
     }, 60 * 1000);
@@ -368,9 +366,6 @@ const OldDataManagement = () => {
       clearInterval(timer);
     };
   }, []);
-
-
-
 
       
   async function getCharacters() {
@@ -386,8 +381,6 @@ const OldDataManagement = () => {
     setAgetList(result.data.data.agents.map(({ name  }) => ({ label: name, value: name })));
 }
 
-
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -397,7 +390,6 @@ const OldDataManagement = () => {
           <Container maxWidth="md" component="main"  style={{ marginTop: "4rem"}}>
           <h2 style={{ margin: "auto",textAlign:"center"  }}>You are interacting with 2021 earlier customer!</h2>
           <br/>
-
             <Grid
               container
               className="maincontainer"
@@ -475,16 +467,18 @@ const OldDataManagement = () => {
             </Grid>
           </Container>
         </div>
-
         <Container className={classes.cardGrid} maxWidth="md">
           <Grid className="maincontainer" style={{ textAlign: "center" }}>
             {users.length === 0 && (
-              <h2 style={{ margin: "auto",marginTop:"100px" }}>Your Consumer data will display here!</h2>
+              <h2 style={{ margin: "auto",marginTop:"100px" }}>Your consumer data will display here!</h2>
             )}
           </Grid>
           <Grid container spacing={4} className="maincontainer">
             {users.map((user, i) => (
               <Grid item xs={12} sm={12} md={6} key={i} style={{justifyContent: "center",alignContent: "center", textAlign: "left",}}>
+                    {(() => {
+                if (getRole() === "user" && user.mainAgent === getUserName()) {
+                  return (
                 <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
                   <Card className={classes.card}   style={{marginTop:"40px"}}>
                   <div style={{display:"flex"}}>
@@ -500,10 +494,12 @@ const OldDataManagement = () => {
                             <IconButton aria-label="settings">
                               <CheckCircleIcon style={{ color: "blue" }} />
                             </IconButton>:null}
+                            {getRole() === "superadmin" ?
+
                             <IconButton aria-label="settings" onClick={handleClickOpen}>
                               <EditIcon onClick={handleClickOpen} />
-                            </IconButton>
-                            {getUser() ?
+                            </IconButton>:null}
+                            {getRole() === "superadmin" ?
                               <IconButton
                                 aria-label="settings"
                               >
@@ -532,7 +528,7 @@ const OldDataManagement = () => {
                         </Typography>
                         {/* @ts-ignore */}
                         <Typography color="primary">Rgistered Agency Name : {user.registeredAgencyName || "NA"}</Typography>
-                        <Typography color="secondary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
+                        <Typography color="primary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
                         {/* @ts-ignore */}
                         <Typography>Old Agent Name : {user.oldAgentName || "NA"}</Typography>
                         {/* @ts-ignore */}
@@ -754,17 +750,598 @@ const OldDataManagement = () => {
                     </Dialog>
                   </Card>
                 </Grid>
+                         )
+                        }
+                        if ((getRole() === "user" && user.mainAgent != getUserName())) {
+                          return (
+                            <Card style={{backgroundColor:"#009688"}}>
+                              <CardContent>
+                              <Typography color="secondary">CUSTOMER REGISTERED WITH OTHER AGENT </Typography>
+                              </CardContent>
+                              </Card>
+                          )
+                        }
+                      })()}
+
+{(() => {
+                if (getRole() === "speradmin") {
+                  return (
+                <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
+                  <Card className={classes.card}   style={{marginTop:"40px"}}>
+                  <div style={{display:"flex"}}>
+                  </div>
+                    <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
+                      <Typography color="textSecondary" gutterBottom>
+                        Customer's Details                                
+                      </Typography>
+                      <CardHeader
+                        action={
+                          <div style={{ margin: "0px", padding: "0px" }}>
+                            {user.installtatus==="Complete"?
+                            <IconButton aria-label="settings">
+                              <CheckCircleIcon style={{ color: "blue" }} />
+                            </IconButton>:null}
+                            <IconButton aria-label="settings" onClick={handleClickOpen}>
+                              <EditIcon onClick={handleClickOpen} />
+                            </IconButton>
+                            {getUser() ?
+                              <IconButton
+                                aria-label="settings"
+                              >
+                                <DeleteIcon onClick={() => (handleClickOpenAlert())} />
+                              </IconButton> : null
+                            }
+                          </div>
+                        }
+                        //@ts-ignore
+                        title={user.name.toUpperCase() || "NA"}
+                      />
+                      <div>
+                            
+                        {/* @ts-ignore */}
+                        <Typography>Name : {user.name.toUpperCase() || "NA"} </Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Mobile No : {user.mobile}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>
+                          Registration No : {user.regNo || "NA"}
+                        </Typography>
+                        <Typography>
+                          Consumer No :{user.consumerNo || "NA"}{" "}
+                        </Typography>
+                        {/* @ts-ignore */}
+                        <Typography color="primary">Rgistered Agency Name : {user.registeredAgencyName || "NA"}</Typography>
+                        <Typography color="primary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Old Agent Name : {user.oldAgentName || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Sub Agent Name : {user.subAgent || "NA"}</Typography>
+                        <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
+
+                        {user.updatedAt != undefined &&
+                          <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
+                        }
+                                                <Typography>Year : {user.year || "NA"}</Typography>
+
+                        <Typography >Added By : {user.addedBy || "NA"}</Typography>
+                        {user.InstalationLetter && user.InstalationLetter != undefined &&
+                          <Typography color="primary" >Installation : {user.installtatus}</Typography>}
+                      </div>
+                    </CardContent>
+                    <div>
+
+                      <Dialog
+                        open={openAlert}
+                        onClose={handleCloseAlert}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Make sure you want to remove this consumer?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleCloseAlert} color="primary">
+                            No
+                          </Button>
+                          <Button onClick={() => handleDelete(user)} color="primary" autoFocus>
+                            Yes
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        Update Customer Data :
+                      </DialogTitle>
+                      <DialogContent dividers>
+                          <Grid container>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Name"
+                                name="name"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.name}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Main Aadhaar"
+                                name="mainAadhaar"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.mainAadhaar}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Mobile"
+                                name="mobile"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                value={customer.mobile}
+                                onChange={handleChangeUser}
+                                onInput={(e) => {
+                                  //@ts-ignore
+                                  e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10)
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              {customer.regNo &&
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Reg No"
+                                  name="regNo"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.regNo}
+                                  onChange={handleChangeUser}
+                                />
+                              }
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Consumer No"
+                                  name="consumerNo"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.consumerNo}
+                                  onChange={handleChangeUser}
+                                />
+                              
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Rgistered Agency Name"
+                                  name="registeredAgencyName"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.registeredAgencyName}
+                                  onChange={handleChangeUser}
+                                />
+                              
+                            </Grid>
+
+                            <Typography style={{color:"white", backgroundColor:"black"}} variant="h5"  gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+                            {getUser() ? (
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-required-label">Update new Agent *</InputLabel>
+                                <Select
+                                  onChange={handleChangeAgent}
+                                  displayEmpty
+                                  className={classes.selectEmpty}
+                                  labelId="demo-simple-select-outlined-label"
+                                  id="demo-simple-select-outlined"
+                                  inputProps={{ 'aria-label': 'Without label' }}
+                                  name="mainAgent"
+                                >
+                                  {agentList.map(item => (
+                                    <MenuItem
+                                      //@ts-ignore
+                                      key={item.label} value={item.value} >{item.label}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </Grid>):null}
+                                    
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Old Agent  Name"
+                                name="oldAgentName"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.oldAgentName}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+        
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Sub Agent"
+                                name="subAgent"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.subAgent}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Remarks"
+                                name="remarks"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.remarks}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            {getUser() ?
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl component="fieldset">
+                                <FormLabel component="legend">Installation Status</FormLabel>
+                                <RadioGroup aria-label="gender" name="installtatus"  value={customer.installtatus} onChange={handleChangeUser} style={{flexDirection:"row"}}>
+                                  <FormControlLabel  value="Not Complete" control={<Radio />} label="Not Complete" />
+                                  <FormControlLabel  value="Complete" control={<Radio />} label="Complete" />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>:null}
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl component="fieldset">
+                                <FormLabel component="legend">Year</FormLabel>
+                                <RadioGroup aria-label="gender" name="year" value={customer.year} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
+                                  <FormControlLabel value="2017" control={<Radio />} label="2017" />
+                                  <FormControlLabel value="2018" control={<Radio />} label="2018" />
+                                  <FormControlLabel value="2019" control={<Radio />} label="2019" />
+                                  <FormControlLabel value="2020" control={<Radio />} label="2020" />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+                                
+                      </DialogContent>
+                      <DialogActions>
+                        <Button autoFocus onClick={handleupdate} color="primary"   >
+                          Save & Update
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Card>
+                </Grid>
+                         )
+                        }
+
+                      })()}
+
+                      
               </Grid>
               
             ))}
           </Grid>
         </Container>
-  
+        <Container className={classes.cardGrid} maxWidth="md">
+          <Grid className="maincontainer" style={{ textAlign: "center" }}>
+            {users.length === 0 && (
+              <h2 style={{ margin: "auto",marginTop:"100px" }}>Your consumer data will display here!</h2>
+            )}
+          </Grid>
+          <Grid container spacing={4} className="maincontainer">
+            {users.map((user, i) => (
+              <Grid item xs={12} sm={12} md={6} key={i} style={{justifyContent: "center",alignContent: "center", textAlign: "left",}}>
+                    {(() => {
+                if (getRole() != "user" ) {
+                  return (
+                <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
+                  <Card className={classes.card}   style={{marginTop:"40px"}}>
+                  <div style={{display:"flex"}}>
+                  </div>
+                    <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
+                      <Typography color="textSecondary" gutterBottom>
+                        Customer's Details                                
+                      </Typography>
+                      <CardHeader
+                        action={
+                          <div style={{ margin: "0px", padding: "0px" }}>
+                            {user.installtatus==="Complete"?
+                            <IconButton aria-label="settings">
+                              <CheckCircleIcon style={{ color: "blue" }} />
+                            </IconButton>:null}
+                            {getRole() === "superadmin" ?
+                            <IconButton aria-label="settings" onClick={handleClickOpen}>
+                              <EditIcon onClick={handleClickOpen} />
+                            </IconButton>:null}
+                            {getRole() === "superadmin" ?
+                              <IconButton
+                                aria-label="settings"
+                              >
+                                <DeleteIcon onClick={() => (handleClickOpenAlert())} />
+                              </IconButton> : null
+                            }
+                          </div>
+                        }
+                        //@ts-ignore
+                        title={user.name.toUpperCase() || "NA"}
+                      />
+                      <div>
+                            
+                        {/* @ts-ignore */}
+                        <Typography>Name : {user.name.toUpperCase() || "NA"} </Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Mobile No : {user.mobile}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>
+                          Registration No : {user.regNo || "NA"}
+                        </Typography>
+                        <Typography>
+                          Consumer No :{user.consumerNo || "NA"}{" "}
+                        </Typography>
+                        {/* @ts-ignore */}
+                        <Typography color="primary">Rgistered Agency Name : {user.registeredAgencyName || "NA"}</Typography>
+                        <Typography color="primary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Old Agent Name : {user.oldAgentName || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Sub Agent Name : {user.subAgent || "NA"}</Typography>
+                        <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                        {/* @ts-ignore */}
+                        <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
+                        {user.updatedAt != undefined &&
+                          <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
+                        }
+                                                <Typography>Year : {user.year || "NA"}</Typography>
+                        <Typography >Added By : {user.addedBy || "NA"}</Typography>
+                        {user.InstalationLetter && user.InstalationLetter != undefined &&
+                          <Typography color="primary" >Installation : {user.installtatus}</Typography>}
+                      </div>
+                    </CardContent>
+                    <div>
+                      <Dialog
+                        open={openAlert}
+                        onClose={handleCloseAlert}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Make sure you want to remove this consumer?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleCloseAlert} color="primary">
+                            No
+                          </Button>
+                          <Button onClick={() => handleDelete(user)} color="primary" autoFocus>
+                            Yes
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        Update Customer Data :
+                      </DialogTitle>
+                      <DialogContent dividers>
+                          <Grid container>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Name"
+                                name="name"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.name}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Main Aadhaar"
+                                name="mainAadhaar"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.mainAadhaar}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Mobile"
+                                name="mobile"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                value={customer.mobile}
+                                onChange={handleChangeUser}
+                                onInput={(e) => {
+                                  //@ts-ignore
+                                  e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10)
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              {customer.regNo &&
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Reg No"
+                                  name="regNo"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.regNo}
+                                  onChange={handleChangeUser}
+                                />
+                              }
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Consumer No"
+                                  name="consumerNo"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.consumerNo}
+                                  onChange={handleChangeUser}
+                                />
+                              
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Rgistered Agency Name"
+                                  name="registeredAgencyName"
+                                  variant="outlined"
+                                  fullWidth
+                                  type="text"
+                                  value={customer.registeredAgencyName}
+                                  onChange={handleChangeUser}
+                                />
+                              
+                            </Grid>
+                            <Typography style={{color:"white", backgroundColor:"black"}} variant="h5"  gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+                            {getUser() ? (
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-required-label">Update new Agent *</InputLabel>
+                                <Select
+                                  onChange={handleChangeAgent}
+                                  displayEmpty
+                                  className={classes.selectEmpty}
+                                  labelId="demo-simple-select-outlined-label"
+                                  id="demo-simple-select-outlined"
+                                  inputProps={{ 'aria-label': 'Without label' }}
+                                  name="mainAgent"
+                                >
+                                  {agentList.map(item => (
+                                    <MenuItem
+                                      //@ts-ignore
+                                      key={item.label} value={item.value} >{item.label}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </Grid>):null}
+                                    
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Old Agent  Name"
+                                name="oldAgentName"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.oldAgentName}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Sub Agent"
+                                name="subAgent"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.subAgent}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Remarks"
+                                name="remarks"
+                                variant="outlined"
+                                fullWidth
+                                type="text"
+                                value={customer.remarks}
+                                onChange={handleChangeUser}
+                              />
+                            </Grid>
+                            {getUser() ?
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl component="fieldset">
+                                <FormLabel component="legend">Installation Status</FormLabel>
+                                <RadioGroup aria-label="gender" name="installtatus"  value={customer.installtatus} onChange={handleChangeUser} style={{flexDirection:"row"}}>
+                                  <FormControlLabel  value="Not Complete" control={<Radio />} label="Not Complete" />
+                                  <FormControlLabel  value="Complete" control={<Radio />} label="Complete" />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>:null}
+                            <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                              <FormControl component="fieldset">
+                                <FormLabel component="legend">Year</FormLabel>
+                                <RadioGroup aria-label="gender" name="year" value={customer.year} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
+                                  <FormControlLabel value="2017" control={<Radio />} label="2017" />
+                                  <FormControlLabel value="2018" control={<Radio />} label="2018" />
+                                  <FormControlLabel value="2019" control={<Radio />} label="2019" />
+                                  <FormControlLabel value="2020" control={<Radio />} label="2020" />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+                                
+                      </DialogContent>
+                      <DialogActions>
+                        <Button autoFocus onClick={handleupdate} color="primary"   >
+                          Save & Update
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Card>
+                </Grid>
+                        )
+                        }
+                        if ((getRole() === "user" && user.mainAgent != getUserName())) {
+                          return (
+                            <Card style={{backgroundColor:"#009688"}}>
+                              <CardContent>
+                              <Typography color="secondary">CUSTOMER REGISTERED WITH OTHER AGENT </Typography>
+                              </CardContent>
+                              </Card>
+                          )
+                        }
+                      })()}
+              </Grid>
+              
+            ))}
+          </Grid>
+        </Container>
       </div>
       {/* Footer */}
-
       <FooterSection />
-
       {/* End footer */}
     </React.Fragment>
   );

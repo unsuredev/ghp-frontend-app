@@ -442,12 +442,29 @@ function ResponsiveDrawer() {
               <ListItemText primary=" Dashboard" />
             </ListItem>
           </Link>
+          <Link href="/olddatamanagement">
+              <ListItem button  style={{ color:"white"}}>
+                <ListItemIcon>
+                  <FolderSpecialIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Consumer Before 2021" />
+              </ListItem>
+            </Link>
             <Link href="/connection">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                   <TrendingUpIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Sales & Connection" />
+              </ListItem>
+            </Link>
+   
+              <Link href="/fngerprint">
+              <ListItem button  style={{ color:"white"}}>
+                <ListItemIcon>
+                <NoteAddIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Pending FingerPrints" />
               </ListItem>
             </Link>
 
@@ -458,16 +475,7 @@ function ResponsiveDrawer() {
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
               </ListItem>
-            </Link>          
-              <Link href="/fngerprint">
-              <ListItem button  style={{ color:"white"}}>
-                <ListItemIcon>
-                <NoteAddIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Pending FingerPrints" />
-              </ListItem>
-            </Link>
-
+            </Link>       
             <Link href="/">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
@@ -523,7 +531,7 @@ function ResponsiveDrawer() {
             <MenuIcon />
           </IconButton>
             <Typography noWrap style={{ color: "white", fontSize: "20px", fontFamily: "cursive" }}>
-              JAMAN ENTERPRISE
+              JAMAN HP GAS
             </Typography>
 
         

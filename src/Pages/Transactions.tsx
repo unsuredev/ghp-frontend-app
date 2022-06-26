@@ -422,14 +422,11 @@ Refil-sale updated?
               </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={3} style={{marginRight:"2rem"}}>
-                <Card style={{height:"20rem", width:"16rem" , justifyContent:"center" , textAlign:"center", paddingTop:"1rem", backgroundColor:"#009688", color:"white"}}>
+                <Card style={{height:"20rem", width:"16rem" , justifyContent:"center" , textAlign:"center", backgroundColor:"#009688", color:"white"}}>
                   <br></br>
                                             {/* @ts-ignore */}
-                <Typography >Grand Total Due: <b>{state.grandTotalDue}</b> </Typography>
+                <Typography >Grand Total  Due: <b>{state.grandTotalDue}</b> </Typography>
                 <br></br>
-
-                <Typography variant="button" display="block" gutterBottom > <b> Todays Payment:</b></Typography>
-
                                                             {/* @ts-ignore */}
                 <Typography variant="button" display="block" gutterBottom >L9 Payment: {state.l9payment} </Typography>
                                                               {/* @ts-ignore */}
@@ -443,7 +440,12 @@ Refil-sale updated?
                                                                                                 {/* @ts-ignore */}
                 <Typography variant="button" display="block" gutterBottom >Driver Fooding: {state.driverfooding} </Typography>
                                                                                 {/* @ts-ignore */}
-                <Typography variant="button" display="block" gutterBottom >Extra Expenses: {state.extraexpenses} </Typography>
+                <Typography variant="button" display="block" gutterBottom >Extra : {state.extraexpenses} </Typography>
+                                                                                                {/* @ts-ignore */}
+
+                <Typography variant="button" display="block" gutterBottom >Total Expense: {parseInt(state.loanaccount) + parseInt(state.svaccount) + parseInt(state.l9payment) + parseInt(state.staffsalary) + parseInt(state.drivertips) + parseInt(state.driverfooding) + parseInt(state.extraexpenses)} </Typography>
+
+                
                 </Card>
                 <Button variant="outlined" size="medium" color="primary" onClick={fethcTransactionHistory} >
                   Fetch HISTORY

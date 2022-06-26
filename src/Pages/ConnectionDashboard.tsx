@@ -951,14 +951,53 @@ const ConnectionDashboard = () => {
                                 onChange={handleChange}
                                 name="paidAmount"
                             />
-
                             <Grid container>
-
-                                <Grid item xs={12}>
-
-
-                                    <TextField
-                                        style={{ width: "460px" }}
+                            <Grid item xs={4} sm={6} md={5}>
+                            <FormControl className={classes.formControl} >
+                                <InputLabel id="demo-simple-select-label" >Berner Type</InputLabel>
+                                <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                onChange={handleChange}
+                                style={{width:"180px"}}
+                                >
+                                <MenuItem value="GT 2B">GT 2B</MenuItem>
+                                <MenuItem value="GT 3B">GT 3B</MenuItem>
+                                <MenuItem value="GT 4B">GT 4B</MenuItem>
+                                <MenuItem value="SINGLE B">SINGLE B</MenuItem>
+                                <MenuItem value="EXTRA B">EXTRA ARB</MenuItem>
+                                </Select>
+                         
+                            </FormControl>
+                         
+                            </Grid>
+                            <Grid item xs={4} sm={12} md={6}>
+                            <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="Quantity"
+                                        label="Quantity"
+                                        type="text"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        size="small"
+                                        name="quantity"
+                                    />
+                            </Grid>
+                            </Grid>
+                          
+                            <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="rate"
+                                        label="Rate"
+                                        type="text"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        size="small"
+                                        name="rate"
+                                    />
+                                        <TextField
                                         autoFocus
                                         margin="dense"
                                         id="remarks"
@@ -969,11 +1008,6 @@ const ConnectionDashboard = () => {
                                         onChange={handleChange}
                                         name="remarks"
                                     />
-                                </Grid>
-                            </Grid>
-
-
-
                         </div>
                     </DialogContent>
                     <DialogActions>
