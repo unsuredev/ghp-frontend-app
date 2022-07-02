@@ -96,6 +96,10 @@ const AgentDashBoard = () => {
         { title: "Sub Agent", field: 'subAgent' },
         {title:"Installation status", field:'installtatus'},
         { title: "Remarks", field: 'remarks' },
+        {
+            title: "Register Date ", field: "registerDate"
+        }
+        
     ]
 
 
@@ -295,10 +299,27 @@ const AgentDashBoard = () => {
                                     </Card> 
                                 </Grid>                                         
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card className={classes.card} style={{backgroundColor:"#f0f4c3 "}}>
+                                    <Card className={classes.card} style={{backgroundColor:"#b39ddb"}}>
                                         <CardContent className={classes.cardContent}>
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Installation Pending
+                                            </Typography>
+                                            <Typography color="secondary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
+                                                {customerTotal.totalLoad - customerTotal.installationComplete}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                        </CardActions>
+                                        <Button variant="contained" size="small" color="secondary" className={classes.margin} onClick={fetchPendingConsmer}>
+                                                View
+                                            </Button>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card className={classes.card} style={{backgroundColor:"#90caf9 "}}>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                Today's Registration
                                             </Typography>
                                             <Typography color="secondary" variant="h2" component="h2" style={{ fontWeight: "bold", textAlign: "center" }}>
                                                 {customerTotal.totalLoad - customerTotal.installationComplete}
@@ -322,6 +343,7 @@ const AgentDashBoard = () => {
                     <MaterialTable
                         title="All registration List JAMAN HP GAS"
                         data={customer}
+                        //@ts-ignore
                         columns={columns}
                         options={{
                             exportButton: true,
@@ -343,6 +365,7 @@ const AgentDashBoard = () => {
                     <MaterialTable
                         title="PENDING Consumer list JAMAN HP GAS"
                         data={data}
+                        //@ts-ignore
                         columns={columns}
                         options={{
                             exportButton: true,
@@ -365,6 +388,8 @@ const AgentDashBoard = () => {
                     <MaterialTable
                         title="All Consumer List JAMAN HP GAS"
                         data={allcustomer}
+                                                //@ts-ignore
+
                         columns={columns}
                         options={{
                             exportButton: true,

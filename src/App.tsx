@@ -27,7 +27,7 @@ import './App.css';
 import FingerPrint from "./Pages/FingerPrint";
 import Refilsales from './Pages/Refilsales';
 import Transactions from  './Pages/Transactions'
-
+import RejectFingerPrint from './Pages/RejectFingerPrint'
 const theme = createMuiTheme(
 
   {
@@ -73,6 +73,8 @@ const App = () => {
               <Route exact path="/fngerprint" component={FingerPrint} />
               <Route exact path="/refilsales" component={Refilsales} />
               <Route exact path="/transaction" component={Transactions} />
+              <Route exact path="/cmpletefinger" component={RejectFingerPrint} />
+
             </Switch>
           </Router>
         </ToastProvider>

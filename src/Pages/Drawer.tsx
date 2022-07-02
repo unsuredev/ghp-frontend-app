@@ -55,6 +55,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import ErrorIcon from '@material-ui/icons/Error';
 import '../style/Header.css'
 
 
@@ -464,7 +465,15 @@ function ResponsiveDrawer() {
                 <ListItemIcon>
                 <NoteAddIcon color="secondary" />
                 </ListItemIcon>
-                <ListItemText primary="Pending FingerPrints" />
+                <ListItemText primary="FingerPrints Pending" />
+              </ListItem>
+            </Link>
+            <Link href="/cmpletefinger">
+              <ListItem button  style={{ color:"white"}}>
+                <ListItemIcon>
+                <ErrorIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Reject & Return Doc " />
               </ListItem>
             </Link>
 

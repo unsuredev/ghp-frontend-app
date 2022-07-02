@@ -880,7 +880,10 @@ const Home = () => {
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                             <Typography> Status : {user.registrationStatus || "NA"}</Typography>
-                            <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}
+                            {/* @ts-ignore */}
+                            <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
+                            {/* @ts-ignore */}
+                            <Typography>Free Delivery : {user.isFreeDelivery ? "YES" : "NO"}
                             </Typography>
                             {user.InstalationLetter && user.InstalationLetter != undefined &&
                               <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>}
@@ -1152,7 +1155,7 @@ const Home = () => {
                                         
                                       >
                                         <MenuItem value="">None</MenuItem>
-                                        <MenuItem value="Pending Fingerprint">Pending Fingerprint</MenuItem>
+                                        <MenuItem value="Fingerprint Pending">Fingerprint Pending </MenuItem>
                                         <MenuItem value="Fingerprint Completed">Fingerprint Completed</MenuItem>
                                         <MenuItem value="Pending Documents">Pending Documents</MenuItem>
                                         <MenuItem value="Reject/Cancel">Reject/Cancel</MenuItem>
