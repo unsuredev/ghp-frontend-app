@@ -1,10 +1,10 @@
 
 # HHP-admin-panel
 
-Multi-login based user data, documents, sales Office management web app 
+Multi-role based login user data, documents, sales data web app.
 # Admin Panel
 
-Admin, Employee, agent login based web app for special need and designed based owner demand
+Admin, Employee, Agent login based web app designed based owner need and demand office management website  
 
 ## Prod deployment 
 
