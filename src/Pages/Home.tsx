@@ -3,9 +3,6 @@ import {
   Button,
   Typography,
   CardHeader,
-  Paper,
-  Tabs,
-  Tab,
   CardContent,
   Card,
   Grid,
@@ -182,11 +179,6 @@ const Home = () => {
   const CHARACTER_LIMIT = 12;
   const [value, setValue] = React.useState('Not Complete');
 
-  const handleChangeValue = (event: any) => {
-    console.log("value", event.target.value)
-    setValue(event.target.value);
-  };
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -281,7 +273,6 @@ const Home = () => {
   };
 
   const [checked, setChecked] = React.useState(false);
-
   const [free, setFree]= React.useState(false)
 
   const handleChangeFree = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -320,8 +311,6 @@ const Home = () => {
   }
 
   const handleChangeUser = (event: any) => {
-    console.log("value", event.target.value)
-
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
 
@@ -434,6 +423,8 @@ const Home = () => {
 
 
       if (result.data.data && result.data != undefined) {
+        setChecked(!checked)
+        setFree(!free)
         showToast("Customer updated successfullly", "success");
 
       }
@@ -487,7 +478,6 @@ const Home = () => {
     findName()
     getUser()
     getCharacters()
-
     const timer = setInterval(() => {
       setDate(new Date());
     }, 60 * 1000);
@@ -863,20 +853,16 @@ const Home = () => {
                             {/* @ts-ignore */}
                             <Typography >Contact No : {user.contactNumber}</Typography>
                             {/* @ts-ignore */}
-
                             <Typography >
                               File No : {user.regNo || "NA"}
                             </Typography>                              {/* @ts-ignore */}
-
                             <Typography >
                               Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
                             {/* @ts-ignore */}
-
                             <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
-
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                             <Typography> Status : {user.registrationStatus || "NA"}</Typography>
@@ -887,13 +873,10 @@ const Home = () => {
                             </Typography>
                             {user.InstalationLetter && user.InstalationLetter != undefined &&
                               <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>}
-
                             <Typography color="secondary">Remarks : {user.remarks || "NA"}</Typography>
-
                           </CardContent>
                           <CardActions disableSpacing>
                             <Typography >View more </Typography>
-
                             <IconButton
                               className={clsx(classes.expand, {
                                 [classes.expandOpen]: expanded,
@@ -907,7 +890,6 @@ const Home = () => {
                           </CardActions>
                           <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-
                               {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                               {user.updatedAt != undefined &&
@@ -916,10 +898,7 @@ const Home = () => {
                               <Typography >Added By : {user.addedBy || "NA"}</Typography>
                               {/* @ts-ignore */}
                               <Typography>Updated By : {user.updatedBy || "NA"}</Typography>
-
-
                               <img src={user.InstalationLetter} alt={user.name} height="270px" width="410px" />
-
                             </CardContent>
                           </Collapse>
                         </Card>
@@ -963,7 +942,6 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
-
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                   <Tooltip title="Main Aadhar not allowed to update !">
                                   <TextField
@@ -1051,7 +1029,6 @@ const Home = () => {
                                       />
                                     </Grid> : null}
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-
                                   <Tooltip title="Main Agent not allowed to update !">
                                   <TextField
                                       id="outlined-basic"
@@ -1088,9 +1065,7 @@ const Home = () => {
                                         </Select>
                                       </FormControl>
                                     </Grid>) : null}
-
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-
                                     <TextField
                                       id="outlined-basic"
                                       label="Sub Agent"
@@ -1103,7 +1078,7 @@ const Home = () => {
                                     />
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} >
-                                    <FormControl variant="outlined" >
+                                    <FormControl variant="filled" >
                                       <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
                                       <Select
                                         style={{ width: "35rem" }}
@@ -1121,18 +1096,7 @@ const Home = () => {
                                       </Select>
                                     </FormControl>
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} >
-                                    <TextField style={{color:"primary"}}
-                                      id="outlined-basic"
-                                      label="Remarks"
-                                      name="remarks"
-                                      variant="outlined"
-                                      fullWidth
-                                      type="text"
-                                      value={customer.remarks}
-                                      onChange={handleChangeUser}
-                                    />
-                                  </Grid>
+                          
                                   {getUser() ?
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <FormControl component="fieldset">
@@ -1144,7 +1108,7 @@ const Home = () => {
                                       </FormControl>
                                     </Grid> : null}
                                     <Grid item xs={12} sm={12} md={12} >
-                                    <FormControl variant="outlined" >
+                                    <FormControl variant="standard" >
                                       <InputLabel id="demo-simple-select-label">Registration Status</InputLabel>
                                       <Select
                                        style={{ width: "35rem" }}
@@ -1175,6 +1139,18 @@ const Home = () => {
                                       label=""
                                     />
                                   </Typography>
+                                  <Grid item xs={12} sm={12} md={12} >
+                                    <TextField style={{color:"primary"}}
+                                      id="outlined-basic"
+                                      label="Remarks"
+                                      name="remarks"
+                                      variant="outlined"
+                                      fullWidth
+                                      type="text"
+                                      value={customer.remarks}
+                                      onChange={handleChangeUser}
+                                    />
+                                  </Grid>
                                 </Grid>
 
                               ))
