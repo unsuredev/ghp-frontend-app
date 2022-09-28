@@ -9,3 +9,9 @@ export const isNotAdmin = () => {
    return role
 }
 
+
+
+  export const getToken = () => {
+    //@ts-ignore
+    return localStorage.getItem("access_token");
+  };

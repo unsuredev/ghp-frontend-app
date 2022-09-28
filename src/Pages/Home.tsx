@@ -49,6 +49,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Tooltip from '@material-ui/core/Tooltip';
+import { getToken } from "../Common/helper";
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -324,14 +325,6 @@ const Home = () => {
 
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
-
-
-
-
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-  }
 
 
   const handleFind = async (event: any) => {

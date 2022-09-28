@@ -19,11 +19,8 @@ import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountO
 import Link from "@material-ui/core/Link";
 import jwt_decode from "jwt-decode";
 import SettingsIcon from '@material-ui/icons/Settings';
-
 import FormGroup from '@material-ui/core/FormGroup';
-import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -49,14 +46,16 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FaceIcon from '@material-ui/icons/Face';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import Card from "@material-ui/core/Card";
+import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ErrorIcon from '@material-ui/icons/Error';
 import '../style/Header.css'
+import { getToken } from "../Common/helper";
 
 
 const drawerWidth = 260;
@@ -210,10 +209,6 @@ function ResponsiveDrawer() {
   }, []);
 
 
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-  }
 
   const fetchUser = async () => {
     try {
@@ -354,7 +349,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Sales & Connection" />
               </ListItem>
             </Link>
-            <Link href="/refilsales">
+            <Link href="/refillsales">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon  style={{ color:"white"}}>
                   <StorefrontIcon color="secondary" />
@@ -460,7 +455,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
    
-              <Link href="/fngerprint">
+              <Link href="/fingerprint">
               <ListItem button  style={{ color:"white"}}>
                 <ListItemIcon>
                 <NoteAddIcon color="secondary" />

@@ -4,6 +4,7 @@ import axios from "axios";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BASE_URL } from "../Common/constant";
+import { getToken } from '../Common/helper';
 
 export default function ConnectionFullTable() {
 
@@ -33,13 +34,6 @@ export default function ConnectionFullTable() {
             dateSetting: { locale: "ko-KR" }
         }
     ]
-
-
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
 
 

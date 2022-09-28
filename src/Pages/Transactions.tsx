@@ -27,6 +27,7 @@ import moment from "moment";
 import MaterialTable from 'material-table';
 import { ToastContext } from "../Common/ToastProvider";
 import jwt_decode from "jwt-decode";
+import { getToken } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
     "@global": {
@@ -93,10 +94,6 @@ const todayCash=()=>{
     return result
 }
 
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
     const handleClickOpen = () => {
         setOpen(true);
       };

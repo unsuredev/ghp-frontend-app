@@ -5,18 +5,17 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import FooterSection from '../Components/Footer'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import { httpClient } from "../Common/Service";
 import ResponsiveDrawer from './Drawer'
 import FullConsumerTable from './FullConsumerTable'
 import OldFullConsumerTable from './OldFullConsumerTable '
 import ConnectionFullTable from './ConnectionFullTable'
 import axios from "axios";
-import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import MaterialTable from "material-table";
+
 import { BASE_URL } from "../Common/constant";
+import { getToken } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -110,10 +109,6 @@ const AgentDashBoard = () => {
         fetchDashBoard()
     }, []);
 
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
     const fetchPendingConsmer = async () => {
         try {

@@ -16,6 +16,7 @@ import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import MaterialTable from 'material-table';
+import { getToken } from '../Common/helper';
 
 
 
@@ -64,11 +65,6 @@ export default function FingerPrint() {
     }, []);
 
 
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
     const fetchAllPendingFingerprint = async () => {
         try {

@@ -192,7 +192,6 @@ const handleSubmitAgent = async (event: any) => {
       })
       if (result.data && result.data != null) {
         showToast(result.data.message, "success");
-        // window.location.reload();
 
       }
     } catch (error) {
@@ -332,9 +331,6 @@ const handleSubmitAgent = async (event: any) => {
           <Grid container>
             <Grid item xs={12} sm={12} md={12}>
               <div className={classes.paper}>
-                {/* <PersonOutlinedIcon/> */}
-
-
                 <form className={classes.form} noValidate>
                   <TextField
                     variant="outlined"
@@ -403,9 +399,6 @@ const handleSubmitAgent = async (event: any) => {
           <Grid container>
             <Grid item xs={12} sm={12} md={12}>
               <div className={classes.paper}>
-                {/* <PersonOutlinedIcon/> */}
-
-
                 <form className={classes.form} noValidate>
                   <TextField
                     variant="outlined"
@@ -434,7 +427,6 @@ const handleSubmitAgent = async (event: any) => {
                     value={agent.mobile}
                     onChange={handleChangeAgent}
                   />
-
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -448,7 +440,6 @@ const handleSubmitAgent = async (event: any) => {
                     value={agent.password}
                     onChange={handleChangeAgent}
                   />
-
                   <Button
                     type="submit"
                     fullWidth
@@ -459,7 +450,6 @@ const handleSubmitAgent = async (event: any) => {
                   >
                     Create Agent login account
                 </Button>
-
                   <Box mt={20}>
                     <Copyright />
                   </Box>

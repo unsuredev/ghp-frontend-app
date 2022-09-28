@@ -151,7 +151,6 @@ const CustomerStats = () => {
             }
         }
         setUserlist(userlist)
-        console.log("users data", userlist)
         setLoading(false);
         return userlist
     }

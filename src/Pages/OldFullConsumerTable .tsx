@@ -4,6 +4,7 @@ import axios from "axios";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BASE_URL } from "../Common/constant";
+import { getToken } from '../Common/helper';
 
 export default function OldFullConsumerTable() {
 
@@ -24,33 +25,8 @@ export default function OldFullConsumerTable() {
         { title: "Remarks", field: 'remarks' },
         {title:"Installation status", field:'installtatus'},
         {title:"Year", field:'year'}
-
     ]
 
-
-    const column = [
-        { displayName: 'Sl No', id: 'tableData.id' },
-        { displayName: "Name", id: "name" },
-        { displayName: "Main Aadhaar", id: "mainAadhaar" },
-        { displayName: "Mobile", id: "mobile" },
-        { displayName: "Reg No", id: '' },
-        { displayName: "Consumer No", id: '' },
-        { displayName: "Main Agent", id: 'mainAgent' },
-        { displayName: "Old Agent", id: 'oldAgentName' },
-        { displayName:"Registered Agency Name", id:'registeredAgencyName'},
-        { displayName: "Sub Agent", id: 'subAgent' },
-        { displayName: "Remarks", id: 'remarks' },
-        {displayName:"Install status", id:'installtatus'},
-        {displayName:"Year", id:'year'}
-        
-
-    ];
-
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
 
 

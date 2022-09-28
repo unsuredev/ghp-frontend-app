@@ -26,6 +26,7 @@ import Switch from '@material-ui/core/Switch';
 
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
+import { getToken } from '../Common/helper';
 
 function createData(name: string, address: string, mobile: number) {
   return { name, address, mobile };
@@ -117,10 +118,6 @@ const AgentList = () => {
   }, [])
 
 
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-}
 
   const handleAgentlist = async () => {
     try {

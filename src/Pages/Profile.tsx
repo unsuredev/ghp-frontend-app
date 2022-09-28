@@ -30,6 +30,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { getToken } from "../Common/helper";
 
 
 
@@ -132,15 +133,6 @@ const Profile = () => {
             setImageUrl(URL.createObjectURL(selectedImage));
         }
     }, [selectedImage]);
-
-
-
-
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
 
 

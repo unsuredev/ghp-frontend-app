@@ -35,6 +35,7 @@ import { BASE_URL } from "../Common/constant";
 import { ToastContext } from "../Common/ToastProvider";
 import RefilSalesTable from '../Components/RefilSalesTable'
 import ResponsiveDrawer from "./Drawer";
+import { getToken } from '../Common/helper';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -125,12 +126,6 @@ const RefilSales = () => {
         getCharacters();
         fetchRefilSalesHistory()
     }, []);
-
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
 
     async function getCharacters() {

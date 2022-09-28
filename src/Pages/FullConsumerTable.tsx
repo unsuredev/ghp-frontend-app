@@ -4,10 +4,8 @@ import axios from "axios";
 import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, Grid } from '@material-ui/core';
-import CsvDownloader from 'react-csv-downloader';
-import jwt_decode from "jwt-decode";
 import { BASE_URL } from "../Common/constant";
+import { getToken } from '../Common/helper';
 
 export default function FullConsumerTable() {
 
@@ -41,11 +39,6 @@ export default function FullConsumerTable() {
     ]
 
 
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
     const fetcCustomerData = async() => {
         try {

@@ -24,6 +24,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { getToken } from "../Common/helper";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -108,11 +109,6 @@ const CustomerRegistration = () => {
     
   }
 
-
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-}
 
       
   async function getCharacters() {
