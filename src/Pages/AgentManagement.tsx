@@ -13,7 +13,6 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Copyright from "../Components/Copyright";
-import { httpClient } from "../Common/Service";
 import Container from "@material-ui/core/Container";
 import { ToastContext } from "../Common/ToastProvider";
 import Accordion from '@material-ui/core/Accordion';
@@ -71,6 +70,7 @@ const AgentList = () => {
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
   const [show, setShow] = React.useState(false)
+
   const [list, setList] = React.useState([])
 
 
@@ -96,12 +96,12 @@ const AgentList = () => {
       event.preventDefault();
 
       const result = await axios.post(BASE_URL + "agent/add", {
-     "name":user.name,
-     "mobile":user.mobile,
-     "address":user.address
-    }, {
+        "name": user.name,
+        "mobile": user.mobile,
+        "address": user.address
+      }, {
         headers: { encryption: false },
-    });
+      });
       if (result.data && result.data.status === "success") {
         showToast("Registered susccesssfully", "success");
       }
@@ -125,40 +125,38 @@ const AgentList = () => {
       const result = await axios.get(BASE_URL + "agent/getall",
         {
           headers: {
-             encryption: false ,
-             access_token: getToken()
+            encryption: false,
+            access_token: getToken()
           },
         }
       );
-      if(result.data && result.data.status==="success"){
-      setList(result.data.data.agents)
+      if (result.data && result.data.status === "success") {
+        setList(result.data.data.agents)
       }
     } catch (error) {
       //@ts-ignore
       showToast(error.response.data.message, "error")
-      }
+    }
   };
 
-  const toggleChecked = async ( mobile:any) => {
+  const toggleChecked = async (mobile: any) => {
     try {
-      const result = await axios.post(BASE_URL + "agent/block",{"mobile":mobile},  { headers: {
-        encryption: false,
-        access_token: getToken()
-      }})
+      const result = await axios.post(BASE_URL + "agent/block", { "mobile": mobile }, {
+        headers: {
+          encryption: false,
+          access_token: getToken()
+        }
+      })
       if (result.data && result.data != null) {
         showToast(result.data.message, "success");
         window.location.reload();
-      
+
       }
     } catch (error) {
       //@ts-ignore
-      showToast(error.response.data.message, "error")    }
+      showToast(error.response.data.message, "error")
+    }
   };
-
-
-
- 
-
 
 
   return (
@@ -167,58 +165,58 @@ const AgentList = () => {
       <Container component="main" maxWidth="md">
         <Grid container  >
           <Grid item xs={12} sm={12} md={12} >
-          <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>View All Agents list</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        <TableContainer component={Paper}>
-   
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={classes.heading}>View All Agents list</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <TableContainer component={Paper}>
 
-   <Table className={classes.table} aria-label="simple table">
-     <TableHead>
-       <TableRow>
-         <TableCell>Sl No</TableCell>
-         <TableCell>Agent Name</TableCell>
-         <TableCell align="right">Mobile Number</TableCell>
-         <TableCell align="right">Address</TableCell>
-         <TableCell align="right">Active</TableCell>
 
-       </TableRow>
-     </TableHead>
-     <TableBody>
-       {list.map((agent, i) => (
-         //@ts-ignore
-         <TableRow key={agent.name}>
-           <TableCell align="left">{i + 1}</TableCell>
-           <TableCell component="th" scope="row">
-             {/* @ts-ignore */}
-             {agent.name}
-           </TableCell>
-           {/* @ts-ignore */}
-           <TableCell align="right">{agent.mobile}</TableCell>
-           {/* @ts-ignore */}
-           <TableCell align="right">{agent.address}</TableCell>
-           <TableCell > 
-                        <FormControlLabel
-                         //@ts-ignore
-                          control={<Switch checked={agent.active} onChange={()=>toggleChecked(agent.mobile)} />}
-                          label=""
-                        />
-                      
-                      </TableCell>
-         </TableRow>
-       ))}
-     </TableBody>
-   </Table>
- </TableContainer>
-        </AccordionDetails>
-      </Accordion>
-           
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Sl No</TableCell>
+                        <TableCell>Agent Name</TableCell>
+                        <TableCell align="right">Mobile Number</TableCell>
+                        <TableCell align="right">Address</TableCell>
+                        <TableCell align="right">Active</TableCell>
+
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {list.map((agent, i) => (
+                        //@ts-ignore
+                        <TableRow key={agent.name}>
+                          <TableCell align="left">{i + 1}</TableCell>
+                          <TableCell component="th" scope="row">
+                            {/* @ts-ignore */}
+                            {agent.name}
+                          </TableCell>
+                          {/* @ts-ignore */}
+                          <TableCell align="right">{agent.mobile}</TableCell>
+                          {/* @ts-ignore */}
+                          <TableCell align="right">{agent.address}</TableCell>
+                          <TableCell >
+                            <FormControlLabel
+                              //@ts-ignore
+                              control={<Switch checked={agent.active} onChange={() => toggleChecked(agent.mobile)} />}
+                              label=""
+                            />
+
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </AccordionDetails>
+            </Accordion>
+
           </Grid>
         </Grid>
       </Container>

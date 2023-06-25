@@ -49,7 +49,9 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Tooltip from '@material-ui/core/Tooltip';
-import { getToken } from "../Common/helper";
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import { getUserName, getRole, getToken } from '../Common/helper';
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -171,13 +173,11 @@ const Home = () => {
   const classes = useStyles();
   let history = useHistory();
   const { showToast } = React.useContext(ToastContext);
-
   const [users, setUsers] = React.useState<any[]>([]);
   const [today, setDate] = React.useState(new Date());
   const [open, setOpen] = React.useState(false);
   const [nameuser, setNameuser] = React.useState("")
   const [agentList, setAgetList] = React.useState([]);
-
   const [userObj, setUserObj] = React.useState({})
   const [openAlert, setOpenAlert] = React.useState(false);
   const CHARACTER_LIMIT = 12;
@@ -255,41 +255,14 @@ const Home = () => {
     }
   }
 
-  const getUserName = () => {
-    let token: any = localStorage.getItem("access_token");
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { name } = decoded;
-    if (name && name != undefined) {
-      return name
-    }
-
-  }
-
-
-  const getRole = () => {
-    let token: any = localStorage.getItem("access_token");
-
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { role } = decoded;
-    return role;
-  }
-
-
   const handleChange = (event: any) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
-
   const [checked, setChecked] = React.useState(false);
-
-  const [free, setFree]= React.useState(false)
-
+  const [free, setFree] = React.useState(false)
   const handleChangeFree = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFree(!free);
   };
-
-
   const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(!checked);
   };
@@ -299,18 +272,20 @@ const Home = () => {
     name: "",
     mainAadhaar: "",
     consumerNo: "",
+    newConsumerNo: "",
     familyAadhaar: "",
     regNo: "",
     mainAgent: "",
     subAgent: "",
     registeredAgencyName: "",
+    newRegisteredAgency: "",
     remarks: "",
     mobile: "",
     addedBy: "",
     installtatus: "",
     fileNo: 0,
     isSingleWomen: false,
-    isFreeDelivery:false,
+    isFreeDelivery: false,
     registrationStatus: "",
     contactNumber: ""
   });
@@ -399,14 +374,17 @@ const Home = () => {
   const handleupdate = async () => {
     setOpen(false);
     try {
+      console.log("updated value", customer)
       const result = await axios.post(BASE_URL + "customer/update", {
         name: customer.name,
         mainAadhaar: customer.mainAadhaar,
         consumerNo: customer.consumerNo,
+        newConsumerNo: customer.newConsumerNo,
         familyAadhaar: customer.familyAadhaar,
         mainAgent: customer.mainAgent,
         subAgent: customer.subAgent,
         registeredAgencyName: customer.registeredAgencyName,
+        newRegisteredAgency: customer.newRegisteredAgency,
         remarks: customer.remarks,
         mobile: customer.mobile,
         addedBy: customer.addedBy,
@@ -415,7 +393,7 @@ const Home = () => {
         isSingleWomen: checked,
         registrationStatus: customer.registrationStatus,
         contactNumber: customer.contactNumber,
-        isFreeDelivery:free,
+        isFreeDelivery: free,
         updatedBy: getUserName()
       },
         {
@@ -490,9 +468,6 @@ const Home = () => {
   }, []);
 
 
-
-
-
   async function getCharacters() {
     const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
@@ -513,8 +488,10 @@ const Home = () => {
       <CssBaseline />
       <ResponsiveDrawer />
       <div className={classes.heroContent}>
+
         <Container maxWidth="md" component="main" style={{ marginTop: "20px", paddingTop: "10px" }}>
           {userGreetings()}
+
           <Grid
             container
             className="maincontainer"
@@ -614,6 +591,7 @@ const Home = () => {
               >
                 FIND CUSTOMER
               </Button>
+
             </div>
 
             <Grid />
@@ -645,7 +623,10 @@ const Home = () => {
                 if (getRole() === "user" && user.mainAgent === getUserName()) {
                   return (
                     <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
-                      <Card className={classes.card} key={i} style={{ marginTop: "40px" }}>
+                      <Card className={classes.card} key={i} style={{ marginTop: "40px", backgroundColor: "#009688", color: "white" }} >
+                        {user.isSingleWomen
+                          ? <Typography color="secondary"><ErrorOutlineIcon /> This registration is single women.Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
+                          : ""}
                         <CardHeader
                           action={
                             <div style={{ margin: "0px", padding: "0px" }}>
@@ -662,12 +643,14 @@ const Home = () => {
                           title={user.name.toUpperCase()}
 
                         />
+
                         <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
                           <Typography color="textSecondary" gutterBottom>
                             Consumer's Details
                           </Typography>
+
                           {/* @ts-ignore */}
-                          <Typography>Name : {user.name.toUpperCase()} </Typography>
+                          <Typography>Name : {user.name.toUpperCase()}  </Typography>
                           {/* @ts-ignore */}
                           <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
                           {/* @ts-ignore */}
@@ -686,16 +669,22 @@ const Home = () => {
                             Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
 
                           </Typography>
+                          <Typography>
+                            Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
+
+                          </Typography>
                           {/* @ts-ignore */}
                           <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
                           {/* @ts-ignore */}
                           <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                          <Typography>Registered Agency Name : <span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                          <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                          <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
+
                           <Typography>Remarks : {user.remarks || "NA"}</Typography>
                           {/* @ts-ignore */}
-                          <Typography>Status : {user.registrationStatus || "NA"}</Typography>
+                          <Typography>Registration status : {user.registrationStatus || "NA"}</Typography>
                           {/* @ts-ignore */}
-                          <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
+                          <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
                           {/* @ts-ignore */}
                           {user.InstalationLetter && user.InstalationLetter != undefined &&
                             <Typography color="primary" >Installation : {user.installtatus}</Typography>}
@@ -816,12 +805,17 @@ const Home = () => {
                   )
                 }
               })()}
+
               {(() => {
                 if (getRole() != "user") {
                   return (
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
+
                         <Card className={classes.card} key={i} style={{ backgroundColor: "#009688", color: "white" }}  >
+                          {user.isSingleWomen
+                            ? <Typography color="secondary"><ErrorOutlineIcon /> This registration is single women.Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
+                            : ""}
                           <CardHeader
                             action={
                               <div style={{ margin: "0px", padding: "0px" }}>
@@ -844,6 +838,7 @@ const Home = () => {
                             //@ts-ignore
                             title={user.name.toUpperCase()}
                           />
+
                           <CardContent className={classes.cardContent}>
                             {/* @ts-ignore */}
                             <Typography >Main Aadhaar : <span style={{ color: "#ffea00" }}>{user.mainAadhaar}</span> </Typography>
@@ -853,16 +848,10 @@ const Home = () => {
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography >Mobile No : {user.mobile}</Typography>
-                            {/* @ts-ignore */}
-                            <Typography >Contact No : {user.contactNumber}</Typography>
-                            {/* @ts-ignore */}
+
 
                             <Typography >
-                              File No : {user.regNo || "NA"}
-                            </Typography>                              {/* @ts-ignore */}
-
-                            <Typography >
-                              Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                              Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
@@ -876,14 +865,31 @@ const Home = () => {
                             {/* @ts-ignore */}
                             <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
                             {/* @ts-ignore */}
+
+                            <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
+                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
+                            {/* @ts-ignore */}
+                            <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
+                            {/* @ts-ignore */}
+
                             <Typography>Free Delivery : {user.isFreeDelivery ? "YES" : "NO"}
+                              {/* @ts-ignore */}
+                              <Typography >Contact No : {user.contactNumber}</Typography>
+                              {/* @ts-ignore */}
+
+                              <Typography >
+                                File No : {user.regNo || "NA"}
+                              </Typography>                              {/* @ts-ignore */}
+
                             </Typography>
-                            {user.InstalationLetter && user.InstalationLetter != undefined &&
-                              <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>}
+                            {
+                              user.InstalationLetter && user.InstalationLetter != undefined &&
+                              <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>
+                            }
 
                             <Typography color="secondary">Remarks : {user.remarks || "NA"}</Typography>
 
-                          </CardContent>
+                          </CardContent >
                           <CardActions disableSpacing>
                             <Typography >View more </Typography>
 
@@ -902,8 +908,15 @@ const Home = () => {
                             <CardContent>
 
                               {/* @ts-ignore */}
+                              <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                              <Typography >
+                                Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                              </Typography>
+
+                              {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
-                              {user.updatedAt != undefined &&
+                              {
+                                user.updatedAt != undefined &&
                                 <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                               }
                               <Typography >Added By : {user.addedBy || "NA"}</Typography>
@@ -913,9 +926,9 @@ const Home = () => {
 
                               <img src={user.InstalationLetter} alt={user.name} height="270px" width="410px" />
 
-                            </CardContent>
-                          </Collapse>
-                        </Card>
+                            </CardContent >
+                          </Collapse >
+                        </Card >
                         <div>
                           <Dialog
                             open={openAlert}
@@ -958,19 +971,19 @@ const Home = () => {
                                   </Grid>
 
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                  <Tooltip title="Main Aadhar not allowed to update !">
-                                  <TextField
-                                      id="outlined-basic"
-                                      label="Main Aadhaar"
-                                      name="mainAadhaar"
-                                      fullWidth
-                                      type="text"
-                                      value={customer.mainAadhaar}
-                                      InputProps={{
-                                        readOnly: true,
-                                      }}
-                                      variant="filled"
-                                    />
+                                    <Tooltip title="Main Aadhar not allowed to update !">
+                                      <TextField
+                                        id="outlined-basic"
+                                        label="Main Aadhaar"
+                                        name="mainAadhaar"
+                                        fullWidth
+                                        type="text"
+                                        value={customer.mainAadhaar}
+                                        InputProps={{
+                                          readOnly: true,
+                                        }}
+                                        variant="filled"
+                                      />
                                     </Tooltip>
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
@@ -1030,57 +1043,80 @@ const Home = () => {
                                     />
                                   </Grid>
 
-                                  {getUser() ?
-                                    <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                    <Tooltip title="Old consumer is not allowed to update !">
                                       <TextField
                                         id="outlined-basic"
-                                        label="Consumer No"
+                                        label="Old consumer No"
                                         name="consumerNo"
-                                        variant="outlined"
+                                        variant="filled"
                                         fullWidth
                                         type="text"
                                         value={customer.consumerNo}
                                         onChange={handleChangeUser}
+                                        InputProps={{
+                                          readOnly: true,
+                                        }}
                                       />
-                                    </Grid> : null}
+                                    </Tooltip>
+
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                    <Tooltip title="Main Agent not allowed to update !">
+                                      <TextField
+                                        id="outlined-basic"
+                                        label="Active consumer No"
+                                        name="newConsumerNo"
+                                        variant="outlined"
+                                        fullWidth
+                                        type="text"
+                                        value={customer.newConsumerNo}
+                                        onChange={handleChangeUser}
+
+                                      />
+                                    </Tooltip>
+
+                                  </Grid>
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 
-                                  <Tooltip title="Main Agent not allowed to update !">
-                                  <TextField
-                                      id="outlined-basic"
-                                      label="Main Agent"
-                                      name="mainAgent"
-                                      fullWidth
-                                      type="text"
-                                      value={customer.mainAgent}
-                                      InputProps={{
-                                        readOnly: true,
-                                      }}
-                                      variant="filled"
-                                    />
+                                    <Tooltip title="Main Agent is not allowed to update !">
+                                      <TextField
+                                        id="outlined-basic"
+                                        label="Main Agent"
+                                        name="mainAgent"
+                                        fullWidth
+                                        type="text"
+                                        value={customer.mainAgent}
+                                        InputProps={{
+                                          readOnly: true,
+                                        }}
+                                        variant="filled"
+                                      />
                                     </Tooltip>
                                   </Grid>
-                                  {getUser() ? (
-                                    <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                      <FormControl variant="outlined" className={classes.formControl}>
-                                        <InputLabel id="demo-simple-select-required-label">Update new Agent *</InputLabel>
-                                        <Select
-                                          onChange={handleChangeAgent}
-                                          displayEmpty
-                                          className={classes.selectEmpty}
-                                          labelId="demo-simple-select-outlined-label"
-                                          id="demo-simple-select-outlined"
-                                          inputProps={{ 'aria-label': 'Without label' }}
-                                          name="mainAgent"
-                                        >
-                                          {agentList.map(item => (
-                                            <MenuItem
-                                              //@ts-ignore
-                                              key={item.label} value={item.value} >{item.label}</MenuItem>
-                                          ))}
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>) : null}
+                                  {
+                                    getUser() ? (
+                                      <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                                        <FormControl variant="outlined" className={classes.formControl}>
+                                          <InputLabel id="demo-simple-select-required-label">Update new Agent *</InputLabel>
+                                          <Select
+                                            onChange={handleChangeAgent}
+                                            displayEmpty
+                                            className={classes.selectEmpty}
+                                            labelId="demo-simple-select-outlined-label"
+                                            id="demo-simple-select-outlined"
+                                            inputProps={{ 'aria-label': 'Without label' }}
+                                            name="mainAgent"
+                                          >
+                                            {agentList.map(item => (
+                                              <MenuItem
+                                                //@ts-ignore
+                                                key={item.label} value={item.value} >{item.label}</MenuItem>
+                                            ))}
+                                          </Select>
+                                        </FormControl>
+                                      </Grid>) : null
+                                  }
 
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 
@@ -1095,27 +1131,37 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={12} md={12} >
-                                    <FormControl variant="outlined" >
-                                      <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
-                                      <Select
-                                        style={{ width: "35rem" }}
-                                        labelId="demo-simple-select-filled-label"
-                                        id="demo-simple-select-filled"
-                                        value={customer.registeredAgencyName}
-                                        onChange={handleChangeUser}
-                                        fullWidth
-                                        name="registeredAgencyName"
-                                      >
+                                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
 
-                                        <MenuItem value="JAMAN HP GAS 2021">JAMAN HP GAS 2021</MenuItem>
-                                        <MenuItem value="GOURIPUR HP GAS PSV 2021">GOURIPUR HP GAS PSV 2021</MenuItem>
-                                        <MenuItem value="JAMAN HP GAS CLEAR KYC 2019">JAMAN HP GAS CLEAR KYC 2019</MenuItem>
-                                      </Select>
-                                    </FormControl>
+                                    <Tooltip title="Main Agent is not allowed to update !">
+                                      <TextField
+                                        id="outlined-basic"
+                                        label="Registered Agency"
+                                        name="registeredAgencyName"
+                                        value={customer.registeredAgencyName}
+                                        fullWidth
+                                        type="text"
+                                        InputProps={{
+                                          readOnly: true,
+                                        }}
+                                        variant="filled"
+                                      />
+                                    </Tooltip>
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} >
-                                    <TextField style={{color:"primary"}}
+                                    <TextField
+                                      id="outlined-basic"
+                                      label="Active Registered Agency"
+                                      value={customer.newRegisteredAgency}
+                                      fullWidth
+                                      type="text"
+                                      variant="outlined"
+                                      onChange={handleChangeUser}
+                                      name="newRegisteredAgency"
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={12} >
+                                    <TextField style={{ color: "primary" }}
                                       id="outlined-basic"
                                       label="Remarks"
                                       name="remarks"
@@ -1126,6 +1172,7 @@ const Home = () => {
                                       onChange={handleChangeUser}
                                     />
                                   </Grid>
+
                                   {getUser() ?
                                     <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                       <FormControl component="fieldset">
@@ -1135,17 +1182,18 @@ const Home = () => {
                                           <FormControlLabel value="Complete" control={<Radio />} label="Complete" />
                                         </RadioGroup>
                                       </FormControl>
-                                    </Grid> : null}
-                                    <Grid item xs={12} sm={12} md={12} >
+                                    </Grid> : null
+                                  }
+                                  <Grid item xs={12} sm={12} md={12} >
                                     <FormControl variant="outlined" >
                                       <InputLabel id="demo-simple-select-label">Registration Status</InputLabel>
                                       <Select
-                                       style={{ width: "35rem" }}
+                                        style={{ width: "35rem" }}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         name="registrationStatus"
                                         value={customer.registrationStatus} onChange={handleChangeUser}
-                                        
+
                                       >
                                         <MenuItem value="">None</MenuItem>
                                         <MenuItem value="Fingerprint Pending">Fingerprint Pending </MenuItem>
@@ -1156,7 +1204,7 @@ const Home = () => {
                                       </Select>
                                     </FormControl>
                                   </Grid>
-                                  <Typography>Single Women : &nbsp;
+                                  <Typography >Single Women : &nbsp;
                                     <FormControlLabel
                                       control={<Checkbox checked={checked} onChange={handleChangeCheck} name="isSingleWomen" />}
                                       label=""
@@ -1169,7 +1217,6 @@ const Home = () => {
                                     />
                                   </Typography>
                                 </Grid>
-
                               ))
                               }
                             </DialogContent>
@@ -1178,8 +1225,8 @@ const Home = () => {
                                 Save & Update
                               </Button>
                             </DialogActions>
-                          </Dialog>
-                        </div>
+                          </Dialog >
+                        </div >
                       </Grid>
                     </Grid>
                   )
@@ -1192,6 +1239,6 @@ const Home = () => {
       <FooterSection />
     </React.Fragment>
   );
-};
+}
 
 export default Home;

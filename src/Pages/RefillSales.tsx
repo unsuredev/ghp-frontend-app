@@ -1,25 +1,10 @@
 import React from 'react';
-import MaterialTable from 'material-table';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import axios from "axios";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import {
@@ -268,31 +253,31 @@ const RefilSales = () => {
 
 
 
-        // GET  AGENT'S REFIL SALE HISTORY
-        const handleSalesHistory = async () => {
-            try {
-                setLoading(true)
-                const result = await axios.post(BASE_URL + "refilsale/gethhistory", { "agent": agentdata.agent },
-                    {
-                        headers: {
-                            encryption: false,
-                            access_token: getToken()
-                        },
-                    })
-                    if (result.data) {
-                         setData(result.data.result.data)
-                        setLoading(false)
-                    }
-            } catch (error) {
-                if (error) {
-                    //@ts-ignore
-                    console.log("error", error)
-                }
+    // GET  AGENT'S REFIL SALE HISTORY
+    const handleSalesHistory = async () => {
+        try {
+            setLoading(true)
+            const result = await axios.post(BASE_URL + "refilsale/gethhistory", { "agent": agentdata.agent },
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                })
+            if (result.data) {
+                setData(result.data.result.data)
+                setLoading(false)
             }
-        };
+        } catch (error) {
+            if (error) {
+                //@ts-ignore
+                console.log("error", error)
+            }
+        }
+    };
 
 
-        // fetch RefilSales History for all agent
+    // fetch RefilSales History for all agent
     const fetchRefilSalesHistory = async () => {
         try {
             setLoading(true)
@@ -339,9 +324,9 @@ const RefilSales = () => {
                     <Container maxWidth="md">
 
                         <div >
-                        <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
-                            Refil Sales Managements
-                        </Typography>
+                            <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+                                Refil Sales Managements
+                            </Typography>
                             <Grid container spacing={2} style={{ textAlign: "center" }} >
                                 <Grid item xs={12} md={4}>
                                 </Grid>
@@ -390,22 +375,22 @@ const RefilSales = () => {
                                     <Typography >14 KG REFIL SALE </Typography>
                                     <br />
                                     <Grid item xs={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        size="small"
-                                        label="Load Paid"
-                                        variant="outlined"
-                                        name="loadPaid14"
-                                        value={agentdata.loadPaid14}
-                                        type="number"
-                                        onChange={handleChange}
-                                        InputProps={{
-                                            style: {
-                                                marginBottom: "7px"
-                                            }
-                                        }}
-                                    />
-                                                      </Grid>
+                                        <TextField
+                                            id="outlined-basic"
+                                            size="small"
+                                            label="Load Paid"
+                                            variant="outlined"
+                                            name="loadPaid14"
+                                            value={agentdata.loadPaid14}
+                                            type="number"
+                                            onChange={handleChange}
+                                            InputProps={{
+                                                style: {
+                                                    marginBottom: "7px"
+                                                }
+                                            }}
+                                        />
+                                    </Grid>
 
 
                                     <TextField
@@ -691,7 +676,7 @@ const RefilSales = () => {
                             </Card>
                         </Grid>
                     </Grid>
-                    <div style={{ marginTop: "1rem", textAlign: "center", paddingBottom:"1rem" }}>
+                    <div style={{ marginTop: "1rem", textAlign: "center", paddingBottom: "1rem" }}>
                         <Button variant="contained" size="medium" color="secondary" onClick={updateHandle}>
                             save & update
                         </Button>
@@ -699,7 +684,7 @@ const RefilSales = () => {
                 </Container>
                 <Container component="main" >
                     {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
-                      <RefilSalesTable dataAray={data} />
+                        <RefilSalesTable dataAray={data} />
                     }
 
                 </Container>

@@ -10,15 +10,10 @@ import axios from "axios";
 import { useHistory } from "react-router"
 import jwt_decode from "jwt-decode";
 import ResponsiveDrawer from "./Drawer";
-import Avatar from '@material-ui/core/Avatar';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { BASE_URL } from "../Common/constant";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import moment from "moment";
-import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -26,11 +21,8 @@ import {
 } from '@material-ui/pickers';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { getToken } from "../Common/helper";
+import { getToken, getUserId } from "../Common/helper";
+
 
 
 
@@ -84,23 +76,17 @@ const Profile = () => {
 
     }, []);
 
-    const findUserId = () => {
-        let token: any = localStorage.getItem("access_token");
-        var decoded = jwt_decode(token);
-        //@ts-ignore
-        let { user_id } = decoded;
-        return user_id
-    }
+
 
     const [user, setUser] = useState({
-        "user_id": findUserId(),
+        "user_id": getUserId(),
         name: "",
         city: "",
         dob: "",
         old_password: "",
         new_password: "",
         email: "",
-        mobile:""
+        mobile: ""
     });
 
     const [data, setData] = useState({
@@ -116,7 +102,6 @@ const Profile = () => {
     };
 
     const handleChange = (event: any) => {
-        console.log("dob", event.target.value)
         setUser({ ...user, [event.target.name]: event.target.value });
     };
 
@@ -140,7 +125,7 @@ const Profile = () => {
         try {
             const result = await axios.post(BASE_URL + "user/find",
                 {
-                    "user_id": findUserId()
+                    "user_id": getUserId()
                 },
                 {
                     headers: {
@@ -167,7 +152,7 @@ const Profile = () => {
                     "email": user.email,
                     "dob": user.dob,
                     "city": user.city,
-                    "mobile":user.mobile
+                    "mobile": user.mobile
                 },
                 {
                     headers: {
@@ -196,7 +181,7 @@ const Profile = () => {
             }
             const result = await axios.post(BASE_URL + "user/changepassword",
                 {
-                    "user_id": findUserId(),
+                    "user_id": getUserId(),
                     "old_password": data.old_password,
                     "new_password": data.new_password
                 },
@@ -226,7 +211,7 @@ const Profile = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("image", profile.raw);
-        formData.append("user_id", findUserId())
+        formData.append("user_id", getUserId())
         await fetch(BASE_URL + "user/uploadprofilephoto",
             {
                 method: 'POST',

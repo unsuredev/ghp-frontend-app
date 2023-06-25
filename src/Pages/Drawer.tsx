@@ -55,8 +55,7 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ErrorIcon from '@material-ui/icons/Error';
 import '../style/Header.css'
-import { getToken } from "../Common/helper";
-
+import { getToken, getRole } from "../Common/helper";
 
 const drawerWidth = 260;
 const useStyles = makeStyles((theme) => ({
@@ -183,7 +182,7 @@ function ResponsiveDrawer() {
 
 
 
-  const getUser = () => {
+  const getUserId = () => {
     let token: any = localStorage.getItem("access_token");
     var decoded = jwt_decode(token);
     //@ts-ignore
@@ -193,18 +192,8 @@ function ResponsiveDrawer() {
   };
 
 
-  const getRole = () => {
-    let token: any = localStorage.getItem("access_token");
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { role } = decoded;
-    return role;
-
-  };
-
-
   React.useEffect(() => {
-    getUser();
+    getUserId();
     fetchUser()
   }, []);
 
@@ -214,7 +203,7 @@ function ResponsiveDrawer() {
     try {
       const result = await axios.post(BASE_URL + "user/find",
         {
-          "user_id": getUser()
+          "user_id": getUserId()
         },
         {
           headers: {
@@ -296,13 +285,13 @@ function ResponsiveDrawer() {
 
 
   const drawer = (
-    <div  style={{backgroundColor:"#009688", color:"white"}}>
-      <List         
->
+    <div style={{ backgroundColor: "#009688", color: "white" }}>
+      <List
+      >
         {getRole() != "user" && (
           <div style={{ marginTop: "5rem" }}>
             <Link href="/customer">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <PersonAddIcon color="secondary" />
                 </ListItemIcon>
@@ -310,7 +299,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/home">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <SearchIcon color="secondary" />
                 </ListItemIcon>
@@ -318,7 +307,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/olddatamanagement">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <FolderSpecialIcon color="secondary" />
                 </ListItemIcon>
@@ -326,7 +315,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/delivery">
-              <ListItem button  style={{ color:"white"}}> 
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <BarChartIcon color="secondary" />
                 </ListItemIcon>
@@ -334,7 +323,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/customerDocs">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <CloudUploadIcon color="secondary" />
                 </ListItemIcon>
@@ -342,7 +331,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/connection">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <TrendingUpIcon color="secondary" />
                 </ListItemIcon>
@@ -350,15 +339,15 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/refillsales">
-              <ListItem button  style={{ color:"white"}}>
-                <ListItemIcon  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
+                <ListItemIcon style={{ color: "white" }}>
                   <StorefrontIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Refil Sales" />
               </ListItem>
             </Link>
             <Link href="/transaction">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon >
                   <AccountBalanceIcon color="secondary" />
                 </ListItemIcon>
@@ -366,16 +355,16 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/reports">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <DashboardIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Connection Dashboard" />
               </ListItem>
             </Link>
-      
+
             <Link href="/dailycustomer">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <GetAppIcon color="secondary" />
                 </ListItemIcon>
@@ -383,7 +372,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/trashUsers">
-              <ListItem button  style={{ color:"white"}}> 
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <RestoreFromTrashIcon color="secondary" />
                 </ListItemIcon>
@@ -391,7 +380,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/dash">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <AccessibilityNewIcon color="secondary" />
                 </ListItemIcon>
@@ -399,7 +388,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/profile">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <FaceIcon color="secondary" />
                 </ListItemIcon>
@@ -407,9 +396,9 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
-      
+
             <Link href="/">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
                   <ExitToAppIcon color="secondary" />
                 </ListItemIcon>
@@ -417,13 +406,13 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
-            
+
           </div>
         )}
         {getRole() === "user" && (
-          <div style={{ marginTop: "5rem",backgroundColor:"#009688", color:"white" }}>
+          <div style={{ marginTop: "5rem", backgroundColor: "#009688", color: "white", height: "770px" }}>
             <Link href="/home">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <SearchIcon color="secondary" />
                 </ListItemIcon>
@@ -431,15 +420,15 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/agentdashboard">
-            <ListItem button  style={{ color:"white"}}>
-              <ListItemIcon>
-                <BarChartIcon color="secondary" />
-              </ListItemIcon>
-              <ListItemText primary=" Dashboard" />
-            </ListItem>
-          </Link>
-          <Link href="/olddatamanagement">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
+                <ListItemIcon>
+                  <BarChartIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary=" Dashboard" />
+              </ListItem>
+            </Link>
+            <Link href="/olddatamanagement">
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <FolderSpecialIcon color="secondary" />
                 </ListItemIcon>
@@ -447,56 +436,56 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/connection">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <TrendingUpIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Sales & Connection" />
               </ListItem>
             </Link>
-   
-              <Link href="/fingerprint">
-              <ListItem button  style={{ color:"white"}}>
+
+            <Link href="/fingerprint">
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
-                <NoteAddIcon color="secondary" />
+                  <NoteAddIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="FingerPrints Pending" />
               </ListItem>
             </Link>
             <Link href="/cmpletefinger">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
-                <ErrorIcon color="secondary" />
+                  <ErrorIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Reject & Return Doc " />
               </ListItem>
             </Link>
 
             <Link href="/profile">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <FaceIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
               </ListItem>
-            </Link>       
+            </Link>
             <Link href="/">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon onClick={() => { localStorage.clear() }}>
                   <ExitToAppIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Log out" />
               </ListItem>
             </Link>
-          
+
           </div>
         )}
 
 
         {getRole() === "superadmin" ? (
-          <div style={{backgroundColor:"#009688", color:"white"}}>
+          <div style={{ backgroundColor: "#009688", color: "white" }}>
             <Link href="/member">
-              <ListItem button style={{ marginTop: "2rem" ,color:"white"}}>
+              <ListItem button style={{ marginTop: "2rem", color: "white" }}>
                 <ListItemIcon>
                   <SupervisorAccountOutlinedIcon color="secondary" />
                 </ListItemIcon>
@@ -504,7 +493,7 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
             <Link href="/agentlist">
-              <ListItem button  style={{ color:"white"}}>
+              <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <SettingsIcon color="secondary" />
                 </ListItemIcon>
@@ -523,7 +512,7 @@ function ResponsiveDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} style={{backgroundColor:"#009688"}}>
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#009688" }}>
         <Toolbar >
           <IconButton
             color="inherit"
@@ -534,11 +523,11 @@ function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-            <Typography noWrap style={{ color: "white", fontSize: "20px", fontFamily: "cursive" }}>
-              JAMAN HP GAS
-            </Typography>
+          <Typography noWrap style={{ color: "white", fontSize: "20px", fontFamily: "cursive" }}>
+            JAMAN HP GAS
+          </Typography>
 
-        
+
           <div >
             <IconButton
               aria-label="account of current user"
@@ -547,7 +536,7 @@ function ResponsiveDrawer() {
               onClick={handleMenu}
               color="primary"
             >
-              <div style={{ marginLeft: "3rem",paddingTop:"1rem" }}>
+              <div style={{ marginLeft: "3rem", paddingTop: "1rem" }}>
                 <StyledBadge
                   //@ts-ignore
                   overlap="circular"
@@ -662,7 +651,7 @@ function ResponsiveDrawer() {
               paper: classes.drawerPaper,
             }}
           >
-            <div className={classes.toolbar}  style={{backgroundColor:"#009688", color:"white"}}/>
+            <div className={classes.toolbar} style={{ backgroundColor: "#009688", color: "white" }} />
             {drawer}
           </Drawer>
         </Hidden>

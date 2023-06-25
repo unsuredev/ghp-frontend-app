@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Container, CssBaseline, TextField, } from "@material-ui/core";
+import { Button, Container, CssBaseline } from "@material-ui/core";
 import axios from "axios";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,7 +10,7 @@ export default function ConnectionFullTable() {
 
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
-    const [limit, setLimit]=React.useState(500)
+    const [limit, setLimit] = React.useState(500)
 
     const columns = [
         { title: 'AGENT', field: 'agent' },
@@ -36,9 +36,7 @@ export default function ConnectionFullTable() {
     ]
 
 
-
-
-    const fetchAllConnection = async() => {
+    const fetchAllConnection = async () => {
         try {
             setLoading(true)
             const result = await axios.get(BASE_URL + "agent/slaes/all", {
@@ -47,7 +45,7 @@ export default function ConnectionFullTable() {
                     access_token: getToken()
                 },
             });
-            if(result.data){
+            if (result.data) {
                 setData(result.data.data)
                 setLoading(false)
             }
@@ -56,9 +54,6 @@ export default function ConnectionFullTable() {
             console.log("error", error)
         }
     }
-
-
-
 
     React.useEffect(() => {
         fetchAllConnection()

@@ -12,7 +12,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { ToastContext } from "../Common/ToastProvider";
-import jwt_decode from "jwt-decode";
 import InputLabel from '@material-ui/core/InputLabel';
 import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
@@ -24,7 +23,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { getToken } from "../Common/helper";
+import { getToken, getUserName } from "../Common/helper";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,7 +87,7 @@ const CustomerRegistration = () => {
   const { showToast } = React.useContext(ToastContext);
   const [lastUser, setLastUser] = React.useState({});
   const [agentList, setAgetList] = React.useState([]);
-  const [disabled, setDisabled]=React.useState(false)
+  const [disabled, setDisabled] = React.useState(false)
   const CHARACTER_LIMIT = 12;
 
 
@@ -97,20 +96,6 @@ const CustomerRegistration = () => {
   }, []);
 
 
-
-  const getUserName = () => {
-    let token: any = localStorage.getItem("access_token");
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { name } = decoded;
-    if (name && name != undefined) {
-      return name
-    }
-    
-  }
-
-
-      
   async function getCharacters() {
     const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
@@ -118,11 +103,11 @@ const CustomerRegistration = () => {
         access_token: getToken()
       },
     });
- //@ts-ignore
+    //@ts-ignore
     setAgetList(result.data.data.agents)
     //@ts-ignore
-    setAgetList(result.data.data.agents.map(({ name  }) => ({ label: name, value: name })));
-}
+    setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+  }
 
   const [customer, setCustomer] = React.useState({
     name: "",
@@ -132,7 +117,7 @@ const CustomerRegistration = () => {
     regNo: "",
     mainAgent: "",
     subAgent: "",
-    registeredAgencyName:"",
+    registeredAgencyName: "",
     remarks: "",
     mobile: "",
     addedBy: "",
@@ -145,87 +130,87 @@ const CustomerRegistration = () => {
       <CssBaseline />
       <ResponsiveDrawer />
       <div className={classes.root}>
-      <Grid container spacing={1}>
-      <Grid item xs={12} sm={12} md={3}     >
-        </Grid>
-        <Grid item xs={12} sm={12} md={4}      >
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={12} md={3}     >
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}      >
             <div>
               <h2>New Customer Registration</h2>
               <Formik
-            initialValues={{
-              name: '',
-              mainAadhaar: '',
-              mobile:'',
-              familyAadhaar:'',
-              regNo:'',
-              consumerNo:'',
-              subAgent:'',
-              registeredAgencyName:'JAMAN HP GAS 2021',
-              remarks:''
-            }}
-            validationSchema={Yup.object().shape({
-              name: Yup.string().max(25).required('Name is required'),
-              mobile:Yup.string()
-              .required('Mobile  is required')
-              .matches(/^[0-9]+$/, "Must be only digits")
-              .min(10, 'Must be exactly 10 digits')
-              .max(10, 'Must be exactly 10 digits'),   
-              mainAadhaar:Yup.string()
-              .required('Main Aadhaar is required')
-              .matches(/^[0-9]+$/, "Must be only digits")
-              .min(12, 'Must be exactly 12 digits')
-              .max(12, 'Must be exactly 12 digits'),             
-              familyAadhaar:Yup.string()
-              .required('Family Aadhaar is required')
-              .matches(/^[0-9]+$/, "Must be only digits")
-              .min(12, 'Must be exactly 12 digits')
-              .max(12, 'Must be exactly 12 digits'),   
-            })}
-            onSubmit={async ( values: any) => {
-              try {
-                  setDisabled(true)
-                  const result = await axios.post(BASE_URL + "customer/add", 
-                  {
-                    "name":values.name,
-                    "mainAadhaar":values.mainAadhaar,
-                    "familyAadhaar":values.familyAadhaar,
-                    "mainAgent":values.mainAgent,
-                    "mobile":values.mobile,
-                    "consumerNo":values.consumerNo,
-                    "subAgent":values.subAgent,
-                    "registeredAgencyName":values.registeredAgencyName,
-                    "remarks":values.remarks,
-                    "addedBy":getUserName()
-                
-                }
-                  )
-                  if (result.data.data && result.data != null) {
-                    setLastUser(result.data.data.result);
-                    showToast("Consumer added susccesssfully", "success");
-                    setDisabled(false)
+                initialValues={{
+                  name: '',
+                  mainAadhaar: '',
+                  mobile: '',
+                  familyAadhaar: '',
+                  regNo: '',
+                  consumerNo: '',
+                  subAgent: '',
+                  registeredAgencyName: 'JAMAN HP GAS 2021',
+                  remarks: ''
+                }}
+                validationSchema={Yup.object().shape({
+                  name: Yup.string().max(25).required('Name is required'),
+                  mobile: Yup.string()
+                    .required('Mobile  is required')
+                    .matches(/^[0-9]+$/, "Must be only digits")
+                    .min(10, 'Must be exactly 10 digits')
+                    .max(10, 'Must be exactly 10 digits'),
+                  mainAadhaar: Yup.string()
+                    .required('Main Aadhaar is required')
+                    .matches(/^[0-9]+$/, "Must be only digits")
+                    .min(12, 'Must be exactly 12 digits')
+                    .max(12, 'Must be exactly 12 digits'),
+                  familyAadhaar: Yup.string()
+                    .required('Family Aadhaar is required')
+                    .matches(/^[0-9]+$/, "Must be only digits")
+                    .min(12, 'Must be exactly 12 digits')
+                    .max(12, 'Must be exactly 12 digits'),
+                })}
+                onSubmit={async (values: any) => {
+                  try {
+                    setDisabled(true)
+                    const result = await axios.post(BASE_URL + "customer/add",
+                      {
+                        "name": values.name,
+                        "mainAadhaar": values.mainAadhaar,
+                        "familyAadhaar": values.familyAadhaar,
+                        "mainAgent": values.mainAgent,
+                        "mobile": values.mobile,
+                        "consumerNo": values.consumerNo,
+                        "subAgent": values.subAgent,
+                        "registeredAgencyName": values.registeredAgencyName,
+                        "remarks": values.remarks,
+                        "addedBy": getUserName()
+
+                      }
+                    )
+                    if (result.data.data && result.data != null) {
+                      setLastUser(result.data.data.result);
+                      showToast("Consumer added susccesssfully", "success");
+                      setDisabled(false)
+                    }
+                  } catch (error) {
+                    if (error) {
+                      console.log("error", error)
+                      //@ts-ignore
+                      showToast(error.response.data.message, "error")
+                    }
                   }
-                } catch (error) {
-                  if (error) {
-                    console.log("error", error)
-                    //@ts-ignore
-                    showToast(error.response.data.message, "error")
-                  }
-                }
-          }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit} >
-                <Grid container spacing={1} >
-                  <Grid item xs={12} >
-                    <TextField
+                }}
+              >
+                {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  touched,
+                  values
+                }) => (
+                  <form onSubmit={handleSubmit} >
+                    <Grid container spacing={1} >
+                      <Grid item xs={12} >
+                        <TextField
                           error={Boolean(touched.name && errors.name)}
                           helperText={touched.name && errors.name}
                           onBlur={handleBlur}
@@ -239,10 +224,10 @@ const CustomerRegistration = () => {
                           label="Full Name"
                           autoFocus
                           value={values.name}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
                           error={Boolean(touched.mainAadhaar && errors.mainAadhaar)}
                           helperText={touched.mainAadhaar && errors.mainAadhaar}
                           onBlur={handleBlur}
@@ -256,9 +241,9 @@ const CustomerRegistration = () => {
                           name="mainAadhaar"
                           autoComplete="mainAadhaar"
                           value={values.mainAadhaar}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
                         <TextField
                           error={Boolean(touched.familyAadhaar && errors.familyAadhaar)}
                           helperText={touched.familyAadhaar && errors.familyAadhaar}
@@ -274,9 +259,9 @@ const CustomerRegistration = () => {
                           autoComplete="faadhaar"
                           value={values.familyAadhaar}
                         />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
                           error={Boolean(touched.mobile && errors.mobile)}
                           helperText={touched.mobile && errors.mobile}
                           onBlur={handleBlur}
@@ -290,11 +275,11 @@ const CustomerRegistration = () => {
                           id="mobile"
                           autoComplete="current-mobile"
                           value={values.mobile}
-                    />
-                  </Grid>
+                        />
+                      </Grid>
 
-                  <Grid item xs={12}>
-                    <TextField
+                      <Grid item xs={12}>
+                        <TextField
                           error={Boolean(touched.consumerNo && errors.consumerNo)}
                           helperText={touched.consumerNo && errors.consumerNo}
                           onBlur={handleBlur}
@@ -311,30 +296,30 @@ const CustomerRegistration = () => {
                             //@ts-ignore
                             e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 6)
                           }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-required-label">Main Agent *</InputLabel>
-                      <Select
-                        onChange={handleChange}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        name="mainAgent"
-                      >
-                        {agentList.map(item => (
-                          <MenuItem
-                            //@ts-ignore
-                            key={item.label} value={item.value} >{item.label}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
+                        <FormControl variant="outlined" className={classes.formControl}>
+                          <InputLabel id="demo-simple-select-required-label">Main Agent *</InputLabel>
+                          <Select
+                            onChange={handleChange}
+                            displayEmpty
+                            className={classes.selectEmpty}
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            name="mainAgent"
+                          >
+                            {agentList.map(item => (
+                              <MenuItem
+                                //@ts-ignore
+                                key={item.label} value={item.value} >{item.label}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
                           error={Boolean(touched.subAgent && errors.subAgent)}
                           helperText={touched.subAgent && errors.mobile}
                           onBlur={handleBlur}
@@ -347,13 +332,13 @@ const CustomerRegistration = () => {
                           id="subAgent"
                           autoComplete="subAgent"
                           value={values.subAgent}
-                    />
-                  </Grid>
+                        />
+                      </Grid>
                       <Grid item xs={12} sm={12} md={12} >
                         <FormControl variant="outlined">
                           <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
                           <Select
-                          style={{width:"38rem"}}
+                            style={{ width: "38rem" }}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
                             value={values.registeredAgencyName}
@@ -370,8 +355,8 @@ const CustomerRegistration = () => {
                           </Select>
                         </FormControl>
                       </Grid>
-                  <Grid item xs={12}>
-                    <TextField
+                      <Grid item xs={12}>
+                        <TextField
                           error={Boolean(touched.remarks && errors.remarks)}
                           helperText={touched.remarks && errors.remarks}
                           onBlur={handleBlur}
@@ -384,30 +369,30 @@ const CustomerRegistration = () => {
                           id="remarks"
                           autoComplete="remarks"
                           value={values.remarks}
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  type="submit"
-                  disabled={
-                    isSubmitting 
-                }
-                >
-                  Register Customer
-                </Button>
-              </form>
-              )}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      type="submit"
+                      disabled={
+                        isSubmitting
+                      }
+                    >
+                      Register Customer
+                    </Button>
+                  </form>
+                )}
               </Formik>
             </div>
           </Grid>
           <Grid item xs={12} sm={12} md={4}  >
-            <h2 style={{textAlign:"center"}}>Last Registration Details</h2>
+            <h2 style={{ textAlign: "center" }}>Last Registration Details</h2>
             <TableContainer component={Paper}>
-              <Table  aria-label="simple table">
+              <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     {/* @ts-ignore */}
@@ -454,9 +439,9 @@ const CustomerRegistration = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            </Grid>
+          </Grid>
         </Grid>
-    </div>
+      </div>
     </React.Fragment>
   );
 };

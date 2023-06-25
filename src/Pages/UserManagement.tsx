@@ -34,6 +34,7 @@ import FormControl from "@material-ui/core/FormControl";
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { BASE_URL } from "../Common/constant";
+import { getToken } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,8 +75,9 @@ const MemberSignUp = () => {
   const [value, setValue] = React.useState('manager');
 
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("value" , event.target.value)
-    setValue((event.target as HTMLInputElement).value);  };
+    console.log("value", event.target.value)
+    setValue((event.target as HTMLInputElement).value);
+  };
 
   const [user, setUser] = React.useState({
     name: "",
@@ -100,7 +102,7 @@ const MemberSignUp = () => {
 
   };
 
-  const handleChangeAgent =(event: any) => {
+  const handleChangeAgent = (event: any) => {
     setAgent({ ...agent, [event.target.name]: event.target.value });
   };
 
@@ -108,51 +110,53 @@ const MemberSignUp = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
-    const result = await axios.post(BASE_URL + "user/add",{
-      "email":user.email,
-      "login_type":"email",
-      "name":user.name,
-      "password":user.password}, {
-      headers: {
-        encryption: false,
+      const result = await axios.post(BASE_URL + "user/add", {
+        "email": user.email,
+        "login_type": "email",
+        "name": user.name,
+        "password": user.password
+      }, {
+        headers: {
+          encryption: false,
+        }
+      })
+      if (result.data && result.data != null) {
+        showToast("Registered susccesssfully", "success");
+
       }
-    })
-    if (result.data && result.data != null) {
-      showToast("Registered susccesssfully", "success");
-    
+
+    } catch (error) {
+      console.log("error", error)
+      //@ts-ignore
+      showToast(error.response.data.message, "error")
     }
-    
-  } catch (error) {
-    console.log("error" , error)
-    //@ts-ignore
-    showToast(error.response.data.message, "error")
   }
-}
 
 
-const handleSubmitAgent = async (event: any) => {
-  event.preventDefault();
-  try {
-  const result = await axios.post(BASE_URL + "user/add",{
-    "mobile":agent.mobile,
-    "login_type":"mobile",
-    "name":agent.name,
-    "password":agent.password}, {
-    headers: {
-      encryption: false,
+  const handleSubmitAgent = async (event: any) => {
+    event.preventDefault();
+    try {
+      const result = await axios.post(BASE_URL + "user/add", {
+        "mobile": agent.mobile,
+        "login_type": "mobile",
+        "name": agent.name,
+        "password": agent.password
+      }, {
+        headers: {
+          encryption: false,
+        }
+      })
+      if (result.data && result.data != null) {
+        showToast("Registered susccesssfully", "success");
+
+      }
+
+    } catch (error) {
+      console.log("error", error)
+      //@ts-ignore
+      showToast(error.response.data.message, "error")
     }
-  })
-  if (result.data && result.data != null) {
-    showToast("Registered susccesssfully", "success");
-  
   }
-  
-} catch (error) {
-  console.log("error" , error)
-  //@ts-ignore
-  showToast(error.response.data.message, "error")
-}
-}
 
 
 
@@ -161,26 +165,28 @@ const handleSubmitAgent = async (event: any) => {
   }, [])
 
 
-  const toggleChecked = async ( email:any) => {
+  const toggleChecked = async (email: any) => {
     try {
-      const result = await axios.post(BASE_URL + "user/block",{"email":email},  { headers: {
-        encryption: false,
-        access_token: getToken()
-      }})
+      const result = await axios.post(BASE_URL + "user/block", { "email": email }, {
+        headers: {
+          encryption: false,
+          access_token: getToken()
+        }
+      })
       if (result.data && result.data != null) {
         showToast(result.data.message, "success");
         window.location.reload();
-      
+
       }
     } catch (error) {
       //@ts-ignore
-      showToast(error.response.data.message, "error")    }
+      showToast(error.response.data.message, "error")
+    }
   };
 
-  const handleRoleChange = async (Email:string) => {
+  const handleRoleChange = async (Email: string) => {
     try {
 
-      console.log("user" , Email )
       const result = await axios.post(BASE_URL + "user/roleupdate", {
         "email": Email,
         "role": value
@@ -200,10 +206,6 @@ const handleSubmitAgent = async (event: any) => {
     }
   };
 
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-}
 
   const handleUsersList = async () => {
     try {
@@ -213,10 +215,11 @@ const handleSubmitAgent = async (event: any) => {
           access_token: getToken()
         }
       })
-       setList(result.data.data.users)
+      setList(result.data.data.users)
     } catch (error) {
       //@ts-ignore
-      showToast(error.response.data.message, "error")    }
+      showToast(error.response.data.message, "error")
+    }
   };
 
 
@@ -227,8 +230,8 @@ const handleSubmitAgent = async (event: any) => {
         <Grid container>
           <Grid item xs={12} sm={12} md={12} style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
             <Typography component="h1" variant="h5">
-            JAMAN HP GAS
-              </Typography>
+              JAMAN HP GAS
+            </Typography>
             <h4>Code: 13816000</h4>
           </Grid>
         </Grid>
@@ -236,78 +239,78 @@ const handleSubmitAgent = async (event: any) => {
       <Container component="main" maxWidth="lg">
         <Grid container  >
           <Grid item xs={12} sm={12} md={12} >
-          <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>View All User list</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sl No</TableCell>
-                    <TableCell>User Name</TableCell>
-                    <TableCell >Email Address/Mobile</TableCell>
-                    <TableCell >Active</TableCell>
-                    <TableCell >Change Role</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {list.map((user, i) => (
-                    //@ts-ignore
-                    <TableRow key={user.name}>
-                      <TableCell align="left">{i + 1}</TableCell>
-                      <TableCell component="th" scope="row">
-                        {/* @ts-ignore */}
-                        {user.name}
-                      </TableCell>
-                      {/* @ts-ignore */}
-                      <TableCell align="left">{user.email?user.email:user.mobile}</TableCell>
-                      <TableCell >  
-                        <FormControlLabel
-                         //@ts-ignore
-                          control={<Switch checked={user.active} onChange={()=>toggleChecked(user.email)} />}
-                          label="Normal"
-                        />
-                      
-                      </TableCell>
-                      <TableCell >  
-                        
-                        <FormControl component="fieldset">
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={classes.heading}>View All User list</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <TableContainer component={Paper}>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Sl No</TableCell>
+                        <TableCell>User Name</TableCell>
+                        <TableCell >Email Address/Mobile</TableCell>
+                        <TableCell >Active</TableCell>
+                        <TableCell >Change Role</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {list.map((user, i) => (
+                        //@ts-ignore
+                        <TableRow key={user.name}>
+                          <TableCell align="left">{i + 1}</TableCell>
+                          <TableCell component="th" scope="row">
+                            {/* @ts-ignore */}
+                            {user.name}
+                          </TableCell>
                           {/* @ts-ignore */}
-                          <FormLabel component="legend">Current Role <span style={{ color: "red" }}> {user.role}</span> </FormLabel>
-                          {/* @ts-ignore */}
-                          <RadioGroup aria-label="role" name="role" value={value} onChange={handleChangeRadio} style={{ flexDirection: "row" }}>
-                            <FormControlLabel value="user" control={<Radio />} label="User" />
-                            <FormControlLabel value="employee" control={<Radio />} label="Employee" />
-                            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
-                            <FormControlLabel value="manager" control={<Radio />} label="Manager" />
-                            <FormControlLabel value="superadmin" control={<Radio />} label="Superadmin" />
-                          </RadioGroup>
-                        </FormControl>
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          color="secondary"
-                          size="small"
-                          //@ts-ignore
-                          onClick={()=>handleRoleChange(user.email )}
-                        >
-                          Change Role
-                        </Button>
-                        
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            </AccordionDetails>
-      </Accordion>
+                          <TableCell align="left">{user.email ? user.email : user.mobile}</TableCell>
+                          <TableCell >
+                            <FormControlLabel
+                              //@ts-ignore
+                              control={<Switch checked={user.active} onChange={() => toggleChecked(user.email)} />}
+                              label="Normal"
+                            />
+
+                          </TableCell>
+                          <TableCell >
+
+                            <FormControl component="fieldset">
+                              {/* @ts-ignore */}
+                              <FormLabel component="legend">Current Role <span style={{ color: "red" }}> {user.role}</span> </FormLabel>
+                              {/* @ts-ignore */}
+                              <RadioGroup aria-label="role" name="role" value={value} onChange={handleChangeRadio} style={{ flexDirection: "row" }}>
+                                <FormControlLabel value="user" control={<Radio />} label="User" />
+                                <FormControlLabel value="employee" control={<Radio />} label="Employee" />
+                                <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                                <FormControlLabel value="manager" control={<Radio />} label="Manager" />
+                                <FormControlLabel value="superadmin" control={<Radio />} label="Superadmin" />
+                              </RadioGroup>
+                            </FormControl>
+                            <Button
+                              type="submit"
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                              //@ts-ignore
+                              onClick={() => handleRoleChange(user.email)}
+                            >
+                              Change Role
+                            </Button>
+
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </AccordionDetails>
+            </Accordion>
           </Grid>
         </Grid>
         <Grid item>
@@ -320,7 +323,7 @@ const handleSubmitAgent = async (event: any) => {
             onClick={() => setShow(true)}
           >
             Add New member
-                </Button>
+          </Button>
         </Grid>
 
       </Container>
@@ -382,7 +385,7 @@ const handleSubmitAgent = async (event: any) => {
                     onClick={handleSubmit}
                   >
                     Add Team member
-                </Button>
+                  </Button>
 
                   <Box mt={20}>
                     <Copyright />
@@ -394,70 +397,70 @@ const handleSubmitAgent = async (event: any) => {
         </Container>
       }
 
-<Container component="main" maxWidth="md">
-          <CssBaseline />
-          <Grid container>
-            <Grid item xs={12} sm={12} md={12}>
-              <div className={classes.paper}>
-                <form className={classes.form} noValidate>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Name "
-                    name="name"
-                    autoComplete="name"
-                    autoFocus
-                    value={agent.name}
-                    onChange={handleChangeAgent}
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="mobile"
-                    label="Mobile "
-                    name="mobile"
-                    autoComplete="mobile"
-                    autoFocus
-                    type="number"
-                    value={agent.mobile}
-                    onChange={handleChangeAgent}
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={agent.password}
-                    onChange={handleChangeAgent}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={handleSubmitAgent}
-                  >
-                    Create Agent login account
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <Grid container>
+          <Grid item xs={12} sm={12} md={12}>
+            <div className={classes.paper}>
+              <form className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Name "
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  value={agent.name}
+                  onChange={handleChangeAgent}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="mobile"
+                  label="Mobile "
+                  name="mobile"
+                  autoComplete="mobile"
+                  autoFocus
+                  type="number"
+                  value={agent.mobile}
+                  onChange={handleChangeAgent}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={agent.password}
+                  onChange={handleChangeAgent}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSubmitAgent}
+                >
+                  Create Agent login account
                 </Button>
-                  <Box mt={20}>
-                    <Copyright />
-                  </Box>
-                </form>
-              </div>
-            </Grid>
+                <Box mt={20}>
+                  <Copyright />
+                </Box>
+              </form>
+            </div>
           </Grid>
-        </Container>
+        </Grid>
+      </Container>
 
 
     </React.Fragment>

@@ -1,16 +1,9 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Copyright from "../Components/Copyright";
-import { httpClient } from "../Common/Service";
-import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 import { ToastContext } from "../Common/ToastProvider";
-import { Link as RouterLink, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,12 +13,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ResponsiveDrawer from "./Drawer";
-import Switch from '@material-ui/core/Switch';
 import axios from "axios";
 import moment from "moment";
-import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { BASE_URL } from "../Common/constant";
+import { getToken } from '../Common/helper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,44 +50,10 @@ const useStyles = makeStyles((theme) => ({
     large: {
         width: theme.spacing(8),
         height: theme.spacing(8),
-      },
+    },
 }));
 
 
-const StyledBadge = withStyles((theme: Theme) =>
-    createStyles({
-        badge: {
-            backgroundColor: '#44b700',
-            color: '#44b700',
-            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-            '&::after': {
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                borderRadius: '50%',
-                animation: '$ripple 1.2s infinite ease-in-out',
-                border: '1px solid currentColor',
-                content: '""',
-            },
-        },
-        '@keyframes ripple': {
-            '0%': {
-                transform: 'scale(.8)',
-                opacity: 1,
-            },
-            '100%': {
-                transform: 'scale(2.4)',
-                opacity: 0,
-            },
-        },
-        largeSize: {
-            width: theme.spacing(7),
-            height: theme.spacing(7),
-        },
-    }),
-)(Badge);
 
 const UserDashBoard = () => {
     const classes = useStyles();
@@ -147,30 +105,7 @@ const UserDashBoard = () => {
     }, [])
 
 
-    const toggleChecked = async (email: any) => {
-        try {
-            const result = await axios.post(BASE_URL + "user/block", { "email": email }, {
-                headers: {
-                    encryption: false,
-                    access_token: getToken()
-                }
-            })
-            if (result.data && result.data != null) {
-                showToast(result.data.message, "success");
-                window.location.reload();
 
-            }
-        } catch (error) {
-            //@ts-ignore
-            showToast(error.response.data.message, "error")
-        }
-    };
-
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
 
     const handleUsersList = async () => {
         try {
@@ -180,10 +115,10 @@ const UserDashBoard = () => {
                     access_token: getToken()
                 }
             })
-            setList(result.data.data.users)
+            setList(result.data.data)
         } catch (error) {
             //@ts-ignore
-            showToast(error.response.data.message, "error")
+            showToast("Something went wrong!", "error")
         }
     };
 
@@ -232,7 +167,7 @@ const UserDashBoard = () => {
                                                 {user.name}
                                             </TableCell>
                                             {/* @ts-ignore */}
-                                            <TableCell align="left">{user.email?user.email:user.mobile}</TableCell>
+                                            <TableCell align="left">{user.email ? user.email : user.mobile}</TableCell>
                                             {/* @ts-ignore */}
                                             <TableCell align="left">{user.is_online ?
                                                 <p style={{ color: "green" }}>Yes</p>

@@ -5,9 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import { Button, Grid, Container, CssBaseline, } from "@material-ui/core";
 import CreateIcon from '@material-ui/icons/Create';
 import { ToastContext } from "../Common/ToastProvider";
@@ -24,16 +21,16 @@ import Select from "@material-ui/core/Select";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import ResponsiveDrawer from "./Drawer";
 import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
-import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import jwt_decode from "jwt-decode";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
 import CardMedia from '@material-ui/core/CardMedia';
+import { getRole, getToken, getUserName } from "../Common/helper";
+
+
 const useStyles = makeStyles({
     head: {
         backgroundColor: 'blue',
@@ -56,7 +53,7 @@ const useStyles = makeStyles({
     },
     cardMedia: {
         paddingTop: '46.25%', // 16:9
-      },
+    },
 });
 
 
@@ -66,8 +63,8 @@ const ConnectionDashboard = () => {
     const { showToast } = React.useContext(ToastContext);
     const [show, setShow] = React.useState(false)
     const [agentList, setAgetList] = React.useState([]);
-    const [sms, setSms]= React.useState({
-        "agent":"",
+    const [sms, setSms] = React.useState({
+        "agent": "",
         "load": 0,
         "regulator": 0,
         "pipe": 0,
@@ -75,9 +72,9 @@ const ConnectionDashboard = () => {
         "bplOven": 0,
         "nonHpOven": 0,
         "hpOven": 0,
-        "installationPending":0,
+        "installationPending": 0,
         "paidAmount": 0,
-        "dueAmount":0
+        "dueAmount": 0
     })
     const [customer, setCustomer] = React.useState({
         agent: "",
@@ -168,30 +165,6 @@ const ConnectionDashboard = () => {
     }
 
 
-    const getUserName = () => {
-        let token: any = localStorage.getItem("access_token");
-        var decoded = jwt_decode(token);
-        //@ts-ignore
-        let { name } = decoded;
-        if (name && name != undefined) {
-            return name
-        }
-
-    }
-
-
-    const getRole = () => {
-        let token: any = localStorage.getItem("access_token");
-
-        var decoded = jwt_decode(token);
-        //@ts-ignore
-        let { role } = decoded;
-        return role;
-    }
-
-
-
-
 
     const handleUpdate = async () => {
         setOpen(false);
@@ -245,30 +218,12 @@ const ConnectionDashboard = () => {
     };
 
 
-
-    const getToken = () => {
-        //@ts-ignore
-        return localStorage.getItem("access_token")
-    }
-
     React.useEffect(() => {
         getCharacters();
         getPricing()
     }, []);
 
 
-    const getUser = () => {
-        let token: any = localStorage.getItem("access_token");
-        var decoded = jwt_decode(token);
-        //@ts-ignore
-        let { role } = decoded;
-
-        if (role === "employee") {
-            return true;
-        } else {
-            return false;
-        }
-    };
 
     const getPricing = async () => {
         try {
@@ -322,24 +277,25 @@ const ConnectionDashboard = () => {
 
     const handleFind = async () => {
         try {
-            if(getRole()==="user"){
+            if (getRole() === "user") {
                 FindOwnConnection()
             }
-        else{
-            const result = await axios.post(BASE_URL + "agent/connection/get", {
-                "agent": customer.agent
-            },
-                {
-                    headers: {
-                        encryption: false,
-                        access_token: getToken()
-                    },
-                });
-            if (result && result.data) {
-                setAgent(result.data.data)
-                setShow(true)
+            else {
+                const result = await axios.post(BASE_URL + "agent/connection/get", {
+                    "agent": customer.agent
+                },
+                    {
+                        headers: {
+                            encryption: false,
+                            access_token: getToken()
+                        },
+                    });
+                if (result && result.data) {
+                    setAgent(result.data.data)
+                    setShow(true)
+                }
             }
-        }}
+        }
         catch (error) {
             if (error) {
                 //@ts-ignore
@@ -375,38 +331,10 @@ const ConnectionDashboard = () => {
         try {
             setLoadingTable(true)
             setLoading(true)
-            if(getRole()==="user"){
+            if (getRole() === "user") {
                 fetchOwnSalesData()
-            }else{
-            const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent": customer.agent },
-                {
-                    headers: {
-                        encryption: false,
-                        access_token: getToken()
-                    },
-                })
-            if (result.data) {
-                setData(result.data.data)
-                setLoading(false)
-                setLoadingTable(true)
-            }
-        }}
-        catch (error) {
-            if (error) {
-                //@ts-ignore
-                showToast(error.response.data.message, "error")
-            }
-        }
-    }
-
-
-        //find own nc delivery data
-        const fetchOwnSalesData = async () => {
-            try {
-                setLoadingTable(true)
-                setLoading(true)
-                const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent":getUserName()
-                 },
+            } else {
+                const result = await axios.post(BASE_URL + "agent/slaes/getall", { "agent": customer.agent },
                     {
                         headers: {
                             encryption: false,
@@ -419,39 +347,67 @@ const ConnectionDashboard = () => {
                     setLoadingTable(true)
                 }
             }
-            catch (error) {
-                if (error) {
-                    //@ts-ignore
-                    showToast(error.response.data.message, "error")
-                }
+        }
+        catch (error) {
+            if (error) {
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
             }
         }
+    }
 
-        //send SMS to agent
-        const sendSms = async () => {
-            try {
-                const result = await axios.post(BASE_URL + "agent/sendsms", { 
-                    sms
-                },
-                    {
-                        headers: {
-                            encryption: false,
-                            access_token: getToken()
-                        },
-                    })
-                if (result.data) {
-                    showToast(result.data.message, "success");
-                }
-            }
-            catch (error) {
-                if (error) {
-                    //@ts-ignore
-                    showToast(error.response.data.message, "error")
-                }
+
+    //find own nc delivery data
+    const fetchOwnSalesData = async () => {
+        try {
+            setLoadingTable(true)
+            setLoading(true)
+            const result = await axios.post(BASE_URL + "agent/slaes/getall", {
+                "agent": getUserName()
+            },
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                })
+            if (result.data) {
+                setData(result.data.data)
+                setLoading(false)
+                setLoadingTable(true)
             }
         }
-    
+        catch (error) {
+            if (error) {
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
+        }
+    }
 
+    //send SMS to agent
+    const sendSms = async () => {
+        try {
+            const result = await axios.post(BASE_URL + "agent/sendsms", {
+                sms
+            },
+                {
+                    headers: {
+                        encryption: false,
+                        access_token: getToken()
+                    },
+                })
+            if (result.data) {
+                showToast(result.data.message, "success");
+            }
+        }
+        catch (error) {
+            if (error) {
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
+        }
+    }
 
 
 
@@ -484,23 +440,23 @@ const ConnectionDashboard = () => {
                 <Grid item xs={12} sm={12} md={12}  >
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>
-                        {getRole()!="user"?
-                        <Select
-                            displayEmpty
-                            className={classes.selectEmpty}
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            inputProps={{ 'aria-label': 'Without label' }}
-                            name="agent"
-                            onChange={handleChangeAgent}
-                        >
-                            {agentList.map(item => (
-                                <MenuItem
-                                    //@ts-ignore
-                                    key={item.label} value={item.value} >{item.label}</MenuItem>
-                            ))}
-                        </Select>:
-                                    <Typography variant="button" display="block" gutterBottom> <span style={{ color: "blue", fontSize: "20px" }}>{getUserName()}</span></Typography>}
+                        {getRole() != "user" ?
+                            <Select
+                                displayEmpty
+                                className={classes.selectEmpty}
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                inputProps={{ 'aria-label': 'Without label' }}
+                                name="agent"
+                                onChange={handleChangeAgent}
+                            >
+                                {agentList.map(item => (
+                                    <MenuItem
+                                        //@ts-ignore
+                                        key={item.label} value={item.value} >{item.label}</MenuItem>
+                                ))}
+                            </Select> :
+                            <Typography variant="button" display="block" gutterBottom> <span style={{ color: "blue", fontSize: "20px" }}>{getUserName()}</span></Typography>}
                     </FormControl>
                 </Grid>
 
@@ -530,161 +486,161 @@ const ConnectionDashboard = () => {
 
                         <Grid item xs={12} md={4}  >
                             <Card >
-                            <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
+                                <CardMedia
+                                    className={classes.cardMedia}
+                                    image="https://picsum.photos/200/300?random=2"
+                                    title="Image title"
+                                />
                                 <CardContent>
-                                    <Typography variant="button" display="block" gutterBottom><span style={{ color: "#e91e63", fontSize: "20px" ,textAlign:"center" }}> {agent.agent}</span></Typography>
-                                    <div style={{textAlign:"left"}}>
+                                    <Typography variant="button" display="block" gutterBottom><span style={{ color: "#e91e63", fontSize: "20px", textAlign: "center" }}> {agent.agent}</span></Typography>
+                                    <div style={{ textAlign: "left" }}>
 
-                                    
-                                    <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>Installation Complete: <span style={{ color: "#e91e63", fontSize: "20px" }}>{agent.installationComplete}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>Pending Installation: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.installationComplete}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>CONNECTION DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection - agent.load}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>REGULATOR PAID: <span style={{ color: "blue", fontSize: "20px" }}> {agent.regulator}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.regulator}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>PIPE PAID:<span style={{ color: "blue", fontSize: "20px" }}> {agent.pipe}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>PIPE DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.load - agent.pipe}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>LIGHT PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.paidLight}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.hpOven + agent.nonHpOven - agent.paidLight}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>BPL OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.bplOven}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>NON HP OVEN:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>OVEN DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}</span></Typography>
-                                    {/* @ts-ignore */}
-                                    <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
-                                    {/* @ts-ignore */}
-                                    <Typography variant="button" display="block" gutterBottom>AMOUNT PAID : <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
-                                    {/* @ts-ignore */}
-                                    <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
-                                    <Typography variant="button" display="block" gutterBottom>ACTION :           {getRole()==="admin"||getRole()==="superadmin" ?
-                                        <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
-                                            <CreateIcon />
-                                        </IconButton> : "No option"}</Typography>
-                                        </div>
+
+                                        <Typography variant="button" display="block" gutterBottom>TOTAL CONNECTION: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>LOAD PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>Installation Complete: <span style={{ color: "#e91e63", fontSize: "20px" }}>{agent.installationComplete}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>Pending Installation: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.installationComplete}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>CONNECTION DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.totalConnection - agent.load}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>REGULATOR PAID: <span style={{ color: "blue", fontSize: "20px" }}> {agent.regulator}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>REGULATOR DUE:<span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.regulator}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>PIPE PAID:<span style={{ color: "blue", fontSize: "20px" }}> {agent.pipe}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>PIPE DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.load - agent.pipe}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>LIGHT PAID: <span style={{ color: "blue", fontSize: "20px" }}>{agent.paidLight}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>LIGHT DUE:<span style={{ color: "blue", fontSize: "20px" }}> {agent.hpOven + agent.nonHpOven - agent.paidLight}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>BPL OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.bplOven}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>NON HP OVEN:<span style={{ color: "blue", fontSize: "20px" }}>{agent.nonHpOven}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>HP OVEN: <span style={{ color: "blue", fontSize: "20px" }}>{agent.hpOven}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>OVEN DUE: <span style={{ color: "blue", fontSize: "20px" }}>{agent.load - agent.hpOven - agent.nonHpOven - agent.bplOven}</span></Typography>
+                                        {/* @ts-ignore */}
+                                        <Typography variant="button" display="block" gutterBottom>TOTAL AMOUNT :  <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing}</span></Typography>
+                                        {/* @ts-ignore */}
+                                        <Typography variant="button" display="block" gutterBottom>AMOUNT PAID : <span style={{ color: "blue", fontSize: "20px" }}> {agent.paidAmount}</span></Typography>
+                                        {/* @ts-ignore */}
+                                        <Typography variant="button" display="block" gutterBottom>AMOUNT DUE: <span style={{ color: "blue", fontSize: "20px" }}> {agent.nonHpOven * pricing.nonHpOvenPricing + agent.hpOven * pricing.hpOvenPricing - agent.paidAmount}</span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>REMARKS: <span style={{ color: "blue", fontSize: "20px" }}> {agent.remarks} </span></Typography>
+                                        <Typography variant="button" display="block" gutterBottom>ACTION :           {getRole() === "admin" || getRole() === "superadmin" ?
+                                            <IconButton aria-label="delete" size="medium" onClick={() => setOpen(true)}>
+                                                <CreateIcon />
+                                            </IconButton> : "No option"}</Typography>
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Grid>
 
 
-                        {getRole()==="admin" || getRole()==="superadmin" ?
-                        <Grid item xs={12} md={4}>
-                            
-                            <Card >
-                                
-                                <CardContent>
-                                    <Typography gutterBottom>
-                                        Send SMS Update to <span style={{ color: "#e91e63" , paddingTop:"3rem" }}>{agent.agent}</span>
-                                    </Typography>
-                                    <Grid container spacing={1} style={{marginTop:"2rem"}}>
-                                    <Grid item xs={6}   >
-                                        <div style={{margin:"2px"}}>
-                                       
-                                            <TextField label="Load"
-                                                id="standard-size-small"
-                                                size="small"
-                                                value={sms.load}
-                                                onChange={handleChangeSMS}
-                                                name="load"
-                                                type="Number"
+                        {getRole() === "admin" || getRole() === "superadmin" ?
+                            <Grid item xs={12} md={4}>
 
-                                            />
-                                         <TextField label="Regulator"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.regulator}
-                                                onChange={handleChangeSMS}
-                                                name="regulator"
-                                                type="Number"
+                                <Card >
 
-                                            />
-                                            <TextField
-                                                label="HP Oven"
-                                                id="standard-size-small"
-                                                size="small"
-                                                value={sms.hpOven}
-                                                onChange={handleChangeSMS}
-                                                name="hpOven"
-                                                type="Number"
+                                    <CardContent>
+                                        <Typography gutterBottom>
+                                            Send SMS Update to <span style={{ color: "#e91e63", paddingTop: "3rem" }}>{agent.agent}</span>
+                                        </Typography>
+                                        <Grid container spacing={1} style={{ marginTop: "2rem" }}>
+                                            <Grid item xs={6}   >
+                                                <div style={{ margin: "2px" }}>
 
-                                            />
-                                            <TextField label="BPL Oven"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.bplOven}
-                                                onChange={handleChangeSMS}
-                                                name="bplOven"
-                                                type="Number"
+                                                    <TextField label="Load"
+                                                        id="standard-size-small"
+                                                        size="small"
+                                                        value={sms.load}
+                                                        onChange={handleChangeSMS}
+                                                        name="load"
+                                                        type="Number"
 
-                                            />
-                                       
-                                            <TextField label="Amount Paid"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.paidAmount}
-                                                onChange={handleChangeSMS}
-                                                name="paidAmount"
-                                                type="Number"
+                                                    />
+                                                    <TextField label="Regulator"
+                                                        id="standard-size-normal"
+                                                        size="small"
+                                                        value={sms.regulator}
+                                                        onChange={handleChangeSMS}
+                                                        name="regulator"
+                                                        type="Number"
 
-                                            />
-                                                 
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={6} >
-                                            <TextField label="Pipe"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.pipe}
-                                                onChange={handleChangeSMS}
-                                                name="pipe"
-                                                type="Number"
+                                                    />
+                                                    <TextField
+                                                        label="HP Oven"
+                                                        id="standard-size-small"
+                                                        size="small"
+                                                        value={sms.hpOven}
+                                                        onChange={handleChangeSMS}
+                                                        name="hpOven"
+                                                        type="Number"
 
-                                            />
-                                            <TextField label="Non HP Oven"
-                                                id="standard-size-small"
-                                                size="small"
-                                                value={sms.nonHpOven}
-                                                onChange={handleChangeSMS}
-                                                name="nonHpOven"
-                                                type="Number"
+                                                    />
+                                                    <TextField label="BPL Oven"
+                                                        id="standard-size-normal"
+                                                        size="small"
+                                                        value={sms.bplOven}
+                                                        onChange={handleChangeSMS}
+                                                        name="bplOven"
+                                                        type="Number"
 
-                                            />
-                                            <TextField label="Light"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.light}
-                                                onChange={handleChangeSMS}
-                                                name="light"
-                                                type="Number"
+                                                    />
 
-                                            />
+                                                    <TextField label="Amount Paid"
+                                                        id="standard-size-normal"
+                                                        size="small"
+                                                        value={sms.paidAmount}
+                                                        onChange={handleChangeSMS}
+                                                        name="paidAmount"
+                                                        type="Number"
+
+                                                    />
+
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={6} >
+                                                <TextField label="Pipe"
+                                                    id="standard-size-normal"
+                                                    size="small"
+                                                    value={sms.pipe}
+                                                    onChange={handleChangeSMS}
+                                                    name="pipe"
+                                                    type="Number"
+
+                                                />
+                                                <TextField label="Non HP Oven"
+                                                    id="standard-size-small"
+                                                    size="small"
+                                                    value={sms.nonHpOven}
+                                                    onChange={handleChangeSMS}
+                                                    name="nonHpOven"
+                                                    type="Number"
+
+                                                />
+                                                <TextField label="Light"
+                                                    id="standard-size-normal"
+                                                    size="small"
+                                                    value={sms.light}
+                                                    onChange={handleChangeSMS}
+                                                    name="light"
+                                                    type="Number"
+
+                                                />
                                                 <TextField label="Installation Pending"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.installationPending}
-                                                onChange={handleChangeSMS}
-                                                name="installationPending"
-                                                type="Number"
+                                                    id="standard-size-normal"
+                                                    size="small"
+                                                    value={sms.installationPending}
+                                                    onChange={handleChangeSMS}
+                                                    name="installationPending"
+                                                    type="Number"
 
-                                            />
-                                            <TextField label="Total Amount Due"
-                                                id="standard-size-normal"
-                                                size="small"
-                                                value={sms.dueAmount}
-                                                onChange={handleChangeSMS}
-                                                name="dueAmount"
-                                                type="Number"
+                                                />
+                                                <TextField label="Total Amount Due"
+                                                    id="standard-size-normal"
+                                                    size="small"
+                                                    value={sms.dueAmount}
+                                                    onChange={handleChangeSMS}
+                                                    name="dueAmount"
+                                                    type="Number"
 
-                                            />
-                                    </Grid>
-                                    </Grid>
-                                </CardContent>
-                                <Button
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                    <Button
                                         variant="contained"
                                         component="label"
                                         color="primary"
@@ -693,32 +649,32 @@ const ConnectionDashboard = () => {
                                     >
                                         SEND SMS
                                     </Button>
-                            </Card>
-                        </Grid>:null
+                                </Card>
+                            </Grid> : null
                         }
-                                                {getRole()==="superadmin" &&(
+                        {getRole() === "superadmin" && (
 
-                        <Grid item xs={12} md={4}>
-                            <Card style={{ backgroundColor: "#009688", color: "white", height: "11rem" }}>
-                                <CardContent>
-                                    <Typography gutterBottom>
-                                        Today's Pricing Table
-                                    </Typography>
-                                    <Typography variant="h6" component="h2">
-                                        {/* @ts-ignore */}
-                                        HP Oven Price : <b>{pricing.hpOvenPricing} &#x20B9;</b>
-                                    </Typography>
-                                    <Typography variant="h6" component="h2">
-                                        {/* @ts-ignore */}
-                                        Non HP Oven Price : <b>{pricing.nonHpOvenPricing} &#x20B9;</b>
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" onClick={() => setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color: "white" }} /></Button>
-                                </CardActions>
-                            </Card> 
+                            <Grid item xs={12} md={4}>
+                                <Card style={{ backgroundColor: "#009688", color: "white", height: "11rem" }}>
+                                    <CardContent>
+                                        <Typography gutterBottom>
+                                            Today's Pricing Table
+                                        </Typography>
+                                        <Typography variant="h6" component="h2">
+                                            {/* @ts-ignore */}
+                                            HP Oven Price : <b>{pricing.hpOvenPricing} &#x20B9;</b>
+                                        </Typography>
+                                        <Typography variant="h6" component="h2">
+                                            {/* @ts-ignore */}
+                                            Non HP Oven Price : <b>{pricing.nonHpOvenPricing} &#x20B9;</b>
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small" onClick={() => setOpenPrice(true)}><CreateIcon fontSize="small" style={{ color: "white" }} /></Button>
+                                    </CardActions>
+                                </Card>
                             </Grid>
-                                                )}
+                        )}
                     </Grid>
                     : null}
                 <div>
@@ -948,27 +904,27 @@ const ConnectionDashboard = () => {
                                 name="paidAmount"
                             />
                             <Grid container>
-                            <Grid item xs={4} sm={6} md={5}>
-                            <FormControl className={classes.formControl} >
-                                <InputLabel id="demo-simple-select-label" >Berner Type</InputLabel>
-                                <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                onChange={handleChange}
-                                style={{width:"180px"}}
-                                >
-                                <MenuItem value="GT 2B">GT 2B</MenuItem>
-                                <MenuItem value="GT 3B">GT 3B</MenuItem>
-                                <MenuItem value="GT 4B">GT 4B</MenuItem>
-                                <MenuItem value="SINGLE B">SINGLE B</MenuItem>
-                                <MenuItem value="EXTRA B">EXTRA ARB</MenuItem>
-                                </Select>
-                         
-                            </FormControl>
-                         
-                            </Grid>
-                            <Grid item xs={4} sm={12} md={6}>
-                            <TextField
+                                <Grid item xs={4} sm={6} md={5}>
+                                    <FormControl className={classes.formControl} >
+                                        <InputLabel id="demo-simple-select-label" >Berner Type</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            onChange={handleChange}
+                                            style={{ width: "180px" }}
+                                        >
+                                            <MenuItem value="GT 2B">GT 2B</MenuItem>
+                                            <MenuItem value="GT 3B">GT 3B</MenuItem>
+                                            <MenuItem value="GT 4B">GT 4B</MenuItem>
+                                            <MenuItem value="SINGLE B">SINGLE B</MenuItem>
+                                            <MenuItem value="EXTRA B">EXTRA ARB</MenuItem>
+                                        </Select>
+
+                                    </FormControl>
+
+                                </Grid>
+                                <Grid item xs={4} sm={12} md={6}>
+                                    <TextField
                                         autoFocus
                                         margin="dense"
                                         id="Quantity"
@@ -979,31 +935,31 @@ const ConnectionDashboard = () => {
                                         size="small"
                                         name="quantity"
                                     />
+                                </Grid>
                             </Grid>
-                            </Grid>
-                          
+
                             <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="rate"
-                                        label="Rate"
-                                        type="text"
-                                        variant="outlined"
-                                        onChange={handleChange}
-                                        size="small"
-                                        name="rate"
-                                    />
-                                        <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="remarks"
-                                        label="Remarks"
-                                        type="text"
-                                        variant="outlined"
-                                        value={connection.remarks}
-                                        onChange={handleChange}
-                                        name="remarks"
-                                    />
+                                autoFocus
+                                margin="dense"
+                                id="rate"
+                                label="Rate"
+                                type="text"
+                                variant="outlined"
+                                onChange={handleChange}
+                                size="small"
+                                name="rate"
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="remarks"
+                                label="Remarks"
+                                type="text"
+                                variant="outlined"
+                                value={connection.remarks}
+                                onChange={handleChange}
+                                name="remarks"
+                            />
                         </div>
                     </DialogContent>
                     <DialogActions>

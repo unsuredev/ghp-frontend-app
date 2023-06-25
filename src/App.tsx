@@ -4,7 +4,6 @@ import teal from '@material-ui/core/colors/teal';
 import AuthenticatedRoute from './Components/auth';
 import yellow from '@material-ui/core/colors/yellow'
 import pink from '@material-ui/core/colors/pink';
-import MemberSignUp from './Pages/UserManagement'
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
 import Customer from './Pages/CustomerRegistration';
@@ -19,21 +18,20 @@ import OldDataManagement from './Pages/OldCustomerManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
-import HappyBirthDay from './Pages/HappyBirthDay'
 import UserDashBoard from './Pages/UserDashBoard'
 import SignInSide from './Pages/Login';
 import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
 import FingerPrint from "./Pages/FingerPrint";
 import RefillSales from "./Pages/RefillSales";
-import Transactions from  './Pages/Transactions'
+import Transactions from './Pages/Transactions'
 import RejectFingerPrint from './Pages/RejectFingerPrint'
 const theme = createMuiTheme(
 
   {
     palette: {
       primary: teal,
-      secondary:yellow
+      secondary: yellow
     },
   });
 
@@ -46,7 +44,6 @@ const App = () => {
         <ToastProvider>
           <Router>
             <Switch>
-              <Route exact path="/member" component={MemberSignUp} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/customer" component={Customer} />
               <Route exact path="/" component={SignInSide} />
@@ -85,13 +82,33 @@ const App = () => {
                 path="/olddatamanagement"
                 component={OldDataManagement}
               />
+
+              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
+              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
+              <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
               <AuthenticatedRoute
                 exact
                 path="/delivery"
                 component={MainDashboard}
               />
-              <Route exact path="/wish" component={HappyBirthDay} />
+              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
+              <AuthenticatedRoute
+                exact
+                path="/customerDocs"
+                component={ImageManagement}
+              />
+              <Route
+                exact
+                path="/olddatamanagement"
+                component={OldDataManagement}
+              />
+              <Route exact path="/connection" component={ConnectionDashboard} />
+              <AuthenticatedRoute
+                exact
+                path="/delivery"
+                component={MainDashboard}
+              />
               <AuthenticatedRoute
                 exact
                 path="/dash"
@@ -106,11 +123,11 @@ const App = () => {
                 path="/completefinger"
                 component={RejectFingerPrint}
               />
-            </Switch>
-          </Router>
-        </ToastProvider>
-      </div>
-    </ThemeProvider>
+            </Switch >
+          </Router >
+        </ToastProvider >
+      </div >
+    </ThemeProvider >
   );
 }
 
