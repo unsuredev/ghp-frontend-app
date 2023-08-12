@@ -451,6 +451,15 @@ const Home = () => {
     }
   };
 
+  const isSuperAdmin = () => {
+    let token: any = localStorage.getItem("access_token");
+
+    var decoded = jwt_decode(token);
+    //@ts-ignore
+    const { role } = decoded;
+    return role === "superadmin" ? true : false
+  };
+
 
 
   React.useEffect(() => {
@@ -481,6 +490,9 @@ const Home = () => {
     setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
   }
 
+  const OldConsumerUpdatePermission = (customer: any) => {
+    return customer.registeredAgencyName === customer.newRegisteredAgencyName ? true : false
+  }
 
 
   return (
@@ -849,25 +861,23 @@ const Home = () => {
                             {/* @ts-ignore */}
                             <Typography >Mobile No : {user.mobile}</Typography>
 
-
-                            <Typography >
-                              Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
-                            </Typography>
+                            {/* @ts-ignore */}
+                            <Typography >Contact No : {user.contactNumber || "NA"}</Typography>
                             {/* @ts-ignore */}
                             <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
                             {/* @ts-ignore */}
 
                             <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
+                            <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
+                            {/* @ts-ignore */}
+                            <Typography >
+                              Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
+                            </Typography>
+                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
 
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                             <Typography> Status : {user.registrationStatus || "NA"}</Typography>
-                            {/* @ts-ignore */}
-                            <Typography>Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
-                            {/* @ts-ignore */}
-
-                            <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
-                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
                             {/* @ts-ignore */}
                             <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
                             {/* @ts-ignore */}
@@ -1055,26 +1065,24 @@ const Home = () => {
                                         value={customer.consumerNo}
                                         onChange={handleChangeUser}
                                         InputProps={{
-                                          readOnly: true,
+                                          readOnly: isSuperAdmin(),
                                         }}
                                       />
                                     </Tooltip>
 
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                    <Tooltip title="Main Agent not allowed to update !">
-                                      <TextField
-                                        id="outlined-basic"
-                                        label="Active consumer No"
-                                        name="newConsumerNo"
-                                        variant="outlined"
-                                        fullWidth
-                                        type="text"
-                                        value={customer.newConsumerNo}
-                                        onChange={handleChangeUser}
+                                    <TextField
+                                      id="outlined-basic"
+                                      label="Active consumer No"
+                                      name="newConsumerNo"
+                                      variant="outlined"
+                                      fullWidth
+                                      type="text"
+                                      value={customer.newConsumerNo}
+                                      onChange={handleChangeUser}
 
-                                      />
-                                    </Tooltip>
+                                    />
 
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>

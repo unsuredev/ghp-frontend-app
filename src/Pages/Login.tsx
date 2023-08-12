@@ -160,7 +160,7 @@ export default function SignInSide() {
                 <Typography component="h2" variant="h5">
                   JAMAN HP GAS
                 </Typography>
-                <p>Dealer Code: 1381600 </p>
+                <p>SAP Code: 41033623 </p>
                 <img
                   src={require("../hp_logo.jpeg").default}
                   width="170px"
