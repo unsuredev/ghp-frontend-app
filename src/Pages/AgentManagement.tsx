@@ -126,7 +126,7 @@ const AgentList = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           },
         }
       );
@@ -144,7 +144,7 @@ const AgentList = () => {
       const result = await axios.post(BASE_URL + "agent/block", { "mobile": mobile }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       if (result.data && result.data != null) {

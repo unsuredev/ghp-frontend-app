@@ -11,7 +11,7 @@ export default function FullConsumerTable() {
 
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
-    const [limit, setLimit]=React.useState(500)
+    const [limit, setLimit] = React.useState(500)
     const columns = [
         { title: 'Sl No', field: 'tableData.id' },
         { title: "Old SlNo", field: "slNo" },
@@ -24,13 +24,13 @@ export default function FullConsumerTable() {
         { title: "Consumer No", field: 'consumerNo' },
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Sub Agent", field: 'subAgent' },
-        { title:'Registerd Agency Name', field:'registeredAgencyName'},
+        { title: 'Registerd Agency Name', field: 'registeredAgencyName' },
         { title: "Remarks", field: 'remarks' },
-        {title:"Install Status", field:'installtatus'},
-        {title:"Single Women", field:'isSingleWomen'},
-        {title:"Status", field:'registrationStatus'},
-        {title:"Added By", field:'addedBY'},
-        {title:"Updated By", field:'updatedBy'},        
+        { title: "Install Status", field: 'installtatus' },
+        { title: "Single Women", field: 'isSingleWomen' },
+        { title: "Status", field: 'registrationStatus' },
+        { title: "Added By", field: 'addedBY' },
+        { title: "Updated By", field: 'updatedBy' },
         {
             title: "DATE ", field: "updatedAt", type: "date",
             dateSetting: { locale: "ko-KR" }
@@ -40,16 +40,16 @@ export default function FullConsumerTable() {
 
 
 
-    const fetcCustomerData = async() => {
+    const fetcCustomerData = async () => {
         try {
             setLoading(true)
             const result = await axios.get(BASE_URL + "customer/getall", {
                 headers: {
                     encryption: false,
-                    access_token: getToken()
+                    token: getToken()
                 },
             });
-            if(result.data){
+            if (result.data) {
                 setData(result.data.data)
                 setLoading(false)
             }
@@ -74,7 +74,7 @@ export default function FullConsumerTable() {
                     <MaterialTable
                         title="Jaman Hp Consumer Data"
                         data={data}
-                                    //@ts-ignore
+                        //@ts-ignore
 
                         columns={columns}
                         options={{

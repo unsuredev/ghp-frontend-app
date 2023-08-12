@@ -13,58 +13,58 @@ import { getToken } from '../Common/helper';
 
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            flexGrow: 1,
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-        },
-    }),
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }),
 );
 
 const MainDashboard = () => {
-    const classes = useStyles();
-    const { showToast } = React.useContext(ToastContext);
-    const [connection, setConnection] = React.useState({})
-    const [loading, setLoading] = React.useState(true)
-    const [data, setData] = React.useState([]);
+  const classes = useStyles();
+  const { showToast } = React.useContext(ToastContext);
+  const [connection, setConnection] = React.useState({})
+  const [loading, setLoading] = React.useState(true)
+  const [data, setData] = React.useState([]);
 
 
-    React.useEffect(() => {
-        getNcDetails();
-    }, []);
+  React.useEffect(() => {
+    getNcDetails();
+  }, []);
 
 
-    const getNcDetails = async () => {
-        try {
-            const result = await axios.get(BASE_URL + "ncdelivery/get",
-                {
-                    headers: {
-                        encryption: false,
-                        access_token: getToken()
-                    },
-                });
-            if (result && result.data) {
-                setConnection(result.data.data.NcDetails)
-                setLoading(false)
-            }
-        }
-        catch (error) {
-            if (error) {
-            }
-        }
+  const getNcDetails = async () => {
+    try {
+      const result = await axios.get(BASE_URL + "ncdelivery/get",
+        {
+          headers: {
+            encryption: false,
+            token: getToken()
+          },
+        });
+      if (result && result.data) {
+        setConnection(result.data.data.NcDetails)
+        setLoading(false)
+      }
     }
+    catch (error) {
+      if (error) {
+      }
+    }
+  }
 
 
 
 
-    return (
-      <React.Fragment>
-        <ResponsiveDrawer />
-                    {loading ? <div style={{ paddingTop: "16rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}> <CircularProgress /> </div> :
+  return (
+    <React.Fragment>
+      <ResponsiveDrawer />
+      {loading ? <div style={{ paddingTop: "16rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}> <CircularProgress /> </div> :
         <div
           className={classes.root}
           style={{ textAlign: "center", marginTop: "5rem" }}
@@ -322,9 +322,9 @@ const MainDashboard = () => {
             </Grid>
           </Grid>
         </div>}
-        <br></br>
-      </React.Fragment>
-    );
+      <br></br>
+    </React.Fragment>
+  );
 }
 
 export default MainDashboard

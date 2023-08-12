@@ -112,7 +112,7 @@ const UserDashBoard = () => {
             const result = await axios.get(BASE_URL + "user/getall", {
                 headers: {
                     encryption: false,
-                    access_token: getToken()
+                    token: getToken()
                 }
             })
             setList(result.data.data)

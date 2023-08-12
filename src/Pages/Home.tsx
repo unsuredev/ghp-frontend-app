@@ -399,7 +399,7 @@ const Home = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           },
         })
 
@@ -421,7 +421,7 @@ const Home = () => {
       const result = await axios.post(BASE_URL + "customer/delete", { customerId: customer._id }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       if (result.data && result.data != undefined) {
@@ -472,7 +472,7 @@ const Home = () => {
     const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
-        access_token: getToken()
+        token: getToken()
       },
     });
     //@ts-ignore

@@ -33,7 +33,7 @@ const httpClient = async (url: string, type: string, obj: any = undefined
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         "encryption": "false",
-        access_token: getToken(),
+        token: getToken(),
       } as any,
     });
     return await res.json();

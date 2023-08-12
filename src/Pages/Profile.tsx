@@ -130,7 +130,7 @@ const Profile = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     }
                 })
             if (result.data && result.data != null) {
@@ -157,7 +157,7 @@ const Profile = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     }
                 })
             if (result.data && result.data != null) {
@@ -188,7 +188,7 @@ const Profile = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     }
                 })
             if (result.data && result.data != null) {
@@ -264,7 +264,7 @@ const Profile = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     }
                 })
             if (result.data && result.data != null) {

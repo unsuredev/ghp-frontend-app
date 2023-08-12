@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header=()=> {
+const Header = () => {
   const classes = useStyles();
   let history = useHistory();
   const [today, setDate] = React.useState(new Date());
@@ -37,12 +37,12 @@ const Header=()=> {
   const hour = today.getHours();
   const wish = `Good ${(hour < 12 && 'Morning') || (hour < 17 && 'Afternoon') || 'Evening'}, `;
   const userGreetings = () => {
-      return (
-          <div>
-              <h2>
-                  {wish}</h2>
-          </div>
-      )
+    return (
+      <div>
+        <h2>
+          {wish}</h2>
+      </div>
+    )
   }
 
 
@@ -50,31 +50,31 @@ const Header=()=> {
   const getToken = () => {
     //@ts-ignore
     return localStorage.getItem("access_token")
-}
+  }
 
   const handleLogout = async () => {
     try {
-        const result = await axios.post(BASE_URL + "user/logout",
-            {},
-            {
-                headers: {
-                    encryption: false,
-                    access_token: getToken()
-                }
-            })
-        if (result.data && result.data != null) {
-            showToast(result.data.message, "success");
-            localStorage.clear();
-            history.push("/");
-        }
-        else {
-            showToast(result.data.message, "error");
-        }
+      const result = await axios.post(BASE_URL + "user/logout",
+        {},
+        {
+          headers: {
+            encryption: false,
+            token: getToken()
+          }
+        })
+      if (result.data && result.data != null) {
+        showToast(result.data.message, "success");
+        localStorage.clear();
+        history.push("/");
+      }
+      else {
+        showToast(result.data.message, "error");
+      }
     } catch (error) {
-        console.log(error)
-        showToast("Something went wrong!", "error");
+      console.log(error)
+      showToast("Something went wrong!", "error");
     }
-};
+  };
 
 
 
@@ -82,7 +82,7 @@ const Header=()=> {
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-      {/* <img
+        {/* <img
                             src={require("../../src/hpcl_logo.png").default}
                             alt="smitch logo"
                             width="40"
@@ -90,21 +90,21 @@ const Header=()=> {
                         /> */}
         {/* <Button size="large">Jaman HP GAS</Button> */}
         <Typography
-       variant="subtitle1" gutterBottom
+          variant="subtitle1" gutterBottom
           color="primary"
           align="center"
           noWrap
           className={classes.toolbarTitle}
         >
-               
+
         </Typography>
         <IconButton onClick={handleLogout} >
-     <ExitToAppIcon/>
+          <ExitToAppIcon />
         </IconButton>
-     
+
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-   
+
       </Toolbar>
     </React.Fragment>
   );

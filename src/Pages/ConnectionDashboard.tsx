@@ -138,7 +138,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data.data && result.data != undefined) {
@@ -187,7 +187,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data.data && result.data != undefined) {
@@ -231,7 +231,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 });
             if (result && result.data) {
@@ -257,7 +257,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 });
             if (result && result.data) {
@@ -287,7 +287,7 @@ const ConnectionDashboard = () => {
                     {
                         headers: {
                             encryption: false,
-                            access_token: getToken()
+                            token: getToken()
                         },
                     });
                 if (result && result.data) {
@@ -316,7 +316,7 @@ const ConnectionDashboard = () => {
         const result = await axios.get(BASE_URL + "agent/getall/active", {
             headers: {
                 encryption: false,
-                access_token: getToken()
+                token: getToken()
             },
         });
         //@ts-ignore
@@ -338,7 +338,7 @@ const ConnectionDashboard = () => {
                     {
                         headers: {
                             encryption: false,
-                            access_token: getToken()
+                            token: getToken()
                         },
                     })
                 if (result.data) {
@@ -368,7 +368,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data) {
@@ -394,7 +394,7 @@ const ConnectionDashboard = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data) {

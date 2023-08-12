@@ -42,7 +42,7 @@ export default function ConnectionFullTable() {
             const result = await axios.get(BASE_URL + "agent/slaes/all", {
                 headers: {
                     encryption: false,
-                    access_token: getToken()
+                    token: getToken()
                 },
             });
             if (result.data) {

@@ -10,7 +10,7 @@ export default function OldFullConsumerTable() {
 
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
-    const [limit, setLimit]=React.useState(500)
+    const [limit, setLimit] = React.useState(500)
     const columns = [
         { title: 'Sl No', field: 'tableData.id' },
         { title: "Name", field: "name" },
@@ -20,27 +20,27 @@ export default function OldFullConsumerTable() {
         { title: "Consumer No", field: 'consumerNo' },
         { title: "Main Agent", field: 'mainAgent' },
         { title: "Old Agent", field: 'oldAgentName' },
-        {title:"Registered Agency Name", field:'registeredAgencyName'},
+        { title: "Registered Agency Name", field: 'registeredAgencyName' },
         { title: "Sub Agent", field: 'subAgent' },
         { title: "Remarks", field: 'remarks' },
-        {title:"Installation status", field:'installtatus'},
-        {title:"Year", field:'year'}
+        { title: "Installation status", field: 'installtatus' },
+        { title: "Year", field: 'year' }
     ]
 
 
 
 
 
-    const fetcCustomerData = async() => {
+    const fetcCustomerData = async () => {
         try {
             setLoading(true)
             const result = await axios.get(BASE_URL + "old/customer/getall", {
                 headers: {
                     encryption: false,
-                    access_token: getToken()
+                    token: getToken()
                 },
             });
-            if(result.data){
+            if (result.data) {
                 setData(result.data.data)
                 setLoading(false)
             }

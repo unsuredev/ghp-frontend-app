@@ -112,7 +112,7 @@ export default function Transactions() {
       const result = await axios.get(BASE_URL + "transaction/history", {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         },
       });
       if (result.data) {
@@ -134,7 +134,7 @@ export default function Transactions() {
       }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       if (result.data) {
@@ -166,7 +166,7 @@ export default function Transactions() {
       }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       //@ts-ignore

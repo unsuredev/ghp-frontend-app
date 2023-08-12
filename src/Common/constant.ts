@@ -1,4 +1,5 @@
 export const BASE_URL =
-  process.env.BASE_URL || //"https://web.hpgas.jamanenterprise.in/v1/";
+  process.env.BASE_URL ||
+  "https://server.web.jamanenterprise.in/v1/"
 
-  "http://localhost:3001/v1/"
+  //"http://localhost:3001/v1/"

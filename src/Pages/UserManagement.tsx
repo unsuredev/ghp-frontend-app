@@ -2,13 +2,11 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../Components/Copyright";
-import { httpClient } from "../Common/Service";
 import { ToastContext } from "../Common/ToastProvider";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
@@ -67,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const MemberSignUp = () => {
+const MemberManagement = () => {
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
   const [list, setList] = React.useState([])
@@ -161,7 +159,7 @@ const MemberSignUp = () => {
 
 
   React.useEffect(() => {
-    handleUsersList()
+    fetchUsersList()
   }, [])
 
 
@@ -170,7 +168,7 @@ const MemberSignUp = () => {
       const result = await axios.post(BASE_URL + "user/block", { "email": email }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       if (result.data && result.data != null) {
@@ -193,7 +191,7 @@ const MemberSignUp = () => {
       }, {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
       if (result.data && result.data != null) {
@@ -207,15 +205,16 @@ const MemberSignUp = () => {
   };
 
 
-  const handleUsersList = async () => {
+  const fetchUsersList = async () => {
     try {
       const result = await axios.get(BASE_URL + "user/getall", {
         headers: {
           encryption: false,
-          access_token: getToken()
+          token: getToken()
         }
       })
-      setList(result.data.data.users)
+      console.log('user', result.data.data)
+      setList(result.data.data)
     } catch (error) {
       //@ts-ignore
       showToast(error.response.data.message, "error")
@@ -467,4 +466,4 @@ const MemberSignUp = () => {
   );
 };
 
-export default MemberSignUp;
+export default MemberManagement;

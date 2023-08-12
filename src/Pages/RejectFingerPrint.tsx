@@ -63,7 +63,7 @@ export default function RejectFingerPrint() {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 });
             if (result.data) {

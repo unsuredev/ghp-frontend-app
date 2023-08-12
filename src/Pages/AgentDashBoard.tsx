@@ -115,7 +115,7 @@ const AgentDashBoard = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           },
         });
 
@@ -143,7 +143,7 @@ const AgentDashBoard = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken(),
+            token: getToken(),
           },
         }
       );
@@ -178,7 +178,7 @@ const AgentDashBoard = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken(),
+            token: getToken(),
           },
         }
       );
@@ -208,7 +208,7 @@ const AgentDashBoard = () => {
         {
           headers: {
             encryption: false,
-            access_token: getToken(),
+            token: getToken(),
           },
         }
       );

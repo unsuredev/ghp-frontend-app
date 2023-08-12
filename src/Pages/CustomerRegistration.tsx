@@ -100,7 +100,7 @@ const CustomerRegistration = () => {
     const result = await axios.get(BASE_URL + "agent/getall/active", {
       headers: {
         encryption: false,
-        access_token: getToken()
+        token: getToken()
       },
     });
     //@ts-ignore

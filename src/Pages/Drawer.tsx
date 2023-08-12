@@ -157,7 +157,7 @@ function ResponsiveDrawer() {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           }
         })
       if (result.data && result.data != null) {
@@ -208,7 +208,7 @@ function ResponsiveDrawer() {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           }
         })
       if (result.data && result.data != null) {
@@ -235,7 +235,7 @@ function ResponsiveDrawer() {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           }
         })
       handleClose()
@@ -262,7 +262,7 @@ function ResponsiveDrawer() {
         {
           headers: {
             encryption: false,
-            access_token: getToken()
+            token: getToken()
           }
         })
       if (result.data && result.data != null) {

@@ -3,7 +3,6 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import AuthenticatedRoute from './Components/auth';
 import yellow from '@material-ui/core/colors/yellow'
-import pink from '@material-ui/core/colors/pink';
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
 import Customer from './Pages/CustomerRegistration';
@@ -26,6 +25,7 @@ import FingerPrint from "./Pages/FingerPrint";
 import RefillSales from "./Pages/RefillSales";
 import Transactions from './Pages/Transactions'
 import RejectFingerPrint from './Pages/RejectFingerPrint'
+import MemberManagement from "./Pages/UserManagement";
 const theme = createMuiTheme(
 
   {
@@ -77,13 +77,6 @@ const App = () => {
                 path="/customerDocs"
                 component={ImageManagement}
               />
-              <Route
-                exact
-                path="/olddatamanagement"
-                component={OldDataManagement}
-              />
-
-              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
               <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
               <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
@@ -123,6 +116,12 @@ const App = () => {
                 path="/completefinger"
                 component={RejectFingerPrint}
               />
+              <Route
+                exact
+                path="/member"
+                component={MemberManagement}
+              />
+
             </Switch >
           </Router >
         </ToastProvider >
