@@ -452,7 +452,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="FingerPrints Pending" />
               </ListItem>
             </Link>
-            <Link href="/cmpletefinger">
+            <Link href="/completefinger">
               <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <ErrorIcon color="secondary" />
