@@ -374,7 +374,6 @@ const Home = () => {
   const handleupdate = async () => {
     setOpen(false);
     try {
-      console.log("updated value", customer)
       const result = await axios.post(BASE_URL + "customer/update", {
         name: customer.name,
         mainAadhaar: customer.mainAadhaar,
@@ -406,7 +405,7 @@ const Home = () => {
 
       if (result.data.data && result.data != undefined) {
         showToast("Customer updated successfullly", "success");
-
+        setChecked(false)
       }
     } catch (error) {
       if (error) {
@@ -813,7 +812,7 @@ const Home = () => {
                 }
                 if ((getRole() === "user" && user.mainAgent != getUserName())) {
                   return (
-                    <div><h1>CUSTOMER REGISTERED WITH OTHER AGENT</h1></div>
+                    <div><h1>No data found!</h1></div>
                   )
                 }
               })()}
@@ -1063,9 +1062,8 @@ const Home = () => {
                                         fullWidth
                                         type="text"
                                         value={customer.consumerNo}
-                                        onChange={handleChangeUser}
                                         InputProps={{
-                                          readOnly: isSuperAdmin(),
+                                          readOnly: !isSuperAdmin,
                                         }}
                                       />
                                     </Tooltip>

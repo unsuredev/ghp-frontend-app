@@ -77,6 +77,7 @@ const Reports = () => {
   const [pending, setPending] = React.useState("");
   const [pendingShow, setPendingShow] = React.useState(false);
   const [data, setData] = React.useState([]);
+
   const columns = [
     { title: "Sl No", field: "tableData.id" },
     { title: "Name", field: "name" },
@@ -85,6 +86,7 @@ const Reports = () => {
     { title: "Mobile", field: "mobile" },
     { title: "Contact Number", field: "contactNumber" },
     { title: "Registered Agency Name", field: "registeredAgencyName" },
+    { title: "Main Agent", field: "mainAgent" },
     { title: "Sub Agent", field: "subAgent" },
     { title: "Remarks", field: "remarks" },
   ];
