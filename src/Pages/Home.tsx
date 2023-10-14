@@ -183,10 +183,7 @@ const Home = () => {
   const CHARACTER_LIMIT = 12;
   const [value, setValue] = React.useState('Not Complete');
 
-  const handleChangeValue = (event: any) => {
-    console.log("value", event.target.value)
-    setValue(event.target.value);
-  };
+
 
 
   const handleClickOpen = () => {
@@ -258,14 +255,7 @@ const Home = () => {
   const handleChange = (event: any) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
-  const [checked, setChecked] = React.useState(false);
-  const [free, setFree] = React.useState(false)
-  const handleChangeFree = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFree(!free);
-  };
-  const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(!checked);
-  };
+
 
 
   const [customer, setCustomer] = React.useState({
@@ -284,8 +274,8 @@ const Home = () => {
     addedBy: "",
     installtatus: "",
     fileNo: 0,
-    isSingleWomen: false,
-    isFreeDelivery: false,
+    isSingleWomen: "",
+    isFreeDelivery: "",
     registrationStatus: "",
     contactNumber: ""
   });
@@ -296,7 +286,6 @@ const Home = () => {
   }
 
   const handleChangeUser = (event: any) => {
-    console.log("value", event.target.value)
 
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
@@ -389,10 +378,10 @@ const Home = () => {
         addedBy: customer.addedBy,
         installtatus: customer.installtatus,
         regNo: customer.regNo,
-        isSingleWomen: checked,
+        isSingleWomen: customer.isSingleWomen,
         registrationStatus: customer.registrationStatus,
         contactNumber: customer.contactNumber,
-        isFreeDelivery: free,
+        isFreeDelivery: customer.isFreeDelivery,
         updatedBy: getUserName()
       },
         {
@@ -405,7 +394,6 @@ const Home = () => {
 
       if (result.data.data && result.data != undefined) {
         showToast("Customer updated successfullly", "success");
-        setChecked(false)
       }
     } catch (error) {
       if (error) {
@@ -869,23 +857,22 @@ const Home = () => {
                             <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
                             <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
                             {/* @ts-ignore */}
-                            <Typography >
-                              Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
-                            </Typography>
-                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
+                            {user.newConsumerNo ?
+                              <Typography >
+                                Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
+                              </Typography> : <Typography >
+                                Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                              </Typography>}
 
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                            <Typography> Status : {user.registrationStatus || "NA"}</Typography>
+                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
                             {/* @ts-ignore */}
                             <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
                             {/* @ts-ignore */}
 
                             <Typography>Free Delivery : {user.isFreeDelivery ? "YES" : "NO"}
                               {/* @ts-ignore */}
-                              <Typography >Contact No : {user.contactNumber}</Typography>
-                              {/* @ts-ignore */}
-
                               <Typography >
                                 File No : {user.regNo || "NA"}
                               </Typography>                              {/* @ts-ignore */}
@@ -1210,18 +1197,38 @@ const Home = () => {
                                       </Select>
                                     </FormControl>
                                   </Grid>
-                                  <Typography >Single Women : &nbsp;
-                                    <FormControlLabel
-                                      control={<Checkbox checked={checked} onChange={handleChangeCheck} name="isSingleWomen" />}
-                                      label=""
-                                    />
-                                  </Typography>
-                                  <Typography>Free Delivery : &nbsp;
-                                    <FormControlLabel
-                                      control={<Checkbox checked={free} onChange={handleChangeFree} name="isFreeDelivery" />}
-                                      label=""
-                                    />
-                                  </Typography>
+                                  <br></br>
+                                  <Grid item xs={12} sm={12} md={12} >
+                                    <FormControl variant="outlined" >
+                                      <InputLabel id="demo-simple-select-label">Is single women</InputLabel>
+                                      <Select
+                                        style={{ width: "35rem" }}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        name="isSingleWomen"
+                                        value={customer.isSingleWomen} onChange={handleChangeUser}
+                                      >
+                                        <MenuItem value="true">Yes</MenuItem>
+                                        <MenuItem value="false">No </MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
+
+                                  <Grid item xs={12} sm={12} md={12} >
+                                    <FormControl variant="outlined" >
+                                      <InputLabel id="demo-simple-select-label">Free Delivery</InputLabel>
+                                      <Select
+                                        style={{ width: "35rem" }}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        name="isFreeDelivery"
+                                        value={customer.isFreeDelivery} onChange={handleChangeUser}
+                                      >
+                                        <MenuItem value="true">Yes</MenuItem>
+                                        <MenuItem value="false">No </MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
                                 </Grid>
                               ))
                               }

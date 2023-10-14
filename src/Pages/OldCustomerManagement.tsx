@@ -528,7 +528,7 @@ const OldDataManagement = () => {
                               </Typography>
                               {/* @ts-ignore */}
                               <Typography color="primary">Rgistered Agency Name : {user.registeredAgencyName || "NA"}</Typography>
-                              <Typography color="primary">Main Agent Name : {user.mainAgent || "NA"}</Typography>
+                              <Typography color="primary">Main Agent Name : {user?.mainAgent || "NA"}</Typography>
                               {/* @ts-ignore */}
                               <Typography>Old Agent Name : {user.oldAgentName || "NA"}</Typography>
                               {/* @ts-ignore */}
@@ -584,7 +584,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.name}
+                                    value={customer?.name}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -596,7 +596,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.mainAadhaar}
+                                    value={customer?.mainAadhaar}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -609,7 +609,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="number"
-                                    value={customer.mobile}
+                                    value={customer?.mobile}
                                     onChange={handleChangeUser}
                                     onInput={(e) => {
                                       //@ts-ignore
@@ -626,7 +626,7 @@ const OldDataManagement = () => {
                                       variant="outlined"
                                       fullWidth
                                       type="text"
-                                      value={customer.regNo}
+                                      value={customer?.regNo}
                                       onChange={handleChangeUser}
                                     />
                                   }
@@ -689,7 +689,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.oldAgentName}
+                                    value={customer?.oldAgentName}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -702,7 +702,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.subAgent}
+                                    value={customer?.subAgent}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -714,7 +714,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.remarks}
+                                    value={customer?.remarks}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -869,7 +869,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.name}
+                                    value={customer?.name}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1159,7 +1159,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.name}
+                                    value={customer?.name}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1171,7 +1171,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.mainAadhaar}
+                                    value={customer?.mainAadhaar}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1183,7 +1183,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="number"
-                                    value={customer.mobile}
+                                    value={customer?.mobile}
                                     onChange={handleChangeUser}
                                     onInput={(e) => {
                                       //@ts-ignore
@@ -1192,7 +1192,7 @@ const OldDataManagement = () => {
                                   />
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                  {customer.regNo &&
+                                  {customer?.regNo &&
                                     <TextField
                                       id="outlined-basic"
                                       label="Reg No"
@@ -1200,7 +1200,7 @@ const OldDataManagement = () => {
                                       variant="outlined"
                                       fullWidth
                                       type="text"
-                                      value={customer.regNo}
+                                      value={customer?.regNo}
                                       onChange={handleChangeUser}
                                     />
                                   }
@@ -1213,7 +1213,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.consumerNo}
+                                    value={customer?.consumerNo}
                                     onChange={handleChangeUser}
                                   />
 
@@ -1226,12 +1226,12 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.registeredAgencyName}
+                                    value={customer?.registeredAgencyName}
                                     onChange={handleChangeUser}
                                   />
 
                                 </Grid>
-                                <Typography style={{ color: "white", backgroundColor: "black" }} variant="h5" gutterBottom> &nbsp;  &nbsp;Main Agent : {customer.mainAgent}</Typography>
+                                <Typography style={{ color: "white", backgroundColor: "black" }} variant="h5" gutterBottom> &nbsp;  &nbsp;Main Agent : {customer?.mainAgent}</Typography>
                                 {getUser() ? (
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <FormControl variant="outlined" className={classes.formControl}>
@@ -1262,7 +1262,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.oldAgentName}
+                                    value={customer?.oldAgentName}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1274,7 +1274,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.subAgent}
+                                    value={customer?.subAgent}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1286,7 +1286,7 @@ const OldDataManagement = () => {
                                     variant="outlined"
                                     fullWidth
                                     type="text"
-                                    value={customer.remarks}
+                                    value={customer?.remarks}
                                     onChange={handleChangeUser}
                                   />
                                 </Grid>
@@ -1294,7 +1294,7 @@ const OldDataManagement = () => {
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <FormControl component="fieldset">
                                       <FormLabel component="legend">Installation Status</FormLabel>
-                                      <RadioGroup aria-label="gender" name="installtatus" value={customer.installtatus} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
+                                      <RadioGroup aria-label="gender" name="installtatus" value={customer?.installtatus} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
                                         <FormControlLabel value="Not Complete" control={<Radio />} label="Not Complete" />
                                         <FormControlLabel value="Complete" control={<Radio />} label="Complete" />
                                       </RadioGroup>
@@ -1303,7 +1303,7 @@ const OldDataManagement = () => {
                                 <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                   <FormControl component="fieldset">
                                     <FormLabel component="legend">Year</FormLabel>
-                                    <RadioGroup aria-label="gender" name="year" value={customer.year} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
+                                    <RadioGroup aria-label="gender" name="year" value={customer?.year} onChange={handleChangeUser} style={{ flexDirection: "row" }}>
                                       <FormControlLabel value="2017" control={<Radio />} label="2017" />
                                       <FormControlLabel value="2018" control={<Radio />} label="2018" />
                                       <FormControlLabel value="2019" control={<Radio />} label="2019" />

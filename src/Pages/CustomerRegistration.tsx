@@ -176,7 +176,7 @@ const CustomerRegistration = () => {
                         "familyAadhaar": values.familyAadhaar,
                         "mainAgent": values.mainAgent,
                         "mobile": values.mobile,
-                        "consumerNo": values.consumerNo,
+                        "consumerNo": "",
                         "subAgent": values.subAgent,
                         "registeredAgencyName": values.registeredAgencyName,
                         "remarks": values.remarks,
@@ -278,26 +278,6 @@ const CustomerRegistration = () => {
                         />
                       </Grid>
 
-                      <Grid item xs={12}>
-                        <TextField
-                          error={Boolean(touched.consumerNo && errors.consumerNo)}
-                          helperText={touched.consumerNo && errors.consumerNo}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          variant="outlined"
-                          fullWidth
-                          name="consumerNo"
-                          label="Consumer No"
-                          id="consumerNo"
-                          type="number"
-                          autoComplete="consumerNo"
-                          value={values.consumerNo}
-                          onInput={(e) => {
-                            //@ts-ignore
-                            e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 6)
-                          }}
-                        />
-                      </Grid>
                       <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                         <FormControl variant="outlined" className={classes.formControl}>
                           <InputLabel id="demo-simple-select-required-label">Main Agent *</InputLabel>
