@@ -1,19 +1,7 @@
 import React from "react";
-import {
-  Button,
-  Typography,
-  CardHeader,
-  CardContent,
-  Card,
-  Grid,
-  makeStyles,
-  Container,
-  CssBaseline,
-  TextField,
-} from "@material-ui/core";
-import { red } from '@material-ui/core/colors';
+import { Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
 import DialogContentText from '@material-ui/core/DialogContentText';
-import FooterSection from "../Components/Footer";
+import FooterSection from "./Footer";
 import { useHistory } from "react-router-dom";
 import { httpClient } from "../Common/Service";
 import EditIcon from "@material-ui/icons/Edit";
@@ -155,9 +143,6 @@ const OldDataManagement = () => {
   const CHARACTER_LIMIT = 13;
   const [value, setValue] = React.useState('Not Complete');
 
-  const handleChangeValue = (event: any) => {
-    setValue(event.target.value);
-  };
 
 
   const handleClickOpen = () => {

@@ -1,20 +1,6 @@
 import React from 'react';
-import {
-    Button,
-    Typography,
-    CardHeader,
-    Paper,
-    Tabs,
-    Tab,
-    CardContent,
-    Card,
-    Grid,
-    makeStyles,
-    Container,
-    CssBaseline,
-    TextField,
-} from "@material-ui/core";
-import ResponsiveDrawer from "./Drawer";
+import { Button, Typography, CardHeader, Tabs, Tab, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
+import ResponsiveDrawer from "../Components/Drawer";
 import FooterSection from "../Components/Footer";
 import { httpClient } from "../Common/Service";
 import { ToastContext } from "../Common/ToastProvider";
@@ -69,9 +55,6 @@ export default function ImageManagement() {
     const { showToast } = React.useContext(ToastContext);
 
     const classes = useStyles();
-    const [imageSrc, setImageSrc] = React.useState()
-    const [upload, setUpload] = React.useState(false)
-    const [view, setView] = React.useState(false)
     const [users, setUsers] = React.useState<any[]>([]);
     const [state, setState] = React.useState({
         aadhaar: "",
@@ -99,28 +82,28 @@ export default function ImageManagement() {
     const handleFind = async (event: any) => {
         try {
             event.preventDefault();
-            if(value===0){
-            if (state.aadhaar) {
-                const result = await httpClient("customer/find", "POST", {
-                    mainAadhaar: state.aadhaar,
-                });
-                if (!result.data && result.data === undefined)
-                    return showToast("No result found", "error");
-                setUsers([result.data]);
-                //@ts-ignore
-                setCustomer(result.data);
-            }}
-            if(value===1){
+            if (value === 0) {
+                if (state.aadhaar) {
+                    const result = await httpClient("customer/find", "POST", {
+                        mainAadhaar: state.aadhaar,
+                    });
+                    if (!result.data && result.data === undefined)
+                        return showToast("No result found", "error");
+                    setUsers([result.data]);
+                    setCustomer(result.data);
+                }
+            }
+            if (value === 1) {
                 if (state.aadhaar) {
                     const result = await httpClient("old/customer/findone", "POST", {
                         mainAadhaar: state.aadhaar,
                     });
-                    if (!result.data && result.data === undefined) {return showToast("No result found", "error")}
+                    if (!result.data && result.data === undefined) { return showToast("No result found", "error") }
                     setUsers([result.data]);
-                    //@ts-ignore
                     setCustomer(result.data);
-                }}
-            
+                }
+            }
+
         } catch (error) {
             showToast("Something went wrong", "error");
         }
@@ -146,11 +129,13 @@ export default function ImageManagement() {
 
         }
         const file = e.target.files[0];
+        const maxSizeInBytes = 500 * 1024; // 500 KB
+
         if (!file.name.match(/\.(jpg|jpeg|png)$/)) {
             window.alert("File does not support. You must use .png or .jpg ");
             setErrorI('Select a valid image type')
         }
-        if (file.size > 1000089) {
+        if (file.size > maxSizeInBytes) {
             window.alert("Please upload a file smaller than 1 MB ");
             setInstall({
                 preview: "",
@@ -287,24 +272,8 @@ export default function ImageManagement() {
         formData.append("image", other.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "otherLetter");
-        if(value===0){
-        await fetch(BASE_URL + "customer/uploadimages",
-            {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data =>
-                showToast(data.message, "success"),
-                //@ts-ignore
-                setOther({ preview: "", raw: "" })
-            )
-            .catch((error) => {
-                showToast(error.message, "error")
-            })
-        }
-            if(value===1){
-                await fetch(BASE_URL + "old/customer/uploadimages",
+        if (value === 0) {
+            await fetch(BASE_URL + "customer/uploadimages",
                 {
                     method: "POST",
                     body: formData
@@ -318,7 +287,23 @@ export default function ImageManagement() {
                 .catch((error) => {
                     showToast(error.message, "error")
                 })
-            }
+        }
+        if (value === 1) {
+            await fetch(BASE_URL + "old/customer/uploadimages",
+                {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setOther({ preview: "", raw: "" })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                })
+        }
     }
 
 
@@ -329,39 +314,39 @@ export default function ImageManagement() {
         formData.append("image", satis.raw);
         formData.append("mainAadhaar", mainAadhaar)
         formData.append("photo_key", "satisfactionLetter");
-        if(value===0){
-        await fetch(BASE_URL + "customer/uploadimages",
-            {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data =>
-                showToast(data.message, "success"),
-                //@ts-ignore
-                setSatis({ preview: "", raw: "" })
+        if (value === 0) {
+            await fetch(BASE_URL + "customer/uploadimages",
+                {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setSatis({ preview: "", raw: "" })
 
-            )
-            .catch((error) => {
-                showToast(error.message, "error")
-            })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                })
         }
-        if(value===1){
+        if (value === 1) {
             await fetch(BASE_URL + "old/customer/uploadimages",
-            {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data =>
-                showToast(data.message, "success"),
-                //@ts-ignore
-                setSatis({ preview: "", raw: "" })
+                {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data =>
+                    showToast(data.message, "success"),
+                    //@ts-ignore
+                    setSatis({ preview: "", raw: "" })
 
-            )
-            .catch((error) => {
-                showToast(error.message, "error")
-            })
+                )
+                .catch((error) => {
+                    showToast(error.message, "error")
+                })
         }
     }
 
@@ -370,33 +355,18 @@ export default function ImageManagement() {
     }, []);
 
 
-
-
-
     const findRole = () => {
         let token: any = localStorage.getItem("access_token");
         var decoded = jwt_decode(token);
         //@ts-ignore
         let { role } = decoded;
-        if(role){
-        return role
+        if (role) {
+            return role
         }
-        else{
+        else {
             return "NOT_ADMIN"
         }
     }
-
-
-      const getUserName = () => {
-    let token: any = localStorage.getItem("access_token");
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { name } = decoded;
-    if (name && name != undefined) {
-        return name
-    }
-
-}
 
 
 
@@ -468,59 +438,59 @@ export default function ImageManagement() {
                                 }}
                             >
                                 <Grid item style={{ marginTop: "-40PX" }}  >
-                                                <Card className={classes.card} key={i} >
-                                                    <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
-                                                        <Typography color="textSecondary" gutterBottom>
-                                                            Customer's Details
-                                                        </Typography>
-                                                        <CardHeader
-                              action={
-                                <div style={{ margin: "0px", padding: "0px" }}>
-                                  {user.installtatus === "Complete" ?
-                                    <IconButton aria-label="settings">
-                                      <CheckCircleIcon style={{ color: "blue" }} />
-                                    </IconButton> : null}
-                              
-                                </div>
-                              }
-                          //@ts-ignore agent card
-                          title={user.name.toUpperCase()}
-                          
-                        />
+                                    <Card className={classes.card} key={i} >
+                                        <CardContent className={classes.cardContent} style={{ marginLeft: "2rem" }}>
+                                            <Typography color="textSecondary" gutterBottom>
+                                                Customer's Details
+                                            </Typography>
+                                            <CardHeader
+                                                action={
+                                                    <div style={{ margin: "0px", padding: "0px" }}>
+                                                        {user.installtatus === "Complete" ?
+                                                            <IconButton aria-label="settings">
+                                                                <CheckCircleIcon style={{ color: "blue" }} />
+                                                            </IconButton> : null}
 
-                                                        <CardHeader style={{ textAlign: "center" }} />
-                                                        <div style={{ marginTop: "-40px" }}>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Name : {user.name.toUpperCase()}</Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>
-                                                                Family Aadhaar : {user.familyAadhaar}
-                                                            </Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Mobile No : {user.mobile}</Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>
-                                                                Registration No : {user.regNo || "NA"}
-                                                            </Typography>
-                                                            <Typography>
-                                                                Consumer No :{user.consumerNo || "NA"}
-                                                            </Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                                                            <Typography>Registered Agency Name :<span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                                                            <Typography>Remarks : {user.remarks || "NA"}</Typography>
-                                                            {/* @ts-ignore */}
-                                                            <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
-                                                            <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
-                                                        </div>
-                                                        {/* @ts-ignore */}
-                                                    </CardContent>
-                                                </Card>
-                                                <br></br>
+                                                    </div>
+                                                }
+                                                //@ts-ignore agent card
+                                                title={user.name.toUpperCase()}
+
+                                            />
+
+                                            <CardHeader style={{ textAlign: "center" }} />
+                                            <div style={{ marginTop: "-40px" }}>
+                                                {/* @ts-ignore */}
+                                                <Typography>Name : {user.name.toUpperCase()}</Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>
+                                                    Family Aadhaar : {user.familyAadhaar}
+                                                </Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>Mobile No : {user.mobile}</Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>
+                                                    Registration No : {user.regNo || "NA"}
+                                                </Typography>
+                                                <Typography>
+                                                    Consumer No :{user.consumerNo || "NA"}
+                                                </Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
+                                                <Typography>Registered Agency Name :<span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                                                <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                                                {/* @ts-ignore */}
+                                                <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
+                                                <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
+                                            </div>
+                                            {/* @ts-ignore */}
+                                        </CardContent>
+                                    </Card>
+                                    <br></br>
                                     {user.consumerNo ? null :
                                         <Typography gutterBottom variant="h5" component="h2" color="primary">
                                             This Customer don't have any consumer Number
@@ -532,7 +502,7 @@ export default function ImageManagement() {
                                     <Container className={classes.cardGrid} maxWidth="md">
                                         <Grid container spacing={4} style={{ marginRight: "1rem" }}>
                                             {(() => {
-                                                if (findRole() ==="superadmin") {
+                                                if (findRole() === "superadmin") {
                                                     return (
                                                         <div>                                                <Grid item xs={12}
                                                             md={12}>
@@ -579,53 +549,53 @@ export default function ImageManagement() {
                                                 }
 
 
-                                                if (user.installtatus != "Complete" &&findRole()==="admin")  {
+                                                if (user.installtatus != "Complete" && findRole() === "admin") {
                                                     return (
-                                                        <div> 
+                                                        <div>
                                                             <Grid item xs={12}
-                                                            md={12}>
-                                                            <label htmlFor="upload-button1">
-                                                                {install.preview ? (
-                                                                    <img src={install.preview} alt="install" width="300" height="300" />
-                                                                ) : null}
-                                                            </label>
-                                                            <Typography>Installation Letter Photo:</Typography>
-                                                            <input
-                                                                type="file"
-                                                                id="upload-button1"
-                                                                // style={{ display: "none" }}
-                                                                onChange={handleChangeInstall}
-                                                                accept="image/*"
-                                                            />
-                                                            <br />
-                                                            <span style={{ color: "red" }}>{errorI}</span>
-                                                            <br />
-                                                            <br />
-                                                            {installb ?
-                                                                <div>
-                                                                    <Button
-                                                                        size="medium"
-                                                                        variant="contained"
-                                                                        color="primary"
-                                                                        style={{ backgroundColor: "#834bff" }}
-                                                                        onClick={(e) => { installUpload(e, user.mainAadhaar) }}
-                                                                    >
-                                                                        Submit Installation Photo
-                                                                    </Button>
-                                                                    <Button
-                                                                        size="medium"
-                                                                        variant="contained"
-                                                                        color="inherit"
-                                                                        onClick={installRemoveImage}
-                                                                    >
-                                                                        Reset Photo
-                                                                    </Button>
-                                                                </div> : null}
-                                                        </Grid ></div>
+                                                                md={12}>
+                                                                <label htmlFor="upload-button1">
+                                                                    {install.preview ? (
+                                                                        <img src={install.preview} alt="install" width="300" height="300" />
+                                                                    ) : null}
+                                                                </label>
+                                                                <Typography>Installation Letter Photo:</Typography>
+                                                                <input
+                                                                    type="file"
+                                                                    id="upload-button1"
+                                                                    // style={{ display: "none" }}
+                                                                    onChange={handleChangeInstall}
+                                                                    accept="image/*"
+                                                                />
+                                                                <br />
+                                                                <span style={{ color: "red" }}>{errorI}</span>
+                                                                <br />
+                                                                <br />
+                                                                {installb ?
+                                                                    <div>
+                                                                        <Button
+                                                                            size="medium"
+                                                                            variant="contained"
+                                                                            color="primary"
+                                                                            style={{ backgroundColor: "#834bff" }}
+                                                                            onClick={(e) => { installUpload(e, user.mainAadhaar) }}
+                                                                        >
+                                                                            Submit Installation Photo
+                                                                        </Button>
+                                                                        <Button
+                                                                            size="medium"
+                                                                            variant="contained"
+                                                                            color="inherit"
+                                                                            onClick={installRemoveImage}
+                                                                        >
+                                                                            Reset Photo
+                                                                        </Button>
+                                                                    </div> : null}
+                                                            </Grid ></div>
                                                     )
-                                                } 
-                                                
-                                                
+                                                }
+
+
                                                 if (user.installtatus === "Complete") {
                                                     return (
                                                         <div><Typography color="primary">Installation photo already submitted !</Typography></div>

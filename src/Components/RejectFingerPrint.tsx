@@ -1,16 +1,13 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Copyright from "../Components/Copyright";
+import Copyright from "./Copyright";
 import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import MaterialTable from 'material-table';
 import { getToken } from '../Common/helper';
-
-
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -46,10 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function RejectFingerPrint() {
-    const classes = useStyles();
     const [allcustomer, setAllCustomer] = React.useState([]);
     const [viewPending, setViewPending] = React.useState(false)
-
 
     React.useEffect(() => {
         document.title = "Fingerprint List | JAMAN HP GAS  "
@@ -74,8 +69,6 @@ export default function RejectFingerPrint() {
             console.error(error);
         }
     }
-
-
 
     const columns = [
         { title: 'Sl No', field: 'tableData.id' },

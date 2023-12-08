@@ -8,10 +8,10 @@ import Container from "@material-ui/core/Container";
 import FooterSection from "../Components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { httpClient } from "../Common/Service";
-import ResponsiveDrawer from "./Drawer";
-import FullConsumerTable from "./FullConsumerTable";
-import OldFullConsumerTable from "./OldFullConsumerTable ";
-import ConnectionFullTable from "./ConnectionFullTable";
+import ResponsiveDrawer from "../Components/Drawer";
+import FullConsumerTable from "../Components/FullConsumerTable";
+import OldFullConsumerTable from "../Components/OldFullConsumerTable ";
+import ConnectionFullTable from "../Components/ConnectionFullTable";
 import { useHistory } from "react-router-dom";
 import MaterialTable from "material-table";
 

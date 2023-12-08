@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
-import { ToastContext } from "../Common/ToastProvider";
 import { Grid } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getToken } from '../Common/helper';
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MainDashboard = () => {
   const classes = useStyles();
-  const { showToast } = React.useContext(ToastContext);
   const [connection, setConnection] = React.useState({})
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([]);

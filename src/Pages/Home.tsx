@@ -1,18 +1,6 @@
 import React from "react";
 import {
-  Button,
-  Typography,
-  CardHeader,
-  Paper,
-  Tabs,
-  Tab,
-  CardContent,
-  Card,
-  Grid,
-  makeStyles,
-  Container,
-  CssBaseline,
-  TextField,
+  Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField
 } from "@material-ui/core";
 import { red } from '@material-ui/core/colors';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -37,13 +25,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import clsx from 'clsx';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
@@ -171,7 +158,6 @@ const DialogActions = withStyles((theme: Theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  let history = useHistory();
   const { showToast } = React.useContext(ToastContext);
   const [users, setUsers] = React.useState<any[]>([]);
   const [today, setDate] = React.useState(new Date());
@@ -207,8 +193,6 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
 
   const handleClickOpenAlert = () => {
     setOpenAlert(true);
@@ -282,11 +266,9 @@ const Home = () => {
 
   const handleChangeAgent = (event: any) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
-    //@ts-ignore
   }
 
   const handleChangeUser = (event: any) => {
-
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
 
@@ -339,8 +321,6 @@ const Home = () => {
           return showToast("No result found", "error");
         setUsers([result.data]);
         setCustomer(result.data);
-        //@ts-ignore
-
       }
       if (state.fileNumber) {
         const result = await httpClient("customer/find", "POST", {
@@ -351,8 +331,6 @@ const Home = () => {
           return showToast("No result found", "error");
         setUsers([result.data]);
         setCustomer(result.data);
-        //@ts-ignore
-
       }
     } catch (error) {
       showToast("Something went wrong", "error");
@@ -427,7 +405,6 @@ const Home = () => {
 
   const getUser = () => {
     let token: any = localStorage.getItem("access_token");
-
     var decoded = jwt_decode(token);
     //@ts-ignore
     let { role } = decoded;

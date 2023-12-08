@@ -1,35 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import { List, AppBar, CssBaseline, Drawer, Hidden, ListItem, ListItemIcon, ListItemText, Toolbar } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { Divider, Badge, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
 import Link from "@material-ui/core/Link";
-import jwt_decode from "jwt-decode";
 import SettingsIcon from '@material-ui/icons/Settings';
-import FormGroup from '@material-ui/core/FormGroup';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import TextField from '@material-ui/core/TextField';
+import { Menu, CardMedia, CardActionArea, MenuItem, TextField } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Divider from '@material-ui/core/Divider';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
@@ -45,7 +28,6 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import FaceIcon from '@material-ui/icons/Face';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import StorefrontIcon from '@material-ui/icons/Storefront';
@@ -54,10 +36,9 @@ import Card from "@material-ui/core/Card";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ErrorIcon from '@material-ui/icons/Error';
-import '../style/Header.css'
-import { getToken, getRole } from "../Common/helper";
+import { getToken, getRole, getUserId } from "../Common/helper";
 
-const drawerWidth = 260;
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -180,20 +161,7 @@ function ResponsiveDrawer() {
   };
 
 
-
-
-  const getUserId = () => {
-    let token: any = localStorage.getItem("access_token");
-    var decoded = jwt_decode(token);
-    //@ts-ignore
-    let { user_id } = decoded;
-    return user_id;
-
-  };
-
-
   React.useEffect(() => {
-    getUserId();
     fetchUser()
   }, []);
 
@@ -513,7 +481,7 @@ function ResponsiveDrawer() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#009688" }}>
-        <Toolbar >
+        <Toolbar style={{ justifyContent: "space-between" }}>
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -618,6 +586,8 @@ function ResponsiveDrawer() {
           </div>
         </Toolbar>
       </AppBar>
+
+
 
       <nav className={classes.drawer}   >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}

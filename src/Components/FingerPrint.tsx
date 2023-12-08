@@ -1,11 +1,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Copyright from "../Components/Copyright";
+import Copyright from "./Copyright";
 import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";

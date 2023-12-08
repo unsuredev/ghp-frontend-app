@@ -8,17 +8,11 @@ import Container from '@material-ui/core/Container';
 import { ToastContext } from "../Common/ToastProvider";
 import axios from "axios";
 import { useHistory } from "react-router"
-import jwt_decode from "jwt-decode";
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { BASE_URL } from "../Common/constant";
 import moment from "moment";
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { getToken, getUserId } from "../Common/helper";
@@ -27,7 +21,7 @@ import { getToken, getUserId } from "../Common/helper";
 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -76,8 +70,6 @@ const Profile = () => {
 
     }, []);
 
-
-
     const [user, setUser] = useState({
         "user_id": getUserId(),
         name: "",
@@ -106,9 +98,6 @@ const Profile = () => {
     };
 
     const [dob, setDob] = React.useState(new Date(moment().startOf('month').format('YYYY-MM-DD')));
-
-
-
     const [selectedImage, setSelectedImage] = React.useState(null);
     const [imageUrl, setImageUrl] = React.useState(null);
 
@@ -291,9 +280,6 @@ const Profile = () => {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <ResponsiveDrawer />
-                {/* <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
-                    Your Profile
-                </Typography> */}
                 <Grid>
                     <input accept="image/*"
                         onChange={HandlePhoto}
@@ -304,12 +290,11 @@ const Profile = () => {
                             <PhotoCamera />
                         </IconButton>
                     </label>
-                    {profile.preview && (
+                    {profile?.preview && (
                         <div>
                             <Box mt={2} textAlign="center">
                                 <div>Profile Preview:</div>
-                                {/* @ts-ignore */}
-                                <img src={profile.preview} alt="profile" height="100" />
+                                <img src={profile?.preview} alt="profile" height="100" />
                             </Box>
                             <Button variant="outlined" size="small" color="primary" onClick={UploadPhoto} >
                                 upload

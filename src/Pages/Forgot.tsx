@@ -78,8 +78,7 @@ const Forgot = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-              // value={user.email}
-              // onChange={handleChange}
+
               />
 
 
@@ -88,16 +87,13 @@ const Forgot = () => {
                 fullWidth
                 variant="contained"
                 color="primary"
-              //   className={classes.submit}
-              //   onClick={handleSubmit}
+
               >
                 Send Reset email
               </Button>
               <Grid container>
                 <Grid item xs>
-                  {/* <Link href="#" variant="body2">
-                  Forgot password?
-                </Link> */}
+
                 </Grid>
                 <br></br>
                 <Grid item style={{ marginTop: "25px" }}>

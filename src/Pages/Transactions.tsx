@@ -11,22 +11,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {
-  Button,
-  Grid,
-  makeStyles,
-  CssBaseline,
-  TextField,
-  Typography, Card
-} from "@material-ui/core";
+import { Button, Grid, makeStyles, CssBaseline, TextField, Typography, Card } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import moment from "moment";
 import MaterialTable from 'material-table';
 import { ToastContext } from "../Common/ToastProvider";
-import jwt_decode from "jwt-decode";
 import { getToken, getRole } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
@@ -213,8 +205,6 @@ export default function Transactions() {
     <React.Fragment>
       <CssBaseline />
       <ResponsiveDrawer />
-
-      {/* Hero unit */}
       <Container
         maxWidth="sm"
         component="main"
@@ -380,8 +370,6 @@ export default function Transactions() {
                 <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                   Refil-sale updated?
                 </Button> : null}
-
-
 
               <Dialog
                 open={open}

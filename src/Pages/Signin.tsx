@@ -80,14 +80,7 @@ const SignIn = () => {
             <title>Login | JAMAN HP</title>
           </Helmet>
           <Box
-            //@ts-ignore
-            sx={{
-              backgroundColor: 'background.default',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              justifyContent: 'center'
-            }}
+
           >
             <Container maxWidth="sm">
               {/* @ts-ignore */}
@@ -153,7 +146,7 @@ const SignIn = () => {
                       </Typography>
 
                       <img src={require("../hp.png").default} style={{ borderRadius: "20%" }}
-                        width="90px" height="90px" alt="hpgas logo" />
+                        width="90px" height="90px" alt="hpgas logo 2" />
 
                       <Typography
                         gutterBottom

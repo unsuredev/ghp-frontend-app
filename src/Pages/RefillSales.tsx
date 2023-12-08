@@ -19,7 +19,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { BASE_URL } from "../Common/constant";
 import { ToastContext } from "../Common/ToastProvider";
 import RefilSalesTable from '../Components/RefilSalesTable'
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import { getToken } from '../Common/helper';
 
 const useStyles = makeStyles((theme) => ({
@@ -179,7 +179,7 @@ const RefilSales = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data && result.data != undefined) {
@@ -232,7 +232,7 @@ const RefilSales = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data) {
@@ -261,7 +261,7 @@ const RefilSales = () => {
                 {
                     headers: {
                         encryption: false,
-                        access_token: getToken()
+                        token: getToken()
                     },
                 })
             if (result.data) {
@@ -281,10 +281,10 @@ const RefilSales = () => {
     const fetchRefilSalesHistory = async () => {
         try {
             setLoading(true)
-            const result = await axios.get(BASE_URL + "/refilsale/getAll", {
+            const result = await axios.get(BASE_URL + "refilsale/getAll", {
                 headers: {
                     encryption: false,
-                    access_token: getToken()
+                    token: getToken()
                 },
             });
             if (result.data) {
@@ -340,10 +340,9 @@ const RefilSales = () => {
                                             name="agent"
                                             variant="outlined"
                                         >
-                                            {agentList.map(item => (
+                                            {agentList.map((item: any) => (
                                                 <MenuItem
-                                                    //@ts-ignore
-                                                    key={item.label} value={item.value} >{item.label}</MenuItem>
+                                                    key={item?.label} value={item?.value} >{item?.label}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -361,7 +360,6 @@ const RefilSales = () => {
                     </Container>
                 </div>
                 <Container className={classes.cardGrid} >
-                    {/* @ts-ignore */}
                     <Typography component="h6" variant="h6" align="center" color="primary" gutterBottom>
                         Name:  {agentDetails}
                     </Typography>
@@ -462,7 +460,6 @@ const RefilSales = () => {
                                         onChange={handleChange}
                                         value={agentdata.emptyCycliderRecived19}
                                     />
-                                    {/* @ts-ignore */}
                                     <Typography style={{ textAlign: "left", padding: "4px" }} variant="body2">Empty Due :{emptyDue19Calculate()}</Typography>
                                     <TextField
                                         id="outlined-basic"
@@ -512,7 +509,6 @@ const RefilSales = () => {
                                         onChange={handleChange}
                                         value={agentdata.emptyCycliderRecived5ftl}
                                     />
-                                    {/* @ts-ignore */}
                                     <Typography style={{ textAlign: "left", padding: "5px" }} variant="body2">Empty Due :{agentdata.loadPaid5ftl - agentdata.emptyCycliderRecived5ftl}</Typography>
                                     <TextField
                                         id="outlined-basic"
@@ -563,7 +559,6 @@ const RefilSales = () => {
                                         onChange={handleChange}
                                         value={agentdata.emptyCycliderRecived5}
                                     />
-                                    {/* @ts-ignore */}
                                     <Typography style={{ textAlign: "left", padding: "4px" }} variant="body2">Empty Due :{emptyDue5Calculate()}</Typography>
                                     <TextField
                                         id="outlined-basic"
@@ -669,7 +664,6 @@ const RefilSales = () => {
                                 </CardContent>
                                 <CardActions>
                                     <Button fullWidth variant="contained" color="secondary">
-                                        {/* @ts-ignore */}
                                         Total Due:{todaysTotalAmountDue()}
                                     </Button>
                                 </CardActions>
@@ -689,10 +683,6 @@ const RefilSales = () => {
 
                 </Container>
             </main>
-            {/* Footer */}
-
-
-            {/* End footer */}
         </React.Fragment >
     );
 }

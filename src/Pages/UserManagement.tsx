@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../Components/Copyright";
 import { ToastContext } from "../Common/ToastProvider";
-import { Link as RouterLink, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,9 +16,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -34,7 +32,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { BASE_URL } from "../Common/constant";
 import { getToken } from "../Common/helper";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     height: "100vh",
   },

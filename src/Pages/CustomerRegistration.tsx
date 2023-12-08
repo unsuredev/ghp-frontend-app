@@ -1,29 +1,14 @@
 import React from "react";
-import {
-  Button,
-  Grid,
-  makeStyles,
-  CssBaseline,
-  TextField
-} from "@material-ui/core";
+import { Button, Grid, makeStyles, CssBaseline, TextField, MenuItem } from "@material-ui/core";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import { ToastContext } from "../Common/ToastProvider";
-import InputLabel from '@material-ui/core/InputLabel';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { InputLabel, Paper, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, FormControl, Select } from '@material-ui/core';
 import { getToken, getUserName } from "../Common/helper";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -82,13 +67,26 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+interface User {
+  name: string;
+  mainAadhaar: string;
+  familyAadhaar: string;
+  mobile: string;
+  regNo: string;
+  consumerNo: string;
+  mainAgent: string;
+  subAgent: string;
+  registeredAgencyName: string;
+  remarks: string;
+}
+
+
 const CustomerRegistration = () => {
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
-  const [lastUser, setLastUser] = React.useState({});
+  const [lastUser, setLastUser] = React.useState<User>();
   const [agentList, setAgetList] = React.useState([]);
   const [disabled, setDisabled] = React.useState(false)
-  const CHARACTER_LIMIT = 12;
 
 
   React.useEffect(() => {
@@ -109,19 +107,6 @@ const CustomerRegistration = () => {
     setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
   }
 
-  const [customer, setCustomer] = React.useState({
-    name: "",
-    mainAadhaar: "",
-    consumerNo: "",
-    familyAadhaar: "",
-    regNo: "",
-    mainAgent: "",
-    subAgent: "",
-    registeredAgencyName: "",
-    remarks: "",
-    mobile: "",
-    addedBy: "",
-  });
 
 
 
@@ -375,44 +360,34 @@ const CustomerRegistration = () => {
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">Customer Name : {lastUser.name}</TableCell>
+                    <TableCell align="left">Customer Name : {lastUser?.name}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left"> Main Aadhaar :{lastUser.mainAadhaar}</TableCell>
+                    <TableCell align="left"> Main Aadhaar :{lastUser?.mainAadhaar}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left"> Family Aadhaar :{lastUser.familyAadhaar}</TableCell>
+                    <TableCell align="left"> Family Aadhaar :{lastUser?.familyAadhaar}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">Mobile No: {lastUser.mobile}</TableCell>
+                    <TableCell align="left">Mobile No: {lastUser?.mobile}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">Registration No :{lastUser.regNo}</TableCell>
+                    <TableCell align="left">Registration No :{lastUser?.regNo}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left"> Consumer No :{lastUser.consumerNo}</TableCell>
+                    <TableCell align="left"> Consumer No :{lastUser?.consumerNo}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left"> Main Agent :{lastUser.mainAgent}</TableCell>
+                    <TableCell align="left"> Main Agent :{lastUser?.mainAgent}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">Sub Agent :{lastUser.subAgent}</TableCell>
+                    <TableCell align="left">Sub Agent :{lastUser?.subAgent}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">  Registered Agency Name  :{lastUser.registeredAgencyName}</TableCell>
+                    <TableCell align="left">  Registered Agency Name  :{lastUser?.registeredAgencyName}</TableCell>
                   </TableRow>
                   <TableRow>
-                    {/* @ts-ignore */}
-                    <TableCell align="left">  Remarks  :{lastUser.remarks}</TableCell>
+                    <TableCell align="left">  Remarks  :{lastUser?.remarks}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

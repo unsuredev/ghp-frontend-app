@@ -19,7 +19,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
@@ -35,7 +35,7 @@ function createData(name: string, address: string, mobile: number) {
 
 const AgentList = () => {
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles((theme: any) => ({
     root: {
       height: "100vh",
     },

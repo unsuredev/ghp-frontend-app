@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Button, Container, CssBaseline, TextField, } from "@material-ui/core";
+import { Container, CssBaseline, } from "@material-ui/core";
 import axios from "axios";
-import MUIDataTable from "mui-datatables";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BASE_URL } from "../Common/constant";
@@ -11,7 +10,6 @@ export default function FullConsumerTable() {
 
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
-    const [limit, setLimit] = React.useState(500)
     const columns = [
         { title: 'Sl No', field: 'tableData.id' },
         { title: "Old SlNo", field: "slNo" },

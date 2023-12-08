@@ -1,19 +1,19 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
-import AuthenticatedRoute from './Components/auth';
+import AuthenticatedRoute from './Components/Auth';
 import yellow from '@material-ui/core/colors/yellow'
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
 import Customer from './Pages/CustomerRegistration';
-import ResponsiveDrawer from './Pages/Drawer';
-import CustomerStats from './Pages/DailyCustomer';
+import ResponsiveDrawer from './Components/Drawer';
+import CustomerStats from './Pages/DailyUpdateCustomerPage';
 import Reports from './Pages/Report';
 import AgentList from './Pages/AgentManagement';
-import TrashConsumerTable from "./Pages/TrashUsers";
+import TrashConsumerTable from "./Components/TrashUsers";
 import Profile from './Pages/Profile';
 import ImageManagement from './Pages/ImageManagement'
-import OldDataManagement from './Pages/OldCustomerManagement'
+import OldDataManagement from './Components/OldCustomerManagement'
 import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
@@ -21,10 +21,12 @@ import UserDashBoard from './Pages/UserDashBoard'
 import SignInSide from './Pages/Login';
 import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
-import FingerPrint from "./Pages/FingerPrint";
+import FingerPrint from "./Components/FingerPrint";
 import RefillSales from "./Pages/RefillSales";
+import RefillSale from "./Components/RefilSale";
+
 import Transactions from './Pages/Transactions'
-import RejectFingerPrint from './Pages/RejectFingerPrint'
+import RejectFingerPrint from './Components/RejectFingerPrint'
 import MemberManagement from "./Pages/UserManagement";
 const theme = createMuiTheme(
 
@@ -120,6 +122,11 @@ const App = () => {
                 exact
                 path="/member"
                 component={MemberManagement}
+              />
+              <Route
+                exact
+                path="/test"
+                component={RefillSale}
               />
 
             </Switch >

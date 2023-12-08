@@ -1,25 +1,17 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { ToastContext } from "../Common/ToastProvider";
 import Container from "@material-ui/core/Container";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import ResponsiveDrawer from "./Drawer";
+import ResponsiveDrawer from "../Components/Drawer";
 import axios from "axios";
 import moment from "moment";
 import Avatar from '@material-ui/core/Avatar';
+import { Typography, Paper, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, Grid } from '@material-ui/core';
+
 import { BASE_URL } from "../Common/constant";
 import { getToken } from '../Common/helper';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
     root: {
         height: "100vh",
     },
@@ -104,9 +96,6 @@ const UserDashBoard = () => {
         handleUsersList()
     }, [])
 
-
-
-
     const handleUsersList = async () => {
         try {
             const result = await axios.get(BASE_URL + "user/getall", {
@@ -117,7 +106,6 @@ const UserDashBoard = () => {
             })
             setList(result.data.data)
         } catch (error) {
-            //@ts-ignore
             showToast("Something went wrong!", "error")
         }
     };
