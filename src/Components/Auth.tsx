@@ -3,12 +3,12 @@ import { Route, Redirect } from "react-router-dom";
 import { isNotAdmin } from '../Common/helper'
 
 
-const AuthenticatedRoute: React.FC<any> = ({component: Component,...rest}) => (
+const AuthenticatedRoute: React.FC<any> = ({ component: Component, ...rest }) => (
 
     <Route
         {...rest}
         render={props =>
-            isNotAdmin()==="user" ? (
+            isNotAdmin() === "user" ? (
                 <Redirect
                     to={{
                         pathname: "/home",
@@ -17,10 +17,15 @@ const AuthenticatedRoute: React.FC<any> = ({component: Component,...rest}) => (
                     }}
                 />
             ) : (
-                    <Component {...props} />
-                )
+                <Component {...props} />
+            )
         }
     />
 );
 
 export default AuthenticatedRoute
+
+
+
+
+

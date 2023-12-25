@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography, CardHeader, Tabs, Tab, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
+import { Button, Typography, CardHeader, Tabs, Tab, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField, FormControl } from "@material-ui/core";
 import ResponsiveDrawer from "../Components/Drawer";
 import FooterSection from "../Components/Footer";
 import { httpClient } from "../Common/Service";
@@ -373,7 +373,7 @@ export default function ImageManagement() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <ResponsiveDrawer />
+
             <main>
                 <div className={classes.heroContent} style={{ marginRight: "1rem" }}>
                     <Container maxWidth="sm">
@@ -520,6 +520,7 @@ export default function ImageManagement() {
                                                                 accept="image/*"
                                                             />
                                                             <br />
+
                                                             <span style={{ color: "red" }}>{errorI}</span>
                                                             <br />
                                                             <br />
@@ -783,7 +784,30 @@ export default function ImageManagement() {
                         ))}
                     </Grid>
                 </Container>
+                <Container>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Image"
+                                type="file"
+                                name="image"
+                                //onChange={ }
+                                // handleFileChange(event.target.files)
+
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        accept: "image/x-png,image/gif,image/jpeg",
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Grid>
+                </Container>
             </div>
+
             <FooterSection />
             {/* End footer */}
         </React.Fragment>

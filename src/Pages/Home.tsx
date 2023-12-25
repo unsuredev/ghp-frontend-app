@@ -5,7 +5,6 @@ import {
 import { red } from '@material-ui/core/colors';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import FooterSection from "../Components/Footer";
-import { useHistory } from "react-router-dom";
 import { httpClient } from "../Common/Service";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -164,13 +163,8 @@ const Home = () => {
   const [open, setOpen] = React.useState(false);
   const [nameuser, setNameuser] = React.useState("")
   const [agentList, setAgetList] = React.useState([]);
-  const [userObj, setUserObj] = React.useState({})
   const [openAlert, setOpenAlert] = React.useState(false);
   const CHARACTER_LIMIT = 12;
-  const [value, setValue] = React.useState('Not Complete');
-
-
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -276,62 +270,31 @@ const Home = () => {
   const handleFind = async (event: any) => {
     try {
       event.preventDefault();
-      if (state.mobile) {
-        const result = await httpClient("customer/find", "POST", {
-          findkey: "mobile",
-          mobile: state.mobile,
-        });
 
-        if (!result.data && result.data === undefined)
-          return showToast("No result found", "error");
-        setUsers([result.data]);
-        setCustomer(result.data);
+      const searchParams: any = {
+        mobile: state.mobile,
+        mainAadhaar: state.aadhaar,
+        consumerNo: state.consumerNo,
+        familyAadhaar: state.familyAadhaar,
+        regNo: state.fileNumber,
+      };
 
-      }
-      if (state.aadhaar) {
-        const result = await httpClient("customer/find", "POST", {
-          findkey: "mainAadhaar",
-          mainAadhaar: state.aadhaar,
-        });
-        if (!result.data && result.data === undefined)
-          return showToast("No result found", "error");
-        setUsers([result.data]);
-        //@ts-ignore
-        setCustomer(result.data);
+      for (const key in searchParams) {
+        if (searchParams[key]) {
+          const result = await httpClient("customer/find", "POST", {
+            findkey: key,
+            [key]: searchParams[key],
+          });
 
+          if (result.data !== undefined) {
+            setUsers([result.data]);
+            setCustomer(result.data);
+            return;
+          }
+        }
       }
-      if (state.consumerNo) {
-        const result = await httpClient("customer/find", "POST", {
-          findkey: "consumerNo",
-          consumerNo: state.consumerNo,
-        });
 
-        if (!result.data && result.data === undefined)
-          return showToast("No result found", "error");
-        setUsers([result.data]);
-        {/* @ts-ignore */ }
-        setCustomer(result.data);
-      }
-      if (state.familyAadhaar) {
-        const result = await httpClient("customer/find", "POST", {
-          findkey: "familyAadhaar",
-          familyAadhaar: state.familyAadhaar,
-        });
-        if (!result.data && result.data === undefined)
-          return showToast("No result found", "error");
-        setUsers([result.data]);
-        setCustomer(result.data);
-      }
-      if (state.fileNumber) {
-        const result = await httpClient("customer/find", "POST", {
-          findkey: "regNo",
-          regNo: state.fileNumber,
-        });
-        if (!result.data && result.data === undefined)
-          return showToast("No result found", "error");
-        setUsers([result.data]);
-        setCustomer(result.data);
-      }
+      showToast("No result found", "error");
     } catch (error) {
       showToast("Something went wrong", "error");
     }
@@ -417,7 +380,6 @@ const Home = () => {
 
   const isSuperAdmin = () => {
     let token: any = localStorage.getItem("access_token");
-
     var decoded = jwt_decode(token);
     //@ts-ignore
     const { role } = decoded;
@@ -434,11 +396,16 @@ const Home = () => {
 
     const timer = setInterval(() => {
       setDate(new Date());
+      console.log("date set");
     }, 60 * 1000);
+
     return () => {
       clearInterval(timer);
     };
   }, []);
+
+
+
 
 
   async function getCharacters() {
@@ -462,8 +429,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ResponsiveDrawer />
-      <div className={classes.heroContent}>
+      <div >
 
         <Container maxWidth="md" component="main" style={{ marginTop: "20px", paddingTop: "10px" }}>
           {userGreetings()}
@@ -487,7 +453,7 @@ const Home = () => {
                   onChange={handleChange}
                   type="tel"
                   inputProps={{
-                    maxlength: CHARACTER_LIMIT
+                    maxLength: CHARACTER_LIMIT
                   }}
                 />
               </form>
@@ -578,7 +544,7 @@ const Home = () => {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid className="maincontainer" style={{ textAlign: "center" }}>
           {users.length === 0 && (
-            <h2 style={{ margin: "auto", marginTop: "100px" }}>Your consumer data will display here!</h2>
+            <h2 style={{ margin: "auto", marginTop: "100px" }}></h2>
           )}
         </Grid>
         <Grid container spacing={4} className="maincontainer">
@@ -624,44 +590,29 @@ const Home = () => {
                           <Typography color="textSecondary" gutterBottom>
                             Consumer's Details
                           </Typography>
-
-                          {/* @ts-ignore */}
                           <Typography>Name : {user.name.toUpperCase()}  </Typography>
-                          {/* @ts-ignore */}
                           <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
-                          {/* @ts-ignore */}
                           <Typography>
                             Family Aadhaar : {user.familyAadhaar}
                           </Typography>
-                          {/* @ts-ignore */}
                           <Typography>Mobile No : {user.mobile}</Typography>
-                          {/* @ts-ignore */}
                           <Typography>Contact No : {user.contactNumber}</Typography>
-                          {/* @ts-ignore */}
                           <Typography>
                             Registration No : {user.regNo || "NA"}
                           </Typography>
                           <Typography>
                             Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
-
                           </Typography>
                           <Typography>
                             Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
-
                           </Typography>
-                          {/* @ts-ignore */}
                           <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
-                          {/* @ts-ignore */}
                           <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
                           <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
                           <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
-
                           <Typography>Remarks : {user.remarks || "NA"}</Typography>
-                          {/* @ts-ignore */}
                           <Typography>Registration status : {user.registrationStatus || "NA"}</Typography>
-                          {/* @ts-ignore */}
                           <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
-                          {/* @ts-ignore */}
                           {user.InstalationLetter && user.InstalationLetter != undefined &&
                             <Typography color="primary" >Installation : {user.installtatus}</Typography>}
                         </CardContent>

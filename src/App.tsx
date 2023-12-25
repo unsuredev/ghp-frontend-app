@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles'
 import teal from '@material-ui/core/colors/teal';
 import AuthenticatedRoute from './Components/Auth';
 import yellow from '@material-ui/core/colors/yellow'
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
-import Customer from './Pages/CustomerRegistration';
+import Customer from './Pages/Registration';
 import ResponsiveDrawer from './Components/Drawer';
-import CustomerStats from './Pages/DailyUpdateCustomerPage';
+import CustomerStats from './Pages/DailyUpdatePage';
 import Reports from './Pages/Report';
 import AgentList from './Pages/AgentManagement';
 import TrashConsumerTable from "./Components/TrashUsers";
@@ -28,7 +29,7 @@ import RefillSale from "./Components/RefilSale";
 import Transactions from './Pages/Transactions'
 import RejectFingerPrint from './Components/RejectFingerPrint'
 import MemberManagement from "./Pages/UserManagement";
-const theme = createMuiTheme(
+const theme = createTheme(
 
   {
     palette: {
@@ -43,92 +44,34 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
+        <ResponsiveDrawer />
         <ToastProvider>
           <Router>
             <Switch>
+              <Route exact path="/" component={SignInSide} />
+              <AuthenticatedRoute path="/dailycustomer" exact component={CustomerStats} />
+              <AuthenticatedRoute exact path="/reports" component={Reports} />
+              <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
+              <AuthenticatedRoute exact path="/trash" component={TrashConsumerTable} />
+              <AuthenticatedRoute exact path="/customerdocs" component={ImageManagement} />
+              <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
+              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
+              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/customer" component={Customer} />
-              <Route exact path="/" component={SignInSide} />
-              <Route exact path="/signin" component={SignInSide} />
               <Route exact path="/reset" component={Forgot} />
-              <Route exact path="/res" component={ResponsiveDrawer} />
-              <AuthenticatedRoute
-                path="/dailycustomer"
-                exact
-                component={CustomerStats}
-              />
-              <AuthenticatedRoute exact path="/reports" component={Reports} />
-              <AuthenticatedRoute
-                exact
-                path="/agentlist"
-                component={AgentList}
-              />
-              <AuthenticatedRoute
-                exact
-                path="/trash"
-                component={TrashConsumerTable}
-              />
               <Route exact path="/profile" component={Profile} />
-              <AuthenticatedRoute
-                exact
-                path="/customerDocs"
-                component={ImageManagement}
-              />
-              <AuthenticatedRoute
-                exact
-                path="/customerDocs"
-                component={ImageManagement}
-              />
-              <AuthenticatedRoute exact path="/customerDocs" component={ImageManagement} />
+              <Route exact path="/connection" component={ConnectionDashboard} />
               <Route exact path="/olddatamanagement" component={OldDataManagement} />
               <Route exact path="/connection" component={ConnectionDashboard} />
-              <AuthenticatedRoute
-                exact
-                path="/delivery"
-                component={MainDashboard}
-              />
-              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
-              <AuthenticatedRoute
-                exact
-                path="/customerDocs"
-                component={ImageManagement}
-              />
-              <Route
-                exact
-                path="/olddatamanagement"
-                component={OldDataManagement}
-              />
-              <Route exact path="/connection" component={ConnectionDashboard} />
-              <AuthenticatedRoute
-                exact
-                path="/delivery"
-                component={MainDashboard}
-              />
-              <AuthenticatedRoute
-                exact
-                path="/dash"
-                component={UserDashBoard}
-              />
               <Route exact path="/agentdashboard" component={AgentDashBoard} />
               <Route exact path="/fingerprint" component={FingerPrint} />
               <Route exact path="/refillsales" component={RefillSales} />
               <Route exact path="/transaction" component={Transactions} />
-              <Route
-                exact
-                path="/completefinger"
-                component={RejectFingerPrint}
+              <Route exact path="/completefinger" component={RejectFingerPrint} />
+              <Route exact path="/member" component={MemberManagement} />
+              <Route exact path="/test" component={RefillSale}
               />
-              <Route
-                exact
-                path="/member"
-                component={MemberManagement}
-              />
-              <Route
-                exact
-                path="/test"
-                component={RefillSale}
-              />
-
             </Switch >
           </Router >
         </ToastProvider >
@@ -138,3 +81,4 @@ const App = () => {
 }
 
 export default App;
+

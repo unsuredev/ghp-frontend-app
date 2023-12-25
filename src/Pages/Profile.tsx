@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Box, Grid, Container, Button, makeStyles, CssBaseline, Typography, TextField } from '@material-ui/core';
 import { ToastContext } from "../Common/ToastProvider";
 import axios from "axios";
 import { useHistory } from "react-router"
 import ResponsiveDrawer from "../Components/Drawer";
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import { BASE_URL } from "../Common/constant";
 import moment from "moment";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { getToken, getUserId } from "../Common/helper";
-
-
-
-
 
 const useStyles = makeStyles((theme: any) => ({
     paper: {
@@ -96,8 +85,6 @@ const Profile = () => {
     const handleChange = (event: any) => {
         setUser({ ...user, [event.target.name]: event.target.value });
     };
-
-    const [dob, setDob] = React.useState(new Date(moment().startOf('month').format('YYYY-MM-DD')));
     const [selectedImage, setSelectedImage] = React.useState(null);
     const [imageUrl, setImageUrl] = React.useState(null);
 
@@ -277,9 +264,8 @@ const Profile = () => {
             <br></br>
             <br></br>
             <br></br>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" className={classes.paper} >
                 <CssBaseline />
-                <ResponsiveDrawer />
                 <Grid>
                     <input accept="image/*"
                         onChange={HandlePhoto}
@@ -438,10 +424,7 @@ const Profile = () => {
                 >
                     UPDATE PASSWORD
                 </Button>
-
             </Container>
-
-
         </React.Fragment >
     );
 }

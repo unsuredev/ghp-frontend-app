@@ -191,10 +191,7 @@ export default function Transactions() {
     {
       title: "DATE ", field: "updatedAt", type: "date",
       dateSetting: { locale: "ko-KR" }
-    }
-
-
-  ]
+    }]
 
 
   React.useEffect(() => {
@@ -204,7 +201,6 @@ export default function Transactions() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ResponsiveDrawer />
       <Container
         maxWidth="sm"
         component="main"

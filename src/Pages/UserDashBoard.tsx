@@ -113,7 +113,6 @@ const UserDashBoard = () => {
 
     return (
         <React.Fragment>
-            <ResponsiveDrawer />
             <Container component="main" maxWidth="md">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>

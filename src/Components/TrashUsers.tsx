@@ -48,7 +48,6 @@ export default function TrashConsumerTable() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <ResponsiveDrawer />
             <Container component="main">
                 {loading ? (
                     <div

@@ -1,19 +1,14 @@
 import { Container, CssBaseline } from '@material-ui/core'
 import React from 'react'
 import ResponsiveDrawer from './Drawer'
-import {
-    Box,
-    Button,
-    Grid,
-    TextField, makeStyles,
-    Typography, Paper
-} from '@material-ui/core';
+import { Grid, TextField, makeStyles, Paper } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import FileUpload from '../Components/FileUpload';
 
 
 const useStyles = makeStyles({
@@ -22,12 +17,9 @@ const useStyles = makeStyles({
     },
 });
 
-
-
 const RefilSale = () => {
 
     const classes = useStyles();
-
     const data = [
         {
             employeeId: '01',
@@ -51,22 +43,20 @@ const RefilSale = () => {
 
 
     const [employeeData, setEmployeeData] = React.useState(data)
-
     const onChange = (e: any, employeeId: string) => {
         const { name, value } = e.target
-
         const editData = employeeData.map((item) =>
             item.employeeId === employeeId && name ? { ...item, [name]: value } : item
         )
-
         setEmployeeData(editData)
     }
+
 
     return (
         <React.Fragment>
             <CssBaseline />
-            <ResponsiveDrawer />
             <Container component="main" maxWidth="lg">
+                <FileUpload />
                 <Grid >
                     <Grid item xs={12} >
                     </Grid>
@@ -95,13 +85,6 @@ const RefilSale = () => {
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
                                                         placeholder="Name" id="standard-basic" label="Name" />
 
-
-                                                </TableCell>
-
-                                                <TableCell >
-                                                    <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
-                                                        placeholder="Name" id="standard-basic" label="Name" />
-
                                                 </TableCell>
                                                 <TableCell >
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
@@ -111,41 +94,35 @@ const RefilSale = () => {
                                                 <TableCell >
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
                                                         placeholder="Name" id="standard-basic" label="Name" />
-
                                                 </TableCell>
                                                 <TableCell >
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
                                                         placeholder="Name" id="standard-basic" label="Name" />
-
-                                                </TableCell>
-
-                                                <TableCell >
-                                                    <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
-                                                        placeholder="Name" id="standard-basic" label="Name" />
-
                                                 </TableCell>
                                                 <TableCell >
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
                                                         placeholder="Name" id="standard-basic" label="Name" />
-
                                                 </TableCell>
                                                 <TableCell >
                                                     <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
                                                         placeholder="Name" id="standard-basic" label="Name" />
-
+                                                </TableCell>
+                                                <TableCell >
+                                                    <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
+                                                        placeholder="Name" id="standard-basic" label="Name" />
+                                                </TableCell>
+                                                <TableCell >
+                                                    <TextField value={name} variant='outlined' onChange={(e) => onChange(e, employeeId)}
+                                                        placeholder="Name" id="standard-basic" label="Name" />
                                                 </TableCell>
                                             </TableRow>
                                         ))}
-
-
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </div>
                     </Grid>
                 </Grid>
-
-
             </Container>
         </React.Fragment>
     )

@@ -14,6 +14,7 @@ import OldFullConsumerTable from "../Components/OldFullConsumerTable ";
 import ConnectionFullTable from "../Components/ConnectionFullTable";
 import { useHistory } from "react-router-dom";
 import MaterialTable from "material-table";
+import { getRole } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,7 +150,6 @@ const Reports = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ResponsiveDrawer />
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
@@ -193,6 +193,8 @@ const Reports = () => {
                         variant="contained"
                         color="primary"
                         onClick={toggleNewView}
+                        disabled={getRole() === "superadmin" ? false : true}
+
                       >
                         View & Download
                       </Button>
@@ -230,15 +232,19 @@ const Reports = () => {
                           {oldCustomer}
                         </Typography>
                       )}
+
                       <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="secondary"
                         onClick={toggleView}
+                        disabled={getRole() === "superadmin" ? false : true}
                       >
                         View & Download
                       </Button>
+
+
                     </CardContent>
                   </Card>
                 </Grid>
@@ -279,6 +285,8 @@ const Reports = () => {
                         variant="contained"
                         style={{ backgroundColor: "#8bc34a" }}
                         onClick={connetionView}
+                        disabled={getRole() === "superadmin" ? false : true}
+
                       >
                         View & Download
                       </Button>
@@ -310,6 +318,8 @@ const Reports = () => {
                       variant="contained"
                       style={{ backgroundColor: "#f48fb1", color: "white" }}
                       onClick={setPendingView}
+                      disabled={getRole() === "superadmin" ? false : true}
+
                     >
                       View & Download
                     </Button>{" "}
@@ -340,6 +350,8 @@ const Reports = () => {
                       variant="contained"
                       style={{ backgroundColor: "#4fc3f7", color: "white" }}
                       onClick={() => history.push("/dash")}
+                      disabled={getRole() === "superadmin" ? false : true}
+
                     >
                       View
                     </Button>{" "}
@@ -370,6 +382,8 @@ const Reports = () => {
                       variant="contained"
                       style={{ backgroundColor: "#009688", color: "white" }}
                       onClick={() => history.push("/dash")}
+                      disabled={getRole() === "superadmin" ? false : true}
+
                     >
                       View
                     </Button>{" "}

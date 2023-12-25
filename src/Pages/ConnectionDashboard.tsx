@@ -81,6 +81,7 @@ const ConnectionDashboard = () => {
     });
     const [open, setOpen] = React.useState(false);
     const [agent, setAgent] = React.useState({
+        "agent_photo": "",
         "agent": "",
         "totalConnection": 0,
         "load": 0,
@@ -93,7 +94,7 @@ const ConnectionDashboard = () => {
         "hpOven": 0,
         "paidAmount": 0,
         "remarks": " ",
-        installationComplete: 0
+        "installationComplete": 0
     })
 
     const [connection, setConnection] = React.useState({
@@ -110,7 +111,6 @@ const ConnectionDashboard = () => {
         "paidAmount": 0,
         "remarks": " ",
     })
-
 
 
     const [pricing, setPricing] = React.useState({})
@@ -155,7 +155,6 @@ const ConnectionDashboard = () => {
     };
 
 
-
     const handleChange = (event: any) => {
         setConnection({ ...connection, [event.target.name]: event.target.value });
     }
@@ -163,7 +162,6 @@ const ConnectionDashboard = () => {
     const handleChangeSMS = (event: any) => {
         setSms({ ...sms, [event.target.name]: event.target.value });
     }
-
 
 
     const handleUpdate = async () => {
@@ -435,7 +433,6 @@ const ConnectionDashboard = () => {
     return (
         <React.Fragment>
             <CssBaseline />
-            <ResponsiveDrawer />
             <Container style={{ justifyContent: "center", alignContent: "center", textAlign: "center" }}>
                 <Grid item xs={12} sm={12} md={12}  >
                     <FormControl variant="outlined" className={classes.formControl}>
@@ -481,14 +478,16 @@ const ConnectionDashboard = () => {
                 </Grid>
                 {show ?
                     <Grid container spacing={3} style={{ marginTop: "2rem" }}>
+                        <Grid item xs={12} md={4}  >
 
+                        </Grid>
 
 
                         <Grid item xs={12} md={4}  >
                             <Card >
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://picsum.photos/200/300?random=2"
+                                    image={agent.agent_photo || "https://picsum.photos/200/300?random=2"}
                                     title="Image title"
                                 />
                                 <CardContent>

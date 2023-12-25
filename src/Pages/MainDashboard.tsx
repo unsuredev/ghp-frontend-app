@@ -64,8 +64,8 @@ const MainDashboard = () => {
       <ResponsiveDrawer />
       {loading ? <div style={{ paddingTop: "16rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}> <CircularProgress /> </div> :
         <div
-          className={classes.root}
-          style={{ textAlign: "center", marginTop: "5rem" }}
+
+          style={{ textAlign: "center" }}
         >
           <Grid container spacing={2}>
             <Grid item xs={2}></Grid>

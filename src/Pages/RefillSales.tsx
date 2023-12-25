@@ -7,13 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import {
-    Button,
-    Grid,
-    makeStyles,
-    CssBaseline,
-    TextField, Typography
-} from "@material-ui/core";
+import { Button, Grid, makeStyles, CssBaseline, TextField, Typography } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import { BASE_URL } from "../Common/constant";
@@ -100,12 +94,6 @@ const RefilSales = () => {
     const handleChange = (event: any) => {
         setAgentdata({ ...agentdata, [event.target.name]: event.target.value });
     };
-
-
-
-
-
-
 
     React.useEffect(() => {
         getCharacters();
@@ -316,7 +304,6 @@ const RefilSales = () => {
 
     return (
         <React.Fragment>
-            <ResponsiveDrawer />
             <CssBaseline />
             <main>
                 {/* Hero unit */}
@@ -324,9 +311,7 @@ const RefilSales = () => {
                     <Container maxWidth="md">
 
                         <div >
-                            <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                Refil Sales Managements
-                            </Typography>
+
                             <Grid container spacing={2} style={{ textAlign: "center" }} >
                                 <Grid item xs={12} md={4}>
                                 </Grid>

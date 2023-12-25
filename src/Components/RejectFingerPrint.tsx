@@ -86,7 +86,6 @@ export default function RejectFingerPrint() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <ResponsiveDrawer />
             <main>
                 <Container component="main" style={{ marginTop: "3rem", paddingTop: "2rem" }}>
                     <MaterialTable

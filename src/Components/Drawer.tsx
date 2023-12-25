@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import IconButton from "@material-ui/core/IconButton";
-import { List, AppBar, CssBaseline, Drawer, Hidden, ListItem, ListItemIcon, ListItemText, Toolbar } from "@material-ui/core";
+import { List, AppBar, Avatar, CssBaseline, Drawer, Hidden, ListItem, ListItemIcon, ListItemText, Toolbar } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Divider, Badge, makeStyles, Typography, useTheme } from "@material-ui/core";
@@ -13,7 +13,6 @@ import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import { Menu, CardMedia, CardActionArea, MenuItem, TextField } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import Avatar from '@material-ui/core/Avatar';
 import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -36,7 +35,7 @@ import Card from "@material-ui/core/Card";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ErrorIcon from '@material-ui/icons/Error';
-import { getToken, getRole, getUserId } from "../Common/helper";
+import { getToken, getRole, getUserId, isTokenExpired } from "../Common/helper";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -99,11 +98,7 @@ const StyledBadge = withStyles((theme: Theme) =>
         transform: 'scale(2.4)',
         opacity: 0,
       },
-    },
-    largeSize: {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
-    },
+    }
   }),
 )(Badge);
 
@@ -145,6 +140,7 @@ function ResponsiveDrawer() {
         showToast(result.data.message, "success");
         localStorage.clear();
         history.push("/");
+        window.location.reload();
       }
       else {
         showToast(result.data.message, "error");
@@ -162,9 +158,18 @@ function ResponsiveDrawer() {
 
 
   React.useEffect(() => {
-    fetchUser()
+    checkUserPhotoPresent()
   }, []);
 
+
+  const checkUserPhotoPresent = () => {
+    if (localStorage.getItem("profilePhoto") != null) {
+      setUser({ ...user, profile_url: JSON.parse(localStorage.getItem("profilePhoto")!) })
+    }
+    else {
+      fetchUser()
+    }
+  }
 
 
   const fetchUser = async () => {
@@ -180,6 +185,7 @@ function ResponsiveDrawer() {
           }
         })
       if (result.data && result.data != null) {
+        localStorage.setItem("profilePhoto", JSON.stringify(result.data.data.profile_url))
         setUser(result.data.data)
       }
       else {
@@ -217,6 +223,12 @@ function ResponsiveDrawer() {
       console.log(error)
       showToast("Status couldn't update", "error");
     }
+  };
+
+  const handleLocalLogout = () => {
+    localStorage.clear();
+    history.push("/");
+
   };
 
 
@@ -290,7 +302,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="NC Delivery Dashboard" />
               </ListItem>
             </Link>
-            <Link href="/customerDocs">
+            <Link href="/customerdocs">
               <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <CloudUploadIcon color="secondary" />
@@ -339,7 +351,7 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Date Wise Reports" />
               </ListItem>
             </Link>
-            <Link href="/trashUsers">
+            <Link href="/trash">
               <ListItem button style={{ color: "white" }}>
                 <ListItemIcon>
                   <RestoreFromTrashIcon color="secondary" />
@@ -439,7 +451,7 @@ function ResponsiveDrawer() {
             </Link>
             <Link href="/">
               <ListItem button style={{ color: "white" }}>
-                <ListItemIcon onClick={() => { localStorage.clear() }}>
+                <ListItemIcon onClick={handleLocalLogout}>
                   <ExitToAppIcon color="secondary" />
                 </ListItemIcon>
                 <ListItemText primary="Log out" />
@@ -478,158 +490,167 @@ function ResponsiveDrawer() {
 
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#009688" }}>
-        <Toolbar style={{ justifyContent: "space-between" }}>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography noWrap style={{ color: "white", fontSize: "20px", fontFamily: "cursive" }}>
-            JAMAN HP GAS
-          </Typography>
-
-
-          <div >
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="primary"
-            >
-              <div style={{ marginLeft: "3rem", paddingTop: "1rem" }}>
-                <StyledBadge
-                  //@ts-ignore
-                  overlap="circular"
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  variant="dot"
+    <>
+      {!isTokenExpired() ? (
+        <>
+          <div className={classes.root}>
+            <CssBaseline />
+            <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#009688" }}>
+              <Toolbar style={{ justifyContent: "space-between" }}>
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  className={classes.menuButton}
                 >
-                  <Avatar alt="Remy Sharp" src={user.profile_url} />
-                </StyledBadge>
-              </div>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={handleClose}
-              style={{ textAlign: "center" }}
-            >
-              <div >
-
-                <Card >
-                  <CardActionArea>
-                    <CardMedia
-                      image="/static/blue.jpg"
-                      title="Contemplative Reptile"
-                    />
-                  </CardActionArea>
-                </Card>
-                <StyledBadge
-                  //@ts-ignore
-                  overlap="circular"
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  variant="dot"
-                >
-
-                  <Avatar alt={user.name} src={user.profile_url} />
-                </StyledBadge>
-              </div>
-              <Divider />
-              <MenuItem onClick={() => history.push("/profile")}>Profile:&nbsp; <span style={{ color: "blue" }}>{user.name}</span></MenuItem>
-              <Divider />
-              {/* @ts-ignore */}
-
-              <MenuItem >Last login: &nbsp;<span style={{ color: "blue" }}> {moment(user.last_login_timestamp).format('LLL')} </span>  </MenuItem>
-              <Divider />
-              <MenuItem onClick={() => HandleOnline(user.is_online)} >{user.is_online ? <div style={{ display: "contents" }}> <p>Set yourself away </p> &nbsp; &nbsp; <RadioButtonUncheckedIcon style={{ color: "#40E227" }} /> </div> : <div style={{ display: "contents" }}>  <p> Set yourself active </p> &nbsp; &nbsp; <RadioButtonCheckedIcon style={{ color: "#40E227" }} /></div>}  </MenuItem>
-              <Divider />
-              <MenuItem >  <TextField
-                label="Update your status"
-                id="outlined-size-small"
-                variant="outlined"
-                size="small"
-                name="status"
-                value={user.status}
-                onChange={handleChange}
-
-              />
-                <IconButton color="primary" component="span" onClick={HandleStatus}>
-                  <DoneOutlineIcon color="primary" />
+                  <MenuIcon />
                 </IconButton>
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={handleLogout}>Log out &nbsp; &nbsp; <ExitToAppIcon color="primary" /></MenuItem>
-            </Menu>
+                <Typography noWrap style={{ color: "white", paddingLeft: "20px", fontSize: "15px", fontFamily: "cursive" }}>
+                  JAMAN HP GAS
+                </Typography>
+
+
+                <div >
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="primary"
+                  >
+                    <div style={{ marginLeft: "3rem", paddingTop: "1rem" }}>
+                      <StyledBadge
+                        //@ts-ignore
+                        overlap="circular"
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'right',
+                        }}
+                        variant="dot"
+                      >
+                        <Avatar alt="Remy Sharp" src={user.profile_url} />
+                      </StyledBadge>
+                    </div>
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div >
+
+                      <Card >
+                        <CardActionArea>
+                          <CardMedia
+                            image="/static/blue.jpg"
+                            title="Contemplative Reptile"
+                          />
+                        </CardActionArea>
+                      </Card>
+                      <StyledBadge
+                        //@ts-ignore
+                        overlap="circular"
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'right',
+                        }}
+                        variant="dot"
+                      >
+
+                        <Avatar alt={user.name} src={user.profile_url} />
+                      </StyledBadge>
+                    </div>
+                    <Divider />
+                    <MenuItem onClick={() => history.push("/profile")}>Profile:&nbsp; <span style={{ color: "blue" }}>{user.name}</span></MenuItem>
+                    <Divider />
+                    {/* @ts-ignore */}
+
+                    <MenuItem >Last login: &nbsp;<span style={{ color: "blue" }}> {moment(user.last_login_timestamp).format('LLL')} </span>  </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={() => HandleOnline(user.is_online)} >{user.is_online ? <div style={{ display: "contents" }}> <p>Set yourself away </p> &nbsp; &nbsp; <RadioButtonUncheckedIcon style={{ color: "#40E227" }} /> </div> : <div style={{ display: "contents" }}>  <p> Set yourself active </p> &nbsp; &nbsp; <RadioButtonCheckedIcon style={{ color: "#40E227" }} /></div>}  </MenuItem>
+                    <Divider />
+                    <MenuItem >  <TextField
+                      label="Update your status"
+                      id="outlined-size-small"
+                      variant="outlined"
+                      size="small"
+                      name="status"
+                      value={user.status}
+                      onChange={handleChange}
+
+                    />
+                      <IconButton color="primary" component="span" onClick={HandleStatus}>
+                        <DoneOutlineIcon color="primary" />
+                      </IconButton>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={handleLogout}>Log out &nbsp; &nbsp; <ExitToAppIcon color="primary" /></MenuItem>
+                  </Menu>
+                </div>
+              </Toolbar>
+            </AppBar>
+
+
+
+            <nav className={classes.drawer}   >
+              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+              <Hidden smUp implementation="css">
+                <Drawer
+                  variant="temporary"
+                  anchor={theme.direction === "rtl" ? "right" : "left"}
+                  open={mobileOpen}
+                  onClose={handleDrawerToggle}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                  ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                  }}
+                >
+                  <IconButton
+                    onClick={handleDrawerToggle}
+                    className={classes.closeMenuButton}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  {drawer}
+                </Drawer>
+              </Hidden>
+              <Hidden xsDown implementation="css">
+                <Drawer
+                  className={classes.drawer}
+                  variant="permanent"
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <div className={classes.toolbar} style={{ backgroundColor: "#009688", color: "white" }} />
+                  {drawer}
+                </Drawer>
+              </Hidden>
+            </nav>
+            <div className={classes.content} >
+              <div className={classes.toolbar} />
+            </div>
           </div>
-        </Toolbar>
-      </AppBar>
-
-
-
-      <nav className={classes.drawer}   >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            <IconButton
-              onClick={handleDrawerToggle}
-              className={classes.closeMenuButton}
-            >
-              <CloseIcon />
-            </IconButton>
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            <div className={classes.toolbar} style={{ backgroundColor: "#009688", color: "white" }} />
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <div className={classes.content} >
-        <div className={classes.toolbar} />
-      </div>
-    </div>
+        </>
+      ) : (
+        <React.Fragment></React.Fragment>
+      )
+      }
+    </>
   );
 }
 ResponsiveDrawer.propTypes = {
