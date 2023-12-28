@@ -73,7 +73,7 @@ export const parseJwt = (tokenParsed?: string) => {
   }
   if (token) {
     var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace("-", "+").replace("_", "/");
+    var base64 = base64Url?.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
   }
   return undefined;
@@ -81,13 +81,23 @@ export const parseJwt = (tokenParsed?: string) => {
 
 export const isTokenExpired = () => {
   const token = getToken();
+
   if (token) {
     const user = parseJwt(token);
     const cur_time = new Date().getTime() / 1000;
+
+    console.log('Token expiration time:', user.exp);
+    console.log('Current time:', cur_time);
+
     if (user && user.exp && cur_time < user.exp) {
+      console.log('Token is not expired.');
       return false;
     }
+
+    console.log('Token is expired.');
     return true;
   }
+
+  console.log('No token found.');
   return true;
 };

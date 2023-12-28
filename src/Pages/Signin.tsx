@@ -106,12 +106,11 @@ const SignIn = () => {
                         'Accept': 'application/json'
                       },
                     });
-                    console.log("data==>", result.data.data.token)
                     if (result.data.status === "success") {
-                      console.log("data", result.data.data.token)
                       localStorage.setItem("access_token", result.data.data.token)
                       showToast("Loggedin susccesssfully", "success")
                       history.push('/home')
+                      window.location.reload()
                     }
                   }
                   catch (error) {

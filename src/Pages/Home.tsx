@@ -391,7 +391,6 @@ const Home = () => {
   React.useEffect(() => {
     document.title = "Customer | Jaman HP Gas";
     findName()
-    getUser()
     getCharacters()
 
     const timer = setInterval(() => {
@@ -402,6 +401,7 @@ const Home = () => {
     return () => {
       clearInterval(timer);
     };
+
   }, []);
 
 
@@ -669,7 +669,7 @@ const Home = () => {
                                       src={user.InstalationLetter}
                                       alt="new"
                                     />
-                                    <a href={user.InstalationLetter} target="_blank">Download</a>
+                                    <a href={user.InstalationLetter} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
                               </div>
                               <br></br>
@@ -692,7 +692,7 @@ const Home = () => {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.satisfactionLetter} target="_blank">Download</a>
+                                    <a href={user.satisfactionLetter} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
                               </div>
                               <br></br>
@@ -715,7 +715,7 @@ const Home = () => {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.otherLetter} target="_blank">Download</a>
+                                    <a href={user.otherLetter} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
 
                               </div>

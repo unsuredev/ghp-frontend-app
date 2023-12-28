@@ -67,9 +67,9 @@ export default function SignInSide() {
   };
 
   let icon: any;
-  if (passwordShown == true) {
+  if (passwordShown === true) {
     icon = <VisibilityIcon onClick={togglePasswordVisiblity} />;
-  } else if (passwordShown == false) {
+  } else if (passwordShown === false) {
     icon = <VisibilityOffIcon onClick={togglePasswordVisiblity} />;
   }
 
@@ -117,6 +117,8 @@ export default function SignInSide() {
               );
               showToast("Loggedin susccesssfully", "success");
               history.push("/home");
+
+              window.location.reload();
             }
           } catch (error) {
             //@ts-ignore

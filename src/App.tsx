@@ -1,8 +1,10 @@
+import React from "react";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles'
 import teal from '@material-ui/core/colors/teal';
-import AuthenticatedRoute from './Components/Auth';
+import AuthenticatedRoute from './Components/auth';
 import yellow from '@material-ui/core/colors/yellow'
 import Forgot from './Pages/Forgot';
 import Home from './Pages/Home';
@@ -29,6 +31,7 @@ import RefillSale from "./Components/RefilSale";
 import Transactions from './Pages/Transactions'
 import RejectFingerPrint from './Components/RejectFingerPrint'
 import MemberManagement from "./Pages/UserManagement";
+import { isTokenExpired } from "./Common/helper";
 const theme = createTheme(
 
   {
@@ -44,11 +47,15 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <ResponsiveDrawer />
+
         <ToastProvider>
           <Router>
+            {!isTokenExpired() ? <ResponsiveDrawer /> : (<React.Fragment></React.Fragment>)}
+
             <Switch>
+
               <Route exact path="/" component={SignInSide} />
+              <Route exact path="/home" component={Home} />
               <AuthenticatedRoute path="/dailycustomer" exact component={CustomerStats} />
               <AuthenticatedRoute exact path="/reports" component={Reports} />
               <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
@@ -57,7 +64,6 @@ const App = () => {
               <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
               <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
               <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
-              <Route exact path="/home" component={Home} />
               <Route exact path="/customer" component={Customer} />
               <Route exact path="/reset" component={Forgot} />
               <Route exact path="/profile" component={Profile} />

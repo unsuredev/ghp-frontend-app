@@ -1,6 +1,5 @@
 import { Container, CssBaseline } from '@material-ui/core'
 import React from 'react'
-import ResponsiveDrawer from './Drawer'
 import { Grid, TextField, makeStyles, Paper } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import FileUpload from '../Components/FileUpload';
 
 
 const useStyles = makeStyles({
@@ -56,7 +54,6 @@ const RefilSale = () => {
         <React.Fragment>
             <CssBaseline />
             <Container component="main" maxWidth="lg">
-                <FileUpload />
                 <Grid >
                     <Grid item xs={12} >
                     </Grid>

@@ -71,7 +71,6 @@ const MemberManagement = () => {
   const [value, setValue] = React.useState('manager');
 
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("value", event.target.value)
     setValue((event.target as HTMLInputElement).value);
   };
 

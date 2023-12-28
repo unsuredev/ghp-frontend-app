@@ -163,14 +163,21 @@ function ResponsiveDrawer() {
 
 
   const checkUserPhotoPresent = () => {
-    if (localStorage.getItem("profilePhoto") != null) {
-      setUser({ ...user, profile_url: JSON.parse(localStorage.getItem("profilePhoto")!) })
+    if (localStorage.getItem("jhpuser") != null) {
+      setUser(JSON.parse(localStorage.getItem("jhpuser")!))
     }
     else {
       fetchUser()
     }
   }
 
+  const handleLocalLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('jhpuser');
+    localStorage.clear()
+    history.push("/");
+    window.location.reload();
+  }
 
   const fetchUser = async () => {
     try {
@@ -185,7 +192,7 @@ function ResponsiveDrawer() {
           }
         })
       if (result.data && result.data != null) {
-        localStorage.setItem("profilePhoto", JSON.stringify(result.data.data.profile_url))
+        localStorage.setItem("jhpuser", JSON.stringify(result.data.data))
         setUser(result.data.data)
       }
       else {
@@ -225,12 +232,6 @@ function ResponsiveDrawer() {
     }
   };
 
-  const handleLocalLogout = () => {
-    localStorage.clear();
-    history.push("/");
-
-  };
-
 
 
   const HandleOnline = async (status: boolean) => {
@@ -264,7 +265,7 @@ function ResponsiveDrawer() {
   }
 
 
-  const drawer = (
+  const MenuList = (
     <div style={{ backgroundColor: "#009688", color: "white" }}>
       <List
       >
@@ -376,17 +377,6 @@ function ResponsiveDrawer() {
               </ListItem>
             </Link>
 
-
-            <Link href="/">
-              <ListItem button style={{ color: "white" }}>
-                <ListItemIcon onClick={() => { localStorage.clear() }}>
-                  <ExitToAppIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary="Log out" />
-              </ListItem>
-            </Link>
-
-
           </div>
         )}
         {getRole() === "user" && (
@@ -457,7 +447,6 @@ function ResponsiveDrawer() {
                 <ListItemText primary="Log out" />
               </ListItem>
             </Link>
-
           </div>
         )}
 
@@ -509,8 +498,6 @@ function ResponsiveDrawer() {
                 <Typography noWrap style={{ color: "white", paddingLeft: "20px", fontSize: "15px", fontFamily: "cursive" }}>
                   JAMAN HP GAS
                 </Typography>
-
-
                 <div >
                   <IconButton
                     aria-label="account of current user"
@@ -529,7 +516,7 @@ function ResponsiveDrawer() {
                         }}
                         variant="dot"
                       >
-                        <Avatar alt="Remy Sharp" src={user.profile_url} />
+                        <Avatar alt={user.name} src={user.profile_url} />
                       </StyledBadge>
                     </div>
                   </IconButton>
@@ -596,7 +583,9 @@ function ResponsiveDrawer() {
                       </IconButton>
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={handleLogout}>Log out &nbsp; &nbsp; <ExitToAppIcon color="primary" /></MenuItem>
+                    <MenuItem onClick={handleLocalLogout}>Log out</MenuItem>
+
+
                   </Menu>
                 </div>
               </Toolbar>
@@ -625,7 +614,7 @@ function ResponsiveDrawer() {
                   >
                     <CloseIcon />
                   </IconButton>
-                  {drawer}
+                  {MenuList}
                 </Drawer>
               </Hidden>
               <Hidden xsDown implementation="css">
@@ -637,7 +626,7 @@ function ResponsiveDrawer() {
                   }}
                 >
                   <div className={classes.toolbar} style={{ backgroundColor: "#009688", color: "white" }} />
-                  {drawer}
+                  {MenuList}
                 </Drawer>
               </Hidden>
             </nav>
