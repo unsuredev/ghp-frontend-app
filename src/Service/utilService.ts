@@ -3,16 +3,26 @@ import { BASE_URL } from "../Common/constant";
 
 const getSignedUrl = async (data: any) => {
     try {
-        const { fileName, fileType, mainAadhaar, photo_key } = data;
+        const { fileName, fileType, mainAadhaar, photo_key, tab } = data;
+        let response
+        if (tab === 0) {
+            response = await fetch(`${BASE_URL}customer/uploadimages`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ fileName, fileType, mainAadhaar, photo_key }),
+            });
+        } else {
+            response = await fetch(`${BASE_URL}old/customer/uploadimages`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ fileName, fileType, mainAadhaar, photo_key }),
+            });
 
-        const response = await fetch(`${BASE_URL}customer/uploadimages`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ fileName, fileType, mainAadhaar, photo_key }),
-        });
-
+        }
         if (!response.ok) {
             throw new Error("Failed to get signed URL");
         }

@@ -62,17 +62,17 @@ export default function ImageManagement() {
     const [customer, setCustomer] = React.useState({
         mainAadhaar: ""
     });
-    const [value, setValue] = React.useState(0);
+    const [tab, setTab] = React.useState(0);
 
     const handleChangevalue = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setValue(newValue);
+        setTab(newValue);
     };
 
 
     const handleFind = async (event: any) => {
         try {
             event.preventDefault();
-            if (value === 0) {
+            if (tab === 0) {
                 if (state.aadhaar) {
                     const result = await httpClient("customer/find", "POST", {
                         mainAadhaar: state.aadhaar,
@@ -83,7 +83,7 @@ export default function ImageManagement() {
                     setCustomer(result.data);
                 }
             }
-            if (value === 1) {
+            if (tab === 1) {
                 if (state.aadhaar) {
                     const result = await httpClient("old/customer/findone", "POST", {
                         mainAadhaar: state.aadhaar,
@@ -134,7 +134,7 @@ export default function ImageManagement() {
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={12} md={12}>
                             <Tabs
-                                value={value}
+                                value={tab}
                                 onChange={handleChangevalue}
                                 indicatorColor="primary"
                                 textColor="primary"
@@ -258,7 +258,10 @@ export default function ImageManagement() {
                                                 if (findRole() === "superadmin") {
                                                     return (
                                                         <Grid item xs={12} md={12}>
-                                                            <FileUpload mainAadhaar={user.mainAadhaar} photo_key="InstalationLetter" />
+                                                            <Typography>Installation Letter  :</Typography>
+                                                            <br />
+
+                                                            <FileUpload mainAadhaar={user.mainAadhaar} photo_key="InstalationLetter" tab={tab} />
                                                         </Grid >
                                                     )
                                                 }
@@ -269,8 +272,11 @@ export default function ImageManagement() {
                                                         <div>
                                                             <Grid item xs={12}
                                                                 md={12}>
+                                                                <Typography>Installation Letter  :</Typography>
+                                                                <br />
 
-                                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="InstalationLetter" />
+
+                                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="InstalationLetter" tab={tab} />
                                                             </Grid ></div>
                                                     )
                                                 }
@@ -289,7 +295,7 @@ export default function ImageManagement() {
                                                 <Typography>Satisfaction Letter  :</Typography>
                                                 <br />
 
-                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="satisfactionLetter" />
+                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="satisfactionLetter" tab={tab} />
                                             </Grid>
 
                                             <Grid item xs={12}
@@ -298,7 +304,7 @@ export default function ImageManagement() {
                                                 <Typography>Other Letter  :</Typography>
                                                 <br />
 
-                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="otherLetter" />
+                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="otherLetter" tab={tab} />
                                             </Grid>
                                         </Grid>
                                     </Container>)}

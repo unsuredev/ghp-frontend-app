@@ -8,9 +8,10 @@ import * as Yup from "yup";
 interface FileUploadProps {
     mainAadhaar: string;
     photo_key: string;
+    tab: number;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ mainAadhaar, photo_key }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ mainAadhaar, photo_key, tab }) => {
     const { showToast } = React.useContext(ToastContext);
 
     const [isLoading, setLoading] = useState(false);
@@ -38,19 +39,22 @@ const FileUpload: React.FC<FileUploadProps> = ({ mainAadhaar, photo_key }) => {
             // Handle file upload
             try {
                 setLoading(true);
-                const fileName = `photos/customer/12369854701/${Date.now()}_jaman_hp_{re}`;
+                const fileName = `photos/customer/12369854701/${Date.now()}_jaman_hp_${mainAadhaar}`;
                 const signedUrlResult = await getSignedUrl({
                     fileName,
                     //@ts-ignore
                     fileType: values.file.type,
                     mainAadhaar,
                     photo_key,
+                    tab
                 });
                 if (signedUrlResult.status === "success") {
                     //@ts-ignore
                     await uploadFile(signedUrlResult.data.presignedUrl, values.file);
                     showToast(`Image uploaded successfully`, "success");
                     formik.resetForm();
+                    handleReset()
+
                 } else {
                     showToast(`Error while uploading image`, "error");
                 }
