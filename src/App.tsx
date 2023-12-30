@@ -1,6 +1,5 @@
 import React from "react";
-
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles'
 import teal from '@material-ui/core/colors/teal';
@@ -31,7 +30,7 @@ import RefillSale from "./Components/RefilSale";
 import Transactions from './Pages/Transactions'
 import RejectFingerPrint from './Components/RejectFingerPrint'
 import MemberManagement from "./Pages/UserManagement";
-import { isTokenExpired } from "./Common/helper";
+import { getToken, isTokenExpired } from "./Common/helper";
 const theme = createTheme(
 
   {
@@ -45,44 +44,49 @@ const theme = createTheme(
 
 const App = () => {
   return (
+
     <ThemeProvider theme={theme}>
       <div className="App">
-
         <ToastProvider>
           <Router>
-            {!isTokenExpired() ? <ResponsiveDrawer /> : (<React.Fragment></React.Fragment>)}
-
-            <Switch>
-
-              <Route exact path="/" component={SignInSide} />
-              <Route exact path="/home" component={Home} />
-              <AuthenticatedRoute path="/dailycustomer" exact component={CustomerStats} />
-              <AuthenticatedRoute exact path="/reports" component={Reports} />
-              <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
-              <AuthenticatedRoute exact path="/trash" component={TrashConsumerTable} />
-              <AuthenticatedRoute exact path="/customerdocs" component={ImageManagement} />
-              <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
-              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
-              <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
-              <Route exact path="/customer" component={Customer} />
-              <Route exact path="/reset" component={Forgot} />
-              <Route exact path="/profile" component={Profile} />
-              <Route exact path="/connection" component={ConnectionDashboard} />
-              <Route exact path="/olddatamanagement" component={OldDataManagement} />
-              <Route exact path="/connection" component={ConnectionDashboard} />
-              <Route exact path="/agentdashboard" component={AgentDashBoard} />
-              <Route exact path="/fingerprint" component={FingerPrint} />
-              <Route exact path="/refillsales" component={RefillSales} />
-              <Route exact path="/transaction" component={Transactions} />
-              <Route exact path="/completefinger" component={RejectFingerPrint} />
-              <Route exact path="/member" component={MemberManagement} />
-              <Route exact path="/test" component={RefillSale}
-              />
-            </Switch >
-          </Router >
-        </ToastProvider >
-      </div >
-    </ThemeProvider >
+            {getToken() === null ? (
+              <Switch>
+                <Route exact path="/" component={SignInSide} />
+                <Redirect to="/home" /> // Add this line
+              </Switch>
+            ) : (
+              <React.Fragment>
+                <ResponsiveDrawer />
+                <Switch>
+                  <Route exact path="/home" component={Home} />
+                  <AuthenticatedRoute path="/dailycustomer" exact component={CustomerStats} />
+                  <AuthenticatedRoute exact path="/reports" component={Reports} />
+                  <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
+                  <AuthenticatedRoute exact path="/trash" component={TrashConsumerTable} />
+                  <AuthenticatedRoute exact path="/customerdocs" component={ImageManagement} />
+                  <AuthenticatedRoute exact path="/delivery" component={MainDashboard} />
+                  <AuthenticatedRoute exact path="/dash" component={UserDashBoard} />
+                  <Route exact path="/customer" component={Customer} />
+                  <Route exact path="/reset" component={Forgot} />
+                  <Route exact path="/profile" component={Profile} />
+                  <Route exact path="/connection" component={ConnectionDashboard} />
+                  <Route exact path="/olddatamanagement" component={OldDataManagement} />
+                  <Route exact path="/connection" component={ConnectionDashboard} />
+                  <Route exact path="/agentdashboard" component={AgentDashBoard} />
+                  <Route exact path="/fingerprint" component={FingerPrint} />
+                  <Route exact path="/refillsales" component={RefillSales} />
+                  <Route exact path="/transaction" component={Transactions} />
+                  <Route exact path="/completefinger" component={RejectFingerPrint} />
+                  <Route exact path="/member" component={MemberManagement} />
+                  <Route exact path="/test" component={RefillSale}
+                  />
+                </Switch>
+              </React.Fragment>
+            )}
+          </Router>
+        </ToastProvider>
+      </div>
+    </ThemeProvider>
   );
 }
 

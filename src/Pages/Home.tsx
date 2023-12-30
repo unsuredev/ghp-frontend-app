@@ -24,7 +24,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import ResponsiveDrawer from "../Components/Drawer";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -36,7 +35,8 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Tooltip from '@material-ui/core/Tooltip';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import { getUserName, getRole, getToken } from '../Common/helper';
+import { getUserName, getRole, getToken, getUserId } from '../Common/helper';
+import { processUrl } from "../Service/utilService";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -293,10 +293,10 @@ const Home = () => {
           }
         }
       }
-
+      //@ts-ignore
       showToast("No result found", "error");
     } catch (error) {
-      showToast("Something went wrong", "error");
+      showToast("Something went wrong, Please login again", "error");
     }
   };
 
@@ -333,7 +333,7 @@ const Home = () => {
         })
 
 
-      if (result.data.data && result.data != undefined) {
+      if (result.data.data && result.data !== undefined) {
         showToast("Customer updated successfullly", "success");
       }
     } catch (error) {
@@ -352,7 +352,7 @@ const Home = () => {
           token: getToken()
         }
       })
-      if (result.data && result.data != undefined) {
+      if (result.data && result.data !== undefined) {
         showToast("Customer deleted successfullly", "success");
         window.location.reload();
         setOpenAlert(false);
@@ -391,8 +391,7 @@ const Home = () => {
   React.useEffect(() => {
     document.title = "Customer | Jaman HP Gas";
     findName()
-    getCharacters()
-
+    getAllAgents()
     const timer = setInterval(() => {
       setDate(new Date());
       console.log("date set");
@@ -405,22 +404,57 @@ const Home = () => {
   }, []);
 
 
+  React.useEffect(() => {
+    fetchUser()
+
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const result = await axios.post(BASE_URL + "user/find",
+        {
+          "user_id": getUserId()
+        },
+        {
+          headers: {
+            encryption: false,
+            token: getToken()
+          }
+        })
+      if (result.data && result.data !== null) {
+        localStorage.setItem("jhpuser", JSON.stringify(result.data.data))
+      }
+      else {
+        showToast(result.data.message, "error");
+      }
+    } catch (error) {
+      console.log(error)
+      showToast("Token invald, Login again", "error");
+    }
+  };
 
 
 
-  async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall/active", {
-      headers: {
-        encryption: false,
-        token: getToken()
-      },
-    });
-    //@ts-ignore
-    setAgetList(result.data.data.agents)
-    //@ts-ignore
-    setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+  async function getAllAgents() {
+    try {
+      const result = await axios.get(BASE_URL + "agent/getall/active", {
+        headers: {
+          encryption: false,
+          token: getToken()
+        },
+      });
+      if (result.data.data.agents.length === 0) {
+        //@ts-ignore
+        setAgetList(result.data.data.agents)
+        //@ts-ignore
+        setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+      }
+    } catch (error) {
+      //@ts-ignore
+      showToast(error.response.data.message, "error")
+      console.log(error)
+    }
   }
-
   const OldConsumerUpdatePermission = (customer: any) => {
     return customer.registeredAgencyName === customer.newRegisteredAgencyName ? true : false
   }
@@ -593,28 +627,28 @@ const Home = () => {
                           <Typography>Name : {user.name.toUpperCase()}  </Typography>
                           <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
                           <Typography>
-                            Family Aadhaar : {user.familyAadhaar}
+                            Family Aadhaar : {user?.familyAadhaar}
                           </Typography>
                           <Typography>Mobile No : {user.mobile}</Typography>
-                          <Typography>Contact No : {user.contactNumber}</Typography>
+                          <Typography>Contact No : {user?.contactNumber}</Typography>
                           <Typography>
                             Registration No : {user.regNo || "NA"}
                           </Typography>
                           <Typography>
-                            Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                            Consumer No : <span style={{ color: "#c6ff00" }}>{user?.consumerNo || "NA"}</span>
                           </Typography>
                           <Typography>
-                            Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
+                            Active Consumer No : <span style={{ color: "#c6ff00" }}>{user?.newConsumerNo || "NA"}</span>
                           </Typography>
                           <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
                           <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
-                          <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                          <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
-                          <Typography>Remarks : {user.remarks || "NA"}</Typography>
-                          <Typography>Registration status : {user.registrationStatus || "NA"}</Typography>
-                          <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
-                          {user.InstalationLetter && user.InstalationLetter != undefined &&
-                            <Typography color="primary" >Installation : {user.installtatus}</Typography>}
+                          <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user?.registeredAgencyName || "NA"}</span> </Typography>
+                          <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user?.newRegisteredAgency || "NA"}</span> </Typography>
+                          <Typography>Remarks : {user?.remarks || "NA"}</Typography>
+                          <Typography>Registration status : {user?.registrationStatus || "NA"}</Typography>
+                          <Typography >Single Women : {user?.isSingleWomen ? "YES" : "NO"}</Typography>
+                          {user.InstalationLetter && user?.InstalationLetter !== undefined &&
+                            <Typography color="primary" >Installation : {user?.installtatus}</Typography>}
                         </CardContent>
                       </Card>
 
@@ -669,7 +703,7 @@ const Home = () => {
                                       src={user.InstalationLetter}
                                       alt="new"
                                     />
-                                    <a href={user.InstalationLetter} target="_blank" rel="noreferrer">Download</a>
+                                    <a href={processUrl(user?.InstalationLetter)} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
                               </div>
                               <br></br>
@@ -692,7 +726,7 @@ const Home = () => {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.satisfactionLetter} target="_blank" rel="noreferrer">Download</a>
+                                    <a href={processUrl(user?.satisfactionLetter)} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
                               </div>
                               <br></br>
@@ -715,7 +749,7 @@ const Home = () => {
                                     >
                                         Download
                                     </Button> */}
-                                    <a href={user.otherLetter} target="_blank" rel="noreferrer">Download</a>
+                                    <a href={processUrl(user?.otherLetter)} target="_blank" rel="noreferrer">Download</a>
                                   </div> : "No Image found"}
 
                               </div>
@@ -726,7 +760,7 @@ const Home = () => {
                     </Grid>
                   )
                 }
-                if ((getRole() === "user" && user.mainAgent != getUserName())) {
+                if ((getRole() === "user" && user.mainAgent !== getUserName())) {
                   return (
                     <div><h1>No data found!</h1></div>
                   )
@@ -734,7 +768,7 @@ const Home = () => {
               })()}
 
               {(() => {
-                if (getRole() != "user") {
+                if (getRole() !== "user") {
                   return (
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
@@ -763,43 +797,43 @@ const Home = () => {
                               </div>
                             }
                             //@ts-ignore
-                            title={user.name.toUpperCase()}
+                            title={user?.name.toUpperCase()}
                           />
 
                           <CardContent className={classes.cardContent}>
                             {/* @ts-ignore */}
-                            <Typography >Main Aadhaar : <span style={{ color: "#ffea00" }}>{user.mainAadhaar}</span> </Typography>
+                            <Typography >Main Aadhaar : <span style={{ color: "#ffea00" }}>{user?.mainAadhaar}</span> </Typography>
                             {/* @ts-ignore */}
                             <Typography >
-                              Family Aadhaar : {user.familyAadhaar}
+                              Family Aadhaar : {user?.familyAadhaar}
                             </Typography>
                             {/* @ts-ignore */}
                             <Typography >Mobile No : {user.mobile}</Typography>
 
                             {/* @ts-ignore */}
-                            <Typography >Contact No : {user.contactNumber || "NA"}</Typography>
+                            <Typography >Contact No : {user?.contactNumber || "NA"}</Typography>
                             {/* @ts-ignore */}
-                            <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user.mainAgent.toUpperCase()}</span></Typography>
+                            <Typography>Main Agent : <span style={{ color: "#ffea00" }}>{user?.mainAgent.toUpperCase()}</span></Typography>
                             {/* @ts-ignore */}
 
-                            <Typography variant="subtitle1" gutterBottom>Sub Agent : {user.subAgent || "NA"}</Typography>
-                            <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user.newRegisteredAgency || "NA"}</span> </Typography>
+                            <Typography variant="subtitle1" gutterBottom>Sub Agent : {user?.subAgent || "NA"}</Typography>
+                            <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user?.newRegisteredAgency || "NA"}</span> </Typography>
                             {/* @ts-ignore */}
                             {user.newConsumerNo ?
                               <Typography >
-                                Active Consumer No : <span style={{ color: "#c6ff00" }}>{user.newConsumerNo || "NA"}</span>
+                                Active Consumer No : <span style={{ color: "#c6ff00" }}>{user?.newConsumerNo || "NA"}</span>
                               </Typography> : <Typography >
-                                Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                                Consumer No : <span style={{ color: "#c6ff00" }}>{user?.consumerNo || "NA"}</span>
                               </Typography>}
 
                             {/* @ts-ignore */}
-                            <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                            <Typography> Registration Status : {user.registrationStatus || "NA"}</Typography>
+                            <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user?.registeredAgencyName || "NA"}</span> </Typography>
+                            <Typography> Registration Status : {user?.registrationStatus || "NA"}</Typography>
                             {/* @ts-ignore */}
-                            <Typography >Single Women : {user.isSingleWomen ? "YES" : "NO"}</Typography>
+                            <Typography >Single Women : {user?.isSingleWomen ? "YES" : "NO"}</Typography>
                             {/* @ts-ignore */}
 
-                            <Typography>Free Delivery : {user.isFreeDelivery ? "YES" : "NO"}
+                            <Typography>Free Delivery : {user?.isFreeDelivery ? "YES" : "NO"}
                               {/* @ts-ignore */}
                               <Typography >
                                 File No : {user.regNo || "NA"}
@@ -807,11 +841,11 @@ const Home = () => {
 
                             </Typography>
                             {
-                              user.InstalationLetter && user.InstalationLetter != undefined &&
-                              <Typography >Installation : <span style={{ color: "#ffea00" }}> {user.installtatus}</span> </Typography>
+                              user.InstalationLetter && user.InstalationLetter !== undefined &&
+                              <Typography >Installation : <span style={{ color: "#ffea00" }}> {user?.installtatus}</span> </Typography>
                             }
 
-                            <Typography color="secondary">Remarks : {user.remarks || "NA"}</Typography>
+                            <Typography color="secondary">Remarks : {user?.remarks || "NA"}</Typography>
 
                           </CardContent >
                           <CardActions disableSpacing>
@@ -832,15 +866,15 @@ const Home = () => {
                             <CardContent>
 
                               {/* @ts-ignore */}
-                              <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
+                              <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user?.registeredAgencyName || "NA"}</span> </Typography>
                               <Typography >
-                                Consumer No : <span style={{ color: "#c6ff00" }}>{user.consumerNo || "NA"}</span>
+                                Consumer No : <span style={{ color: "#c6ff00" }}>{user?.consumerNo || "NA"}</span>
                               </Typography>
 
                               {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                               {
-                                user.updatedAt != undefined &&
+                                user.updatedAt !== undefined &&
                                 <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                               }
                               <Typography >Added By : {user.addedBy || "NA"}</Typography>
@@ -848,7 +882,7 @@ const Home = () => {
                               <Typography>Updated By : {user.updatedBy || "NA"}</Typography>
 
 
-                              <img src={user.InstalationLetter} alt={user.name} height="270px" width="410px" />
+                              <img src={processUrl(user.InstalationLetter)} alt={user.name} height="270px" width="410px" />
 
                             </CardContent >
                           </Collapse >
@@ -968,21 +1002,18 @@ const Home = () => {
                                   </Grid>
 
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
-                                    <Tooltip title="Old consumer is not allowed to update !">
-                                      <TextField
-                                        id="outlined-basic"
-                                        label="Old consumer No"
-                                        name="consumerNo"
-                                        variant="filled"
-                                        fullWidth
-                                        type="text"
-                                        value={customer.consumerNo}
-                                        InputProps={{
-                                          readOnly: !isSuperAdmin,
-                                        }}
-                                      />
-                                    </Tooltip>
+                                    <TextField
+                                      id="outlined-basic"
+                                      label="Old consumer No"
+                                      name="consumerNo"
+                                      variant="outlined"
+                                      fullWidth
+                                      type="text"
+                                      value={customer.consumerNo}
+                                      onChange={handleChangeUser}
 
+                                      disabled={!isSuperAdmin()}
+                                    />
                                   </Grid>
                                   <Grid item xs={12} sm={12} md={12} style={{ margin: "5px" }}>
                                     <TextField

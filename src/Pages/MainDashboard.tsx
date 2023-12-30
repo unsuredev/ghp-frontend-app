@@ -9,6 +9,7 @@ import axios from "axios";
 import { Grid } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getToken } from '../Common/helper';
+import { ToastContext } from "../Common/ToastProvider";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,6 +30,7 @@ const MainDashboard = () => {
   const [connection, setConnection] = React.useState({})
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([]);
+  const { showToast } = React.useContext(ToastContext);
 
 
   React.useEffect(() => {
@@ -52,6 +54,9 @@ const MainDashboard = () => {
     }
     catch (error) {
       if (error) {
+        console.log(error)
+        //@ts-ignore
+        showToast(error.response.data.message, "error")
       }
     }
   }

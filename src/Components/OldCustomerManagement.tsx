@@ -344,7 +344,7 @@ const OldDataManagement = () => {
     document.title = "Customer | Jaman HP Gas";
     findName()
     getUser()
-    getCharacters()
+    getAllAgents()
     const timer = setInterval(() => {
       setDate(new Date());
     }, 60 * 1000);
@@ -354,17 +354,27 @@ const OldDataManagement = () => {
   }, []);
 
 
-  async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall/active", {
-      headers: {
-        encryption: false,
-        token: getToken()
-      },
-    });
-    //@ts-ignore
-    setAgetList(result.data.data.agents)
-    //@ts-ignore
-    setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+  async function getAllAgents() {
+    try {
+      const result = await axios.get(BASE_URL + "agent/getall/active", {
+        headers: {
+          encryption: false,
+          token: getToken()
+        },
+      });
+      if (result.data.data.agents.length === 0) {
+        //@ts-ignore
+        setAgetList(result.data.data.agents)
+        //@ts-ignore
+        setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+      }
+    }
+    catch (error) {
+      if (error) {
+        //@ts-ignore
+        showToast(error.response.data.message, "error")
+      }
+    }
   }
 
   return (

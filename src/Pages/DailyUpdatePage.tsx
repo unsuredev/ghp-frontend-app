@@ -10,8 +10,9 @@ import { useTheme } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
-import ResponsiveDrawer from '../Components/Drawer';
 import FooterSection from '../Components/Footer'
+import { ToastContext } from "../Common/ToastProvider";
+
 
 import {
     MuiPickersUtilsProvider,
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CustomerStats = () => {
-    const classes = useStyles();
+    const { showToast } = React.useContext(ToastContext);
     const [users, setUsers] = useState<any[]>([]);
     let [userlist, setUserlist] = useState<any>([])
     let [mydevices, setMydevices] = useState<any[]>([]);
@@ -113,7 +114,11 @@ const CustomerStats = () => {
             }
         }
         catch (error) {
-            console.error(error);
+            if (error) {
+                console.log("error", error)
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
         }
     }
 
@@ -131,7 +136,11 @@ const CustomerStats = () => {
             }
         }
         catch (error) {
-            console.error(error);
+            if (error) {
+                console.log("error", error)
+                //@ts-ignore
+                showToast(error.response.data.message, "error")
+            }
         }
     }
 
@@ -218,7 +227,7 @@ const CustomerStats = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {users.map((row, i) => (
+                            {users?.map((row, i) => (
                                 <TableRow key={i}>
                                     <TableCell>{i + 1}</TableCell>
                                     <TableCell>{row.join_date}</TableCell>

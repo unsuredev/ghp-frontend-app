@@ -215,15 +215,15 @@ export default function ImageManagement() {
                                             <CardHeader style={{ textAlign: "center" }} />
                                             <div style={{ marginTop: "-40px" }}>
                                                 {/* @ts-ignore */}
-                                                <Typography>Name : {user.name.toUpperCase()}</Typography>
+                                                <Typography>Name : {user?.name?.toUpperCase()}</Typography>
                                                 {/* @ts-ignore */}
-                                                <Typography>Main Aadhaar : {user.mainAadhaar}</Typography>
+                                                <Typography>Main Aadhaar : {user?.mainAadhaar}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>
-                                                    Family Aadhaar : {user.familyAadhaar}
+                                                    Family Aadhaar : {user?.familyAadhaar}
                                                 </Typography>
                                                 {/* @ts-ignore */}
-                                                <Typography>Mobile No : {user.mobile}</Typography>
+                                                <Typography>Mobile No : {user?.mobile}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>
                                                     Registration No : {user.regNo || "NA"}
@@ -232,11 +232,11 @@ export default function ImageManagement() {
                                                     Consumer No :{user.consumerNo || "NA"}
                                                 </Typography>
                                                 {/* @ts-ignore */}
-                                                <Typography>Main Agent : {user.mainAgent.toUpperCase()}</Typography>
+                                                <Typography>Main Agent : {user?.mainAgent.toUpperCase()}</Typography>
                                                 {/* @ts-ignore */}
-                                                <Typography>Sub Agent : {user.subAgent || "NA"}</Typography>
+                                                <Typography>Sub Agent : {user?.subAgent || "NA"}</Typography>
                                                 <Typography>Registered Agency Name :<span style={{ color: "red" }}> {user.registeredAgencyName || "NA"}</span> </Typography>
-                                                <Typography>Remarks : {user.remarks || "NA"}</Typography>
+                                                <Typography>Remarks : {user?.remarks || "NA"}</Typography>
                                                 {/* @ts-ignore */}
                                                 <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
                                                 <Typography variant="subtitle2" gutterBottom color="primary">Added By : {user.addedBy || "NA"}</Typography>
@@ -328,11 +328,11 @@ export default function ImageManagement() {
                                     {user.InstalationLetter ?
                                         <div>
                                             <img
-                                                src={processUrl(user.InstalationLetter)}
+                                                src={processUrl(user?.InstalationLetter)}
                                                 alt="new"
                                             />
 
-                                            <a href={processUrl(user.InstalationLetter)} target="_blank" rel="noreferrer">Download</a>
+                                            <a href={processUrl(user?.InstalationLetter)} target="_blank" rel="noreferrer">Download</a>
 
                                         </div> : "No Image found"}
                                 </div>

@@ -3,17 +3,17 @@
   "name": "Jaman Hp Gas ",
   "icons": [
     {
-      "src": "/static/hp.png",
+      "src": "hp.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "/static/hp.png",
+      "src": "hp.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/static/hp.png",
+      "src": "hp.png",
       "type": "image/png",
       "sizes": "512x512"
     }

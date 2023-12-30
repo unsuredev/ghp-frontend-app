@@ -3,9 +3,7 @@ import { Box, Grid, Container, Button, makeStyles, CssBaseline, Typography, Text
 import { ToastContext } from "../Common/ToastProvider";
 import axios from "axios";
 import { useHistory } from "react-router"
-import ResponsiveDrawer from "../Components/Drawer";
 import { BASE_URL } from "../Common/constant";
-import moment from "moment";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { getToken, getUserId } from "../Common/helper";
@@ -54,7 +52,7 @@ const Profile = () => {
     const [error, setError] = React.useState("")
 
     React.useEffect(() => {
-        document.title = "Jaman HP GAS | Profile  "
+        document.title = " Jaman HP Gas | Profile  "
         fetchUser()
 
     }, []);
@@ -117,6 +115,11 @@ const Profile = () => {
             }
         } catch (error) {
             console.log(error)
+            //@ts-ignore
+            if (error.response && error.response.status === 401) {
+                history.push("/signin");
+            }
+            //@ts-ignore
             showToast("unable to find user!", "error");
         }
     };

@@ -52,7 +52,7 @@ export const uploadFile = async (
 export const processUrl = (url: string) => {
     const s3Domain = "https://jamanentterprise.s3.ap-south-1.amazonaws.com";
     // Check if the URL already contains the S3 domain
-    if (url.includes(s3Domain)) {
+    if (url?.includes(s3Domain)) {
         return url;
     } else {
         return `${s3Domain}/${url}`;

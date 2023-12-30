@@ -90,24 +90,33 @@ const CustomerRegistration = () => {
 
 
   React.useEffect(() => {
-    getCharacters();
+    getAllAgents();
   }, []);
 
 
-  async function getCharacters() {
-    const result = await axios.get(BASE_URL + "agent/getall/active", {
-      headers: {
-        encryption: false,
-        token: getToken()
-      },
-    });
-    //@ts-ignore
-    setAgetList(result.data.data.agents)
-    //@ts-ignore
-    setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+  async function getAllAgents() {
+    try {
+      const result = await axios.get(BASE_URL + "agent/getall/active", {
+        headers: {
+          encryption: false,
+          token: getToken()
+        },
+      });
+      if (result.data.data && result.data != null) {
+        //@ts-ignore
+        setAgetList(result.data.data.agents)
+        //@ts-ignore
+        setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
+      }
+    } catch (error) {
+      if (error) {
+        console.log("error", error)
+        //@ts-ignore
+        showToast(error.response.data.message, "error")
+      }
+      console.log("error", error)
+    }
   }
-
-
 
 
   return (

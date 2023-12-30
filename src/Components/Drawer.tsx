@@ -200,7 +200,7 @@ function ResponsiveDrawer() {
       }
     } catch (error) {
       console.log(error)
-      showToast("unable to find user!", "error");
+      showToast("Token invald, Login again", "error");
 
     }
   };
@@ -495,7 +495,7 @@ function ResponsiveDrawer() {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography noWrap style={{ color: "white", paddingLeft: "20px", fontSize: "15px", fontFamily: "cursive" }}>
+                <Typography noWrap style={{ color: "white", paddingLeft: "20px", fontSize: "15px", fontFamily: "sans-serif" }}>
                   JAMAN HP GAS
                 </Typography>
                 <div >
