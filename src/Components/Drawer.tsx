@@ -167,6 +167,7 @@ function ResponsiveDrawer() {
       setUser(JSON.parse(localStorage.getItem("jhpuser")!))
     }
     else {
+      localStorage.clear()
       fetchUser()
     }
   }
@@ -200,6 +201,7 @@ function ResponsiveDrawer() {
       }
     } catch (error) {
       console.log(error)
+      history.push("/");
       showToast("Token invald, Login again", "error");
 
     }

@@ -20,7 +20,7 @@ import ConnectionDashboard from './Pages/ConnectionDashboard'
 import { ToastProvider } from "./Common/ToastProvider";
 import MainDashboard from "./Pages/MainDashboard";
 import UserDashBoard from './Pages/UserDashBoard'
-import SignInSide from './Pages/Login';
+import SignInSide from './Pages/SignInSide';
 import AgentDashBoard from './Pages/AgentDashBoard'
 import './App.css';
 import FingerPrint from "./Components/FingerPrint";
@@ -49,10 +49,10 @@ const App = () => {
       <div className="App">
         <ToastProvider>
           <Router>
-            {getToken() === null ? (
+            {isTokenExpired() ? (
               <Switch>
                 <Route exact path="/" component={SignInSide} />
-                <Redirect to="/home" /> // Add this line
+                <Redirect to="/home" />
               </Switch>
             ) : (
               <React.Fragment>
