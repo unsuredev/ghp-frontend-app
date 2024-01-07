@@ -3,7 +3,6 @@ import { Container, CssBaseline } from "@material-ui/core";
 import axios from "axios";
 import MaterialTable from "material-table";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
 import { getToken } from "../Common/helper";
 
@@ -48,7 +47,7 @@ export default function TrashConsumerTable() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <Container component="main">
+            <Container component="main" style={{ marginTop: "3rem" }}>
                 {loading ? (
                     <div
                         style={{
@@ -73,7 +72,7 @@ export default function TrashConsumerTable() {
                             sorting: true,
                             pageSizeOptions: [5, 20, 50, 100, 200, 500],
                             headerStyle: {
-                                backgroundColor: "#009688",
+                                backgroundColor: "#004e8d",
                                 color: "#FFF",
                             },
                         }}

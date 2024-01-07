@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { ToastContext } from "../Common/ToastProvider";
 import Container from "@material-ui/core/Container";
-import ResponsiveDrawer from "../Components/Drawer";
 import axios from "axios";
 import moment from "moment";
 import Avatar from '@material-ui/core/Avatar';
@@ -113,9 +112,9 @@ const UserDashBoard = () => {
 
     return (
         <React.Fragment>
-            <Container component="main" maxWidth="md">
+            <Container >
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
+                    <Grid item spacing={1} style={{ marginTop: "4rem" }}>
                         <Typography component="h1" variant="h5">
                             User Activity Management
                         </Typography>

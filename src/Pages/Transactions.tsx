@@ -11,9 +11,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button, Grid, makeStyles, CssBaseline, TextField, Typography, Card } from "@material-ui/core";
+import { Button, Grid, makeStyles, CssBaseline, TextField, Typography, Divider, Card } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ResponsiveDrawer from "../Components/Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import moment from "moment";
@@ -194,9 +193,6 @@ export default function Transactions() {
     }]
 
 
-  React.useEffect(() => {
-    getTodayTransaction()
-  }, []);
 
   return (
     <React.Fragment>
@@ -215,15 +211,12 @@ export default function Transactions() {
         >
           Transaction Summary
         </Typography>
+        <Divider />
       </Container>
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Grid container>
-
-          <Grid item xs={12} sm={12} md={2}>
-          </Grid>
           <Grid item xs={12} sm={12} md={3}>
             <Typography>Todays All Expenses </Typography>
-
             <TextField
               id="outlined-basic"
               label="Load Account Transfer"
@@ -297,7 +290,7 @@ export default function Transactions() {
               Today's Total Expenses:&#x20B9; <b>{totalExpense()}</b>
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={4}>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
                 <TableBody>
@@ -397,8 +390,10 @@ export default function Transactions() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={3} style={{ marginRight: "2rem" }}>
-            <Card style={{ height: "20rem", width: "16rem", justifyContent: "center", textAlign: "center", backgroundColor: "#009688", color: "white" }}>
+          <Grid item xs={12} sm={12} md={4} style={{ marginLeft: "10px" }}>
+            <Card style={{
+              height: "20rem", width: "16rem", justifyContent: "center", textAlign: "center", backgroundColor: "#0f63a8", color: "white"
+            }}>
               <br></br>
               {/* @ts-ignore */}
               <Typography >Grand Total  Due: <b>{state.grandTotalDue}</b> </Typography>
@@ -423,12 +418,12 @@ export default function Transactions() {
 
 
             </Card>
-            <Button variant="outlined" size="medium" color="primary" onClick={fethcTransactionHistory} >
+            <Button variant="contained" size="medium" color="secondary" onClick={fethcTransactionHistory} >
               Fetch HISTORY
             </Button>
           </Grid>
         </Grid>
-      </Container>
+      </Container >
 
 
       <Container>
@@ -447,7 +442,7 @@ export default function Transactions() {
               sorting: true,
               pageSizeOptions: [5, 20, 50, 100, 200, 500],
               headerStyle: {
-                backgroundColor: '#009688',
+                backgroundColor: '#004e8d',
                 color: '#FFF'
               }
             }}
@@ -456,6 +451,6 @@ export default function Transactions() {
         }
       </Container>
 
-    </React.Fragment>
+    </React.Fragment >
   );
 }

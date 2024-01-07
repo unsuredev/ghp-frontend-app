@@ -19,7 +19,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import { makeStyles } from '@material-ui/core/styles';
-import ResponsiveDrawer from "../Components/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import MaterialTable from 'material-table';
@@ -439,8 +438,7 @@ const ConnectionDashboard = () => {
 
     return (
         <React.Fragment>
-            <CssBaseline />
-            <Container style={{ justifyContent: "center", alignContent: "center", textAlign: "center" }}>
+            <Container style={{ justifyContent: "center", alignContent: "center", textAlign: "center", marginTop: "4rem" }}>
                 <Grid item xs={12} sm={12} md={12}  >
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>

@@ -19,18 +19,12 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ResponsiveDrawer from "../Components/Drawer";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import axios from "axios";
 import { BASE_URL } from "../Common/constant";
 import { getToken } from '../Common/helper';
-
-function createData(name: string, address: string, mobile: number) {
-  return { name, address, mobile };
-}
-
 
 
 const AgentList = () => {
@@ -69,7 +63,6 @@ const AgentList = () => {
 
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
-  const [show, setShow] = React.useState(false)
 
   const [list, setList] = React.useState([])
 
@@ -78,13 +71,6 @@ const AgentList = () => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
   const [user, setUser] = React.useState({
-    name: "",
-    address: "",
-    mobile: "",
-  });
-
-
-  const [useragent, setUseragent] = React.useState({
     name: "",
     address: "",
     mobile: "",
@@ -163,7 +149,7 @@ const AgentList = () => {
     <React.Fragment>
       <Container component="main" maxWidth="md">
         <Grid container  >
-          <Grid item xs={12} sm={12} md={12} >
+          <Grid item xs={12} sm={12} md={12} style={{ marginTop: "6rem" }}>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}

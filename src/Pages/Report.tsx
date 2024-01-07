@@ -8,7 +8,6 @@ import Container from "@material-ui/core/Container";
 import FooterSection from "../Components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { httpClient } from "../Common/Service";
-import ResponsiveDrawer from "../Components/Drawer";
 import FullConsumerTable from "../Components/FullConsumerTable";
 import OldFullConsumerTable from "../Components/OldFullConsumerTable ";
 import ConnectionFullTable from "../Components/ConnectionFullTable";
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(4, 0, 3),
   },
   heroButtons: {
@@ -49,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
   },
   title: {
     fontSize: 14,
@@ -94,6 +88,7 @@ const Reports = () => {
 
   React.useEffect(() => {
     fetchPendingFinger();
+    fetchCount()
   }, []);
   const fetchPendingFinger = async () => {
     try {
@@ -144,7 +139,7 @@ const Reports = () => {
 
   React.useEffect(() => {
     document.title = "Live Stats | JAMAN HP GAS  ";
-    fetchCount();
+    //fetchCount();
   }, []);
 
   return (
@@ -436,7 +431,7 @@ const Reports = () => {
           </Container>
         )}
       </div>
-      <FooterSection />
+
     </React.Fragment>
   );
 };

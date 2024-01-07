@@ -155,7 +155,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-const Home = () => {
+const HomePage = () => {
   const classes = useStyles();
   const { showToast } = React.useContext(ToastContext);
   const [users, setUsers] = React.useState<any[]>([]);
@@ -197,16 +197,7 @@ const Home = () => {
     setOpenAlert(false);
   };
 
-  const hour = today.getHours();
-  const wish = `Good ${(hour < 12 && "Morning") || (hour < 17 && "Afternoon") || "Evening"
-    }, `;
-  const userGreetings = () => {
-    return (
 
-      <h2 style={{ textAlign: "center" }}>{wish}{nameuser}</h2>
-
-    );
-  };
 
   const [state, setState] = React.useState({
     regNo: "",
@@ -390,23 +381,12 @@ const Home = () => {
 
   React.useEffect(() => {
     document.title = "Customer | Jaman HP Gas";
-    findName()
     getAllAgents()
-    const timer = setInterval(() => {
-      setDate(new Date());
-      console.log("date set");
-    }, 60 * 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-
   }, []);
 
 
   React.useEffect(() => {
     fetchUser()
-
   }, []);
 
   const fetchUser = async () => {
@@ -462,118 +442,113 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <div >
-
-        <Container maxWidth="md" component="main" style={{ marginTop: "20px", paddingTop: "10px" }}>
-          {userGreetings()}
-
-          <Grid
-            container
-            className="maincontainer"
-            style={{ justifyContent: "center", textAlign: "center", marginTop: "-10px" }}
-          >
-            <Grid item xs={12} sm={12} md={2}>
-              <form className={classes.form} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-basic"
-                  label="Main Aadhaar"
-                  variant="outlined"
-                  fullWidth
-                  name="aadhaar"
-                  autoComplete="aadhaar"
-                  autoFocus
-                  value={state.aadhaar}
-                  onChange={handleChange}
-                  type="tel"
-                  inputProps={{
-                    maxLength: CHARACTER_LIMIT
-                  }}
-                />
-              </form>
-            </Grid>
-            <Grid item xs={12} sm={12} md={2}>
-              <form className={classes.form} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-basic"
-                  label="Family Aadhaar"
-                  name="familyAadhaar"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={state.familyAadhaar}
-                  onChange={handleChange}
-                />
-              </form>
-            </Grid>
-            <Grid item xs={12} sm={12} md={2}>
-              <form className={classes.form} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-basic"
-                  label="Mobile No"
-                  name="mobile"
-                  fullWidth
-                  variant="outlined"
-                  type="tel"
-                  value={state.mobile}
-                  onChange={handleChange}
-                  inputProps={{
-                    maxLength: 10
-                  }}
-                />
-              </form>
-            </Grid>
-            <Grid item xs={12} sm={12} md={2}>
-              <form className={classes.form} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-basic"
-                  label="Consumer No"
-                  name="consumerNo"
-                  variant="outlined"
-                  fullWidth
-                  type="text"
-                  value={state.consumerNo}
-                  onChange={handleChange}
-                />
-              </form>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={2} >
-              <form className={classes.form} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-basic"
-                  label="File No "
-                  name="fileNumber"
-                  variant="outlined"
-                  fullWidth
-                  type="text"
-                  value={state.fileNumber}
-                  onChange={handleChange}
-                />
-              </form>
-            </Grid>
-            <div
-              style={{
-                textAlign: "center",
-                justifyContent: "center",
-                margin: "20px",
-              }}
-            >
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleFind}
-                style={{ backgroundColor: "#009688", color: "white" }}
-              >
-                FIND CUSTOMER
-              </Button>
-
-            </div>
-
-            <Grid />
+      <Container >
+        <Grid
+          container
+          className="maincontainer"
+          style={{ justifyContent: "center", textAlign: "center", marginTop: "4rem" }}
+        >
+          <Grid item xs={12} sm={12} md={2}>
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                id="outlined-basic"
+                label="Main Aadhaar"
+                variant="outlined"
+                fullWidth
+                name="aadhaar"
+                autoComplete="aadhaar"
+                autoFocus
+                value={state.aadhaar}
+                onChange={handleChange}
+                type="tel"
+                inputProps={{
+                  maxLength: CHARACTER_LIMIT
+                }}
+              />
+            </form>
           </Grid>
-        </Container>
-      </div>
+          <Grid item xs={12} sm={12} md={2}>
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                id="outlined-basic"
+                label="Family Aadhaar"
+                name="familyAadhaar"
+                variant="outlined"
+                fullWidth
+                type="number"
+                value={state.familyAadhaar}
+                onChange={handleChange}
+              />
+            </form>
+          </Grid>
+          <Grid item xs={12} sm={12} md={2}>
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                id="outlined-basic"
+                label="Mobile No"
+                name="mobile"
+                fullWidth
+                variant="outlined"
+                type="tel"
+                value={state.mobile}
+                onChange={handleChange}
+                inputProps={{
+                  maxLength: 10
+                }}
+              />
+            </form>
+          </Grid>
+          <Grid item xs={12} sm={12} md={2}>
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                id="outlined-basic"
+                label="Consumer No"
+                name="consumerNo"
+                variant="outlined"
+                fullWidth
+                type="text"
+                value={state.consumerNo}
+                onChange={handleChange}
+              />
+            </form>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={2} >
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                id="outlined-basic"
+                label="File No "
+                name="fileNumber"
+                variant="outlined"
+                fullWidth
+                type="text"
+                value={state.fileNumber}
+                onChange={handleChange}
+              />
+            </form>
+          </Grid>
+          <div
+            style={{
+              textAlign: "center",
+              justifyContent: "center",
+              margin: "20px",
+            }}
+          >
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleFind}
+              color="primary"
+            >
+              FIND CUSTOMER
+            </Button>
+
+          </div>
+
+          <Grid />
+        </Grid>
+      </Container>
+
 
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid className="maincontainer" style={{ textAlign: "center" }}>
@@ -599,7 +574,7 @@ const Home = () => {
                 if (getRole() === "user" && user.mainAgent === getUserName()) {
                   return (
                     <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
-                      <Card className={classes.card} key={i} style={{ marginTop: "40px", backgroundColor: "#009688", color: "white" }} >
+                      <Card className={classes.card} key={i} style={{ marginTop: "40px", backgroundColor: "#004e8d", color: "white" }} >
                         {user.isSingleWomen
                           ? <Typography color="secondary"><ErrorOutlineIcon /> This registration is single women.Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
                           : ""}
@@ -773,7 +748,7 @@ const Home = () => {
                     <Grid container>
                       <Grid item xs={12} sm={12} md={12} >
 
-                        <Card className={classes.card} key={i} style={{ backgroundColor: "#009688", color: "white" }}  >
+                        <Card className={classes.card} key={i} style={{ backgroundColor: "#004e8d", color: "white" }}  >
                           {user.isSingleWomen
                             ? <Typography color="secondary"><ErrorOutlineIcon /> This registration is single women.Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
                             : ""}
@@ -785,13 +760,13 @@ const Home = () => {
                                     <CheckCircleIcon style={{ color: "#ffea00" }} />
                                   </IconButton> : null}
                                 <IconButton aria-label="settings" onClick={handleClickOpen}>
-                                  <EditIcon onClick={handleClickOpen} />
+                                  <EditIcon onClick={handleClickOpen} color="secondary" />
                                 </IconButton>
                                 {getUser() ?
                                   <IconButton
                                     aria-label="settings"
                                   >
-                                    <DeleteIcon onClick={() => (handleClickOpenAlert())} />
+                                    <DeleteIcon onClick={() => (handleClickOpenAlert())} color="secondary" />
                                   </IconButton> : null
                                 }
                               </div>
@@ -845,7 +820,7 @@ const Home = () => {
                               <Typography >Installation : <span style={{ color: "#ffea00" }}> {user?.installtatus}</span> </Typography>
                             }
 
-                            <Typography color="secondary">Remarks : {user?.remarks || "NA"}</Typography>
+                            <Typography >Remarks : {user?.remarks || "NA"}</Typography>
 
                           </CardContent >
                           <CardActions disableSpacing>
@@ -1208,9 +1183,9 @@ const Home = () => {
           ))}
         </Grid>
       </Container>
-      <FooterSection />
+
     </React.Fragment>
   );
 }
 
-export default Home;
+export default HomePage;

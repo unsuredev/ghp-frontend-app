@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { httpClient } from "../Common/Service";
-import ResponsiveDrawer from '../Components/Drawer'
 import axios from "axios";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MaterialTable from "material-table";
@@ -266,7 +265,6 @@ const AgentDashBoard = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ResponsiveDrawer />
       {/* Hero unit */}
       <div className={classes.heroContent}>
         <Container maxWidth="lg">
@@ -285,17 +283,15 @@ const AgentDashBoard = () => {
           ) : (
             <div>
               <Grid container spacing={2} style={{ marginTop: "50px" }}>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#78909c" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         PMUY 2.0 Registration
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -315,10 +311,9 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#ef9a9a" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
@@ -327,7 +322,6 @@ const AgentDashBoard = () => {
                       <Typography
                         variant="h2"
                         component="h2"
-                        color="secondary"
                         style={{
                           fontWeight: "bold",
                           textAlign: "center",
@@ -340,9 +334,9 @@ const AgentDashBoard = () => {
                     <Button
                       variant="contained"
                       size="small"
+                      color="secondary"
                       className={classes.margin}
                       onClick={fetchNewConsumer}
-                      color="secondary"
                       style={{
                         fontWeight: "bold",
                         textAlign: "center",
@@ -352,17 +346,15 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#90caf9 " }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Single Aadhaar Consumer
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -382,47 +374,17 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-                {/* <Grid item xs={12} sm={12} md={3}>
-                    <Card
-                      className={classes.card}
-                      style={{ backgroundColor: "#90caf9 " }}
-                    >
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          Single Aadhaar Pass Registration
-                        </Typography>
-                        <Typography
-                          color="secondary"
-                          variant="h2"
-                          component="h2"
-                          style={{ fontWeight: "bold", textAlign: "center" }}
-                        >
-                          {singleUser}
-                        </Typography>
-                      </CardContent>
-                      <CardActions></CardActions>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        color="secondary"
-                        className={classes.margin}
-                        onClick={manageSingleAadhaar}
-                      >
-                        View
-                      </Button>
-                    </Card>
-                  </Grid> */}
+
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "black" }}
+
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography
                         gutterBottom
                         variant="h5"
                         component="h2"
-                        color="secondary"
                       >
                         Double Aadhaar Consumer
                       </Typography>
@@ -450,14 +412,12 @@ const AgentDashBoard = () => {
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#90caf9 " }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Today's Registration
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -481,14 +441,12 @@ const AgentDashBoard = () => {
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#b39ddb" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Installation Pending
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -514,14 +472,12 @@ const AgentDashBoard = () => {
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#a5d6a7" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Total Load
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -535,14 +491,12 @@ const AgentDashBoard = () => {
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#ffccbc" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Installation Complete
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -556,14 +510,12 @@ const AgentDashBoard = () => {
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
-                    style={{ backgroundColor: "#b2dfdb" }}
                   >
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Total Old Consumer (Before2021)
                       </Typography>
                       <Typography
-                        color="secondary"
                         variant="h2"
                         component="h2"
                         style={{ fontWeight: "bold", textAlign: "center" }}
@@ -595,7 +547,7 @@ const AgentDashBoard = () => {
               sorting: true,
               pageSizeOptions: [5, 20, 50, 100, 200, 500],
               headerStyle: {
-                backgroundColor: "#F42870",
+                backgroundColor: "#004e8d",
                 color: "#FFF",
               },
             }}

@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import { ToastContext } from "../Common/ToastProvider";
+import { getToken } from '../Common/helper';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -33,24 +34,6 @@ const Header = () => {
   let history = useHistory();
   const [today, setDate] = React.useState(new Date());
   const { showToast } = React.useContext(ToastContext);
-
-  const hour = today.getHours();
-  const wish = `Good ${(hour < 12 && 'Morning') || (hour < 17 && 'Afternoon') || 'Evening'}, `;
-  const userGreetings = () => {
-    return (
-      <div>
-        <h2>
-          {wish}</h2>
-      </div>
-    )
-  }
-
-
-
-  const getToken = () => {
-    //@ts-ignore
-    return localStorage.getItem("access_token")
-  }
 
   const handleLogout = async () => {
     try {

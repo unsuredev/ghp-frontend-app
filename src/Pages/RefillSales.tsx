@@ -13,15 +13,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { BASE_URL } from "../Common/constant";
 import { ToastContext } from "../Common/ToastProvider";
 import RefilSalesTable from '../Components/RefilSalesTable'
-import ResponsiveDrawer from "../Components/Drawer";
 import { getToken } from '../Common/helper';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
         marginRight: theme.spacing(2),
-    },
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
     },
 
     cardGrid: {
@@ -97,7 +93,6 @@ const RefilSales = () => {
 
     React.useEffect(() => {
         getCharacters();
-        fetchRefilSalesHistory()
     }, []);
 
 
@@ -306,44 +301,40 @@ const RefilSales = () => {
         <React.Fragment>
             <CssBaseline />
             <main>
-                {/* Hero unit */}
-                <div className={classes.heroContent}>
-                    <Container maxWidth="md">
+                <Container maxWidth="md" style={{ marginTop: "3rem" }}>
 
-                        <div >
+                    <Grid container spacing={2} style={{ textAlign: "center" }} >
+                        <Grid item xs={12} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <FormControl variant="filled" className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>
+                                <Select
+                                    onChange={handleChange}
+                                    labelId="demo-simple-select-outlined-label"
+                                    id="demo-simple-select-outlined"
+                                    name="agent"
+                                    variant="outlined"
+                                >
+                                    {agentList.map((item: any) => (
+                                        <MenuItem
+                                            key={item?.label} value={item?.value} >{item?.label}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                    <div style={{ marginTop: "1rem", textAlign: "center" }}>
+                        <Button variant="contained" size="medium" color="primary" onClick={handleFind} >
+                            FETCH AGENT DEATILS
+                        </Button>
+                        <Button variant="contained" size="medium" color="secondary" onClick={handleSalesHistory} >
+                            FETCH AGENT HISTORY
+                        </Button>
+                    </div>
 
-                            <Grid container spacing={2} style={{ textAlign: "center" }} >
-                                <Grid item xs={12} md={4}>
-                                </Grid>
-                                <Grid item xs={12} md={4}>
-                                    <FormControl variant="filled" className={classes.formControl}>
-                                        <InputLabel id="demo-simple-select-required-label">Agent Name *</InputLabel>
-                                        <Select
-                                            onChange={handleChange}
-                                            labelId="demo-simple-select-outlined-label"
-                                            id="demo-simple-select-outlined"
-                                            name="agent"
-                                            variant="outlined"
-                                        >
-                                            {agentList.map((item: any) => (
-                                                <MenuItem
-                                                    key={item?.label} value={item?.value} >{item?.label}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
-                            <div style={{ marginTop: "1rem", textAlign: "center" }}>
-                                <Button variant="contained" size="medium" color="primary" onClick={handleFind} >
-                                    FETCH AGENT DEATILS
-                                </Button>
-                                <Button variant="contained" size="medium" color="secondary" onClick={handleSalesHistory} >
-                                    FETCH AGENT HISTORY
-                                </Button>
-                            </div>
-                        </div>
-                    </Container>
-                </div>
+                </Container>
+
                 <Container className={classes.cardGrid} >
                     <Typography component="h6" variant="h6" align="center" color="primary" gutterBottom>
                         Name:  {agentDetails}

@@ -1,9 +1,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Container, Grid } from '@material-ui/core';
 import Copyright from "./Copyright";
-import ResponsiveDrawer from "./Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import MaterialTable from 'material-table';
@@ -85,29 +84,29 @@ export default function RejectFingerPrint() {
 
     return (
         <React.Fragment>
-            <CssBaseline />
-            <main>
-                <Container component="main" style={{ marginTop: "3rem", paddingTop: "2rem" }}>
-                    <MaterialTable
-                        title="Your ALL REJECT FINGER PRINT LIST JAMAN HP GAS"
-                        data={allcustomer}
-                        columns={columns}
-                        options={{
-                            exportButton: true,
-                            exportAllData: true,
-                            filtering: true,
-                            sorting: true,
-                            pageSizeOptions: [20, 50, 100, 200, 500],
-                            headerStyle: {
-                                backgroundColor: '#009688',
-                                color: '#FFF'
-                            }
-                        }}
-                    />
-                </Container>
-            </main>
-            <br></br>
-            <Copyright />
+            <Container component="main" style={{ marginTop: "3rem", paddingTop: "2rem", justifyContent: "center", textAlign: "center" }}>
+                <Grid container >
+                    <Grid sm={12} md={12} xs={12}>
+                        <MaterialTable
+                            title="REJECT FINGER PRINT LIST: JAMAN HP GAS"
+                            data={allcustomer}
+                            columns={columns}
+                            options={{
+                                exportButton: true,
+                                exportAllData: true,
+                                filtering: true,
+                                sorting: true,
+                                pageSizeOptions: [20, 50, 100, 200, 500],
+                                headerStyle: {
+                                    backgroundColor: '#004e8d',
+                                    color: '#FFF'
+                                }
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+
+            </Container>
         </React.Fragment>
     );
 }

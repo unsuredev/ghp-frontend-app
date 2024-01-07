@@ -16,7 +16,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ResponsiveDrawer from "../Components/Drawer";
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Accordion from '@material-ui/core/Accordion';
@@ -26,7 +25,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import axios from "axios";
 import Radio from '@material-ui/core/Radio';
 import FormControl from "@material-ui/core/FormControl";
-
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { BASE_URL } from "../Common/constant";
@@ -69,7 +67,6 @@ const MemberManagement = () => {
   const [list, setList] = React.useState([])
   const [show, setShow] = React.useState(false)
   const [value, setValue] = React.useState('manager');
-
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
@@ -94,13 +91,11 @@ const MemberManagement = () => {
 
   const handleChange = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
-
   };
 
   const handleChangeAgent = (event: any) => {
     setAgent({ ...agent, [event.target.name]: event.target.value });
   };
-
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -127,7 +122,6 @@ const MemberManagement = () => {
     }
   }
 
-
   const handleSubmitAgent = async (event: any) => {
     event.preventDefault();
     try {
@@ -153,8 +147,6 @@ const MemberManagement = () => {
     }
   }
 
-
-
   React.useEffect(() => {
     fetchUsersList()
   }, [])
@@ -171,7 +163,6 @@ const MemberManagement = () => {
       if (result.data && result.data != null) {
         showToast(result.data.message, "success");
         window.location.reload();
-
       }
     } catch (error) {
       //@ts-ignore
@@ -181,7 +172,6 @@ const MemberManagement = () => {
 
   const handleRoleChange = async (Email: string) => {
     try {
-
       const result = await axios.post(BASE_URL + "user/roleupdate", {
         "email": Email,
         "role": value
@@ -193,7 +183,6 @@ const MemberManagement = () => {
       })
       if (result.data && result.data != null) {
         showToast(result.data.message, "success");
-
       }
     } catch (error) {
       //@ts-ignore
@@ -221,18 +210,7 @@ const MemberManagement = () => {
 
   return (
     <React.Fragment>
-      <ResponsiveDrawer />
-      <Container component="main" maxWidth="md">
-        <Grid container>
-          <Grid item xs={12} sm={12} md={12} style={{ margin: "auto", justifyContent: "center", textAlign: "center" }}>
-            <Typography component="h1" variant="h5">
-              JAMAN HP GAS
-            </Typography>
-            <h4>Code: 13816000</h4>
-          </Grid>
-        </Grid>
-      </Container>
-      <Container component="main" maxWidth="lg">
+      <Container component="main" maxWidth="md" style={{ marginTop: "4rem" }}>
         <Grid container  >
           <Grid item xs={12} sm={12} md={12} >
             <Accordion>

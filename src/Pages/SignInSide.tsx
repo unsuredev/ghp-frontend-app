@@ -110,15 +110,14 @@ export default function SignInSide() {
               }
             );
             if (result.data.status === "success") {
-              console.log("data", result.data.data.token);
+              console.log("data", result.data.token);
               localStorage.setItem(
                 "access_token",
-                result.data.data.token
-              );
+                result.data.token)
               showToast("Loggedin susccesssfully", "success");
               history.push("/home");
 
-              window.location.reload();
+              // window.location.reload();
             }
           } catch (error) {
             //@ts-ignore

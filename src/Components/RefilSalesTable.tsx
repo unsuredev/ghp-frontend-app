@@ -2,7 +2,7 @@ import React from 'react'
 import MaterialTable from 'material-table';
 
 
-function RefilSalesTable(props:any) {
+function RefilSalesTable(props: any) {
 
     const columns = [
         { title: "Name", field: "agent" },
@@ -29,10 +29,10 @@ function RefilSalesTable(props:any) {
         { title: "Total Amount Paid ", field: "totalAmountPaid" },
         { title: "Total Amount Due ", field: "totalAmountDue" },
         { title: "Remarks ", field: "remarks" },
-                                {
-                                    title: "DATE ", field: "updatedAt", type: "date",
-                                    dateSetting: { locale: "ko-KR" }
-                                }
+        {
+            title: "DATE ", field: "updatedAt", type: "date",
+            dateSetting: { locale: "ko-KR" }
+        }
 
     ]
 
@@ -41,7 +41,7 @@ function RefilSalesTable(props:any) {
             <MaterialTable
                 title="JAMAN HP REFIL SALES"
                 data={props.dataAray}
-                                                //@ts-ignore
+                //@ts-ignore
 
                 columns={columns}
                 options={{

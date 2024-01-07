@@ -63,8 +63,37 @@ const httpCustomUrlClient = async (url: string, type: string, obj: any = undefin
 
 
 
+
+
+
+export const removeNulls = (obj: any) => {
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] && typeof obj[key] === "object") {
+      removeNulls(obj[key]);
+    } else if (obj[key] === null) {
+      delete obj[key];
+    }
+  });
+  return obj;
+};
+
 const getToken = () => {
   return localStorage.getItem("access_token");
+};
+
+export const getFullName = (data: {
+  firstName: string;
+  middleName?: string;
+  lastName?: string;
+}) => {
+  let name = data.firstName;
+  if (data.middleName) {
+    name = name + " " + data.middleName;
+  }
+  if (data.lastName) {
+    name = name + " " + data.lastName;
+  }
+  return name;
 };
 
 

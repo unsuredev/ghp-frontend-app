@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import ResponsiveDrawer from "../Components/Drawer";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -66,15 +65,13 @@ const MainDashboard = () => {
 
   return (
     <React.Fragment>
-      <ResponsiveDrawer />
       {loading ? <div style={{ paddingTop: "16rem", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}> <CircularProgress /> </div> :
         <div
 
-          style={{ textAlign: "center" }}
+          style={{ textAlign: "center", marginTop: "3rem" }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -101,7 +98,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -128,7 +125,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -157,8 +154,7 @@ const MainDashboard = () => {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -185,7 +181,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -212,7 +208,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -241,8 +237,7 @@ const MainDashboard = () => {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -269,7 +264,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>
@@ -296,7 +291,7 @@ const MainDashboard = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
                   <Typography color="textSecondary" gutterBottom>

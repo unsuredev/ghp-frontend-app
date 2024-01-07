@@ -22,7 +22,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import ResponsiveDrawer from "./Drawer";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -382,9 +381,9 @@ const OldDataManagement = () => {
       <div >
         <div >
           <Container maxWidth="md" component="main" >
-            <h2 style={{ margin: "auto", textAlign: "center" }}>
-              <InfoIcon style={{ color: "red" }} />
-              You are interacting with 2021 earlier customer!</h2>
+            <h2 style={{ margin: "auto", textAlign: "center", marginTop: "4rem" }}>
+              <InfoIcon fontSize="small" style={{ color: "red", marginTop: "10px" }} />
+              You are interacting with 2021 earlier consumer!</h2>
             <br />
             <Grid
               container

@@ -3,7 +3,6 @@ import { Button, Grid, makeStyles, CssBaseline, TextField, MenuItem } from "@mat
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { ToastContext } from "../Common/ToastProvider";
-import ResponsiveDrawer from "../Components/Drawer";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import { InputLabel, Paper, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, FormControl, Select } from '@material-ui/core';
@@ -121,12 +120,10 @@ const CustomerRegistration = () => {
 
   return (
     <React.Fragment>
-      <CssBaseline />
       <div className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} md={3}     >
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}      >
+        <Grid container spacing={1} style={{ marginTop: "2rem" }}>
+
+          <Grid item xs={12} sm={12} md={6}      >
             <div>
               <h2>New Customer Registration</h2>
               <Formik
@@ -311,7 +308,7 @@ const CustomerRegistration = () => {
                         <FormControl variant="outlined">
                           <InputLabel id="demo-simple-select-filled-label">Registered Agency Name</InputLabel>
                           <Select
-                            style={{ width: "38rem" }}
+                            style={{ width: "36rem" }}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
                             value={values.registeredAgencyName}

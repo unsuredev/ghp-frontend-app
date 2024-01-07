@@ -21,14 +21,31 @@ export const getToken = () => {
 
 
 export const getUserName = () => {
-  let token: any = localStorage.getItem(tokenKey);
-  var decoded = jwt_decode(token);
-  //@ts-ignore
-  let { name } = decoded;
-  if (name && name != undefined) {
+  const token: any = localStorage.getItem(tokenKey);
+
+  if (token) {
+    const decoded = jwt_decode(token);
+    //@ts-ignore
+    const { name } = decoded;
     return name
   }
 
+  // Return undefined if no valid name is found
+  return undefined;
+};
+
+export const getShortName = () => {
+
+  const token: any = localStorage.getItem(tokenKey);
+  if (token) {
+    const decoded = jwt_decode(token);
+    //@ts-ignore
+    const { name } = decoded;
+    if (name && name !== undefined) {
+      // Return only the first 5 characters of the name
+      return name.slice(0, 5);
+    }
+  }
 }
 
 export const getRole = () => {
@@ -100,4 +117,12 @@ export const isTokenExpired = () => {
 
   console.log('No token found.');
   return true;
+};
+export const setToken = (token: string) => {
+  localStorage.setItem("access_token", token);
+};
+export const removeToken = () => {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("jhpuser");
+
 };
