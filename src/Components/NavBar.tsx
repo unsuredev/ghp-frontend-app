@@ -13,7 +13,7 @@ import { ClassProps, } from "../vm";
 import SideMenu from "../Common/sidemenu/SideMenu";
 import { Popover, Paper, Avatar } from "@material-ui/core";
 import Divider from '@material-ui/core/Divider';
-import { getShortName, isTokenExpired, parseJwt, removeToken } from "../Common/helper";
+import { getShortName, getUserInfo, isTokenExpired, parseJwt, removeToken } from "../Common/helper";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
 const drawerWidth = 240;
@@ -27,6 +27,7 @@ export interface NavBarState {
   openPopOver: boolean;
   anchorE1: HTMLButtonElement | null;
   userData: any;
+  userInfo: any
 }
 
 class NavBar extends React.Component<NavBarProps, NavBarState> {
@@ -38,10 +39,12 @@ class NavBar extends React.Component<NavBarProps, NavBarState> {
       openPopOver: false,
       anchorE1: null,
       userData: parseJwt(),
+      userInfo: null
     };
   }
   componentDidMount = () => {
     this.setState({ userData: parseJwt() });
+    this.setState({ userInfo: getUserInfo() });
   };
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -124,7 +127,7 @@ class NavBar extends React.Component<NavBarProps, NavBarState> {
                     color="inherit"
                     onClick={this.handlePopover}
                   >
-                    <Avatar alt="Jamal" src="static/mock-images/avatars/avatar_default.jpg" />
+                    <Avatar alt="Jamal" src={getUserInfo()} />
                   </Button>
                   <Popover
                     id="simple-popover"
@@ -144,10 +147,14 @@ class NavBar extends React.Component<NavBarProps, NavBarState> {
                       <Grid container spacing={1} style={{ backgroundColor: "#004e8d", color: "white", textAlign: "center" }}>
                         <Grid item lg={12} md={12} sm={12} xs={12}>
                           <Grid container >
-                            <Grid item style={{ textAlign: "center" }}>
+                            <Grid item style={{ textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                              <div style={{ color: "red", paddingTop: "1rem", }}>
+                                &nbsp;&nbsp;<a style={{ color: "red" }} href="/profile">Your Profile</a>
+
+                              </div>
                               <h3 >
                                 {/* ts-ignore */}
-                                {getShortName()}
+                                &nbsp;&nbsp;{getShortName()}
                               </h3>
                             </Grid>
 
@@ -156,18 +163,22 @@ class NavBar extends React.Component<NavBarProps, NavBarState> {
 
                       </Grid>
                       <Grid item lg={12} md={12} sm={12} xs={12}>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => {
-                            removeToken();
-                            this.handleClosePopover();
-                            this.props.history.push("/");
-                          }}
-                        >
-                          Logout
-                        </Button>
+                        <div style={{ color: "white" }}>
+
+
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => {
+                              removeToken();
+                              this.handleClosePopover();
+                              this.props.history.push("/");
+                            }}
+                          >
+                            Logout
+                          </Button>
+                        </div>
+
                       </Grid>
 
                     </Paper>

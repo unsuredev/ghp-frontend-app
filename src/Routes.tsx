@@ -47,7 +47,7 @@ const Routes: React.FC<RouteProps> = ({ classes }) => {
               <Switch>
                 <Route path="/" exact component={SignInSide} />
                 <Route exact path="/home" component={HomePage} />
-                <AuthenticatedRoute path="/dailycustomer" exact component={CustomerStats} />
+                <AuthenticatedRoute path="/dailyconsumer" exact component={CustomerStats} />
                 <AuthenticatedRoute exact path="/reports" component={Reports} />
                 <AuthenticatedRoute exact path="/agentlist" component={AgentList} />
                 <AuthenticatedRoute exact path="/trash" component={TrashConsumerTable} />
@@ -64,7 +64,7 @@ const Routes: React.FC<RouteProps> = ({ classes }) => {
                 <Route exact path="/fingerprint" component={FingerPrint} />
                 <Route exact path="/refillsales" component={RefillSales} />
                 <Route exact path="/transaction" component={Transactions} />
-                <Route exact path="/completefinger" component={RejectFingerPrint} />
+                <Route exact path="/completeFinger" component={RejectFingerPrint} />
                 <Route exact path="/member" component={MemberManagement} />
                 <Route exact path="/test" component={RefillSale} />
               </Switch>

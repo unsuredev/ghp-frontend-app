@@ -43,7 +43,7 @@ export const getShortName = () => {
     const { name } = decoded;
     if (name && name !== undefined) {
       // Return only the first 5 characters of the name
-      return name.slice(0, 5);
+      return name.slice(0, 6);
     }
   }
 }
@@ -125,4 +125,9 @@ export const removeToken = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("jhpuser");
 
+};
+
+export const getUserInfo = () => {
+  const userInfo: any = localStorage.getItem("jhpuser");
+  return userInfo ? JSON.parse(userInfo)?.profile_url : null;
 };

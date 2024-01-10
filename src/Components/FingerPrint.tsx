@@ -13,7 +13,7 @@ export default function FingerPrint() {
     const [allcustomer, setAllCustomer] = React.useState([]);
 
     React.useEffect(() => {
-        document.title = "Fingerprint List | JAMAN HP GAS  "
+        document.title = "Pending Fingerprint List | JAMAN HP GAS  "
         fetchAllPendingFingerprint()
     }, []);
 

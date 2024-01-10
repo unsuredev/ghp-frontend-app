@@ -280,10 +280,12 @@ const HomePage = () => {
           if (result.data !== undefined) {
             setUsers([result.data]);
             setCustomer(result.data);
+            getAllAgents()
             return;
           }
         }
       }
+
       //@ts-ignore
       showToast("No result found", "error");
     } catch (error) {
@@ -381,7 +383,6 @@ const HomePage = () => {
 
   React.useEffect(() => {
     document.title = "Customer | Jaman HP Gas";
-    getAllAgents()
   }, []);
 
 
@@ -423,9 +424,7 @@ const HomePage = () => {
           token: getToken()
         },
       });
-      if (result.data.data.agents.length === 0) {
-        //@ts-ignore
-        setAgetList(result.data.data.agents)
+      if (result.data.data.agents.length !== 0) {
         //@ts-ignore
         setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
       }

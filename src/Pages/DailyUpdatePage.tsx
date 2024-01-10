@@ -13,7 +13,6 @@ import { useHistory } from "react-router-dom";
 import FooterSection from '../Components/Footer'
 import { ToastContext } from "../Common/ToastProvider";
 
-
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -164,7 +163,7 @@ const CustomerStats = () => {
 
     return (
         <React.Fragment>
-            <Container maxWidth="md" style={{ paddingLeft: "4rem", backgroundColor: "white" }} >
+            <Container maxWidth="md" style={{ paddingLeft: "4rem", backgroundColor: "white", marginTop: "4rem" }} >
                 <Grid container >
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justify="space-around">
