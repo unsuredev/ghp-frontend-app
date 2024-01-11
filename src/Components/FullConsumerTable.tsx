@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Container, CssBaseline, } from "@material-ui/core";
+import { Container, CssBaseline, Button } from "@material-ui/core";
 import axios from "axios";
 import MaterialTable from 'material-table';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BASE_URL } from "../Common/constant";
 import { getToken } from '../Common/helper';
 
-export default function FullConsumerTable() {
-
+const FullConsumerTable = () => {
     const [data, setData] = React.useState([]);
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(false);
+    const [page, setPage] = React.useState(1);
+    const rowsPerPage = 1000;
     const columns = [
         { title: 'Sl No', field: 'tableData.id' },
         { title: "Old SlNo", field: "slNo" },
@@ -35,64 +36,78 @@ export default function FullConsumerTable() {
         },
 
     ]
-
-
-
-    const fetcCustomerData = async () => {
+    const fetchCustomerData = async () => {
         try {
-            setLoading(true)
-            const result = await axios.get(BASE_URL + "customer/getall", {
+            setLoading(true);
+
+            const result = await axios.get(BASE_URL + `customer/getall?page=${page}&limit=${rowsPerPage}`, {
                 headers: {
                     encryption: false,
                     token: getToken()
                 },
             });
-            if (result.data) {
-                setData(result.data.data)
-                setLoading(false)
-            }
-        }
-        catch (error) {
-            console.log("error", error)
-        }
-    }
 
+            if (result.data && result.data.data) {
+                // Concatenate new data to existing data
+                //@ts-ignore
+                setData((prevData: any[]) => [...prevData, ...result.data.data]);
+
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false);
+        }
+    };
+
+    const handleLoadMore = () => {
+        // Increment the page number and fetch more data
+        setPage(prevPage => prevPage + 1);
+    };
 
     React.useEffect(() => {
-        fetcCustomerData()
-    }, [])
-
-
+        // Fetch data when the component mounts
+        fetchCustomerData();
+    }, [page]);
 
     return (
         <React.Fragment>
             <CssBaseline />
             <Container component="main" >
-                {loading ? <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div> :
-                    <MaterialTable
-                        title="Jaman Hp Consumer Data"
-                        data={data}
-                        //@ts-ignore
+                {loading ? (
+                    <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}>
+                        <p>This may take a moment...</p> <CircularProgress />
+                    </div>
+                ) : (
+                    <React.Fragment >
+                        <MaterialTable
+                            title="Jaman Hp Consumer Data"
+                            data={data}
+                            //@ts-ignore
+                            columns={columns}
+                            options={{
+                                exportButton: true,
+                                exportAllData: true,
+                                filtering: true,
+                                sorting: true,
+                                pageSizeOptions: [5, 20, 50, 100, 200, 500],
+                                headerStyle: {
+                                    backgroundColor: '#01579b',
+                                    color: '#FFF'
+                                }
+                            }}
+                        />
+                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
 
-                        columns={columns}
-                        options={{
-                            exportButton: true,
-                            exportAllData: true,
-                            filtering: true,
-                            sorting: true,
-                            pageSizeOptions: [5, 20, 50, 100, 200, 500],
-                            headerStyle: {
-                                backgroundColor: '#01579b',
-                                color: '#FFF'
-                            }
-                        }}
-                    />
-                }
+                            <Button color='secondary' variant="contained" onClick={handleLoadMore}>Load More 1000 records</Button>
+                        </div>
+
+                    </React.Fragment>
+                )}
             </Container>
         </React.Fragment>
     );
 }
 
 
-
-
+export default FullConsumerTable;

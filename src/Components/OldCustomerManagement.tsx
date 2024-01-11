@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
+import { Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, TextField } from "@material-ui/core";
 import DialogContentText from '@material-ui/core/DialogContentText';
 import FooterSection from "./Footer";
 import { useHistory } from "react-router-dom";
@@ -274,7 +274,7 @@ const OldDataManagement = () => {
           },
         })
 
-      if (result.data.data && result.data != undefined) {
+      if (result.data.data && result.data !== undefined) {
         showToast("Customer updated successfullly", "success");
       }
     } catch (error) {
@@ -293,7 +293,7 @@ const OldDataManagement = () => {
           token: getToken()
         }
       })
-      if (result.data && result.data != undefined) {
+      if (result.data && result.data !== undefined) {
         showToast("Customer deleted successfullly", "success");
         setOpenAlert(false);
 
@@ -361,9 +361,7 @@ const OldDataManagement = () => {
           token: getToken()
         },
       });
-      if (result.data.data.agents.length === 0) {
-        //@ts-ignore
-        setAgetList(result.data.data.agents)
+      if (result.data.data.agents.length !== 0) {
         //@ts-ignore
         setAgetList(result.data.data.agents.map(({ name }) => ({ label: name, value: name })));
       }
@@ -532,13 +530,13 @@ const OldDataManagement = () => {
                               {/* @ts-ignore */}
                               <Typography>Created On : {moment(user.createdAt).format('LLL') || "NA"}</Typography>
 
-                              {user.updatedAt != undefined &&
+                              {user.updatedAt !== undefined &&
                                 <Typography >Updated On: {moment(user.updatedAt).format('LLL') || "NA"}</Typography>
                               }
                               <Typography>Year : {user.year || "NA"}</Typography>
 
                               <Typography >Added By : {user.addedBy || "NA"}</Typography>
-                              {user.InstalationLetter && user.InstalationLetter != undefined &&
+                              {user.InstalationLetter && user.InstalationLetter !== undefined &&
                                 <Typography color="primary" >Installation : {user.installtatus}</Typography>}
                             </div>
                           </CardContent>

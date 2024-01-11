@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button, Grid, Container, CssBaseline, } from "@material-ui/core";
+import { Button, Grid, Container, } from "@material-ui/core";
 import CreateIcon from '@material-ui/icons/Create';
 import { ToastContext } from "../Common/ToastProvider";
 import Card from '@material-ui/core/Card';
@@ -131,7 +131,7 @@ const ConnectionDashboard = () => {
         setPricing({ ...pricing, [event.target.name]: event.target.value });
     }
 
-    const updatePricing = async (event: any) => {
+    const updatePricing = async () => {
         try {
             const result = await axios.post(BASE_URL + "pricing/update", { data: pricing },
                 {
@@ -187,7 +187,7 @@ const ConnectionDashboard = () => {
                         token: getToken()
                     },
                 })
-            if (result.data.data && result.data != undefined) {
+            if (result.data.data && result.data !== undefined) {
                 //@ts-ignore
                 showToast(result.data.message, "success");
                 setOpen(false);

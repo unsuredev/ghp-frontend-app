@@ -90,6 +90,8 @@ const Reports = () => {
     fetchPendingFinger();
     fetchCount()
   }, []);
+
+
   const fetchPendingFinger = async () => {
     try {
       //@ts-ignore
@@ -139,7 +141,6 @@ const Reports = () => {
 
   React.useEffect(() => {
     document.title = "Live Stats | JAMAN HP GAS  ";
-    //fetchCount();
   }, []);
 
   return (
@@ -391,7 +392,7 @@ const Reports = () => {
         </div>
       </main>
       <div>
-        <Container>{hide && <FullConsumerTable />}</Container>
+        <Container >{hide && <FullConsumerTable />}</Container>
         <Container>{old && <OldFullConsumerTable />}</Container>
         <Container>{connection && <ConnectionFullTable />}</Container>
         {pendingShow && (
