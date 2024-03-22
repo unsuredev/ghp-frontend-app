@@ -10,9 +10,10 @@ import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import { BarChart, CloudUpload, Dashboard, Search, TrendingUp, Storefront, NoteAdd, Face, FolderSpecial, Error, Settings, EventAvailable } from '@material-ui/icons';
-
 import CustomMenuItem from "./CustomMenuItem";
 import { getRole, getShortName } from "../helper";
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 interface SideMenuProps {
   isMenuOpened?: boolean;
@@ -105,7 +106,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpened }) => {
                 selectedIndex={selectedIndex}
                 to="/home"
                 onClick={setSelectedIndex}
-                titleText="Find Customer"
+                titleText="Find Consumer"
                 class={`menu-link fs-16 fw-medium ${selectedIndex === 0 ? "selected-menu" : ""
                   }`}
                 icon={<Search color="secondary" fontSize="large" />}
@@ -259,7 +260,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpened }) => {
                 selectedIndex={selectedIndex}
                 to="/fingerprint"
                 onClick={setSelectedIndex}
-                titleText="Fingerprint Pending"
+                titleText="Pending Fingerprint"
                 class={`menu-link fs-16 fw-medium ${selectedIndex === 8 ? "selected-menu" : ""
                   }`}
                 icon={<NoteAdd color="secondary" fontSize="large" />}
@@ -268,12 +269,22 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpened }) => {
               <CustomMenuItem
                 index={6}
                 selectedIndex={selectedIndex}
-                to="/completefinger"
+                to="/rejectfingerPrint"
                 onClick={setSelectedIndex}
                 titleText="Reject & Return Doc"
                 class={`menu-link fs-16 fw-medium ${selectedIndex === 8 ? "selected-menu" : ""
                   }`}
                 icon={<Error color="secondary" fontSize="large" />}
+              />
+              <CustomMenuItem
+                index={6}
+                selectedIndex={selectedIndex}
+                to="/completefingerPrint"
+                onClick={setSelectedIndex}
+                titleText="Complete Fingerprint"
+                class={`menu-link fs-16 fw-medium ${selectedIndex === 8 ? "selected-menu" : ""
+                  }`}
+                icon={<AssignmentTurnedInIcon color="secondary" fontSize="large" />}
               />
               <CustomMenuItem
                 index={7}
@@ -292,6 +303,17 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpened }) => {
 
           {getRole() === "superadmin" && (
             <div>
+
+              <CustomMenuItem
+                index={11}
+                selectedIndex={selectedIndex}
+                to="/products"
+                onClick={setSelectedIndex}
+                titleText="Product Management"
+                class={`menu-link fs-16 fw-medium ${selectedIndex === 5 ? "selected-menu" : ""
+                  }`}
+                icon={<CurrencyBitcoinIcon color="secondary" fontSize="large" />}
+              />
 
               <CustomMenuItem
                 index={11}

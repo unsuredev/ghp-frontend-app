@@ -83,11 +83,6 @@ const MemberManagement = () => {
     password: "",
   });
 
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
-
 
   const handleChange = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });

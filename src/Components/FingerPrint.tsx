@@ -5,7 +5,7 @@ import Copyright from "./Copyright";
 import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import MaterialTable from 'material-table';
-import { getToken } from '../Common/helper';
+import { getToken, getUserName } from '../Common/helper';
 
 
 
@@ -21,7 +21,7 @@ export default function FingerPrint() {
 
     const fetchAllPendingFingerprint = async () => {
         try {
-            const result = await axios.post(BASE_URL + "agent/pendingfingerprint", {},
+            const result = await axios.post(BASE_URL + "agent/fingerprint", { findKey: "pending", mainAgent: getUserName() },
                 {
                     headers: {
                         encryption: false,

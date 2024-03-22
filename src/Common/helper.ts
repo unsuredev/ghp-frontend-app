@@ -7,7 +7,6 @@ export const isNotAdmin = () => {
   var decoded = jwt_decode(token);
   //@ts-ignore
   let { role } = decoded;
-  console.log("role", role)
   return role
 }
 
@@ -103,19 +102,12 @@ export const isTokenExpired = () => {
     const user = parseJwt(token);
     const cur_time = new Date().getTime() / 1000;
 
-    console.log('Token expiration time:', user.exp);
-    console.log('Current time:', cur_time);
-
     if (user && user.exp && cur_time < user.exp) {
-      console.log('Token is not expired.');
       return false;
     }
-
-    console.log('Token is expired.');
     return true;
   }
 
-  console.log('No token found.');
   return true;
 };
 export const setToken = (token: string) => {

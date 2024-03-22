@@ -5,7 +5,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import FooterSection from "../Components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { httpClient } from "../Common/Service";
 import FullConsumerTable from "../Components/FullConsumerTable";
@@ -14,6 +13,7 @@ import ConnectionFullTable from "../Components/ConnectionFullTable";
 import { useHistory } from "react-router-dom";
 import MaterialTable from "material-table";
 import { getRole } from "../Common/helper";
+import FingerComplete from "../Components/FingerComplete";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ const Reports = () => {
   const [customerTotal, setCustomerTotal] = React.useState("");
   const [memberCount, setMemberCount] = React.useState("");
   const [agent, setAgent] = React.useState("");
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [oldCustomer, setOldCustomer] = React.useState("");
   const [old, setOld] = React.useState(false);
@@ -72,6 +72,8 @@ const Reports = () => {
   const [pending, setPending] = React.useState("");
   const [pendingShow, setPendingShow] = React.useState(false);
   const [data, setData] = React.useState([]);
+  const [swasthyaSathi, setSwasthyaSathi] = React.useState([])
+  const [sVReadylist, setSVReadylist] = React.useState("")
 
   const columns = [
     { title: "Sl No", field: "tableData.id" },
@@ -87,18 +89,35 @@ const Reports = () => {
   ];
 
   React.useEffect(() => {
-    fetchPendingFinger();
     fetchCount()
   }, []);
 
 
-  const fetchPendingFinger = async () => {
+  const fetchFinger = async (key: string) => {
     try {
+      setLoading(true)
       //@ts-ignore
-      const result = await httpClient("agent/allPendingFingerprint", "GET", {});
+      const result = await httpClient("agent/fingerprint", "POST", { findKey: key });
       if (result.data) {
         setData(result.data);
+        setSwasthyaSathi(result.data);
         setLoading(false);
+        setHide(false)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const svreadylistFun = async () => {
+    try {
+      //@ts-ignore
+      setLoading(true)
+      const result = await httpClient("agent/svreadylist", "POST", {});
+      if (result.data) {
+        setSwasthyaSathi(result.data);
+        setLoading(false);
+
       }
     } catch (error) {
       console.error(error);
@@ -107,6 +126,8 @@ const Reports = () => {
 
   const fetchCount = async () => {
     try {
+      setLoading(true);
+
       //@ts-ignore
       const result = await httpClient("customer/count", "POST", {
         project: "GET_COUNT",
@@ -117,6 +138,7 @@ const Reports = () => {
         setAgent(result.data.agentCount);
         setPending(result.data.pendingFinger);
         setOldCustomer(result.data.oldCustomerCount);
+        setSVReadylist(result.data.svReadyList)
         setLoading(false);
       }
     } catch (error) {
@@ -135,9 +157,9 @@ const Reports = () => {
     setHide(!hide);
   };
 
-  const setPendingView = () => {
-    setPendingShow(!pendingShow);
-  };
+
+
+
 
   React.useEffect(() => {
     document.title = "Live Stats | JAMAN HP GAS  ";
@@ -149,10 +171,10 @@ const Reports = () => {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             <div className={classes.heroButtons} style={{ display: "flex" }}>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card style={{ backgroundColor: "#C8FACD" }}>
                     <CardContent>
                       <Typography
@@ -189,7 +211,7 @@ const Reports = () => {
                         variant="contained"
                         color="primary"
                         onClick={toggleNewView}
-                        disabled={getRole() === "superadmin" ? false : true}
+                      // disabled={getRole() === "superadmin" ? false : true}
 
                       >
                         View & Download
@@ -197,7 +219,7 @@ const Reports = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card style={{ backgroundColor: "#FFF7CD" }}>
                     <CardContent>
                       <Typography
@@ -244,7 +266,7 @@ const Reports = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card style={{ backgroundColor: "#FFE7D9" }}>
                     <CardContent>
                       <Typography
@@ -281,7 +303,53 @@ const Reports = () => {
                         variant="contained"
                         style={{ backgroundColor: "#8bc34a" }}
                         onClick={connetionView}
-                        disabled={getRole() === "superadmin" ? false : true}
+                      // disabled={getRole() === "superadmin" ? false : true}
+
+                      >
+                        View & Download
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={12} md={3}>
+                  <Card style={{ backgroundColor: "#baa6e3" }}>
+                    <CardContent>
+                      <Typography
+                        className={classes.title}
+                        color="textSecondary"
+                        gutterBottom
+                        style={{ textAlign: "center" }}
+                      >
+                        Complete Fingerprint
+
+                      </Typography>
+                      {loading ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <CircularProgress />{" "}
+                        </div>
+                      ) : (
+                        <Typography
+                          component="h1"
+                          variant="h2"
+                          align="center"
+                          color="textPrimary"
+                          gutterBottom
+                        >
+                          ALL
+                        </Typography>
+                      )}
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        style={{ backgroundColor: "#e6409b" }}
+                        onClick={() => { fetchFinger("complete") }}
+                      // disabled={getRole() === "superadmin" ? false : true}
 
                       >
                         View & Download
@@ -292,12 +360,18 @@ const Reports = () => {
               </Grid>
             </div>
             <Grid container spacing={4} style={{ marginTop: "50px" }}>
-              <Grid item xs={12} sm={12} md={4}>
+              <Grid item xs={12} sm={12} md={3}>
                 <Card
                   style={{ backgroundColor: "#f8bbd0", textAlign: "center" }}
                 >
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                      style={{ textAlign: "center" }}
+
+                    >
                       Pending Fingerprint
                     </Typography>
                     <Typography
@@ -313,22 +387,27 @@ const Reports = () => {
                       fullWidth
                       variant="contained"
                       style={{ backgroundColor: "#f48fb1", color: "white" }}
-                      onClick={setPendingView}
-                      disabled={getRole() === "superadmin" ? false : true}
+                      onClick={() => { fetchFinger("pending") }}
+                    // disabled={getRole() === "superadmin" ? false : true}
 
                     >
-                      View & Download
+                      View
                     </Button>{" "}
                   </CardContent>
                   <CardActions></CardActions>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={12} md={4}>
+              <Grid item xs={12} sm={12} md={3}>
                 <Card
                   style={{ backgroundColor: "#D0F2FF", textAlign: "center" }}
                 >
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                      style={{ textAlign: "center" }}
+                    >
                       Total Members
                     </Typography>
                     <Typography
@@ -355,12 +434,16 @@ const Reports = () => {
                   <CardActions></CardActions>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={12} md={4}>
+              <Grid item xs={12} sm={12} md={3}>
                 <Card
                   style={{ backgroundColor: "#80cbc4", textAlign: "center" }}
                 >
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                      style={{ textAlign: "center" }}>
                       Total Agents
                     </Typography>
                     <Typography
@@ -379,6 +462,44 @@ const Reports = () => {
                       style={{ backgroundColor: "#009688", color: "white" }}
                       onClick={() => history.push("/dash")}
                       disabled={getRole() === "superadmin" ? false : true}
+
+                    >
+                      View
+                    </Button>{" "}
+                  </CardContent>
+                  <CardActions></CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3}>
+                <Card
+                  style={{ backgroundColor: "#80cbc4", textAlign: "center" }}
+                >
+                  <CardContent className={classes.cardContent}>
+                    <Typography
+
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                      style={{ textAlign: "center" }}>
+                      SV Ready List
+                    </Typography>
+                    <Typography
+                      component="h1"
+                      variant="h2"
+                      align="center"
+                      color="textPrimary"
+                      gutterBottom
+                    >
+                      {sVReadylist}
+                    </Typography>
+
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      style={{ backgroundColor: "#004e8d", color: "white" }}
+                      onClick={() => svreadylistFun()}
+                    // disabled={getRole() === "superadmin" ? false : true}
 
                     >
                       View
@@ -411,7 +532,7 @@ const Reports = () => {
               </div>
             ) : (
               <MaterialTable
-                title="Jaman HP Gas All Fingerprint"
+                title="Jaman HP Gas: Fingerprint"
                 data={data}
                 //@ts-ignore
 
@@ -432,6 +553,7 @@ const Reports = () => {
           </Container>
         )}
       </div>
+      {!loading && <FingerComplete swasthiSathi={swasthyaSathi} />}
 
     </React.Fragment>
   );

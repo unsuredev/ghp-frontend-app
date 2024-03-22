@@ -352,7 +352,7 @@ const CustomerRegistration = () => {
                         isSubmitting
                       }
                     >
-                      Register Customer
+                      Register Consumer
                     </Button>
                   </form>
                 )}

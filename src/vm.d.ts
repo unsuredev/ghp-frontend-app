@@ -1,5 +1,6 @@
 export interface IStandardAPIResponse<T = any> {
-  success: Boolean;
+  [x: string]: any;
+  success: String;
   message: string;
   data: T;
 }
@@ -153,24 +154,26 @@ export interface ISubCategorySearchObj {
 }
 
 export interface IProduct extends Document {
-  subCategoryIds: Array<string>;
-  categoryIds: Array<string>;
   title: string;
+  description: string;
   slug: string;
-  image: string;
-  imageUrl: string;
-  // isEnabled: boolean;
-  isDeleted?: boolean;
-  deletedImage?: string;
-  mrp?: number;
-  priceUnit?: string; // weight, piece, pack, combo
-  unitLabel?: string;
-  // unitLabel2?: string;
+  imageUrl: string
+  isAvailable: boolean;
+  isDeleted: boolean;
+  mrp: number;
   sellingPrice: number;
-  description?: string;
-  locationGroupIds: Array<string>;
-  status: number; // 0 => listed but not available for customer, 1 => live[customer can search], -1 => Not available right now
-  deliveryTime?: number;
+  manufacturer: string;
+  brand: string;
+  category: string;
+  priceUnit: string;
+  noOfBurner: number;
+  unitLabel: string;
+  materialType: string;
+  ignitionType: string;
+  knobsType: string;
+  warranty: string;
+  status: number;
+  deliveryTime: number;
 }
 
 export interface IProductOptions extends Document {

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Typography, CardHeader, Tabs, Tab, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
-import FooterSection from "../Components/Footer";
+import { Button, Typography, CardHeader, CardActions, Tabs, Tab, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField } from "@material-ui/core";
 import { httpClient } from "../Common/Service";
 import { ToastContext } from "../Common/ToastProvider";
 import jwt_decode from "jwt-decode";
@@ -168,7 +167,7 @@ export default function ImageManagement() {
                                         color="primary"
                                         onClick={handleFind}
                                     >
-                                        FIND &  UPLOAD CUSTOMER'S PHOTO
+                                        FIND &  UPLOAD CONSUMER'S PHOTO
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -177,7 +176,7 @@ export default function ImageManagement() {
                 </div>
             </main>
             <div style={{ marginRight: "1rem" }}>
-                <Container className={classes.cardGrid} maxWidth="md">
+                <Container className={classes.cardGrid} maxWidth="md" >
                     <Grid container  >
                         {users.map((user, i) => (
                             <Grid
@@ -301,6 +300,14 @@ export default function ImageManagement() {
                                             <Grid item xs={12}
                                                 sm={12}
                                                 md={12}>
+                                                <Typography>Swasthya Sathi  Letter  :</Typography>
+                                                <br />
+
+                                                <FileUpload mainAadhaar={user.mainAadhaar} photo_key="swasthyaSathiLetter" tab={tab} />
+                                            </Grid>
+                                            <Grid item xs={12}
+                                                sm={12}
+                                                md={12}>
                                                 <Typography>Other Letter  :</Typography>
                                                 <br />
 
@@ -314,67 +321,104 @@ export default function ImageManagement() {
                     </Grid>
                 </Container>
             </div>
-            <div>
-                <Container className={classes.cardGrid} maxWidth="md">
-                    {/* End hero unit */}
-                    <Grid container spacing={4} style={{ marginRight: "1rem" }}>
-                        {users.map((user, i) => (
-                            <Grid item key={i} xs={12} sm={6} md={4}>
-                                <div>
-                                    <Typography component="h2" variant="h5">
-                                        Photo:    Installation Letter
-                                    </Typography>
-                                    <br></br>
-                                    {user.InstalationLetter ?
-                                        <div>
-                                            <img
-                                                src={processUrl(user?.InstalationLetter)}
-                                                alt="new"
-                                            />
 
-                                            <a href={processUrl(user?.InstalationLetter)} target="_blank" rel="noreferrer">Download</a>
+            <Container className={classes.cardGrid} maxWidth="md" >
+                {/* End hero unit */}
+                <Grid container spacing={2} >
+                    {users.map((user, i) => (
+                        <Grid container key={i}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                {user.InstalationLetter ?
+                                    <Card>
+                                        <img
+                                            src={processUrl(user?.InstalationLetter)}
+                                            alt="new"
+                                            height="300"
+                                            width="300"
+                                        />
+                                        <CardActions>
+                                            <Button size="small"> Installation Letter</Button>
+                                            <Button size="small">
 
-                                        </div> : "No Image found"}
-                                </div>
-                                <br></br>
-                                <div>
-                                    <Typography component="h2" variant="h5">
-                                        Photo:   Satisfaction Letter
-                                    </Typography>
-                                    <br></br>
-                                    {user.satisfactionLetter ?
-                                        <div>
-                                            <img
-                                                src={processUrl(user.satisfactionLetter)}
-                                                alt="new"
-                                            />
+                                                <a href={processUrl(user?.InstalationLetter)} target="_blank" rel="noreferrer">Download</a>
+                                            </Button>
+                                        </CardActions>
+                                    </Card> : "No Image found"}
 
-                                            <a href={user.satisfactionLetter} target="_blank" rel="noreferrer">Download</a>
-                                        </div> : "No Image found"}
-                                </div>
-                                <br></br>
-                                <div>
-                                    <Typography component="h2" variant="h5">
-                                        Photo:  Other Document
-                                    </Typography>
-                                    <br></br>
-                                    {user.otherLetter ?
-                                        <div>
-                                            <img
-                                                src={processUrl(user.otherLetter)}
-                                                alt="new"
-                                            />
-
-                                            <a href={processUrl(user.otherLetter)} target="_blank" rel="noreferrer">Download</a>
-                                        </div> : "No Image found"}
-
-                                </div>
                             </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-            </div>
-            <FooterSection />
+
+
+                            <Grid item xs={12} sm={12} md={4}>
+
+                                {user.satisfactionLetter ?
+                                    <Card>
+                                        <img
+                                            src={processUrl(user.satisfactionLetter)}
+                                            alt="new"
+                                            height="300"
+                                            width="300"
+                                        />
+                                        <CardActions>
+
+
+                                            <Button size="small"> Satisfaction Letter</Button>
+                                            <Button size="small">
+
+
+                                                <a href={user.satisfactionLetter} target="_blank" rel="noreferrer">Download</a>
+                                            </Button>
+                                        </CardActions>
+                                    </Card> : "No Image found"}
+
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+
+
+
+                                {user.swasthyaSathiLetter ?
+                                    <Card>
+                                        <img
+                                            src={processUrl(user.swasthyaSathiLetter)}
+                                            alt="new"
+                                            height="300"
+                                            width="300"
+                                        />
+                                        <CardActions>
+                                            <Button size="small"> Swasthya Sathi</Button>
+                                            <Button size="small">
+                                                <a href={processUrl(user.swasthyaSathiLetter)} target="_blank" rel="noreferrer">Download</a>
+                                            </Button>
+                                        </CardActions>
+
+                                    </Card> : "No Image found"}
+
+
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+
+
+                                {user.otherLetter ?
+                                    <Card>
+                                        <img
+                                            src={processUrl(user.otherLetter)}
+                                            alt="new"
+                                            height="200"
+                                            width="200"
+                                        />
+
+                                        <CardActions>
+                                            <Button size="small"> Other Letter</Button>
+                                            <Button size="small">
+                                                <a href={processUrl(user.otherLetter)} target="_blank" rel="noreferrer">Download</a>
+                                            </Button>
+                                        </CardActions>
+                                    </Card> : "No Image found"}
+
+                            </Grid>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
         </React.Fragment>
     );
 }

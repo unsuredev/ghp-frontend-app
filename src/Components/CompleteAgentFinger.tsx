@@ -7,18 +7,18 @@ import MaterialTable from 'material-table';
 import { getToken, getUserName } from '../Common/helper';
 
 
-export default function RejectFingerPrint() {
+export default function AgentCompleteFingerPrint() {
     const [allcustomer, setAllCustomer] = React.useState([]);
 
     React.useEffect(() => {
         document.title = "Fingerprint List | JAMAN HP GAS  "
-        fetchAllRejectFingerprint()
+        fetchAllCompleteFingerprint()
     }, []);
 
 
-    const fetchAllRejectFingerprint = async () => {
+    const fetchAllCompleteFingerprint = async () => {
         try {
-            const result = await axios.post(BASE_URL + "agent/fingerprint", { findKey: "reject", mainAgent: getUserName() },
+            const result = await axios.post(BASE_URL + "agent/fingerprint", { findKey: "complete", mainAgent: getUserName() },
                 {
                     headers: {
                         encryption: false,
@@ -43,7 +43,7 @@ export default function RejectFingerPrint() {
         { title: "Contact Number", field: "contactNumber" },
         { title: "Registered Agency Name", field: 'registeredAgencyName' },
         { title: "Registration Status", field: 'registrationStatus' },
-        { title: "Sub Agent", field: 'subAgent' },
+        { title: "Agent", field: 'mainAgent' },
         { title: "Remarks", field: 'remarks' },
     ]
 
@@ -53,7 +53,7 @@ export default function RejectFingerPrint() {
                 <Grid container >
                     <Grid sm={12} md={12} xs={12}>
                         <MaterialTable
-                            title="REJECT FINGER PRINT LIST: JAMAN HP GAS"
+                            title="COMPLETE FINGER PRINT LIST: JAMAN HP GAS"
                             data={allcustomer}
                             columns={columns}
                             options={{

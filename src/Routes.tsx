@@ -5,7 +5,6 @@ import { withStyles, createStyles, Grid } from "@material-ui/core";
 import { ClassProps } from "./vm";
 import FingerPrint from "./Components/FingerPrint";
 import RefillSales from "./Pages/RefillSales";
-import RefillSale from "./Components/RefilSale";
 import Customer from './Pages/Registration';
 import CustomerStats from './Pages/DailyUpdatePage';
 import Reports from './Pages/Report';
@@ -28,6 +27,8 @@ import MemberManagement from "./Pages/UserManagement";
 import Transactions from "./Pages/Transactions";
 import ConnectionPage from "./Pages/ConnectionPage";
 import HomePage from "./Pages/Home";
+import AgentCompleteFingerPrint from "./Components/CompleteAgentFinger";
+import ProductMain from "./Pages/Ecom/ProductMain";
 
 
 export interface RouteProps extends ClassProps { }
@@ -64,9 +65,12 @@ const Routes: React.FC<RouteProps> = ({ classes }) => {
                 <Route exact path="/fingerprint" component={FingerPrint} />
                 <Route exact path="/refillsales" component={RefillSales} />
                 <Route exact path="/transaction" component={Transactions} />
-                <Route exact path="/completeFinger" component={RejectFingerPrint} />
+                {/* Agent */}
+                <Route exact path="/rejectfingerPrint" component={RejectFingerPrint} />
+                <Route exact path="/completefingerPrint" component={AgentCompleteFingerPrint} />
+
                 <Route exact path="/member" component={MemberManagement} />
-                <Route exact path="/test" component={RefillSale} />
+                <AuthenticatedRoute exact path="/products" component={ProductMain} />
               </Switch>
             </main>
           </Grid>

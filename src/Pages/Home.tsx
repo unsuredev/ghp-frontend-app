@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, CssBaseline, TextField
-} from "@material-ui/core";
+import { Button, Typography, CardHeader, CardContent, Card, Grid, makeStyles, Container, TextField, DialogContentText, Dialog, FormControl } from "@material-ui/core";
 import { red } from '@material-ui/core/colors';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import FooterSection from "../Components/Footer";
 import { httpClient } from "../Common/Service";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import { ToastContext } from "../Common/ToastProvider";
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -22,9 +17,7 @@ import { BASE_URL } from "../Common/constant";
 import axios from "axios";
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -37,6 +30,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { getUserName, getRole, getToken, getUserId } from '../Common/helper';
 import { processUrl } from "../Service/utilService";
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import VerifiedIcon from '@mui/icons-material/Verified';
+
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -123,6 +119,7 @@ const styles = (theme: Theme) =>
 
   });
 
+
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
   children: React.ReactNode;
@@ -141,6 +138,7 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
     </MuiDialogTitle>
   );
 });
+
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
@@ -575,14 +573,14 @@ const HomePage = () => {
                     <Grid item xs={12} sm={12} md={12} style={{ marginTop: "-40PX" }}>
                       <Card className={classes.card} key={i} style={{ marginTop: "40px", backgroundColor: "#004e8d", color: "white" }} >
                         {user.isSingleWomen
-                          ? <Typography color="secondary"><ErrorOutlineIcon /> This registration is single women.Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
+                          ? <Typography color="secondary"><ErrorOutlineIcon />This registration is single women. Please submit family aadhaar to distributor otherwise this connection will be block shortly! </Typography>
                           : ""}
                         <CardHeader
                           action={
                             <div style={{ margin: "0px", padding: "0px" }}>
                               {user.installtatus === "Complete" ?
                                 <IconButton aria-label="settings">
-                                  <CheckCircleIcon style={{ color: "#ffea00" }} />
+                                  <VerifiedUserIcon style={{ color: "#ffea00" }} />
                                 </IconButton> : null}
                               <IconButton aria-label="settings" onClick={handleClickOpenByAgent}>
                                 <EditIcon onClick={handleCloseByAgent} />
@@ -619,7 +617,8 @@ const HomePage = () => {
                           <Typography>Registered Agency: <span style={{ color: "#c6ff00" }}> {user?.registeredAgencyName || "NA"}</span> </Typography>
                           <Typography>Active Agency: <span style={{ color: "#c6ff00" }}> {user?.newRegisteredAgency || "NA"}</span> </Typography>
                           <Typography>Remarks : {user?.remarks || "NA"}</Typography>
-                          <Typography>Registration status : {user?.registrationStatus || "NA"}</Typography>
+                          <Typography>Registration status : <span style={{ color: "#c6ff00" }}>{user?.registrationStatus || "NA"}
+                          </span> </Typography>
                           <Typography >Single Women : {user?.isSingleWomen ? "YES" : "NO"}</Typography>
                           {user.InstalationLetter && user?.InstalationLetter !== undefined &&
                             <Typography color="primary" >Installation : {user?.installtatus}</Typography>}
@@ -754,9 +753,13 @@ const HomePage = () => {
                           <CardHeader
                             action={
                               <div style={{ margin: "0px", padding: "0px" }}>
+                                {user.swasthyaSathiLetter ?
+                                  <IconButton aria-label="settings">
+                                    <VerifiedUserIcon style={{ color: "#ffea00" }} />
+                                  </IconButton> : null}
                                 {user.installtatus === "Complete" ?
                                   <IconButton aria-label="settings">
-                                    <CheckCircleIcon style={{ color: "#ffea00" }} />
+                                    <VerifiedIcon style={{ color: "#ffea00" }} />
                                   </IconButton> : null}
                                 <IconButton aria-label="settings" onClick={handleClickOpen}>
                                   <EditIcon onClick={handleClickOpen} color="secondary" />
@@ -802,7 +805,8 @@ const HomePage = () => {
 
                             {/* @ts-ignore */}
                             <Typography >Registered Agency Name : <span style={{ color: "#ffea00" }}> {user?.registeredAgencyName || "NA"}</span> </Typography>
-                            <Typography> Registration Status : {user?.registrationStatus || "NA"}</Typography>
+                            <Typography> Registration Status : <span style={{ color: "#c6ff00" }}>
+                              {user?.registrationStatus || "NA"} </span></Typography>
                             {/* @ts-ignore */}
                             <Typography >Single Women : {user?.isSingleWomen ? "YES" : "NO"}</Typography>
                             {/* @ts-ignore */}
@@ -833,7 +837,7 @@ const HomePage = () => {
                               aria-expanded={expanded}
                               aria-label="show more"
                             >
-                              <ExpandMoreIcon />
+                              <ExpandMoreIcon color="secondary" />
                             </IconButton>
                           </CardActions>
                           <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -1127,6 +1131,9 @@ const HomePage = () => {
                                         <MenuItem value="Pending Documents">Pending Documents</MenuItem>
                                         <MenuItem value="Reject/Cancel">Reject/Cancel</MenuItem>
                                         <MenuItem value="Reject Doc Physical Return">Reject Doc Physical Return</MenuItem>
+                                        <MenuItem value="SVReady">SVReady</MenuItem>
+
+
                                       </Select>
                                     </FormControl>
                                   </Grid>

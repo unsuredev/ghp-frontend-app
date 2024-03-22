@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import MaterialTable from "material-table";
 
 import { BASE_URL } from "../Common/constant";
-import { getToken } from "../Common/helper";
+import { getToken, getUserName } from "../Common/helper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,13 +74,12 @@ const AgentDashBoard = () => {
   })
   const [loading, setLoading] = React.useState(false)
   const [data, setData] = React.useState([]);
-  const [viewConsumer, setViewConcumer] = React.useState(false)
-  const [viewPending, setViewPending] = React.useState(false)
-  const [viewAllCustomer, setViewAllCustomer] = React.useState(false)
   const [customer, setCustomer] = React.useState([]);
   const [allcustomer, setAllCustomer] = React.useState([]);
   const [singleUser, setSingleUser] = React.useState(0);
   const [doubleUser, setDoubleUser] = React.useState(0);
+  const [svlist, setSvlist] = React.useState([])
+
 
 
   const columns = [
@@ -121,9 +120,7 @@ const AgentDashBoard = () => {
       if (result.data) {
         setData(result.data.data.data)
         setLoading(false)
-        setViewConcumer(false)
-        setViewAllCustomer(false)
-        setViewPending(true)
+        setSvlist([])
 
       }
     }
@@ -158,9 +155,8 @@ const AgentDashBoard = () => {
         );
         setDoubleUser(resultArray2.length);
         setLoading(false);
-        setViewConcumer(true);
-        setViewPending(false);
-        setViewAllCustomer(false);
+        setSvlist([])
+
       }
     } catch (error) {
       console.log("error", error);
@@ -188,9 +184,8 @@ const AgentDashBoard = () => {
         );
         setCustomer(resultArray);
         setLoading(false);
-        setViewConcumer(true);
-        setViewPending(false);
-        setViewAllCustomer(false);
+        setSvlist([])
+
       }
     } catch (error) {
       console.log("error", error);
@@ -218,9 +213,8 @@ const AgentDashBoard = () => {
         setDoubleUser(resultArray.length);
         setCustomer(resultArray);
         setLoading(false);
-        setViewConcumer(true);
-        setViewPending(false);
-        setViewAllCustomer(false);
+        setSvlist([])
+
       }
     } catch (error) {
       console.log("error", error);
@@ -237,6 +231,8 @@ const AgentDashBoard = () => {
       if (result.data) {
         setCustomerTotal(result.data)
         setLoading(false)
+        setSvlist([])
+
       }
     }
     catch (error) {
@@ -250,15 +246,32 @@ const AgentDashBoard = () => {
       const result = await httpClient("agent/allconsumer", "POST", {})
       if (result.data) {
         setAllCustomer(result.data.data)
-        setViewAllCustomer(true)
-        setViewPending(false)
-        setViewConcumer(false)
+        setSvlist([])
+
       }
     }
     catch (error) {
       console.error(error);
     }
   }
+
+  const svreadylistFun = async () => {
+    try {
+      //@ts-ignore
+      setLoading(true)
+      const result = await httpClient("agent/svreadylist", "POST", { mainAgent: getUserName() });
+      if (result.data) {
+        setSvlist(result.data);
+        setLoading(false);
+        setAllCustomer([])
+        setCustomer([])
+        setData([])
+
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
 
@@ -283,7 +296,36 @@ const AgentDashBoard = () => {
           ) : (
             <div>
               <Grid container spacing={2} style={{ marginTop: "50px" }}>
-                <Grid item xs={12} sm={12} md={4}>
+
+                <Grid item xs={12} sm={12} md={3}>
+                  <Card
+                    className={classes.card}
+                  >
+                    <CardContent className={classes.cardContent}>
+                      <h2 style={{ textAlign: "center" }}>
+                        SV Ready
+                      </h2>
+                      <Typography
+                        variant="h2"
+                        component="h2"
+                        style={{ fontWeight: "bold", textAlign: "center" }}
+                      >
+                        ALL
+                      </Typography>
+                    </CardContent>
+                    <CardActions></CardActions>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                      className={classes.margin}
+                      onClick={svreadylistFun}
+                    >
+                      View
+                    </Button>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card
                     className={classes.card}
                   >
@@ -311,7 +353,7 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card
                     className={classes.card}
                   >
@@ -346,7 +388,7 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3}>
                   <Card
                     className={classes.card}
                   >
@@ -374,7 +416,8 @@ const AgentDashBoard = () => {
                     </Button>
                   </Card>
                 </Grid>
-
+              </Grid>
+              <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={4}>
                   <Card
                     className={classes.card}
@@ -532,7 +575,7 @@ const AgentDashBoard = () => {
         </Container>
       </div>
 
-      {viewConsumer ? (
+      {customer.length > 0 ? (
         <Container component="main">
           {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
           <MaterialTable
@@ -554,7 +597,7 @@ const AgentDashBoard = () => {
           />
         </Container>
       ) : null}
-      {viewPending ? (
+      {data.length > 0 ? (
         <Container component="main">
           {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
           <MaterialTable
@@ -577,7 +620,7 @@ const AgentDashBoard = () => {
         </Container>
       ) : null}
 
-      {viewAllCustomer ? (
+      {allcustomer.length > 0 ? (
         <Container component="main">
           {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
           <MaterialTable
@@ -600,6 +643,31 @@ const AgentDashBoard = () => {
           />
         </Container>
       ) : null}
+
+      {svlist.length > 0 ? (
+        <Container component="main">
+          {/* <div style={{ paddingTop: "30px", justifyContent: "center", alignItems: "center", textAlign: "center", width: "100%" }}><p>This may take couple of mins...</p> <CircularProgress /> </div>  */}
+          <MaterialTable
+            title="SV list JAMAN HP GAS"
+            data={svlist}
+            //@ts-ignore
+
+            columns={columns}
+            options={{
+              exportButton: true,
+              exportAllData: true,
+              filtering: true,
+              sorting: true,
+              pageSizeOptions: [5, 20, 50, 100, 200, 500],
+              headerStyle: {
+                backgroundColor: "#F42870",
+                color: "#FFF",
+              },
+            }}
+          />
+        </Container>
+      ) : null}
+
     </React.Fragment>
   );
 
